@@ -7,7 +7,9 @@ namespace WebAccountant
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+            builder.Services.AddDependencyInjection();
+            builder.Services.AddDatabase();
 
             var app = builder.Build();
 
