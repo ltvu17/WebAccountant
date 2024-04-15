@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html>
 <head>
@@ -33,7 +33,7 @@
 
     <script src="~/js/devextreme/jquery.js"></script>
     <script src="~/js/devextreme/bootstrap.js"></script>
-
+    <link rel="stylesheet" href="~/css/homeIndex.css" />
     @* Uncomment to use Globalize for localization *@
     @* Docs: https://docs.devexpress.com/AspNetCore/400577#globalize *@
     @*<script src="~/js/devextreme/cldr.js"></script>*@
@@ -59,29 +59,146 @@
     <script src="~/js/devextreme/aspnet/dx.aspnet.data.js"></script>
 </head>
 
-<body style="padding-top: 5rem;">
-
-    <nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-md">
+<body>
+    <header>
+    <nav class="navbar navbar-expand-lg bg-light" data-bs-theme="light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">WebAccountant</a>
-
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <a class="navbar-brand" href="#">SmartPro</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
-            <div id="navbar" class="collapse navbar-collapse">
+            <div class="collapse navbar-collapse" id="navbarColor03">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a href="#" class="nav-link active">Home</a></li>
-                    <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
-                    <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+                    @* <li class="nav-item">
+                    <a class="nav-link active" href="#">
+                    Trang chủ
+                    <span class="visually-hidden">(current)</span>
+                    </a>
+                    </li> *@
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Pricing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Separated link</a>
+                        </div>
+                    </li>
                 </ul>
+                <div class="d-flex main-navbar-right">
+                    <div class="p-2">User name</div>
+                    <div class="p-2">Avatar</div>
+                    <a class="nav-link p-2">Đăng xuất</a>
+                </div>
             </div>
         </div>
     </nav>
+    </header>
+    <div>
+        <main role="main">
+            <div class="row home-container">
+                <div class="col-2 left-bar-home d-flex flex-column flex-shrink-0 p-3 text-white bg-dark">
+                    <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <ul class="nav nav-pills flex-column mb-auto" id="sidebarnav">
+                            <li class="nav-item ">
+                                <a class="nav-link active">
+                                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                    <span class="hide-menu">Trang chủ</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./index.html" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-layout-dashboard"></i>
+                                    </span>
+                                    <span class="hide-menu">Tổng quan</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="#" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-article"></i>
+                                    </span>
+                                    <span class="hide-menu">Mua</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="#" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-alert-circle"></i>
+                                    </span>
+                                    <span class="hide-menu">Bán</span>
+                                </a>
+                            </li>
 
-    <main class="container">
-        @RenderBody()
-    </main>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-10 right-bar-home b-example-divider">
+                    <nav class="navbar navbar-expand-lg">
+                        <div class="container-fluid">
+                            <a class="navbar-brand" href="#"></a>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                    <li class="nav-item">
+                                        <a class="nav-link" aria-current="page" href="#">Quy trình</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Biểu đồ</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Đơn mua hàng</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Mua hàng</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Nhận hóa đơn</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Trả lại hàng</a>
+                                    </li>
+                                    @* <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Dropdown
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    </ul>
+                                    </li> *@
+
+                                </ul>
+                                <form class="d-flex">
+                                    <input class="form-control me-sm-2" type="search" placeholder="Tìm kiếm">
+                                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Tìm</button>
+                                </form>
+                            </div>
+                        </div>
+                    </nav>
+                    @RenderBody()
+                </div>
+            </div>
+        </main>
+    </div>
 </body>
 
 </html>
