@@ -1,0 +1,18 @@
+﻿
+.left-bar-home{
+    
+}
+.right-bar-home {
+    background-color: aliceblue;
+}
+.right-bar-home nav {
+    border: solid 0.3px black;
+}
+.home-container {
+    height: 670px;
+    width:100%;
+}
+.main-navbar-right{
+    width:30%;
+    justify-content: flex-end;
+}
