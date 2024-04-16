@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq.Expressions;
 using WebAccountant.ModelsBase;
 
@@ -14,10 +15,9 @@ namespace WebAccountant.DAOs
             _dbSet = _context.Set<T>();
         }
 
-        public async Task<bool> Add(T entity)
+        public async Task<EntityEntry<T>> Add(T entity)
         {
-            await _dbSet.AddAsync(entity);
-            return true;
+            return await _dbSet.AddAsync(entity);
         }
 
         public async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> expression, int entry, int page, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
@@ -49,6 +49,15 @@ namespace WebAccountant.DAOs
         public async Task<bool> Remove(int id)
         {
             var entity = await _dbSet.FindAsync(id);
+            if (entity != null)
+            {
+                _dbSet.Remove(entity);
+                return true;
+            }
+            else { return false; }
+        }
+        public async Task<bool> RemoveEntity(T entity)
+        {
             if (entity != null)
             {
                 _dbSet.Remove(entity);
