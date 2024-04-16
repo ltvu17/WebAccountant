@@ -40,7 +40,7 @@ namespace WebAccountant.Repository.Implement
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Ktdm>> GetAllKtdmsAsync()
+        public async Task<IEnumerable<Ktdm>> GetAllAsync()
         {
             return await _unitOfWork.KTDMDao.GetAll();
         }
