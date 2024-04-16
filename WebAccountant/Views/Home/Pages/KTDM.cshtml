@@ -252,5 +252,14 @@
         .Position(pos => pos.My(HorizontalAlignment.Center, VerticalAlignment.Top)
         .At(HorizontalAlignment.Center, VerticalAlignment.Top)
         .Of(new JS("window")))))
+        .Pager(pager =>
+        {
+            pager.Visible(true);
+            pager.DisplayMode(GridPagerDisplayMode.Compact);
+            pager.ShowPageSizeSelector(true);
+            pager.AllowedPageSizes(new JS("[10, 20, 30]"));
+            pager.ShowInfo(true);
+            pager.ShowNavigationButtons(true);
+        })
         )
 </div>

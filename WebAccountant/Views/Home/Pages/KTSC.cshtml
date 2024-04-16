@@ -62,7 +62,7 @@
         .DeleteAction("Delete")
         .Key("SttSc")
     )
-    .RemoteOperations(true)
+        .RemoteOperations(true).FocusedRowEnabled(true)
     .Columns(columns => {
 
         columns.AddFor(m => m.Lctg);
@@ -377,19 +377,27 @@
 
         columns.AddFor(m => m.Ttmausac);
     })
-    .Editing(e => e
-        .AllowAdding(true)
-        .AllowUpdating(true)
-        .AllowDeleting(true)
-        ).ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
+        .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
         .Editing(e => e.Mode(GridEditMode.Popup)
+        .AllowAdding(true)
+        .AllowUpdating(true).UseIcons(true)
+        .AllowDeleting(true)
         .Popup(p => p.Title("Detail")
         .ShowTitle(true)
         .Width(800)
-        .Height(625)
+        .Height(680)
         .Position(pos => pos.My(HorizontalAlignment.Center, VerticalAlignment.Top)
         .At(HorizontalAlignment.Center, VerticalAlignment.Top)
         .Of(new JS("window")))))
-        
-)
+        .Pager(pager =>
+        {
+            pager.Visible(true);
+            pager.DisplayMode(GridPagerDisplayMode.Compact);
+            pager.ShowPageSizeSelector(true);
+            pager.AllowedPageSizes(new JS("[10, 20, 30]"));
+            pager.ShowInfo(true);
+            pager.ShowNavigationButtons(true);
+        }
+        )
+        )
 </div>

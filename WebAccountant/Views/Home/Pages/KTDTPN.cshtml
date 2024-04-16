@@ -62,7 +62,7 @@
         .DeleteAction("Delete")
         .Key("Madtpn")
     )
-    .RemoteOperations(true)
+    .RemoteOperations(true).FocusedRowEnabled(true)
     .Columns(columns => {
 
         columns.AddFor(m => m.Madtpn);
@@ -141,18 +141,26 @@
 
         columns.AddFor(m => m.IdUpdate);
     })
-    .Editing(e => e
+        .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
+        .Editing(e => e.Mode(GridEditMode.Popup)
         .AllowAdding(true)
-        .AllowUpdating(true)
+        .AllowUpdating(true).UseIcons(true)
         .AllowDeleting(true)
-    ).ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
-    .Editing(e => e.Mode(GridEditMode.Popup)
-    .Popup(p => p.Title("Detail")
-    .ShowTitle(true)
-    .Width(800)
-    .Height(625)
-    .Position(pos => pos.My(HorizontalAlignment.Center, VerticalAlignment.Top)
-    .At(HorizontalAlignment.Center, VerticalAlignment.Top)
-    .Of(new JS("window")))))
-)
+        .Popup(p => p.Title("Detail")
+        .ShowTitle(true)
+        .Width(800)
+        .Height(625)
+        .Position(pos => pos.My(HorizontalAlignment.Center, VerticalAlignment.Top)
+        .At(HorizontalAlignment.Center, VerticalAlignment.Top)
+        .Of(new JS("window")))))
+        .Pager(pager =>
+        {
+            pager.Visible(true);
+            pager.DisplayMode(GridPagerDisplayMode.Compact);
+            pager.ShowPageSizeSelector(true);
+            pager.AllowedPageSizes(new JS("[10, 20, 30]"));
+            pager.ShowInfo(true);
+            pager.ShowNavigationButtons(true);
+        })
+        )
 </div>
