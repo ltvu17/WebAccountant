@@ -18,17 +18,15 @@ namespace WebAccountant.Controllers
     [Route("api/[controller]/[action]")]
     public class KtdmsController : Controller
     {
-        private TIENHIEU2024Context _context;
         private readonly IKtdmRepo _ktdmRepo;
 
-        public KtdmsController(TIENHIEU2024Context context, IKtdmRepo ktdmRepo) {
-            _context = context;
+        public KtdmsController(IKtdmRepo ktdmRepo) {
             _ktdmRepo = ktdmRepo;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get(DataSourceLoadOptions loadOptions) {
-            var ktdms = await _ktdmRepo.GetAllKtdmsAsync();
+            var ktdms = await _ktdmRepo.GetAllAsync();
             return Json(DataSourceLoader.Load(ktdms, loadOptions));
         }
 
