@@ -30,7 +30,7 @@
 
     @* Uncomment to use the Diagram control *@
     @*<script src="~/js/devextreme/dx-diagram.js"></script>*@
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="~/js/devextreme/jquery.js"></script>
     <script src="~/js/devextreme/bootstrap.js"></script>
     <link rel="stylesheet" href="~/css/homeIndex.css" />
@@ -114,91 +114,75 @@
                         </button>
                         <ul class="nav nav-pills flex-column mb-auto" id="sidebarnav">
                             <li class="nav-item ">
-                                <a class="nav-link active">
+                                <a class="nav-link text-white">
                                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                                     <span class="hide-menu">Trang chủ</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./index.html" aria-expanded="false">
-                                    <span>
-                                        <i class="ti ti-layout-dashboard"></i>
-                                    </span>
+                                <a class="nav-link text-white" href="./index.html" aria-expanded="false">
                                     <span class="hide-menu">Tổng quan</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-white" href="#" aria-expanded="false">
+                                <a class="nav-link text-white" asp-controller="Home" asp-action="KTTK" aria-expanded="false">
                                     <span>
                                         <i class="ti ti-article"></i>
                                     </span>
-                                    <span class="hide-menu">Mua</span>
+                                    <span class="hide-menu">KTTK</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-white" href="#" aria-expanded="false">
+                                <a class="nav-link text-white" asp-controller="Home" asp-action="KTLCTG" aria-expanded="false">
                                     <span>
-                                        <i class="ti ti-alert-circle"></i>
+                                        <i class="ti ti-article"></i>
                                     </span>
-                                    <span class="hide-menu">Bán</span>
+                                    <span class="hide-menu">KTLCTG</span>
                                 </a>
                             </li>
-
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-controller="Home" asp-action="KTDTPN" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-article"></i>
+                                    </span>
+                                    <span class="hide-menu">KTDTPN</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-controller="Home" asp-action="KTDM" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-article"></i>
+                                    </span>
+                                    <span class="hide-menu">KTDM</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-controller="Home" asp-action="KTCN" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-article"></i>
+                                    </span>
+                                    <span class="hide-menu">KTCN</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-controller="Home" asp-action="KTSC" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-article"></i>
+                                    </span>
+                                    <span class="hide-menu">KTSC</span>
+                                </a>
+                            </li>
                         </ul>
                     </nav>
                 </div>
                 <div class="col-10 right-bar-home b-example-divider">
-                    <nav class="navbar navbar-expand-lg">
-                        <div class="container-fluid">
-                            <a class="navbar-brand" href="#"></a>
-                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                    <li class="nav-item">
-                                        <a class="nav-link" aria-current="page" href="#">Quy trình</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">Biểu đồ</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">Đơn mua hàng</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">Mua hàng</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">Nhận hóa đơn</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">Trả lại hàng</a>
-                                    </li>
-                                    @* <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Dropdown
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                    </ul>
-                                    </li> *@
-
-                                </ul>
-                                <form class="d-flex">
-                                    <input class="form-control me-sm-2" type="search" placeholder="Tìm kiếm">
-                                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Tìm</button>
-                                </form>
-                            </div>
-                        </div>
-                    </nav>
                     @RenderBody()
                 </div>
             </div>
         </main>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
-
 </html>

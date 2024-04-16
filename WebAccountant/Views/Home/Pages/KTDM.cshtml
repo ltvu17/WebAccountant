@@ -1,0 +1,256 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@page "KTDM"
+@{
+}
+<div class="text-center">
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">Quy trình</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Biểu đồ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Đơn mua hàng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Mua hàng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Nhận hóa đơn</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Trả lại hàng</a>
+                    </li>
+                    @* <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Dropdown
+                    </a>
+                    <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                    </li> *@
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div style="padding: 10px"></div>
+    @(Html.DevExtreme().DataGrid<WebAccountant.ModelsBase.Ktdm>()
+        .DataSource(ds => ds.Mvc()
+        .Controller("Ktdms")
+        .LoadAction("Get")
+        .InsertAction("Post")
+        .UpdateAction("Put")
+        .DeleteAction("Delete")
+        .Key("Madm", "Matk")
+        )
+        .RemoteOperations(true)
+        .FocusedRowEnabled(true)
+        .Columns(columns =>
+        {
+
+            columns.AddFor(m => m.Matk);
+
+            columns.AddFor(m => m.Madm);
+
+            columns.AddFor(m => m.Tendm);
+
+            columns.AddFor(m => m.Manhom);
+
+            columns.AddFor(m => m.Tennhom);
+
+            columns.AddFor(m => m.Kyhieu);
+
+            columns.AddFor(m => m.Donvi);
+
+            columns.AddFor(m => m.Lo);
+
+            columns.AddFor(m => m.Ngaylo);
+
+            columns.AddFor(m => m.Hansudung);
+
+            columns.AddFor(m => m.Nhacungcap);
+
+            columns.AddFor(m => m.Nhasanxuat);
+
+            columns.AddFor(m => m.Ptchietkhau);
+
+            columns.AddFor(m => m.Thuesuat);
+
+            columns.AddFor(m => m.Dgxuat);
+
+            columns.AddFor(m => m.TonT);
+
+            columns.AddFor(m => m.VndtonT);
+
+            columns.AddFor(m => m.NhapT);
+
+            columns.AddFor(m => m.VndnhapT);
+
+            columns.AddFor(m => m.XuatT);
+
+            columns.AddFor(m => m.VndxuatT);
+
+            columns.AddFor(m => m.TonCk);
+
+            columns.AddFor(m => m.VndtonCk);
+
+            columns.AddFor(m => m.Danhdau);
+
+            columns.AddFor(m => m.Dgban);
+
+            columns.AddFor(m => m.Dgban1);
+
+            columns.AddFor(m => m.Dgban2);
+
+            columns.AddFor(m => m.Dgban3);
+
+            columns.AddFor(m => m.Dgban4);
+
+            columns.AddFor(m => m.Donvi1);
+
+            columns.AddFor(m => m.Donvi2);
+
+            columns.AddFor(m => m.Donvi3);
+
+            columns.AddFor(m => m.Hsqd1);
+
+            columns.AddFor(m => m.Hsqd2);
+
+            columns.AddFor(m => m.Hsqd3);
+
+            columns.AddFor(m => m.UsdtonT);
+
+            columns.AddFor(m => m.UsdnhapT);
+
+            columns.AddFor(m => m.UsdxuatT);
+
+            columns.AddFor(m => m.UsdtonCk);
+
+            columns.AddFor(m => m.Dgusd);
+
+            columns.AddFor(m => m.Dgnhap1);
+
+            columns.AddFor(m => m.Dgnhap2);
+
+            columns.AddFor(m => m.Dgnhap3);
+
+            columns.AddFor(m => m.Dgnhap4);
+
+            columns.AddFor(m => m.Dgnhap5);
+
+            columns.AddFor(m => m.Trangthai);
+
+            columns.AddFor(m => m.Dgnhap);
+
+            columns.AddFor(m => m.DgChuyenkho);
+
+            columns.AddFor(m => m.DgCktm);
+
+            columns.AddFor(m => m.DgVc);
+
+            columns.AddFor(m => m.DmCktm);
+
+            columns.AddFor(m => m.Gioihanton);
+
+            columns.AddFor(m => m.MadmMe);
+
+            columns.AddFor(m => m.Manhom1);
+
+            columns.AddFor(m => m.Manhom2);
+
+            columns.AddFor(m => m.Manhomtp);
+
+            columns.AddFor(m => m.Model);
+
+            columns.AddFor(m => m.SoDdh);
+
+            columns.AddFor(m => m.TenDdh);
+
+            columns.AddFor(m => m.TendmMe);
+
+            columns.AddFor(m => m.Tennhom1);
+
+            columns.AddFor(m => m.Tennhom2);
+
+            columns.AddFor(m => m.Tennhomtp);
+
+            columns.AddFor(m => m.TgCktm);
+
+            columns.AddFor(m => m.TkChietkhau);
+
+            columns.AddFor(m => m.TkDoanhthu);
+
+            columns.AddFor(m => m.TkGiavon);
+
+            columns.AddFor(m => m.TkTralai);
+
+            columns.AddFor(m => m.TyleOfNhom);
+
+            columns.AddFor(m => m.NhapTDv1);
+
+            columns.AddFor(m => m.NhapTDv2);
+
+            columns.AddFor(m => m.TonCkDv1);
+
+            columns.AddFor(m => m.TonCkDv2);
+
+            columns.AddFor(m => m.TonTDv1);
+
+            columns.AddFor(m => m.TonTDv2);
+
+            columns.AddFor(m => m.XuatTDv1);
+
+            columns.AddFor(m => m.XuatTDv2);
+
+            columns.AddFor(m => m.Nhomck);
+
+            columns.AddFor(m => m.Makho);
+
+            columns.AddFor(m => m.Mavach);
+
+            columns.AddFor(m => m.GioihantonMax);
+
+            columns.AddFor(m => m.IdUpdate);
+
+            columns.AddFor(m => m.Tendm2);
+
+            columns.AddFor(m => m.DgbanGanNhat);
+
+            columns.AddFor(m => m.DgmuaGanNhat);
+
+            columns.AddFor(m => m.Ghichu);
+
+            columns.AddFor(m => m.NgaybanGanNhat);
+
+            columns.AddFor(m => m.NgaymuaGanNhat);
+
+            columns.AddFor(m => m.Quycach);
+
+            columns.AddFor(m => m.Songaysudung);
+        }).ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
+        .Editing(e => e.Mode(GridEditMode.Popup)
+        .AllowAdding(true)
+        .AllowUpdating(true).UseIcons(true)
+        .AllowDeleting(true)
+        .Popup(p => p.Title("Detail")
+        .ShowTitle(true)
+        .Width(800)
+        .Height(625)
+        .Position(pos => pos.My(HorizontalAlignment.Center, VerticalAlignment.Top)
+        .At(HorizontalAlignment.Center, VerticalAlignment.Top)
+        .Of(new JS("window")))))
+        )
+</div>

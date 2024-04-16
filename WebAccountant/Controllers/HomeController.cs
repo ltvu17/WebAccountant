@@ -17,7 +17,30 @@ namespace WebAccountant.Controllers
         {
             return View();
         }
-
+        public IActionResult KTCN()
+        {
+            return View("~/Views/Home/Pages/KTCN.cshtml");
+        }
+        public IActionResult KTDM()
+        {
+            return View("~/Views/Home/Pages/KTDM.cshtml");
+        }
+        public IActionResult KTDTPN()
+        {
+            return View("~/Views/Home/Pages/KTDTPN.cshtml");
+        }
+        public IActionResult KTLCTG()
+        {
+            return View("~/Views/Home/Pages/KTLCTG.cshtml");
+        }
+        public IActionResult KTSC()
+        {
+            return View("~/Views/Home/Pages/KTSC.cshtml");
+        }
+        public IActionResult KTTK()
+        {
+            return View("~/Views/Home/Pages/KTTK.cshtml");
+        }
         public IActionResult Privacy()
         {
             return View();
