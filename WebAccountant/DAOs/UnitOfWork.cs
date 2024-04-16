@@ -21,5 +21,9 @@ namespace WebAccountant.DAOs
                 return ktdmDAO;
             }
         }
+        public Task SaveChangesAsync()
+        {
+             return _dbContext.SaveChangesAsync();
+        }
     }
 }
