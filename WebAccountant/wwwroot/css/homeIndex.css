@@ -1,7 +1,13 @@
-﻿
-
+﻿.nav-main {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Đảm bảo thanh navbar luôn ở trên cùng */
+}
+.content-main {
+    padding-top: 86px;
+}
 .right-bar-home {
-    
 }
     .right-bar-home nav {
         width: 100%;
