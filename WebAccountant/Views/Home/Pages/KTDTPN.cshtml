@@ -5,19 +5,15 @@
 }
 <div class="text-center">
     @*Navbar Here*@
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">Quy trình</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Biểu đồ</a>
+                        <a class="nav-link active" aria-current="page" href="#">Danh sách</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Đơn mua hàng</a>
@@ -29,35 +25,92 @@
                         <a class="nav-link" href="#">Nhận hóa đơn</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="#">Nhận hóa đơn</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="#">Trả lại hàng</a>
                     </li>
-                    @* <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Dropdown
-                    </a>
-                    <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                    </li> *@
-
                 </ul>
-                @* <form class="d-flex">
-                    <input class="form-control me-sm-2" type="search" placeholder="Tìm kiếm">
-                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Tìm</button>
-                </form> *@
+                <div class="d-flex">
+                    <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm</button>
+                </div>
             </div>
         </div>
     </nav>
-    <div style="padding: 10px"></div>
+
+    @*Modal*@
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thêm Hàng Hóa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3 text-start">
+                            <label for="mahh" class="col-form-label">Mã hàng hóa:</label>
+                            <input type="text" class="form-control" id="mahh">
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label for="tenhh" class="col-form-label">Tên hàng hóa:</label>
+                            <input type="text" class="form-control" id="tenhh">
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label for="dvt" class="col-form-label">Đơn vị tính:</label>
+                            <input type="text" class="form-control" id="dvt">
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label for="dgb1" class="col-form-label">Đơn giá bán 1:</label>
+                            <input type="text" class="form-control" id="dgb1">
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label for="dgb2" class="col-form-label">Đơn giá bán 2:</label>
+                            <input type="text" class="form-control" id="dgb2">
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label for="dgb3" class="col-form-label">Đơn giá bán 3:</label>
+                            <input type="text" class="form-control" id="dgb3">
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label for="dgb4" class="col-form-label">Đơn giá bán 4:</label>
+                            <input type="text" class="form-control" id="dgb4">
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label for="dgb5" class="col-form-label">Đơn giá bán 5:</label>
+                            <input type="text" class="form-control" id="dgb5">
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label for="dgm" class="col-form-label">Đơn giá mua:</label>
+                            <input type="text" class="form-control" id="dgm">
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label for="sltdk" class="col-form-label">Số lượng tồn đầu kì:</label>
+                            <input type="text" class="form-control" id="sltdk">
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label for="gtdk" class="col-form-label">Giá tồn đầu kì:</label>
+                            <input type="text" class="form-control" id="gtdk">
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label for="dgv" class="col-form-label">Đơn giá vốn:</label>
+                            <input type="text" class="form-control" id="dgv">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary">Thêm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @*Data Here*@
     @(Html.DevExtreme().DataGrid<WebAccountant.ModelsBase.Ktdtpn>()
     .DataSource(ds => ds.Mvc()
         .Controller("Ktdtpns")
         .LoadAction("Get")
-        .InsertAction("Post")
         .UpdateAction("Put")
         .DeleteAction("Delete")
         .Key("Madtpn")
@@ -142,17 +195,15 @@
         columns.AddFor(m => m.IdUpdate);
     })
         .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
-        .Editing(e => e.Mode(GridEditMode.Popup)
-        .AllowAdding(true)
-        .AllowUpdating(true).UseIcons(true)
-        .AllowDeleting(true)
-        .Popup(p => p.Title("Detail")
-        .ShowTitle(true)
-        .Width(800)
-        .Height(625)
-        .Position(pos => pos.My(HorizontalAlignment.Center, VerticalAlignment.Top)
-        .At(HorizontalAlignment.Center, VerticalAlignment.Top)
-        .Of(new JS("window")))))
+        .Editing(e =>
+        {
+            e.Mode(GridEditMode.Batch)
+            .AllowUpdating(true).UseIcons(true)
+            .AllowDeleting(true);
+            e.SelectTextOnEditStart(true);
+            e.StartEditAction(GridStartEditAction.DblClick);
+        })
+        .Paging(paging => paging.PageSize(10))
         .Pager(pager =>
         {
             pager.Visible(true);
@@ -162,5 +213,41 @@
             pager.ShowInfo(true);
             pager.ShowNavigationButtons(true);
         })
+        .OnRowInserted("onRowInserted")
+        .OnContextMenuPreparing("OpenMenu").ID("grid")
         )
 </div>
+<script>
+    function OpenMenu(e) {
+        if (e.rowIndex != -1) {
+            if (!e.items) e.items = [];
+            const contextMenuItem = [
+                {
+                    text: "Chỉnh sửa",
+                    onItemClick: function (args) {
+                        var grid = document.getElementById("grid");
+                        var row = grid.getElementsByClassName("dx-row-focused")[0];
+                        var editLink = row.getElementsByClassName("dx-link-edit")[0];
+                        editLink.click();
+                    }
+                },
+                {
+                    text: "Xóa",
+                    onItemClick: function (args) {
+                        var grid = document.getElementById("grid");
+                        var row = grid.getElementsByClassName("dx-row-focused")[0];
+                        var deleteLink = row.getElementsByClassName("dx-link-delete")[0];
+                        deleteLink.click();
+                    }
+                },
+            ];
+            contextMenuItem.forEach((item) => {
+                e.items.push(item);
+            })
+        }
+    }
+    function onRowInserted(e) {
+        e.component.navigateToRow(e.key);
+        e.component.option("focusedRowKey", e.key);
+    }
+</script>
