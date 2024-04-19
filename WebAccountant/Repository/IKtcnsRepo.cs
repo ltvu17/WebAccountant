@@ -3,7 +3,7 @@ using WebAccountant.ModelsBase;
 
 namespace WebAccountant.Repository
 {
-    public interface IKtdmRepo : IBaseRepo<Ktdm>
+    public interface IKtcnsRepo : IBaseRepo<Ktcn>
     {
     }
 }

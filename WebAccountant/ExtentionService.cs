@@ -12,6 +12,11 @@ namespace WebAccountant
         {
             services.AddScoped<UnitOfWork>();
             services.AddScoped<IKtdmRepo, KtdmRepo>();
+            services.AddScoped<IKtcnsRepo, KtcnRepo>();
+            services.AddScoped<IKtdtpnsRepo, KtdtpnRepo>();
+            services.AddScoped<IKtlctgRepo, KtlctgRepo>();
+            services.AddScoped<IKtscRepo, KtscRepo>();
+            services.AddScoped<IKttkRepo, KttkRepo>();
             return services;
         }
         public static IServiceCollection AddDatabase(this IServiceCollection services)
