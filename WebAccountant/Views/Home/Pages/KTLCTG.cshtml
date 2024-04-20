@@ -2,261 +2,333 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    Html.RenderPartial("../Home/Header");
 }
 <div class="text-center">
-    @*Navbar Here*@
-    <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#"></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">Quy trình</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Biểu đồ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Đơn mua hàng</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Mua hàng</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Nhận hóa đơn</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Trả lại hàng</a>
-                    </li>
-                    @* <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Dropdown
-                    </a>
-                    <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                    </li> *@
+    <div class="home-container">
+        @Html.Partial("../Home/SideBar")
+        <div class="right-bar-home content">
+            @*Navbar Here*@
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Danh sách</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Đơn mua hàng</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Mua hàng</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Nhận hóa đơn</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Nhận hóa đơn</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Trả lại hàng</a>
+                            </li>
+                        </ul>
+                        <div class="d-flex">
+                            <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm</button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
 
-                </ul>
-                @* <form class="d-flex">
-                    <input class="form-control me-sm-2" type="search" placeholder="Tìm kiếm">
-                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Tìm</button>
-                </form> *@
+            @*Modal*@
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" style="color: #119583;" id="exampleModalLabel">Thêm Hàng Hóa</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="mb-3 text-start">
+                                            <label for="mahh" class="col-form-label">Lctg:</label>
+                                            <input type="text" class="form-control" id="mahh">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dvt" class="col-form-label">Beronggap Hd:</label>
+                                            <input type="text" class="form-control" id="dvt">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgb2" class="col-form-label">Sapxepchungtu:</label>
+                                            <input type="text" class="form-control" id="dgb2">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgb4" class="col-form-label">Sokytusoct:</label>
+                                            <input type="text" class="form-control" id="dgb4">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-3 text-start">
+                                            <label for="tenhh" class="col-form-label">Sodong:</label>
+                                            <input type="text" class="form-control" id="tenhh">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgb1" class="col-form-label">Socot Cd Edit:</label>
+                                            <input type="text" class="form-control" id="dgb1">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgb3" class="col-form-label">Pt Ck:</label>
+                                            <input type="text" class="form-control" id="dgb3">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="button" class="btn btn-primary">Thêm</button>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            @*Data Here*@
+            @(Html.DevExtreme().DataGrid<WebAccountant.ModelsBase.Ktlctg>()
+                .DataSource(ds => ds.Mvc()
+                .Controller("Ktlctgs")
+                .LoadAction("Get")
+                .UpdateAction("Put")
+                .DeleteAction("Delete")
+                .Key("Lctg")
+                )
+                .RemoteOperations(true).FocusedRowEnabled(true)
+                .Columns(columns =>
+                {
+
+                    columns.AddFor(m => m.Lctg);
+
+                    columns.AddFor(m => m.Tenctg);
+
+                    columns.AddFor(m => m.Tkthue);
+
+                    columns.AddFor(m => m.CoTkdutkthue);
+
+                    columns.AddFor(m => m.CoTschitiet);
+
+                    columns.AddFor(m => m.CoVthh);
+
+                    columns.AddFor(m => m.SrHd);
+
+                    columns.AddFor(m => m.Loaitien);
+
+                    columns.AddFor(m => m.Soct);
+
+                    columns.AddFor(m => m.SoHd);
+
+                    columns.AddFor(m => m.MaSufix);
+
+                    columns.AddFor(m => m.MaPrifix);
+
+                    columns.AddFor(m => m.CoXuatkho);
+
+                    columns.AddFor(m => m.NhieuHd);
+
+                    columns.AddFor(m => m.Manhinh);
+
+                    columns.AddFor(m => m.Tkno);
+
+                    columns.AddFor(m => m.Tkco);
+
+                    columns.AddFor(m => m.Vonglap);
+
+                    columns.AddFor(m => m.TkTnk);
+
+                    columns.AddFor(m => m.Danhdau);
+
+                    columns.AddFor(m => m.Haminchungtu);
+
+                    columns.AddFor(m => m.CoMhunc);
+
+                    columns.AddFor(m => m.XkDm);
+
+                    columns.AddFor(m => m.Nguoigd);
+
+                    columns.AddFor(m => m.TDtvung);
+
+                    columns.AddFor(m => m.CoBbchomuon);
+
+                    columns.AddFor(m => m.CoLonhap);
+
+                    columns.AddFor(m => m.Tenwb);
+
+                    columns.AddFor(m => m.Nhieulien);
+
+                    columns.AddFor(m => m.CoCltg);
+
+                    columns.AddFor(m => m.CoHoiin);
+
+                    columns.AddFor(m => m.Diengiai);
+
+                    columns.AddFor(m => m.Sodong);
+
+                    columns.AddFor(m => m.Matt);
+
+                    columns.AddFor(m => m.NhieuDv);
+
+                    columns.AddFor(m => m.CoDiengiai2);
+
+                    columns.AddFor(m => m.CoChietkhau);
+
+                    columns.AddFor(m => m.TkcltgLai);
+
+                    columns.AddFor(m => m.TkcltgLo);
+
+                    columns.AddFor(m => m.CoChuyenkho);
+
+                    columns.AddFor(m => m.CoTienhang);
+
+                    columns.AddFor(m => m.CoFormRieng);
+
+                    columns.AddFor(m => m.CoCkTruoc);
+
+                    columns.AddFor(m => m.CoDonviPhu);
+
+                    columns.AddFor(m => m.CoTenhhIn);
+
+                    columns.AddFor(m => m.CoHtphelieu);
+
+                    columns.AddFor(m => m.MsKh);
+
+                    columns.AddFor(m => m.Hdvat);
+
+                    columns.AddFor(m => m.BeronggapHd);
+
+                    columns.AddFor(m => m.CoDgnhap);
+
+                    columns.AddFor(m => m.Madtpnno);
+
+                    columns.AddFor(m => m.Madtpnco);
+
+                    columns.AddFor(m => m.CoTttdb);
+
+                    columns.AddFor(m => m.NhieuUser);
+
+                    columns.AddFor(m => m.Trangthai);
+
+                    columns.AddFor(m => m.CoTkXuat);
+
+                    columns.AddFor(m => m.TkXuat);
+
+                    columns.AddFor(m => m.TkGiavon);
+
+                    columns.AddFor(m => m.Nhomchungtu);
+
+                    columns.AddFor(m => m.NhomDscot);
+
+                    columns.AddFor(m => m.TsGtgt);
+
+                    columns.AddFor(m => m.KieuCongty);
+
+                    columns.AddFor(m => m.CoCktm);
+
+                    columns.AddFor(m => m.CoCktt);
+
+                    columns.AddFor(m => m.CoLenhsx);
+
+                    columns.AddFor(m => m.CoVc);
+
+                    columns.AddFor(m => m.CotGapXch);
+
+                    columns.AddFor(m => m.DscotShowEdit);
+
+                    columns.AddFor(m => m.KhmHd);
+
+                    columns.AddFor(m => m.KieuNhapps);
+
+                    columns.AddFor(m => m.MaHd);
+
+                    columns.AddFor(m => m.PxkOfHdbr);
+
+                    columns.AddFor(m => m.SocotCdEdit);
+
+                    columns.AddFor(m => m.TkChietkhau);
+
+                    columns.AddFor(m => m.KieuChungtu);
+
+                    columns.AddFor(m => m.TkduTkthue);
+
+                    columns.AddFor(m => m.ChungtuCopy);
+
+                    columns.AddFor(m => m.DscotShowNhapps);
+
+                    columns.AddFor(m => m.Sapxepchungtu);
+
+                    columns.AddFor(m => m.PtCk);
+
+                    columns.AddFor(m => m.Kieutangsoct);
+
+                    columns.AddFor(m => m.LctgPc);
+
+                    columns.AddFor(m => m.LctgPt);
+
+                    columns.AddFor(m => m.MaCt);
+
+                    columns.AddFor(m => m.Mabophan);
+
+                    columns.AddFor(m => m.Sokytusoct);
+                })
+                .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
+                .Editing(e =>
+                {
+                    e.Mode(GridEditMode.Batch)
+                    .AllowUpdating(true).UseIcons(true)
+                    .AllowDeleting(true);
+                    e.SelectTextOnEditStart(true);
+                    e.StartEditAction(GridStartEditAction.DblClick);
+                })
+                .Paging(paging => paging.PageSize(10))
+                .Pager(pager =>
+                {
+                    pager.Visible(true);
+                    pager.DisplayMode(GridPagerDisplayMode.Compact);
+                    pager.ShowPageSizeSelector(true);
+                    pager.AllowedPageSizes(new JS("[10, 20, 30]"));
+                    pager.ShowInfo(true);
+                    pager.ShowNavigationButtons(true);
+                })
+                .OnRowInserted("onRowInserted")
+                .OnContextMenuPreparing("OpenMenu").ID("grid")
+                )
         </div>
-    </nav>
-    <div style="padding: 10px"></div>
-    @*Data Here*@
-    @(Html.DevExtreme().DataGrid<WebAccountant.ModelsBase.Ktlctg>()
-    .DataSource(ds => ds.Mvc()
-        .Controller("Ktlctgs")
-        .LoadAction("Get")
-        .InsertAction("Post")
-        .UpdateAction("Put")
-        .DeleteAction("Delete")
-        .Key("Lctg")
-    )
-        .RemoteOperations(true).FocusedRowEnabled(true)
-    .Columns(columns => {
-
-        columns.AddFor(m => m.Lctg);
-
-        columns.AddFor(m => m.Tenctg);
-
-        columns.AddFor(m => m.Tkthue);
-
-        columns.AddFor(m => m.CoTkdutkthue);
-
-        columns.AddFor(m => m.CoTschitiet);
-
-        columns.AddFor(m => m.CoVthh);
-
-        columns.AddFor(m => m.SrHd);
-
-        columns.AddFor(m => m.Loaitien);
-
-        columns.AddFor(m => m.Soct);
-
-        columns.AddFor(m => m.SoHd);
-
-        columns.AddFor(m => m.MaSufix);
-
-        columns.AddFor(m => m.MaPrifix);
-
-        columns.AddFor(m => m.CoXuatkho);
-
-        columns.AddFor(m => m.NhieuHd);
-
-        columns.AddFor(m => m.Manhinh);
-
-        columns.AddFor(m => m.Tkno);
-
-        columns.AddFor(m => m.Tkco);
-
-        columns.AddFor(m => m.Vonglap);
-
-        columns.AddFor(m => m.TkTnk);
-
-        columns.AddFor(m => m.Danhdau);
-
-        columns.AddFor(m => m.Haminchungtu);
-
-        columns.AddFor(m => m.CoMhunc);
-
-        columns.AddFor(m => m.XkDm);
-
-        columns.AddFor(m => m.Nguoigd);
-
-        columns.AddFor(m => m.TDtvung);
-
-        columns.AddFor(m => m.CoBbchomuon);
-
-        columns.AddFor(m => m.CoLonhap);
-
-        columns.AddFor(m => m.Tenwb);
-
-        columns.AddFor(m => m.Nhieulien);
-
-        columns.AddFor(m => m.CoCltg);
-
-        columns.AddFor(m => m.CoHoiin);
-
-        columns.AddFor(m => m.Diengiai);
-
-        columns.AddFor(m => m.Sodong);
-
-        columns.AddFor(m => m.Matt);
-
-        columns.AddFor(m => m.NhieuDv);
-
-        columns.AddFor(m => m.CoDiengiai2);
-
-        columns.AddFor(m => m.CoChietkhau);
-
-        columns.AddFor(m => m.TkcltgLai);
-
-        columns.AddFor(m => m.TkcltgLo);
-
-        columns.AddFor(m => m.CoChuyenkho);
-
-        columns.AddFor(m => m.CoTienhang);
-
-        columns.AddFor(m => m.CoFormRieng);
-
-        columns.AddFor(m => m.CoCkTruoc);
-
-        columns.AddFor(m => m.CoDonviPhu);
-
-        columns.AddFor(m => m.CoTenhhIn);
-
-        columns.AddFor(m => m.CoHtphelieu);
-
-        columns.AddFor(m => m.MsKh);
-
-        columns.AddFor(m => m.Hdvat);
-
-        columns.AddFor(m => m.BeronggapHd);
-
-        columns.AddFor(m => m.CoDgnhap);
-
-        columns.AddFor(m => m.Madtpnno);
-
-        columns.AddFor(m => m.Madtpnco);
-
-        columns.AddFor(m => m.CoTttdb);
-
-        columns.AddFor(m => m.NhieuUser);
-
-        columns.AddFor(m => m.Trangthai);
-
-        columns.AddFor(m => m.CoTkXuat);
-
-        columns.AddFor(m => m.TkXuat);
-
-        columns.AddFor(m => m.TkGiavon);
-
-        columns.AddFor(m => m.Nhomchungtu);
-
-        columns.AddFor(m => m.NhomDscot);
-
-        columns.AddFor(m => m.TsGtgt);
-
-        columns.AddFor(m => m.KieuCongty);
-
-        columns.AddFor(m => m.CoCktm);
-
-        columns.AddFor(m => m.CoCktt);
-
-        columns.AddFor(m => m.CoLenhsx);
-
-        columns.AddFor(m => m.CoVc);
-
-        columns.AddFor(m => m.CotGapXch);
-
-        columns.AddFor(m => m.DscotShowEdit);
-
-        columns.AddFor(m => m.KhmHd);
-
-        columns.AddFor(m => m.KieuNhapps);
-
-        columns.AddFor(m => m.MaHd);
-
-        columns.AddFor(m => m.PxkOfHdbr);
-
-        columns.AddFor(m => m.SocotCdEdit);
-
-        columns.AddFor(m => m.TkChietkhau);
-
-        columns.AddFor(m => m.KieuChungtu);
-
-        columns.AddFor(m => m.TkduTkthue);
-
-        columns.AddFor(m => m.ChungtuCopy);
-
-        columns.AddFor(m => m.DscotShowNhapps);
-
-        columns.AddFor(m => m.Sapxepchungtu);
-
-        columns.AddFor(m => m.PtCk);
-
-        columns.AddFor(m => m.Kieutangsoct);
-
-        columns.AddFor(m => m.LctgPc);
-
-        columns.AddFor(m => m.LctgPt);
-
-        columns.AddFor(m => m.MaCt);
-
-        columns.AddFor(m => m.Mabophan);
-
-        columns.AddFor(m => m.Sokytusoct);
-    })
-        .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
-        .Editing(e => e.Mode(GridEditMode.Popup)
-        .AllowAdding(true)
-        .AllowUpdating(true).UseIcons(true)
-        .AllowDeleting(true)
-        .Popup(p => p.Title("Detail")
-        .ShowTitle(true)
-        .Width(800)
-        .Height(625)
-        .Position(pos => pos.My(HorizontalAlignment.Center, VerticalAlignment.Top)
-        .At(HorizontalAlignment.Center, VerticalAlignment.Top)
-        .Of(new JS("window")))))
-        .Pager(pager =>
-        {
-            pager.Visible(true);
-            pager.DisplayMode(GridPagerDisplayMode.Compact);
-            pager.ShowPageSizeSelector(true);
-            pager.AllowedPageSizes(new JS("[10, 20, 30]"));
-            pager.ShowInfo(true);
-            pager.ShowNavigationButtons(true);
-        })
-        )
+    </div>
 </div>
+<script>
+    function OpenMenu(e) {
+        if (e.rowIndex != -1) {
+            if (!e.items) e.items = [];
+            const contextMenuItem = [
+                {
+                    text: "Xóa",
+                    onItemClick: function (args) {
+                        var grid = document.getElementById("grid");
+                        var row = grid.getElementsByClassName("dx-row-focused")[0];
+                        var deleteLink = row.getElementsByClassName("dx-link-delete")[0];
+                        deleteLink.click();
+                    }
+                },
+            ];
+            contextMenuItem.forEach((item) => {
+                e.items.push(item);
+            })
+        }
+    }
+
+    function onRowInserted(e) {
+        e.component.navigateToRow(e.key);
+        e.component.option("focusedRowKey", e.key);
+    }
+</script>

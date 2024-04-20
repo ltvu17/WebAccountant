@@ -1,0 +1,29 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="sidebar" id="main-sidebar">
+    <a id="1" asp-controller="Home" asp-action="Index">Trang chủ</a>
+    <a id="2" href="#">Tổng quan</a>
+    <a id="3" asp-controller="Home" asp-action="KTTK">Tồn kho</a>
+    <a id="4" asp-controller="Home" asp-action="KTLCTG">KTLCTG</a>
+    <a id="5" asp-controller="Home" asp-action="KTDTPN">KTDTPN</a>
+    <a id="6" asp-controller="Home" asp-action="KTDM">Danh mục</a>
+    <a id="7" asp-controller="Home" asp-action="KTCN">Công nợ</a>
+    <a id="8" asp-controller="Home" asp-action="KTSC">KTSC</a>
+    <select class="form-select" style="border-inline-width:medium" aria-label="Default select example">
+        <option selected>Thay đổi năm</option>
+        <option value="1">2024</option>
+        <option value="2">2023</option>
+        <option value="3">2022</option>
+    </select>
+    <a class="disable">Dữ liệu năm <div id="current">2024</div></a>
+</div>
+<script>
+    function active() {
+        var activeId = @ViewData["activeId"]
+        document.getElementById(activeId).classList.add("active");
+    }
+    active();
+</script>

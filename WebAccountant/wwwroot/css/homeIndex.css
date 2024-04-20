@@ -1,13 +1,17 @@
-﻿
-.left-bar-home{
-    
+﻿.nav-main {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Đảm bảo thanh navbar luôn ở trên cùng */
+}
+.content-main {
+    padding-top: 84px;
 }
 .right-bar-home {
-    background-color: aliceblue;
 }
-.right-bar-home nav {
-    border: solid 0.3px black;
-}
+    .right-bar-home nav {
+        width: 100%;
+    }
 .home-container {
     height: 670px;
     width:100%;
@@ -15,4 +19,10 @@
 .main-navbar-right{
     width:30%;
     justify-content: flex-end;
+}
+.navbar-page{
+    background-color: white;
+}
+.modal-add-ktdm span{
+    width: 165px;
 }

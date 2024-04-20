@@ -30,10 +30,10 @@
 
     @* Uncomment to use the Diagram control *@
     @*<script src="~/js/devextreme/dx-diagram.js"></script>*@
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="~/js/devextreme/jquery.js"></script>
     <script src="~/js/devextreme/bootstrap.js"></script>
     <link rel="stylesheet" href="~/css/homeIndex.css" />
+    <link rel="stylesheet" href="~/css/sidebarW3.css" />
     @* Uncomment to use Globalize for localization *@
     @* Docs: https://docs.devexpress.com/AspNetCore/400577#globalize *@
     @*<script src="~/js/devextreme/cldr.js"></script>*@
@@ -58,131 +58,22 @@
     <script src="~/js/devextreme/aspnet/dx.aspnet.mvc.js"></script>
     <script src="~/js/devextreme/aspnet/dx.aspnet.data.js"></script>
 </head>
-
 <body>
-    <header>
-    <nav class="navbar navbar-expand-lg bg-light" data-bs-theme="light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">SmartPro</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarColor03">
-                <ul class="navbar-nav me-auto">
-                    @* <li class="nav-item">
-                    <a class="nav-link active" href="#">
-                    Trang chủ
-                    <span class="visually-hidden">(current)</span>
-                    </a>
-                    </li> *@
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pricing</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Separated link</a>
-                        </div>
-                    </li>
-                </ul>
-                <div class="d-flex main-navbar-right">
-                    <div class="p-2">User name</div>
-                    <div class="p-2">Avatar</div>
-                    <a class="nav-link p-2">Đăng xuất</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-    </header>
-    <div>
+    <div id="main-ui" class="content-main">
         <main role="main">
-            <div class="row home-container">
-                <div class="col-2 left-bar-home d-flex flex-column flex-shrink-0 p-3 text-white bg-dark">
-                    <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <ul class="nav nav-pills flex-column mb-auto" id="sidebarnav">
-                            <li class="nav-item ">
-                                <a class="nav-link text-white" asp-controller="Home" asp-action="Index">
-                                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                                    <span class="hide-menu">Trang chủ</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="#" aria-expanded="false">
-                                    <span class="hide-menu">Tổng quan</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" asp-controller="Home" asp-action="KTTK" aria-expanded="false">
-                                    <span>
-                                        <i class="ti ti-article"></i>
-                                    </span>
-                                    <span class="hide-menu">KTTK</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" asp-controller="Home" asp-action="KTLCTG" aria-expanded="false">
-                                    <span>
-                                        <i class="ti ti-article"></i>
-                                    </span>
-                                    <span class="hide-menu">KTLCTG</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" asp-controller="Home" asp-action="KTDTPN" aria-expanded="false">
-                                    <span>
-                                        <i class="ti ti-article"></i>
-                                    </span>
-                                    <span class="hide-menu">KTDTPN</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" asp-controller="Home" asp-action="KTDM" aria-expanded="false">
-                                    <span>
-                                        <i class="ti ti-article"></i>
-                                    </span>
-                                    <span class="hide-menu">KTDM</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" asp-controller="Home" asp-action="KTCN" aria-expanded="false">
-                                    <span>
-                                        <i class="ti ti-article"></i>
-                                    </span>
-                                    <span class="hide-menu">KTCN</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" asp-controller="Home" asp-action="KTSC" aria-expanded="false">
-                                    <span>
-                                        <i class="ti ti-article"></i>
-                                    </span>
-                                    <span class="hide-menu">KTSC</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="col-10 right-bar-home b-example-divider">
-                    @RenderBody()
-                </div>
-            </div>
+            @RenderBody()
         </main>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function isLoginPage(){
+            var isLoginPage = @ViewData["isLoginPage"]
+                    if (isLoginPage == 1) document.getElementById("main-ui").classList.remove("content-main")
+            else document.getElementById("main-ui").classList.add("content-main");
+        }
+        isLoginPage();
+    </script>
 </body>
 </html>
