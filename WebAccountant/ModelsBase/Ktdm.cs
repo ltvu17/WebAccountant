@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebAccountant.ModelsBase
 {
@@ -7,6 +8,7 @@ namespace WebAccountant.ModelsBase
     {
         public string Matk { get; set; } = null!;
         public string Madm { get; set; } = null!;
+        [Required(ErrorMessage = "The FirstName field is required"), StringLength(maximumLength:200,MinimumLength = 4, ErrorMessage = "Không đủ kí tự")]
         public string? Tendm { get; set; }
         public string? Manhom { get; set; }
         public string? Tennhom { get; set; }

@@ -6,6 +6,11 @@ using WebAccountant.DAOs;
 using WebAccountant.ModelsBase;
 using System.Collections;
 using System.Globalization;
+using WebAccountant.Models;
+using System;
+using Microsoft.AspNetCore.Mvc;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
 
 namespace WebAccountant.Repository.Implement
 {
@@ -40,9 +45,102 @@ namespace WebAccountant.Repository.Implement
             await _unitOfWork.SaveChangesAsync();
         }
 
+        public async Task<string> ExportPDF(IEnumerable<KtdmDTO> items)
+        {
+            string pathDir = Directory.GetCurrentDirectory().Split("bin")[0] + "\\wwwroot\\InvoiceReport";
+            string path = Path.Combine(pathDir, "HoaDon.pdf");
+            //var models = (await _unitOfWork.KTDMDao.GetAll()).IntersectBy(items.Select(x => new {madm = x.Madm, matk = x.Matk}), y => new { madm = y.Madm, matk = y.Matk });
+            QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+            QuestPDF.Fluent.Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Size(PageSizes.A4);
+                    page.Margin(30);
+                    page.Header().AlignCenter().Row(row =>
+                    {
+                        row.RelativeItem().AlignCenter().Width(300).Border(1).Column(col =>
+                        {
+                            col.Item().AlignCenter().Text("Tên công ty").Bold().FontSize(20).FontFamily(Fonts.TimesNewRoman);
+                            col.Item().AlignCenter().Text("Địa chỉ").FontFamily(Fonts.TimesNewRoman);
+                            col.Item().AlignCenter().Text("Điện thoại").FontFamily(Fonts.TimesNewRoman);
+                        });
+                    });
+                    page.Content().AlignCenter().PaddingTop(12).Row(row =>
+                    {
+                        row.RelativeItem().AlignCenter().Column(col =>
+                        {
+                            col.Item().AlignLeft().Text(text =>
+                            {
+                                text.Span("                 HÓA ĐƠN").ExtraBold().FontSize(40).FontFamily(Fonts.TimesNewRoman);
+                                text.Span("             Số.........").ExtraBold().FontSize(20).FontFamily(Fonts.TimesNewRoman);
+                            });
+                            col.Item().AlignLeft().Text(t =>
+                            {
+                                t.Span("Khách hàng: .......................................................           ").FontSize(15).FontFamily(Fonts.TimesNewRoman);
+                                t.Span("Điện thoại: ............................").FontSize(15).FontFamily(Fonts.TimesNewRoman);
+                            }
+                            );
+                            col.Item().AlignLeft().PaddingBottom(10).Text("Địa chỉ: .........................................................................................................................").FontSize(15).FontFamily(Fonts.TimesNewRoman);
+                            col.Item().Border(1).MinimalBox().Table(t =>
+                            {
+                                t.ColumnsDefinition(column =>
+                                {
+                                    column.ConstantColumn(35);
+                                    column.RelativeColumn();
+                                    column.RelativeColumn();
+                                    column.ConstantColumn(75);
+                                    column.ConstantColumn(75);
+                                    column.RelativeColumn();
+                                });
+                                t.Header(header =>
+                                {
+                                    header.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text("STT").Bold().FontFamily(Fonts.TimesNewRoman);
+                                    header.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text("Mã Hàng").Bold().FontFamily(Fonts.TimesNewRoman);
+                                    header.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text("Tên Hàng").Bold().FontFamily(Fonts.TimesNewRoman);
+                                    header.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text("Số Lượng").Bold().FontFamily(Fonts.TimesNewRoman);
+                                    header.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text("Đơn Giá").Bold().FontFamily(Fonts.TimesNewRoman);
+                                    header.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text("Thành Tiền").Bold().FontFamily(Fonts.TimesNewRoman);
+                                });
+                                foreach (var i in items)
+                                {
+                                    var x = 1;
+                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text(x.ToString()).FontFamily(Fonts.TimesNewRoman); 
+                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text(i.Madm).FontFamily(Fonts.TimesNewRoman); 
+                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text(i.Tendm).FontFamily(Fonts.TimesNewRoman); 
+                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text(i.Soluong.ToString()).FontFamily(Fonts.TimesNewRoman); 
+                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text(i.Dgban1.ToString()).FontFamily(Fonts.TimesNewRoman); 
+                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text((i.Dgban1 * i.Soluong).ToString()).FontFamily(Fonts.TimesNewRoman); 
+                                    x++;
+                                }
+                                t.Cell().ColumnSpan(5).AlignLeft().PaddingLeft(10).Text("Tổng cộng: ").FontSize(20).FontFamily(Fonts.TimesNewRoman);
+                            });
+                            col.Item().AlignLeft().PaddingTop(10).Text(t =>
+                            {
+                                t.Span("Đặt trước: .................................................................           ").FontSize(15).FontFamily(Fonts.TimesNewRoman);
+                                t.Span("Còn lại: ............................").FontSize(15).FontFamily(Fonts.TimesNewRoman);
+                            }
+                            );
+                            col.Item().AlignLeft().PaddingBottom(10).Text("Viết bằng chữ: ...............................................................................................................").FontSize(15).FontFamily(Fonts.TimesNewRoman);
+                            var date = DateTime.Now.ToShortDateString().Split("/");
+                            col.Item().PaddingLeft(250).AlignLeft().PaddingBottom(10).Text("Tp. Hồ Chí Minh, Ngày " + date[1]
+                                + " Tháng " + date[0] + " Năm " + date[2]).FontSize(15).FontFamily(Fonts.TimesNewRoman).Italic();
+                            col.Item().PaddingLeft(325).AlignLeft().PaddingBottom(10).Text("Người viết hóa đơn").FontSize(15).FontFamily(Fonts.TimesNewRoman).Bold();
+                        });
+                    });
+                });
+            }).GeneratePdf(path);
+            return path;
+        }
+
         public async Task<IEnumerable<Ktdm>> GetAllAsync()
         {
             return await _unitOfWork.KTDMDao.GetAll();
+        }
+
+        public async Task<IEnumerable<KtdmDTO>> GetAllKtdmDTO()
+        {   
+            return (await _unitOfWork.KTDMDao.GetAll()).Select(s => s.KTDMMapper());
         }
 
         public async Task Update(string key, string values)
@@ -60,6 +158,29 @@ namespace WebAccountant.Repository.Implement
             PopulateModel(model, valuesDict);
             await _unitOfWork.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<KtdmDTO>> UpdateKtdmDTO(string key, string values , List<KtdmDTO> oldCart)
+        {
+            var keys = JsonConvert.DeserializeObject<IDictionary>(key);
+            var keyMadm = Convert.ToString(keys["Madm"]);
+            var keyMatk = Convert.ToString(keys["Matk"]);
+            var model = oldCart.FirstOrDefault(s =>
+            
+                s.Matk == keyMatk && s.Madm == keyMadm
+            );
+            if (model == null)
+                return oldCart;
+
+            var valuesDict = JsonConvert.DeserializeObject<IDictionary>(values);
+            string Soluong = nameof(KtdmDTO.Soluong);
+            if (valuesDict.Contains(Soluong))
+            {
+                model.Soluong =int.Parse(Convert.ToString(valuesDict[Soluong]));
+            }
+            
+            return oldCart;
+        }
+
         private void PopulateModel(Ktdm model, IDictionary values)
         {
             string MATK = nameof(Ktdm.Matk);

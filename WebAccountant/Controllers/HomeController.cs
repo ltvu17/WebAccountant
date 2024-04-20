@@ -41,6 +41,14 @@ namespace WebAccountant.Controllers
         {
             return View("~/Views/Home/Pages/KTTK.cshtml");
         }
+        public IActionResult BuyProduct()
+        {
+            return View("~/Views/Home/Pages/BuyProduct.cshtml");
+        }
+        public IActionResult ExportBuyProduct()
+        {
+            return View("~/Views/Home/Pages/ExportBuyProduct.cshtml");
+        }
         public IActionResult Privacy()
         {
             return View();
