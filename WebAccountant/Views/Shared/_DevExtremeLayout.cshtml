@@ -58,56 +58,22 @@
     <script src="~/js/devextreme/aspnet/dx.aspnet.mvc.js"></script>
     <script src="~/js/devextreme/aspnet/dx.aspnet.data.js"></script>
 </head>
-
 <body>
-    <header class="nav-main" style="background-color:#235347">
-        <nav class="navbar navbar-expand-lg navbar-light" >
-            <div class="container-fluid">
-                <img width="240" height="68" src="https://phanmemnangdong.com/wp-content/uploads/2022/04/Smart-pro-13-300x83.png" />
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarColor03">
-                    <ul class="navbar-nav me-auto">
-                    </ul>
-                    <div class="d-flex main-navbar-right">
-                        <div class="p-2 ">Username</div>
-                        <div class="buttons">
-                            <button class="btn btn-secondary" type="submit">Đăng xuất</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="content-main">
+    <div id="main-ui" class="content-main">
         <main role="main">
-            <div class="home-container">
-                <div class="sidebar">
-                    <a id="1" asp-controller="Home" asp-action="Index">Trang chủ</a>
-                    <a id="2" href="#">Tổng quan</a>
-                    <a id="3" asp-controller="Home" asp-action="KTTK">KTTK</a>
-                    <a id="4" asp-controller="Home" asp-action="KTLCTG">KTLCTG</a>
-                    <a id="5" asp-controller="Home" asp-action="KTDTPN">KTDTPN</a>
-                    <a id="6" asp-controller="Home" asp-action="KTDM">KTDM</a>
-                    <a id="7" asp-controller="Home" asp-action="KTCN">KTCN</a>
-                    <a id="8" asp-controller="Home" asp-action="KTSC">KTSC</a>
-                </div>
-                <div class="right-bar-home content">
-                    @RenderBody()
-                </div>
-            </div>
+            @RenderBody()
         </main>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        function active(){
-            var activeId = @ViewData["activeId"]
-            document.getElementById(activeId).classList.add("active");
+        function isLoginPage(){
+            var isLoginPage = @ViewData["isLoginPage"]
+                    if (isLoginPage == 1) document.getElementById("main-ui").classList.remove("content-main")
+            else document.getElementById("main-ui").classList.add("content-main");
         }
-        active();
+        isLoginPage();
     </script>
 </body>
 </html>

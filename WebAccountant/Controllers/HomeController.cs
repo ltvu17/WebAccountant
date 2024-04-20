@@ -12,8 +12,7 @@ namespace WebAccountant.Controllers
         {
             _logger = logger;
         }
-
-        public IActionResult Index()
+		public IActionResult Index()
         {
             ViewData["activeId"] = "1";
             return View();

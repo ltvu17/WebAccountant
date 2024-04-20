@@ -2,192 +2,210 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    Html.RenderPartial("../Home/Header");
 }
 <div class="text-center">
-    @*Navbar Here*@
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Danh sách</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Đơn mua hàng</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Mua hàng</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Nhận hóa đơn</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Nhận hóa đơn</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Trả lại hàng</a>
-                    </li>
-                </ul>
-                <div class="d-flex">
-                    <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm</button>
+    <div class="home-container">
+        @Html.Partial("../Home/SideBar")
+        <div class="right-bar-home content">
+            @*Navbar Here*@
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Danh sách</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Đơn mua hàng</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Mua hàng</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Nhận hóa đơn</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Nhận hóa đơn</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Trả lại hàng</a>
+                            </li>
+                        </ul>
+                        <div class="d-flex">
+                            <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </nav>
+            </nav>
 
-    @*Modal*@
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Thêm Hàng Hóa</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3 text-start">
-                            <label for="mahh" class="col-form-label">Madtpn:</label>
-                            <input type="text" class="form-control" id="mahh">
+            @*Modal*@
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" style="color: #119583;" id="exampleModalLabel">Thêm Hàng Hóa</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                         </div>
-                        <div class="mb-3 text-start">
-                            <label for="tenhh" class="col-form-label">Mucgia:</label>
-                            <input type="text" class="form-control" id="tenhh">
+                        <div class="modal-body">
+                            <form>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="mb-3 text-start">
+                                            <label for="mahh" class="col-form-label">Madtpn:</label>
+                                            <input type="text" class="form-control" id="mahh">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="tenhh" class="col-form-label">Mucgia:</label>
+                                            <input type="text" class="form-control" id="tenhh">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgb1" class="col-form-label">No Max:</label>
+                                            <input type="text" class="form-control" id="dgb1">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-3 text-start">
+                                            <label for="mahh" class="col-form-label">Madtpn:</label>
+                                            <input type="text" class="form-control" id="mahh">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dvt" class="col-form-label">Pt Ck:</label>
+                                            <input type="text" class="form-control" id="dvt">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgb2" class="col-form-label">Songaythanhtoan:</label>
+                                            <input type="text" class="form-control" id="dgb2">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
                         </div>
-                        <div class="mb-3 text-start">
-                            <label for="dvt" class="col-form-label">Pt Ck:</label>
-                            <input type="text" class="form-control" id="dvt">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="button" class="btn btn-primary">Thêm</button>
                         </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgb1" class="col-form-label">No Max:</label>
-                            <input type="text" class="form-control" id="dgb1">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgb2" class="col-form-label">Songaythanhtoan:</label>
-                            <input type="text" class="form-control" id="dgb2">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn btn-primary">Thêm</button>
+                    </div>
                 </div>
             </div>
+
+            @*Data Here*@
+            @(Html.DevExtreme().DataGrid<WebAccountant.ModelsBase.Ktdtpn>()
+                .DataSource(ds => ds.Mvc()
+                .Controller("Ktdtpns")
+                .LoadAction("Get")
+                .UpdateAction("Put")
+                .DeleteAction("Delete")
+                .Key("Madtpn")
+                )
+                .RemoteOperations(true).FocusedRowEnabled(true)
+                .Columns(columns =>
+                {
+
+                    columns.AddFor(m => m.Madtpn);
+
+                    columns.AddFor(m => m.Tendtpn);
+
+                    columns.AddFor(m => m.Diachi);
+
+                    columns.AddFor(m => m.DiachiGh);
+
+                    columns.AddFor(m => m.MsDn);
+
+                    columns.AddFor(m => m.LienHe);
+
+                    columns.AddFor(m => m.Dienthoai);
+
+                    columns.AddFor(m => m.Tknh);
+
+                    columns.AddFor(m => m.Tentknh);
+
+                    columns.AddFor(m => m.Matt);
+
+                    columns.AddFor(m => m.Tentt);
+
+                    columns.AddFor(m => m.Manhom);
+
+                    columns.AddFor(m => m.Tennhom);
+
+                    columns.AddFor(m => m.Danhdau);
+
+                    columns.AddFor(m => m.Trangthai);
+
+                    columns.AddFor(m => m.Fax);
+
+                    columns.AddFor(m => m.Manhom1);
+
+                    columns.AddFor(m => m.Mucgia);
+
+                    columns.AddFor(m => m.PtCk);
+
+                    columns.AddFor(m => m.Tennhom1);
+
+                    columns.AddFor(m => m.Nguoidaidien);
+
+                    columns.AddFor(m => m.Email);
+
+                    columns.AddFor(m => m.Kieudoituong);
+
+                    columns.AddFor(m => m.Nhomck);
+
+                    columns.AddFor(m => m.Manhomdt1);
+
+                    columns.AddFor(m => m.Tennhomdt1);
+
+                    columns.AddFor(m => m.NoMax);
+
+                    columns.AddFor(m => m.Songaythanhtoan);
+
+                    columns.AddFor(m => m.Tkco);
+
+                    columns.AddFor(m => m.Tkno);
+
+                    columns.AddFor(m => m.Emailcc);
+
+                    columns.AddFor(m => m.Mactyme);
+
+                    columns.AddFor(m => m.Tenctyme);
+
+                    columns.AddFor(m => m.Lctg);
+
+                    columns.AddFor(m => m.MacosoDqg);
+
+                    columns.AddFor(m => m.MaVung);
+
+                    columns.AddFor(m => m.Tenvung);
+
+                    columns.AddFor(m => m.IdUpdate);
+                })
+                .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
+                .Editing(e =>
+                {
+                    e.Mode(GridEditMode.Batch)
+                    .AllowUpdating(true).UseIcons(true)
+                    .AllowDeleting(true);
+                    e.SelectTextOnEditStart(true);
+                    e.StartEditAction(GridStartEditAction.DblClick);
+                })
+                .Paging(paging => paging.PageSize(10))
+                .Pager(pager =>
+                {
+                    pager.Visible(true);
+                    pager.DisplayMode(GridPagerDisplayMode.Compact);
+                    pager.ShowPageSizeSelector(true);
+                    pager.AllowedPageSizes(new JS("[10, 20, 30]"));
+                    pager.ShowInfo(true);
+                    pager.ShowNavigationButtons(true);
+                })
+                .OnRowInserted("onRowInserted")
+                .OnContextMenuPreparing("OpenMenu").ID("grid")
+                )
         </div>
     </div>
-
-    @*Data Here*@
-    @(Html.DevExtreme().DataGrid<WebAccountant.ModelsBase.Ktdtpn>()
-    .DataSource(ds => ds.Mvc()
-        .Controller("Ktdtpns")
-        .LoadAction("Get")
-        .UpdateAction("Put")
-        .DeleteAction("Delete")
-        .Key("Madtpn")
-    )
-    .RemoteOperations(true).FocusedRowEnabled(true)
-    .Columns(columns => {
-
-        columns.AddFor(m => m.Madtpn);
-
-        columns.AddFor(m => m.Tendtpn);
-
-        columns.AddFor(m => m.Diachi);
-
-        columns.AddFor(m => m.DiachiGh);
-
-        columns.AddFor(m => m.MsDn);
-
-        columns.AddFor(m => m.LienHe);
-
-        columns.AddFor(m => m.Dienthoai);
-
-        columns.AddFor(m => m.Tknh);
-
-        columns.AddFor(m => m.Tentknh);
-
-        columns.AddFor(m => m.Matt);
-
-        columns.AddFor(m => m.Tentt);
-
-        columns.AddFor(m => m.Manhom);
-
-        columns.AddFor(m => m.Tennhom);
-
-        columns.AddFor(m => m.Danhdau);
-
-        columns.AddFor(m => m.Trangthai);
-
-        columns.AddFor(m => m.Fax);
-
-        columns.AddFor(m => m.Manhom1);
-
-        columns.AddFor(m => m.Mucgia);
-
-        columns.AddFor(m => m.PtCk);
-
-        columns.AddFor(m => m.Tennhom1);
-
-        columns.AddFor(m => m.Nguoidaidien);
-
-        columns.AddFor(m => m.Email);
-
-        columns.AddFor(m => m.Kieudoituong);
-
-        columns.AddFor(m => m.Nhomck);
-
-        columns.AddFor(m => m.Manhomdt1);
-
-        columns.AddFor(m => m.Tennhomdt1);
-
-        columns.AddFor(m => m.NoMax);
-
-        columns.AddFor(m => m.Songaythanhtoan);
-
-        columns.AddFor(m => m.Tkco);
-
-        columns.AddFor(m => m.Tkno);
-
-        columns.AddFor(m => m.Emailcc);
-
-        columns.AddFor(m => m.Mactyme);
-
-        columns.AddFor(m => m.Tenctyme);
-
-        columns.AddFor(m => m.Lctg);
-
-        columns.AddFor(m => m.MacosoDqg);
-
-        columns.AddFor(m => m.MaVung);
-
-        columns.AddFor(m => m.Tenvung);
-
-        columns.AddFor(m => m.IdUpdate);
-    })
-        .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
-        .Editing(e =>
-        {
-            e.Mode(GridEditMode.Batch)
-            .AllowUpdating(true).UseIcons(true)
-            .AllowDeleting(true);
-            e.SelectTextOnEditStart(true);
-            e.StartEditAction(GridStartEditAction.DblClick);
-        })
-        .Paging(paging => paging.PageSize(10))
-        .Pager(pager =>
-        {
-            pager.Visible(true);
-            pager.DisplayMode(GridPagerDisplayMode.Compact);
-            pager.ShowPageSizeSelector(true);
-            pager.AllowedPageSizes(new JS("[10, 20, 30]"));
-            pager.ShowInfo(true);
-            pager.ShowNavigationButtons(true);
-        })
-        .OnRowInserted("onRowInserted")
-        .OnContextMenuPreparing("OpenMenu").ID("grid")
-        )
 </div>
 <script>
     function OpenMenu(e) {

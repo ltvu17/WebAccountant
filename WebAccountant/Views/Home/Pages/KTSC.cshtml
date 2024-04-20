@@ -2,596 +2,609 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    Html.RenderPartial("../Home/Header");
 }
 <div class="text-center">
-    @*Navbar Here*@
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Danh sách</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Đơn mua hàng</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Mua hàng</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Nhận hóa đơn</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Nhận hóa đơn</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Trả lại hàng</a>
-                    </li>
-                </ul>
-                <div class="d-flex">
-                    <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm</button>
+    <div class="home-container">
+        @Html.Partial("../Home/SideBar")
+        <div class="right-bar-home content">
+            @*Navbar Here*@
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Danh sách</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Đơn mua hàng</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Mua hàng</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Nhận hóa đơn</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Nhận hóa đơn</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Trả lại hàng</a>
+                            </li>
+                        </ul>
+                        <div class="d-flex">
+                            <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </nav>
+            </nav>
 
-    @*Modal*@
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Thêm Hàng Hóa</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3 text-start">
-                            <label for="mahh" class="col-form-label">Luong Ctua:</label>
-                            <input type="text" class="form-control" id="mahh">
+            @*Modal*@
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" style="color: #119583;" id="exampleModalLabel">Thêm Hàng Hóa</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                         </div>
-                        <div class="mb-3 text-start">
-                            <label for="dvt" class="col-form-label">Luong:</label>
-                            <input type="text" class="form-control" id="dvt">
+                        <div class="modal-body">
+                            <form>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="mb-3 text-start">
+                                            <label for="mahh" class="col-form-label">Luong Ctua:</label>
+                                            <input type="text" class="form-control" id="mahh">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgb1" class="col-form-label">Dgvnd:</label>
+                                            <input type="text" class="form-control" id="dgb1">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgb3" class="col-form-label">Pt Ck:</label>
+                                            <input type="text" class="form-control" id="dgb3">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgb5" class="col-form-label">Thuevnd:</label>
+                                            <input type="text" class="form-control" id="dgb5">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="sltdk" class="col-form-label">Dgvon:</label>
+                                            <input type="text" class="form-control" id="sltdk">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Lai Gop:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Ttusd:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Ttusd Tt:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Thang:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Tienhang:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Col 11:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Col 13:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Dg Gc:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Id Chungtu:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Stt Tt:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Thueeur:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Tnk Vnd:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Tt Gc:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Tteur:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Luong 1:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Stt Bt:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Pt Ck 2:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Soct N:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Ttmausac:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-3 text-start">
+                                            <label for="dvt" class="col-form-label">Luong:</label>
+                                            <input type="text" class="form-control" id="dvt">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgb2" class="col-form-label">Ttvnd:</label>
+                                            <input type="text" class="form-control" id="dgb2">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgb4" class="col-form-label">Chietkhau:</label>
+                                            <input type="text" class="form-control" id="dgb4">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgm" class="col-form-label">Ttvnd Tt:</label>
+                                            <input type="text" class="form-control" id="dgm">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="gtdk" class="col-form-label">Gtvon:</label>
+                                            <input type="text" class="form-control" id="gtdk">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Tygia:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Thueusd:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Stt Sc:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Dgusd:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Dontrong:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Col 12:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Chietkhau Usd:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Dg Vc:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Sl Gc:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Thang N:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Tnk Usd:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Ts Nk:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Tt Vc:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Hsqd Dvt:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Luong 2n:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Chietkhau 2:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Stt Sapxep:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Dgmausac:</label>
+                                            <input type="text" class="form-control" id="dgv">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgb1" class="col-form-label">Dgvnd:</label>
-                            <input type="text" class="form-control" id="dgb1">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="button" class="btn btn-primary">Thêm</button>
                         </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgb2" class="col-form-label">Ttvnd:</label>
-                            <input type="text" class="form-control" id="dgb2">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgb3" class="col-form-label">Pt Ck:</label>
-                            <input type="text" class="form-control" id="dgb3">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgb4" class="col-form-label">Chietkhau:</label>
-                            <input type="text" class="form-control" id="dgb4">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgb5" class="col-form-label">Thuevnd:</label>
-                            <input type="text" class="form-control" id="dgb5">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgm" class="col-form-label">Ttvnd Tt:</label>
-                            <input type="text" class="form-control" id="dgm">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="sltdk" class="col-form-label">Dgvon:</label>
-                            <input type="text" class="form-control" id="sltdk">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="gtdk" class="col-form-label">Gtvon:</label>
-                            <input type="text" class="form-control" id="gtdk">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Lai Gop:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Tygia:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Ttusd:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Thueusd:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Ttusd Tt:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Stt Sc:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Thang:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Dgusd:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Tienhang:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Dontrong:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Col 11:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Col 12:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Col 13:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Chietkhau Usd:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Dg Gc:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Dg Vc:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Id Chungtu:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Sl Gc:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Stt Tt:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Thang N:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Thueeur:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Tnk Usd:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Tnk Vnd:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Ts Nk:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Tt Gc:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Tt Vc:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Tteur:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Hsqd Dvt:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Luong 1:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Luong 2n:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Stt Bt:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Chietkhau 2:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Pt Ck 2:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Stt Sapxep:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Soct N:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Dgmausac:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                        <div class="mb-3 text-start">
-                            <label for="dgv" class="col-form-label">Ttmausac:</label>
-                            <input type="text" class="form-control" id="dgv">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn btn-primary">Thêm</button>
+                    </div>
                 </div>
             </div>
+
+            @*Data Here*@
+            @(Html.DevExtreme().DataGrid<WebAccountant.ModelsBase.Ktsc>()
+                .DataSource(ds => ds.Mvc()
+                .Controller("Ktscs")
+                .LoadAction("Get")
+                .UpdateAction("Put")
+                .DeleteAction("Delete")
+                .Key("SttSc")
+                )
+                .RemoteOperations(true).FocusedRowEnabled(true)
+                .Columns(columns =>
+                {
+
+                    columns.AddFor(m => m.Lctg);
+
+                    columns.AddFor(m => m.SrHd);
+
+                    columns.AddFor(m => m.SoHd);
+
+                    columns.AddFor(m => m.NgayHd);
+
+                    columns.AddFor(m => m.Soct);
+
+                    columns.AddFor(m => m.SoPc);
+
+                    columns.AddFor(m => m.Ngayct);
+
+                    columns.AddFor(m => m.Diengiai);
+
+                    columns.AddFor(m => m.Tkno);
+
+                    columns.AddFor(m => m.Madtpnno);
+
+                    columns.AddFor(m => m.Maytcpno);
+
+                    columns.AddFor(m => m.Madmno);
+
+                    columns.AddFor(m => m.LoNhap);
+
+                    columns.AddFor(m => m.Tkco);
+
+                    columns.AddFor(m => m.Madtpnco);
+
+                    columns.AddFor(m => m.Maytcpco);
+
+                    columns.AddFor(m => m.Madmco);
+
+                    columns.AddFor(m => m.LoXuat);
+
+                    columns.AddFor(m => m.MaCt);
+
+                    columns.AddFor(m => m.Madtgt);
+
+                    columns.AddFor(m => m.Tendm);
+
+                    columns.AddFor(m => m.DonviCtu);
+
+                    columns.AddFor(m => m.Donvi);
+
+                    columns.AddFor(m => m.LuongCtu);
+
+                    columns.AddFor(m => m.Luong);
+
+                    columns.AddFor(m => m.Dgvnd);
+
+                    columns.AddFor(m => m.Ttvnd);
+
+                    columns.AddFor(m => m.PtCk);
+
+                    columns.AddFor(m => m.Chietkhau);
+
+                    columns.AddFor(m => m.Hdvat);
+
+                    columns.AddFor(m => m.Tkthue);
+
+                    columns.AddFor(m => m.TsGtgt);
+
+                    columns.AddFor(m => m.Thuevnd);
+
+                    columns.AddFor(m => m.TtvndTt);
+
+                    columns.AddFor(m => m.Mathang);
+
+                    columns.AddFor(m => m.Makh);
+
+                    columns.AddFor(m => m.Tenkh);
+
+                    columns.AddFor(m => m.MsDn);
+
+                    columns.AddFor(m => m.Diachi);
+
+                    columns.AddFor(m => m.DiachiNgd);
+
+                    columns.AddFor(m => m.Khachhang);
+
+                    columns.AddFor(m => m.Ghichu);
+
+                    columns.AddFor(m => m.NvBan);
+
+                    columns.AddFor(m => m.Dgvon);
+
+                    columns.AddFor(m => m.Gtvon);
+
+                    columns.AddFor(m => m.LaiGop);
+
+                    columns.AddFor(m => m.Tygia);
+
+                    columns.AddFor(m => m.Ttusd);
+
+                    columns.AddFor(m => m.Thueusd);
+
+                    columns.AddFor(m => m.TtusdTt);
+
+                    columns.AddFor(m => m.Soctgs);
+
+                    columns.AddFor(m => m.Ngayctgs);
+
+                    columns.AddFor(m => m.SttSc);
+
+                    columns.AddFor(m => m.DtNhan);
+
+                    columns.AddFor(m => m.DtXuat);
+
+                    columns.AddFor(m => m.Thang);
+
+                    columns.AddFor(m => m.SoHopdong);
+
+                    columns.AddFor(m => m.Mauser);
+
+                    columns.AddFor(m => m.Matttu);
+
+                    columns.AddFor(m => m.NgayDaoHan);
+
+                    columns.AddFor(m => m.Madvtt);
+
+                    columns.AddFor(m => m.Tendvtt);
+
+                    columns.AddFor(m => m.Tknhno);
+
+                    columns.AddFor(m => m.Tentknhno);
+
+                    columns.AddFor(m => m.Madvnt);
+
+                    columns.AddFor(m => m.Tendvnt);
+
+                    columns.AddFor(m => m.Tknhco);
+
+                    columns.AddFor(m => m.Tentknhco);
+
+                    columns.AddFor(m => m.Tenvung);
+
+                    columns.AddFor(m => m.Kyhieu);
+
+                    columns.AddFor(m => m.Mangd);
+
+                    columns.AddFor(m => m.Diengiai2);
+
+                    columns.AddFor(m => m.Dgusd);
+
+                    columns.AddFor(m => m.Tienhang);
+
+                    columns.AddFor(m => m.TenhhIn);
+
+                    columns.AddFor(m => m.Httt);
+
+                    columns.AddFor(m => m.Invoi);
+
+                    columns.AddFor(m => m.Masanpham);
+
+                    columns.AddFor(m => m.Dontrong);
+
+                    columns.AddFor(m => m.MaNvBan);
+
+                    columns.AddFor(m => m.SoctU);
+
+                    columns.AddFor(m => m.Col11);
+
+                    columns.AddFor(m => m.Col12);
+
+                    columns.AddFor(m => m.Col13);
+
+                    columns.AddFor(m => m.Danhdau);
+
+                    columns.AddFor(m => m.Trangthai);
+
+                    columns.AddFor(m => m.ChietkhauUsd);
+
+                    columns.AddFor(m => m.DgGc);
+
+                    columns.AddFor(m => m.DgVc);
+
+                    columns.AddFor(m => m.Hansudung);
+
+                    columns.AddFor(m => m.IdChungtu);
+
+                    columns.AddFor(m => m.KhmHd);
+
+                    columns.AddFor(m => m.Kxldg);
+
+                    columns.AddFor(m => m.Lenhsx);
+
+                    columns.AddFor(m => m.MaHd);
+
+                    columns.AddFor(m => m.MaHhGc);
+
+                    columns.AddFor(m => m.MaTiepThi);
+
+                    columns.AddFor(m => m.MaTt);
+
+                    columns.AddFor(m => m.MaVung);
+
+                    columns.AddFor(m => m.Manhom);
+
+                    columns.AddFor(m => m.Manhom1);
+
+                    columns.AddFor(m => m.Manhom2);
+
+                    columns.AddFor(m => m.Model);
+
+                    columns.AddFor(m => m.MsTm);
+
+                    columns.AddFor(m => m.NgayHopdongSc);
+
+                    columns.AddFor(m => m.NgayTt);
+
+                    columns.AddFor(m => m.Ngaylo);
+
+                    columns.AddFor(m => m.Nhacungcap);
+
+                    columns.AddFor(m => m.Nhasanxuat);
+
+                    columns.AddFor(m => m.Nhomkh);
+
+                    columns.AddFor(m => m.NoidungSc);
+
+                    columns.AddFor(m => m.SlGc);
+
+                    columns.AddFor(m => m.SoPt);
+
+                    columns.AddFor(m => m.Sokheuoc);
+
+                    columns.AddFor(m => m.SttTt);
+
+                    columns.AddFor(m => m.TenTiepThi);
+
+                    columns.AddFor(m => m.TenctSc);
+
+                    columns.AddFor(m => m.Tenytcpno);
+
+                    columns.AddFor(m => m.ThangN);
+
+                    columns.AddFor(m => m.Thueeur);
+
+                    columns.AddFor(m => m.TkChietkhau);
+
+                    columns.AddFor(m => m.TkXuatkho);
+
+                    columns.AddFor(m => m.TnkUsd);
+
+                    columns.AddFor(m => m.TnkVnd);
+
+                    columns.AddFor(m => m.TsNk);
+
+                    columns.AddFor(m => m.TtGc);
+
+                    columns.AddFor(m => m.TtVc);
+
+                    columns.AddFor(m => m.Tteur);
+
+                    columns.AddFor(m => m.Donvi1);
+
+                    columns.AddFor(m => m.Donvi2);
+
+                    columns.AddFor(m => m.HsqdDvt);
+
+                    columns.AddFor(m => m.Luong1);
+
+                    columns.AddFor(m => m.Luong2);
+
+                    columns.AddFor(m => m.Mabpsx);
+
+                    columns.AddFor(m => m.SttBt);
+
+                    columns.AddFor(m => m.Tendtgt);
+
+                    columns.AddFor(m => m.Imei);
+
+                    columns.AddFor(m => m.Madonhang);
+
+                    columns.AddFor(m => m.Barcode);
+
+                    columns.AddFor(m => m.MadonhangMua);
+
+                    columns.AddFor(m => m.Manhomdt1);
+
+                    columns.AddFor(m => m.Tennhomdt1);
+
+                    columns.AddFor(m => m.Chietkhau2);
+
+                    columns.AddFor(m => m.IdUpdate);
+
+                    columns.AddFor(m => m.PtCk2);
+
+                    columns.AddFor(m => m.IdNghiepvu);
+
+                    columns.AddFor(m => m.Machinhanh);
+
+                    columns.AddFor(m => m.SttSapxep);
+
+                    columns.AddFor(m => m.Guid);
+
+                    columns.AddFor(m => m.Thoigiannhap);
+
+                    columns.AddFor(m => m.Kyduyet);
+
+                    columns.AddFor(m => m.SoctN);
+
+                    columns.AddFor(m => m.Mamausac);
+
+                    columns.AddFor(m => m.Tenmausac);
+
+                    columns.AddFor(m => m.Dgmausac);
+
+                    columns.AddFor(m => m.Ttmausac);
+                })
+                .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
+                .Editing(e =>
+                {
+                    e.Mode(GridEditMode.Batch)
+                    .AllowUpdating(true).UseIcons(true)
+                    .AllowDeleting(true);
+                    e.SelectTextOnEditStart(true);
+                    e.StartEditAction(GridStartEditAction.DblClick);
+                })
+                .Paging(paging => paging.PageSize(10))
+                .Pager(pager =>
+                {
+                    pager.Visible(true);
+                    pager.DisplayMode(GridPagerDisplayMode.Compact);
+                    pager.ShowPageSizeSelector(true);
+                    pager.AllowedPageSizes(new JS("[10, 20, 30]"));
+                    pager.ShowInfo(true);
+                    pager.ShowNavigationButtons(true);
+                })
+                .OnRowInserted("onRowInserted")
+                .OnContextMenuPreparing("OpenMenu").ID("grid")
+                )
         </div>
     </div>
-
-    @*Data Here*@
-    @(Html.DevExtreme().DataGrid<WebAccountant.ModelsBase.Ktsc>()
-    .DataSource(ds => ds.Mvc()
-        .Controller("Ktscs")
-        .LoadAction("Get")
-        .UpdateAction("Put")
-        .DeleteAction("Delete")
-        .Key("SttSc")
-    )
-        .RemoteOperations(true).FocusedRowEnabled(true)
-    .Columns(columns => {
-
-        columns.AddFor(m => m.Lctg);
-
-        columns.AddFor(m => m.SrHd);
-
-        columns.AddFor(m => m.SoHd);
-
-        columns.AddFor(m => m.NgayHd);
-
-        columns.AddFor(m => m.Soct);
-
-        columns.AddFor(m => m.SoPc);
-
-        columns.AddFor(m => m.Ngayct);
-
-        columns.AddFor(m => m.Diengiai);
-
-        columns.AddFor(m => m.Tkno);
-
-        columns.AddFor(m => m.Madtpnno);
-
-        columns.AddFor(m => m.Maytcpno);
-
-        columns.AddFor(m => m.Madmno);
-
-        columns.AddFor(m => m.LoNhap);
-
-        columns.AddFor(m => m.Tkco);
-
-        columns.AddFor(m => m.Madtpnco);
-
-        columns.AddFor(m => m.Maytcpco);
-
-        columns.AddFor(m => m.Madmco);
-
-        columns.AddFor(m => m.LoXuat);
-
-        columns.AddFor(m => m.MaCt);
-
-        columns.AddFor(m => m.Madtgt);
-
-        columns.AddFor(m => m.Tendm);
-
-        columns.AddFor(m => m.DonviCtu);
-
-        columns.AddFor(m => m.Donvi);
-
-        columns.AddFor(m => m.LuongCtu);
-
-        columns.AddFor(m => m.Luong);
-
-        columns.AddFor(m => m.Dgvnd);
-
-        columns.AddFor(m => m.Ttvnd);
-
-        columns.AddFor(m => m.PtCk);
-
-        columns.AddFor(m => m.Chietkhau);
-
-        columns.AddFor(m => m.Hdvat);
-
-        columns.AddFor(m => m.Tkthue);
-
-        columns.AddFor(m => m.TsGtgt);
-
-        columns.AddFor(m => m.Thuevnd);
-
-        columns.AddFor(m => m.TtvndTt);
-
-        columns.AddFor(m => m.Mathang);
-
-        columns.AddFor(m => m.Makh);
-
-        columns.AddFor(m => m.Tenkh);
-
-        columns.AddFor(m => m.MsDn);
-
-        columns.AddFor(m => m.Diachi);
-
-        columns.AddFor(m => m.DiachiNgd);
-
-        columns.AddFor(m => m.Khachhang);
-
-        columns.AddFor(m => m.Ghichu);
-
-        columns.AddFor(m => m.NvBan);
-
-        columns.AddFor(m => m.Dgvon);
-
-        columns.AddFor(m => m.Gtvon);
-
-        columns.AddFor(m => m.LaiGop);
-
-        columns.AddFor(m => m.Tygia);
-
-        columns.AddFor(m => m.Ttusd);
-
-        columns.AddFor(m => m.Thueusd);
-
-        columns.AddFor(m => m.TtusdTt);
-
-        columns.AddFor(m => m.Soctgs);
-
-        columns.AddFor(m => m.Ngayctgs);
-
-        columns.AddFor(m => m.SttSc);
-
-        columns.AddFor(m => m.DtNhan);
-
-        columns.AddFor(m => m.DtXuat);
-
-        columns.AddFor(m => m.Thang);
-
-        columns.AddFor(m => m.SoHopdong);
-
-        columns.AddFor(m => m.Mauser);
-
-        columns.AddFor(m => m.Matttu);
-
-        columns.AddFor(m => m.NgayDaoHan);
-
-        columns.AddFor(m => m.Madvtt);
-
-        columns.AddFor(m => m.Tendvtt);
-
-        columns.AddFor(m => m.Tknhno);
-
-        columns.AddFor(m => m.Tentknhno);
-
-        columns.AddFor(m => m.Madvnt);
-
-        columns.AddFor(m => m.Tendvnt);
-
-        columns.AddFor(m => m.Tknhco);
-
-        columns.AddFor(m => m.Tentknhco);
-
-        columns.AddFor(m => m.Tenvung);
-
-        columns.AddFor(m => m.Kyhieu);
-
-        columns.AddFor(m => m.Mangd);
-
-        columns.AddFor(m => m.Diengiai2);
-
-        columns.AddFor(m => m.Dgusd);
-
-        columns.AddFor(m => m.Tienhang);
-
-        columns.AddFor(m => m.TenhhIn);
-
-        columns.AddFor(m => m.Httt);
-
-        columns.AddFor(m => m.Invoi);
-
-        columns.AddFor(m => m.Masanpham);
-
-        columns.AddFor(m => m.Dontrong);
-
-        columns.AddFor(m => m.MaNvBan);
-
-        columns.AddFor(m => m.SoctU);
-
-        columns.AddFor(m => m.Col11);
-
-        columns.AddFor(m => m.Col12);
-
-        columns.AddFor(m => m.Col13);
-
-        columns.AddFor(m => m.Danhdau);
-
-        columns.AddFor(m => m.Trangthai);
-
-        columns.AddFor(m => m.ChietkhauUsd);
-
-        columns.AddFor(m => m.DgGc);
-
-        columns.AddFor(m => m.DgVc);
-
-        columns.AddFor(m => m.Hansudung);
-
-        columns.AddFor(m => m.IdChungtu);
-
-        columns.AddFor(m => m.KhmHd);
-
-        columns.AddFor(m => m.Kxldg);
-
-        columns.AddFor(m => m.Lenhsx);
-
-        columns.AddFor(m => m.MaHd);
-
-        columns.AddFor(m => m.MaHhGc);
-
-        columns.AddFor(m => m.MaTiepThi);
-
-        columns.AddFor(m => m.MaTt);
-
-        columns.AddFor(m => m.MaVung);
-
-        columns.AddFor(m => m.Manhom);
-
-        columns.AddFor(m => m.Manhom1);
-
-        columns.AddFor(m => m.Manhom2);
-
-        columns.AddFor(m => m.Model);
-
-        columns.AddFor(m => m.MsTm);
-
-        columns.AddFor(m => m.NgayHopdongSc);
-
-        columns.AddFor(m => m.NgayTt);
-
-        columns.AddFor(m => m.Ngaylo);
-
-        columns.AddFor(m => m.Nhacungcap);
-
-        columns.AddFor(m => m.Nhasanxuat);
-
-        columns.AddFor(m => m.Nhomkh);
-
-        columns.AddFor(m => m.NoidungSc);
-
-        columns.AddFor(m => m.SlGc);
-
-        columns.AddFor(m => m.SoPt);
-
-        columns.AddFor(m => m.Sokheuoc);
-
-        columns.AddFor(m => m.SttTt);
-
-        columns.AddFor(m => m.TenTiepThi);
-
-        columns.AddFor(m => m.TenctSc);
-
-        columns.AddFor(m => m.Tenytcpno);
-
-        columns.AddFor(m => m.ThangN);
-
-        columns.AddFor(m => m.Thueeur);
-
-        columns.AddFor(m => m.TkChietkhau);
-
-        columns.AddFor(m => m.TkXuatkho);
-
-        columns.AddFor(m => m.TnkUsd);
-
-        columns.AddFor(m => m.TnkVnd);
-
-        columns.AddFor(m => m.TsNk);
-
-        columns.AddFor(m => m.TtGc);
-
-        columns.AddFor(m => m.TtVc);
-
-        columns.AddFor(m => m.Tteur);
-
-        columns.AddFor(m => m.Donvi1);
-
-        columns.AddFor(m => m.Donvi2);
-
-        columns.AddFor(m => m.HsqdDvt);
-
-        columns.AddFor(m => m.Luong1);
-
-        columns.AddFor(m => m.Luong2);
-
-        columns.AddFor(m => m.Mabpsx);
-
-        columns.AddFor(m => m.SttBt);
-
-        columns.AddFor(m => m.Tendtgt);
-
-        columns.AddFor(m => m.Imei);
-
-        columns.AddFor(m => m.Madonhang);
-
-        columns.AddFor(m => m.Barcode);
-
-        columns.AddFor(m => m.MadonhangMua);
-
-        columns.AddFor(m => m.Manhomdt1);
-
-        columns.AddFor(m => m.Tennhomdt1);
-
-        columns.AddFor(m => m.Chietkhau2);
-
-        columns.AddFor(m => m.IdUpdate);
-
-        columns.AddFor(m => m.PtCk2);
-
-        columns.AddFor(m => m.IdNghiepvu);
-
-        columns.AddFor(m => m.Machinhanh);
-
-        columns.AddFor(m => m.SttSapxep);
-
-        columns.AddFor(m => m.Guid);
-
-        columns.AddFor(m => m.Thoigiannhap);
-
-        columns.AddFor(m => m.Kyduyet);
-
-        columns.AddFor(m => m.SoctN);
-
-        columns.AddFor(m => m.Mamausac);
-
-        columns.AddFor(m => m.Tenmausac);
-
-        columns.AddFor(m => m.Dgmausac);
-
-        columns.AddFor(m => m.Ttmausac);
-    })
-        .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
-        .Editing(e =>
-        {
-            e.Mode(GridEditMode.Batch)
-            .AllowUpdating(true).UseIcons(true)
-            .AllowDeleting(true);
-            e.SelectTextOnEditStart(true);
-            e.StartEditAction(GridStartEditAction.DblClick);
-        })
-        .Paging(paging => paging.PageSize(10))
-        .Pager(pager =>
-        {
-            pager.Visible(true);
-            pager.DisplayMode(GridPagerDisplayMode.Compact);
-            pager.ShowPageSizeSelector(true);
-            pager.AllowedPageSizes(new JS("[10, 20, 30]"));
-            pager.ShowInfo(true);
-            pager.ShowNavigationButtons(true);
-        })
-        .OnRowInserted("onRowInserted")
-        .OnContextMenuPreparing("OpenMenu").ID("grid")
-        )
 </div>
 <script>
     function OpenMenu(e) {
