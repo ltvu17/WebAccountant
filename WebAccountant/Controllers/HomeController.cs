@@ -49,6 +49,7 @@ namespace WebAccountant.Controllers
         }
         public IActionResult BuyProduct()
         {
+            ViewData["activeId"] = "9";
             return View("~/Views/Home/Pages/BuyProduct.cshtml");
         }
         public IActionResult ExportBuyProduct()
