@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAccountant.Models;
 using WebAccountant.ModelsBase;
 using WebAccountant.Repository;
 
@@ -19,11 +20,42 @@ namespace WebAccountant.Controllers
     public class KtdmsController : Controller
     {
         private readonly IKtdmRepo _ktdmRepo;
+        public static List<KtdmDTO> ktdmsDTO = new List<KtdmDTO>();
 
         public KtdmsController(IKtdmRepo ktdmRepo) {
             _ktdmRepo = ktdmRepo;
         }
+        [HttpGet]
+        public async Task<IActionResult> GetDto(DataSourceLoadOptions loadOptions)
+        {
+            ktdmsDTO = (await _ktdmRepo.GetAllKtdmDTO()).ToList();
+            var cart = HttpContext.Session.GetString("cart");
+            if (cart != null)
+            {
+                ktdmsDTO = JsonConvert.DeserializeObject<List<KtdmDTO>>(cart);
+            }
+            else
+            {
+                var data = JsonConvert.SerializeObject(ktdmsDTO);
+                HttpContext.Session.SetString("cart", data);
+            }
+            return Json(DataSourceLoader.Load(ktdmsDTO, loadOptions));
+        }
+        [HttpPut]
+        [DisableRequestSizeLimit]
+        public async Task<IActionResult> UpdateDto(string key, string values)
+        {
+/*            var cart = HttpContext.Session.GetString("cart");
+            if (cart != null)
+            {
+                ktdmsDTO = JsonConvert.DeserializeObject<List<KtdmDTO>>(cart);
+            }*/
 
+            var newCart = await _ktdmRepo.UpdateKtdmDTO(key, values, ktdmsDTO);
+            var data = JsonConvert.SerializeObject(newCart);
+            HttpContext.Session.SetString("cart", data);
+            return Ok();
+        }
         [HttpGet]
         public async Task<IActionResult> Get(DataSourceLoadOptions loadOptions) {
             var ktdms = await _ktdmRepo.GetAllAsync();
@@ -42,6 +74,10 @@ namespace WebAccountant.Controllers
 
         [HttpPut]
         public async Task<IActionResult> Put(string key, string values) {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(GetFullErrorMessage(ModelState));
+            }
             await _ktdmRepo.Update(key, values);
             return Ok();
         }
@@ -51,6 +87,28 @@ namespace WebAccountant.Controllers
            await _ktdmRepo.Delete(key);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> SubmitCartToExport()
+        {
+            var cart = HttpContext.Session.GetString("cart");
+            List<KtdmDTO> ktdmsDTO = new List<KtdmDTO>();
+            if (cart != null)
+            {
+                ktdmsDTO = JsonConvert.DeserializeObject<List<KtdmDTO>>(cart);
+            }
+            var Keys = this.Request.Form.Keys.FirstOrDefault();       
+            var items = JsonConvert.DeserializeObject<List<KtdmDTO>>(Keys);
+            foreach(var item in items)
+            {
+                var getItem = ktdmsDTO.FirstOrDefault(s => s.Matk == item.Matk && s.Madm == item.Madm);
+                if (getItem != null)
+                {
+                    item.Soluong = getItem.Soluong;
+                }
+            }
+            var pathValue = await _ktdmRepo.ExportPDF(items);
+            return Json(items);
+        }
         private string GetFullErrorMessage(ModelStateDictionary modelState) {
             var messages = new List<string>();
 
