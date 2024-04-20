@@ -26,3 +26,12 @@
 .modal-add-ktdm span{
     width: 165px;
 }
+.dx-datagrid-rowsview {
+    border-top: 3px solid #ddd;
+    border-left: 3px solid #ddd;
+    border-right: 3px solid #ddd;
+    border-bottom: 3px solid #ddd;
+}
+.dx-datagrid-headers{
+    border-width: 5px;
+}

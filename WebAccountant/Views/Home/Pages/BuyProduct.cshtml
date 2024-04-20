@@ -32,6 +32,8 @@
                         columns.AddFor(m => m.Soluong).AllowEditing(true).Alignment(HorizontalAlignment.Left);
 
                     }).ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
+                    .ShowBorders(true)
+                    .RowAlternationEnabled(true)
                     .Editing(editing =>
                     {
                         editing.Mode(GridEditMode.Batch);
@@ -40,6 +42,7 @@
                         editing.StartEditAction(GridStartEditAction.Click);
                     })
                     .Selection(s => s.Mode(SelectionMode.Multiple))
+                    .Paging(paging => paging.PageSize(10))
                     .Pager(pager =>
                     {
                         pager.Visible(true);
@@ -51,10 +54,11 @@
                     }).OnSelectionChanged("selection_changed").ID("grid-container").OnRowUpdated("Updated")
                     )
                 @* <a asp-controller="Home" asp-action="ExportBuyProduct"><button type="button" onclick="Submit()">Mua sản phẩm</button></a> *@
-                <button id="saveButton" onclick="Submit()" type="button">Mua sản phẩm</button>
+                
+                <div class="buttons">
+                    <button class="btn btn-success" id="saveButton" onclick="Submit()" type="button">Mua sản phẩm</button>
+                </div>
             </form>
-
-
 
             <script type="text/javascript">
                 var data = [];

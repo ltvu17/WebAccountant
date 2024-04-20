@@ -582,6 +582,8 @@
                     columns.AddFor(m => m.Ttmausac);
                 })
                 .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
+                .ShowBorders(true)
+                .RowAlternationEnabled(true)
                 .Editing(e =>
                 {
                     e.Mode(GridEditMode.Batch)
