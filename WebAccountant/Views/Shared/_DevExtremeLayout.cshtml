@@ -68,9 +68,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+        @{
+            var mesage = "";
+            if (ViewData["isLoginPage"] != null)
+            {
+                mesage = ViewData["isLoginPage"].ToString();
+            }
+            else
+            {
+                mesage = "-1";
+            }
+        }
         function isLoginPage(){
-            var isLoginPage = @ViewData["isLoginPage"]
-                    if (isLoginPage == 1) document.getElementById("main-ui").classList.remove("content-main")
+        var isLoginPage = @mesage
+                    if (isLoginPage == 1) document.getElementById("main-ui").classList.remove("content-main");
             else document.getElementById("main-ui").classList.add("content-main");
         }
         isLoginPage();
