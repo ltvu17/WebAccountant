@@ -1,6 +1,7 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@model WebAccountant.ModelsBase.Ktdtpn
 @{
     Html.RenderPartial("../Home/Header");
 }
@@ -51,43 +52,39 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                         </div>
                         <div class="modal-body">
-                            <form>
+                            <form method="post" asp-controller="Ktdtpns" asp-action="Post">
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="mb-3 text-start">
                                             <label for="mahh" class="col-form-label">Madtpn:</label>
-                                            <input type="text" class="form-control" id="mahh">
+                                            <input type="text" class="form-control" asp-for="Madtpn" id="dgb2">
+                                            <span asp-validation-for="Madtpn" class="text-danger"></span>
                                         </div>
                                         <div class="mb-3 text-start">
-                                            <label for="tenhh" class="col-form-label">Mucgia:</label>
-                                            <input type="text" class="form-control" id="tenhh">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb1" class="col-form-label">No Max:</label>
-                                            <input type="text" class="form-control" id="dgb1">
+                                            <label for="tenhh" class="col-form-label">Dia chi:</label>
+                                            <input type="text" class="form-control" asp-for="Diachi" id="dgb2">
+                                            <span asp-validation-for="Diachi" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="mb-3 text-start">
-                                            <label for="mahh" class="col-form-label">Madtpn:</label>
-                                            <input type="text" class="form-control" id="mahh">
+                                            <label for="mahh" class="col-form-label">Tendtpn:</label>
+                                            <input type="text" class="form-control" asp-for="Tendtpn" id="dgb2">
+                                            <span asp-validation-for="Tendtpn" class="text-danger"></span>
                                         </div>
                                         <div class="mb-3 text-start">
-                                            <label for="dvt" class="col-form-label">Pt Ck:</label>
-                                            <input type="text" class="form-control" id="dvt">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Songaythanhtoan:</label>
-                                            <input type="text" class="form-control" id="dgb2">
+                                            <label for="dgb1" class="col-form-label">Ms Dn:</label>
+                                            <input type="text" class="form-control" asp-for="MsDn" id="dgb2">
+                                            <span asp-validation-for="MsDn" class="text-danger"></span>
                                         </div>
                                     </div>
 
                                 </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                    <button type="submit" class="btn btn-primary">Thêm</button>
+                                </div>
                             </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                            <button type="button" class="btn btn-primary">Thêm</button>
                         </div>
                     </div>
                 </div>

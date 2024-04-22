@@ -44,10 +44,11 @@
             pager.AllowedPageSizes(new JS("[10, 20, 30]"));
             pager.ShowInfo(true);
             pager.ShowNavigationButtons(true);
-        }).OnSelectionChanged("selection_changed").ID("grid-container").OnRowUpdated("Updated")
+        }).OnSelectionChanged("selection_changed").ID("grid-container")
         )
         @* <a asp-controller="Home" asp-action="ExportBuyProduct"><button type="button" onclick="Submit()">Mua sản phẩm</button></a> *@
-        <button id="saveButton" onclick="Submit()" type="button">Mua sản phẩm</button>
+        <button id="saveButton" onclick="SubmitExportPDF()" type="button">Xem Hóa Đơn</button>
+        <button id="saveButton" onclick="Submit()" type="button">Mua hàng</button>
 </form>
 
 
@@ -68,8 +69,7 @@
         var dataGrid = getDataGridInstance();
         data = selectedItems.selectedRowsData;  
     }
-    function Submit(){
-        console.log(data)
+    function SubmitExportPDF() {
         setTimeout(function (value) {
             $.ajax({
                 url: '@Url.Action("SubmitCartToExport","Ktdms")',
@@ -85,8 +85,18 @@
             save().then(
             )  
     }
-    function Updated() {
-
+    function Submit() {
+        setTimeout(function (value) {
+            $.ajax({
+                url: '@Url.Action("SubmitCartToSave","Ktdms")',
+                type: 'POST',
+                data: JSON.stringify(data),
+                success: function (result) {
+                }
+            });
+        }, 1000)
+        save().then(
+        )
     }
 
 </script>

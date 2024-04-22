@@ -1,7 +1,7 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@page "KTDM"
+@model WebAccountant.ModelsBase.Ktdm
 @{
     Html.RenderPartial("../Home/Header");
 }
@@ -52,220 +52,87 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                         </div>
                         <div class="modal-body">
-                            <form>
+                            <form method="post" asp-controller="Ktdms" asp-action="Post">
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="mb-3 text-start">
-                                            <label for="mahh" class="col-form-label">Mã hàng hóa:</label>
-                                            <input type="text" class="form-control" id="mahh">
+                                            <label for="mahh" class="col-form-label">Matk:</label>
+                                            <input type="text" class="form-control" asp-for="Matk" id="mahh">
+                                            <span asp-validation-for="Matk" class="text-danger"></span>
                                         </div>
                                         <div class="mb-3 text-start">
-                                            <label for="dvt" class="col-form-label">Ptchietkhau:</label>
-                                            <input type="text" class="form-control" id="dvt">
+                                            <label for="dvt" class="col-form-label">Tên hàng hóa:</label>
+                                            <input type="text" class="form-control" asp-for="Tendm" id="dvt">
+                                            <span asp-validation-for="Tendm" class="text-danger"></span>
                                         </div>
                                         <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Dgxuat:</label>
-                                            <input type="text" class="form-control" id="dgb2">
+                                            <label for="dgv" class="col-form-label">Ton Ck:</label>
+                                            <input type="text" class="form-control" asp-for="TonCk" id="dgv">
+                                            <span asp-validation-for="TonCk" class="text-danger"></span>
                                         </div>
                                         <div class="mb-3 text-start">
                                             <label for="dgb4" class="col-form-label">Vndton T:</label>
-                                            <input type="text" class="form-control" id="dgb4">
+                                            <input type="text" class="form-control" asp-for="VndtonT" id="dgb4">
+                                            <span asp-validation-for="VndtonT" class="text-danger"></span>
                                         </div>
                                         <div class="mb-3 text-start">
-                                            <label for="dgm" class="col-form-label">Vndnhap T:</label>
-                                            <input type="text" class="form-control" id="dgm">
+                                            <label for="dgb2" class="col-form-label">Gioihanton:</label>
+                                            <input type="text" class="form-control" asp-for="Gioihanton" id="dgb2">
+                                            <span asp-validation-for="Gioihanton" class="text-danger"></span>
                                         </div>
                                         <div class="mb-3 text-start">
-                                            <label for="gtdk" class="col-form-label">Vndxuat T:</label>
-                                            <input type="text" class="form-control" id="gtdk">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Vndton Ck:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Dgban 1:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Dgban 3:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Hsqd 1:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Hsqd 3:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Usdnhap T:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Dgusd:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Dgnhap 2:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Dgnhap 4:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Dgnhap:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Dg Vc:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Tyle Of Nhom:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Nhap TDv 2:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Ton Ck Dv 2:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Ton TDv 2:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Xuat TDv 2:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Dgban Gan Nhat:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Songaysudung:</label>
-                                            <input type="text" class="form-control" id="dgb2">
+                                            <label for="dgb2" class="col-form-label">Dgmua Gan Nhat:</label>
+                                            <input type="text" class="form-control" asp-for="DgmuaGanNhat" id="dgb2">
+                                            <span asp-validation-for="DgmuaGanNhat" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="mb-3 text-start">
-                                            <label for="tenhh" class="col-form-label">madm:</label>
-                                            <input type="text" class="form-control" id="tenhh">
+                                            <label for="tenhh" class="col-form-label">Mã hàng hóa:</label>
+                                            <input type="text" class="form-control" asp-for="Madm" id="tenhh">
+                                            <span asp-validation-for="Madm" class="text-danger"></span>
                                         </div>
                                         <div class="mb-3 text-start">
-                                            <label for="dgb1" class="col-form-label">Thuesuat:</label>
-                                            <input type="text" class="form-control" id="dgb1">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb3" class="col-form-label">Ton T:</label>
-                                            <input type="text" class="form-control" id="dgb3">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb5" class="col-form-label">Nhap T:</label>
-                                            <input type="text" class="form-control" id="dgb5">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="sltdk" class="col-form-label">Xuat T:</label>
-                                            <input type="text" class="form-control" id="sltdk">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgv" class="col-form-label">Ton Ck:</label>
-                                            <input type="text" class="form-control" id="dgv">
+                                            <label for="dgb2" class="col-form-label">Đơn vị tính:</label>
+                                            <input type="text" class="form-control" asp-for="Donvi" id="dgb2">
+                                            <span asp-validation-for="Donvi" class="text-danger"></span>
                                         </div>
                                         <div class="mb-3 text-start">
                                             <label for="dgb2" class="col-form-label">Dgban:</label>
-                                            <input type="text" class="form-control" id="dgb2">
+                                            <input type="text" class="form-control" asp-for="Dgban" id="dgb2">
+                                            <span asp-validation-for="Dgban" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgb2" class="col-form-label">Dgban 1:</label>
+                                            <input type="text" class="form-control" asp-for="Dgban1" id="dgb2">
+                                            <span asp-validation-for="Dgban1" class="text-danger"></span>
                                         </div>
                                         <div class="mb-3 text-start">
                                             <label for="dgb2" class="col-form-label">Dgban 2:</label>
-                                            <input type="text" class="form-control" id="dgb2">
+                                            <input type="text" class="form-control" asp-for="Dgban2" id="dgb2">
+                                            <span asp-validation-for="Dgban2" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgb2" class="col-form-label">Dgban 3:</label>
+                                            <input type="text" class="form-control" asp-for="Dgban3" id="dgb2">
+                                            <span asp-validation-for="Dgban3" class="text-danger"></span>
                                         </div>
                                         <div class="mb-3 text-start">
                                             <label for="dgb2" class="col-form-label">Dgban 4:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Hsqd 2:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Usdton T:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Usdxuat T:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Usdton Ck:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Dgnhap 1:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Dgnhap 3:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Dgnhap 5:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Dg Chuyenkho:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Gioihanton:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Nhap TDv 1:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Ton Ck Dv 1:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Ton TDv 1:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Xuat TDv 1:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Gioihanton Max:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Dgmua Gan Nhat:</label>
-                                            <input type="text" class="form-control" id="dgb2">
+                                            <input type="text" class="form-control" asp-for="Dgban4" id="dgb2">
+                                            <span asp-validation-for="Dgban4" class="text-danger"></span>
                                         </div>
 
                                     </div>
                                 </div>
-
-
-
-
-
-
-
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                    <button type="submit" class="btn btn-primary">Thêm</button>
+                                </div>
 
                             </form>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                            <button type="button" class="btn btn-primary">Thêm</button>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -496,6 +363,12 @@
         </div>
     </div>
 </div>
+@* @section Scrips{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+} *@
+
 <script>
     function OpenMenu(e) {
         if (e.rowIndex != -1) {

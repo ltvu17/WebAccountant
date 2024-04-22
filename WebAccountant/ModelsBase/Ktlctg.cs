@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebAccountant.ModelsBase
 {
     public partial class Ktlctg
     {
+        [Required(ErrorMessage = "Trường bắt buộc nhập")]
         public string Lctg { get; set; } = null!;
+        [Required(ErrorMessage = "Trường bắt buộc nhập")]
         public string? Tenctg { get; set; }
         public string? Tkthue { get; set; }
         public string? CoTkdutkthue { get; set; }
