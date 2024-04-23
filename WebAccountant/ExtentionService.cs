@@ -1,8 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
+using System.Text;
 using WebAccountant.DAOs;
 using WebAccountant.Models;
 using WebAccountant.ModelsBase;
+using WebAccountant.ModelsLogin;
 using WebAccountant.Repository;
 using WebAccountant.Repository.Implement;
 
@@ -27,6 +30,10 @@ namespace WebAccountant
             {
                 options.UseSqlServer(GetConnectionString());
             });
+            services.AddDbContext<LoginContext>(options =>
+            {
+                options.UseSqlServer(GetConnectionString());
+            });
             return services;
         }
 
@@ -35,6 +42,12 @@ namespace WebAccountant
             IConfiguration config = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", true, true).Build();
             return config["ConnectionStrings"];
+        }
+        private static string GetEncryptKey()
+        {
+            IConfiguration config = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", true, true).Build();
+            return config["PrivateKey"];
         }
         public static KtdmDTO KTDMMapper(this Ktdm baseEntity)
         {
@@ -48,6 +61,67 @@ namespace WebAccountant
                 TonTDv1 = baseEntity.TonTDv1,
                 Soluong = 0,
             };
+        }
+        public static UserDTO UserDTOMapper(this User baseEntity)
+        {
+            return new UserDTO()
+            {
+                UserName = baseEntity.UserName,
+                Email = baseEntity.Email,
+                Phone = baseEntity.Phone,
+            };
+        }
+        public static string EncryptString(string plainText)
+        {
+            byte[] iv = new byte[16];
+            byte[] array;
+
+            using (Aes aes = Aes.Create())
+            {
+                aes.Key = Encoding.UTF8.GetBytes(GetEncryptKey());
+                aes.IV = iv;
+
+                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, encryptor, CryptoStreamMode.Write))
+                    {
+                        using (StreamWriter streamWriter = new StreamWriter((Stream)cryptoStream))
+                        {
+                            streamWriter.Write(plainText);
+                        }
+
+                        array = memoryStream.ToArray();
+                    }
+                }
+            }
+
+            return Convert.ToBase64String(array);
+        }
+
+        public static string DecryptString(string cipherText)
+        {
+            byte[] iv = new byte[16];
+            byte[] buffer = Convert.FromBase64String(cipherText);
+
+            using (Aes aes = Aes.Create())
+            {
+                aes.Key = Encoding.UTF8.GetBytes(GetEncryptKey());
+                aes.IV = iv;
+                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+
+                using (MemoryStream memoryStream = new MemoryStream(buffer))
+                {
+                    using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, decryptor, CryptoStreamMode.Read))
+                    {
+                        using (StreamReader streamReader = new StreamReader((Stream)cryptoStream))
+                        {
+                            return streamReader.ReadToEnd();
+                        }
+                    }
+                }
+            }
         }
     }
 }
