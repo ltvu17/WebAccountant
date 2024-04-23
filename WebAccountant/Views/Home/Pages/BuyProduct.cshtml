@@ -4,59 +4,231 @@
 @{
     Html.RenderPartial("../Home/Header");
 }
-<div class="text-center">
+
+<div>
     <div class="home-container">
         @Html.Partial("../Home/SideBar")
-        <div class="right-bar-home content">
+        <div class="right-bar-home content mua-page">
             <form>
-                @(Html.DevExtreme().DataGrid<WebAccountant.Models.KtdmDTO>()
-                    .DataSource(ds => ds.Mvc()
-                    .Controller("Ktdms")
-                    .LoadAction("GetDto")
-                    .UpdateAction("UpdateDto")
-                    .Key("Madm", "Matk")
-                    )
-                    .RemoteOperations(true)
-                    .FocusedRowEnabled(true)
-                    .Columns(columns =>
-                    {
+                <div class="top-content">
+                    @*Content*@
+                    <div class="row">
+                        @*Forms*@
+                        <div class="mua-form col-8">
+                            @* Navbar *@
+                            <ul class="nav nav-tabs mua-form-nav">
+                                <li class="nav-item" onclick="phieunhapOut">
+                                    <button class="nav-link active" id="btn-phieunhap" type="button" onclick="phieunhapOut()">Phiếu nhập</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link" id="btn-hoadon" type="button" onclick="hoadonOut()">Hóa đơn</button>
+                                </li>
+                            </ul>
+                            @*Phieu nhap*@
+                            <div id="phieu-nhap" class="row">
+                                <div id="infor-phieu-nhap" class="col-9">
+                                    <div class="row">
+                                        <div class="col-4 col-num-1">
+                                            <div class="mb-3 text-start">
+                                                <label for="makh" class="col-form-label">Mã khách hàng:</label>
+                                                <input type="text"
+                                                       class="form-control input-sugg"
+                                                       id="input-makh"
+                                                       autofocus="autofocus"
+                                                       onkeyup="SearchNow('list-makh-sugg','input-makh','list-makh-sugg')" />
+                                                <div class="table-container">
+                                                    <table id="list-makh-sugg" class="sugg-container d-none">
+                                                        <tr id="tr-1">
+                                                            <td class="width-120">Mã khách hàng</td>
+                                                            <td class="width-250">Tên khách hàng</td>
+                                                            <td class="width-120">Mã số doanh nghiệp</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
 
-                        columns.AddFor(m => m.Matk).AllowEditing(false);
+                                            <div class="mb-3 text-start">
+                                                <label for="tennv" class="col-form-label">Mã nhân viên:</label>
+                                                <input type="text"
+                                                       class="form-control input-sugg"
+                                                       id="input-manv"
+                                                       autofocus="autofocus"
+                                                       onkeyup="SearchNow('list-manv-sugg','input-manv','list-manv-sugg')" />
+                                                <div class="table-container">
+                                                    <table id="list-manv-sugg" class="sugg-container d-none">
+                                                        <tr id="tr-1">
+                                                            <td class="width-120">Mã nhân viên</td>
+                                                            <td class="width-250">Tên nhân viên</td>
+                                                            <td class="width-120">Tên phòng ban</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="mb-3 text-start">
+                                                <label for="tenkh" class="col-form-label">Tên khách hàng:</label>
+                                                <input type="text" class="form-control" id="tenkh">
+                                            </div>
 
-                        columns.AddFor(m => m.Madm).AllowEditing(false);
+                                            <div class="mb-3 text-start">
+                                                <label for="dc" class="col-form-label">Địa chỉ:</label>
+                                                <input type="text" class="form-control" id="dc">
+                                            </div>
 
-                        columns.AddFor(m => m.Tendm).AllowEditing(false).Width(500);
+                                            <div class="mb-3 text-start">
+                                                <label for="dg" class="col-form-label">Diễn giải:</label>
+                                                <input type="text" class="form-control" id="dg">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="id-phieu-nhap" class="col-3 col-num-2">
+                                    <div class="ngay-hach-toan">
+                                        <div class="mb-3 text-start">
+                                            <label for="tenkh" class="col-form-label">Ngày hạch toán</label>
+                                            <input type="datetime-local" class="form-control" id="tenkh">
+                                        </div>
+                                    </div>
+                                    <div class="ngay-chung-tu">
+                                        <div class="mb-3 text-start">
+                                            <label for="tenkh" class="col-form-label">Ngày chứng từ</label>
+                                            <input type="date" class="form-control" id="tenkh">
+                                        </div>
+                                    </div>
+                                    <div class="so-phieu-nhap">
+                                        <div class="mb-3 text-start">
+                                            <label for="tenkh" class="col-form-label">Số phiếu nhập</label>
+                                            <input type="text" class="form-control" id="tenkh">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                        columns.AddFor(m => m.Donvi).AllowEditing(false);
+                            @*Hoa don*@
+                            <div id="hoa-don" class="row d-none" aria-hidden="true">
+                                <div id="infor-hoa-don" class="col-9">
+                                    <div class="row">
+                                        <div class="col-4 col-num-1">
+                                            <div class="mb-3 text-start">
+                                                <label for="makh" class="col-form-label">Mã khách hàng:</label>
+                                                <input type="text" class="form-control" id="makh">
+                                                <input type="text"
+                                                       class="form-control"
+                                                       id="makh"
+                                                       autofocus="autofocus"
+                                                       onkeyup="SearchNow()" />
+                                            </div>
+                                            <div class="mb-3 text-start">
+                                                <label for="tenng" class="col-form-label">Mã số thuế:</label>
+                                                <input type="text" class="form-control" id="Tkthue">
+                                            </div>
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="mb-3 text-start">
+                                                <label for="tenkh" class="col-form-label">Tên khách hàng:</label>
+                                                <input type="text" class="form-control" id="tenkh">
+                                            </div>
 
-                        columns.AddFor(m => m.Soluong).AllowEditing(true).Alignment(HorizontalAlignment.Left);
+                                            <div class="mb-3 text-start">
+                                                <label for="dc" class="col-form-label">Địa chỉ:</label>
+                                                <input type="text" class="form-control" id="dc">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="id-phieu-nhap" class="col-3 col-num-2">
+                                    <div class="ngay-hach-toan">
+                                        <div class="mb-3 text-start">
+                                            <label for="tenkh" class="col-form-label">Ngày hạch toán</label>
+                                            <input type="datetime-local" class="form-control" id="tenkh">
+                                        </div>
+                                    </div>
+                                    <div class="ngay-chung-tu">
+                                        <div class="mb-3 text-start">
+                                            <label for="nct" class="col-form-label">Ngày chứng từ</label>
+                                            <input type="date" class="form-control" id="nct">
+                                        </div>
+                                    </div>
+                                    <div class="so-phieu-nhap">
+                                        <div class="mb-3 text-start">
+                                            <label for="tenkh" class="col-form-label">Số phiếu nhập</label>
+                                            <input type="text" class="form-control" id="tenkh">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*Tong tien*@
+                        <div class="col-4 bill d-flex flex-column">
+                            <div class="bill-title">Hóa đơn</div>
+                            <div id="bill-list" class="bill-list d-flex flex-column">
+                                <div style="padding-top:5px" class="bill-menu d-flex justify-content-between">
+                                    <div style="width:75%;">Tên</div>
+                                    <div style="width:25%;">Số lượng</div>
+                                </div>
+                                <div class="bill-content">
+                                    <div class="bill-product">
+                                        <div class="bill-product-name">
+                                        </div>
+                                        <div class="bill-product-number">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="so-tien mt-auto">Tổng tiền: </div>
+                        </div>
+                    </div>
+                    @*Bonus content*@
+                    @* <div class="mua-form">
+                        
+                    </div> *@
+                </div>
+                <div class="bottom-content">
+                    @*List product *@
+                    <table class="table-text">
+                        <tr class="table-menu" id="tr-1">
+                            <td class="t-center width-20">#</td>
+                            <td class="width-200">Mã Danh Mục</td>
+                            <td>Tên Danh Mục</td>
+                            <td class="width-50">Đơn vị</t>
+                            <td class="width-150">Đơn giá</td>
+                            <td class="width-70">Số lượng</td>
+                            <td class="width-150">Thành tiền</td>
+                            <td class="width-70">Hành động</td>
+                        </tr>
+                        <tr>
+                            <td class="t-center">1</td>
+                            <td>
+                                <input type="text"
+                                       class="form-control input-sugg"
+                                       id="input-madm"
+                                       autofocus="autofocus"
+                                       onkeyup="SearchNow('list-madm-sugg','input-madm','list-madm-sugg')" />
+                                <div class="table-container">
+                                    <table id="list-madm-sugg" class="sugg-container d-none">
+                                        <tr id="tr-1">
+                                            <td class="width-120">Mã danh mục</td>
+                                            <td class="width-250">Tên danh mục</td>
+                                            <td class="width-90">Số lượng tồn</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                            <td><input type="text" class="form-control" id="input-tendm" readonly /></td>
+                            <td><input type="text" class="form-control" id="input-donvi" /></td>
+                            <td><input type="text" class="form-control" id="input-dongia" readonly/></td>
+                            <td><input type="text" class="form-control" id="input-soluong" /></td>
+                            <td><input type="text" class="form-control" id="input-thanhtien" readonly/></td>
+                            <td class="t-center"><a class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
+                        </tr>
+                    </table>
+                    
 
-                    }).ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
-                    .ShowBorders(true)
-                    .RowAlternationEnabled(true)
-                    .Editing(editing =>
-                    {
-                        editing.Mode(GridEditMode.Batch);
-                        editing.AllowUpdating(true);
-                        editing.SelectTextOnEditStart(true);
-                        editing.StartEditAction(GridStartEditAction.Click);
-                    })
-                    .Selection(s => s.Mode(SelectionMode.Multiple))
-                    .Paging(paging => paging.PageSize(10))
-                    .Pager(pager =>
-                    {
-                        pager.Visible(true);
-                        pager.DisplayMode(GridPagerDisplayMode.Compact);
-                        pager.ShowPageSizeSelector(true);
-                        pager.AllowedPageSizes(new JS("[10, 20, 30]"));
-                        pager.ShowInfo(true);
-                        pager.ShowNavigationButtons(true);
-                    }).OnSelectionChanged("selection_changed").ID("grid-container").OnRowUpdated("Updated")
-                    )
-                @* <a asp-controller="Home" asp-action="ExportBuyProduct"><button type="button" onclick="Submit()">Mua sản phẩm</button></a> *@
-                
-                <div class="buttons">
-                    <button class="btn btn-success" id="saveButton" onclick="Submit()" type="button">Mua sản phẩm</button>
+                    <div class="buttons d-flex justify-content-end">
+                        <button class="btn btn-success" id="saveButton" onclick="Submit()" type="button">Mua sản phẩm</button>
+                    </div>
                 </div>
             </form>
 
@@ -75,7 +247,15 @@
                 async function selection_changed(selectedItems) {
                     var dataGrid = getDataGridInstance();
                     data = selectedItems.selectedRowsData;
+                    $('#bill-list .bill-product-name').empty();
+                    $.each(data, function (i, product) {
+                        if (product.Donvi != "") {
+                            $('#bill-list .bill-content').append('<div class="bill-product d-flex justify-content-between">' + '<div class="product-name">' + product.Tendm + '</div><div class="product-number">' + product.Soluong + '</div></div>')
+                            
+                        }
+                    });
                 }
+
                 function Submit() {
                     console.log(data)
                     setTimeout(function (value) {
@@ -96,7 +276,148 @@
                 function Updated() {
 
                 }
+                
+                function hoadonOut(){
+                    document.getElementById("hoa-don").classList.remove("d-none");
+                    document.getElementById("phieu-nhap").classList.add("d-none");
+                    document.getElementById("btn-phieunhap").classList.remove("active");
+                    document.getElementById("btn-hoadon").classList.add("active");
+                }
+                function phieunhapOut() {
+                    document.getElementById("hoa-don").classList.add("d-none");
+                    document.getElementById("phieu-nhap").classList.remove("d-none");
+                    document.getElementById("btn-hoadon").classList.remove("active");
+                    document.getElementById("btn-phieunhap").classList.add("active");
+                }
 
+
+                function SearchNow(idSugg, idInput, idUl) {
+                    document.getElementById(idSugg).classList.remove("d-none");
+                    // Declare variables
+                    var input, filter, ul, li, a, i, txtValue;
+                    input = document.getElementById(idInput);
+                    filter = input.value.toUpperCase();
+                    ul = document.getElementById(idUl);
+                    li = ul.getElementsByTagName('li');
+
+                var table = document.getElementById(idSugg);
+                    var tr = table.getElementsByTagName('tr');
+                    for (i = 1; i < tr.length; i++) {
+                        td = tr[i].getElementsByTagName("td")[0];
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+                const madm = [
+                        'how to mak',
+                        'how to make',
+                        'html explore ',
+                        'css explore',
+                        'dom explore',
+                        'more items',
+                        'how to make a slidebar',
+                        'how to make this website',
+                        'html explore ',
+                        'css explore',
+                        'dom explore',
+                        'more items add hare that you want to suggest',
+                        'how to make a slidebar',
+                        'how to make this website',
+                        'html explore ',
+                        'css explore',
+                        'dom explore',
+                        'more items add hare that you want to suggest'
+                    ]
+
+                for (var i = 0; i < madm.length; i++) {
+                    const list = document.getElementById("list-madm-sugg");
+                    list.insertAdjacentHTML('beforeend', `
+                                         <tr><td>${madm[i]}</td><td>${madm[i + 1]}</td><td>${madm[i]}</td></tr>
+                                                                         `);
+                }
+
+                const makh = [
+                    'how to mak',
+                    'how to make',
+                    'html explore ',
+                    'css explore',
+                    'dom explore',
+                    'more items',
+                    'how to make a slidebar',
+                    'how to make this website',
+                    'html explore ',
+                    'css explore',
+                    'dom explore',
+                    'more items add hare that you want to suggest',
+                    'how to make a slidebar',
+                    'how to make this website',
+                    'html explore ',
+                    'css explore',
+                    'dom explore',
+                    'more items add hare that you want to suggest'
+                ]
+                for (var i = 0; i < makh.length; i++) {
+                    const list = document.getElementById("list-makh-sugg");
+                    list.insertAdjacentHTML('beforeend', `
+                      <tr><td>${makh[i]}</td><td>${makh[i + 1]}</td><td>${makh[i+2]}</td></tr>
+                    `);
+                }
+                    
+                const manv = [
+                    'how to mak',
+                    'how to make',
+                    'html explore ',
+                    'css explore',
+                    'dom explore',
+                    'more items',
+                    'how to make a slidebar',
+                    'how to make this website',
+                    'html explore ',
+                    'css explore',
+                    'dom explore',
+                    'more items add hare that you want to suggest',
+                    'how to make a slidebar',
+                    'how to make this website',
+                    'html explore ',
+                    'css explore',
+                    'dom explore',
+                    'more items add hare that you want to suggest'
+                ]
+                for (var i = 0; i < manv.length; i++) {
+                    const list = document.getElementById("list-manv-sugg");
+                    list.insertAdjacentHTML('beforeend', `
+                                      <tr><td>${manv[i]}</td><td>${manv[i + 1]}</td><td>${manv[i + 2]}</td></tr>
+                                                                                         `);
+                }
+
+                //hide suggestions
+                function hide_sugg(idSugg) {
+                    document.getElementById(idSugg).classList.add("d-none");
+                }
+                document.addEventListener('click', function (event) {
+                    var idSugg1 = "list-madm-sugg";
+                    var idSugg2 = "list-makh-sugg";
+                    var idSugg2 = "list-manv-sugg";
+                    var input1 = document.getElementById('input-madm');
+                    var table1 = document.getElementById('list-madm-sugg');
+                    var input2 = document.getElementById('input-makh');
+                    var table2 = document.getElementById('list-makh-sugg');
+                    var input3 = document.getElementById('input-manv');
+                    var table3 = document.getElementById('list-manv-sugg');
+                    if (!input1.contains(event.target) && !table1.contains(event.target)) {
+                        hide_sugg(idSugg1);
+                    }
+                    if (!input2.contains(event.target) && !table2.contains(event.target)) {
+                        hide_sugg(idSugg2);
+                    }
+                    if (!input3.contains(event.target) && !table3.contains(event.target)) {
+                        hide_sugg(idSugg2);
+                    }
+                });
             </script>
         </div>
     </div>
