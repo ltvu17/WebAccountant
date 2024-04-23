@@ -30,7 +30,7 @@
                                     <div class="row">
                                         <div class="col-4 col-num-1">
                                             <div class="mb-3 text-start">
-                                                <label for="makh" class="col-form-label">Mã khách hàng:</label>
+                                                <label for="input-makh" class="col-form-label">Mã khách hàng:</label>
                                                 <input type="text"
                                                        class="form-control input-sugg"
                                                        id="input-makh"
@@ -48,7 +48,7 @@
                                             </div>
 
                                             <div class="mb-3 text-start">
-                                                <label for="tennv" class="col-form-label">Mã nhân viên:</label>
+                                                <label for="input-manv" class="col-form-label">Mã nhân viên:</label>
                                                 <input type="text"
                                                        class="form-control input-sugg"
                                                        id="input-manv"
@@ -63,6 +63,10 @@
                                                         </tr>
                                                     </table>
                                                 </div>
+                                            </div>
+                                            <div class="mb-3 text-start">
+                                                <label for="tennv" class="col-form-label">Tên nhân viên:</label>
+                                                <input type="text" class="form-control" id="tennv">
                                             </div>
                                         </div>
                                         <div class="col-8">
@@ -400,7 +404,7 @@
                 document.addEventListener('click', function (event) {
                     var idSugg1 = "list-madm-sugg";
                     var idSugg2 = "list-makh-sugg";
-                    var idSugg2 = "list-manv-sugg";
+                    var idSugg3 = "list-manv-sugg";
                     var input1 = document.getElementById('input-madm');
                     var table1 = document.getElementById('list-madm-sugg');
                     var input2 = document.getElementById('input-makh');
@@ -414,7 +418,7 @@
                         hide_sugg(idSugg2);
                     }
                     if (!input3.contains(event.target) && !table3.contains(event.target)) {
-                        hide_sugg(idSugg2);
+                        hide_sugg(idSugg3);
                     }
                 });
             </script>
