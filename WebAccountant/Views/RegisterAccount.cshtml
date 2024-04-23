@@ -1,0 +1,35 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model WebAccountant.Models.RegisterDTO
+@{
+}
+<form asp-controller="Login" asp-action="Register">
+	<span class="login100-form-title">
+	</span>
+
+	<div class="wrap-input100 validate-input m-b-16" >
+		<input class="input100" type="text" placeholder="Tài Khoản" asp-for="UserName">
+		<span class="focus-input100 text-danger"></span>
+	</div>
+
+	<div class="wrap-input100 validate-input" >
+		<input class="input100" type="password" placeholder="Mật Khẩu" asp-for="Password">
+		<span class="focus-input100 text-danger"></span>
+	</div>
+	<div class="wrap-input100 validate-input">
+		<input class="input100" type="text" placeholder="Phone" asp-for="Phone">
+		<span class="focus-input100 text-danger"></span>
+	</div>
+	<div class="wrap-input100 validate-input" >
+		<input class="input100" type="text" placeholder="Email" asp-for="Email">
+		<span class="focus-input100 text-danger"></span>
+	</div>
+	<div class="wrap-input100 validate-input" >
+		<input class="input100" type="text" placeholder="Database" asp-for="Database">
+		<span class="focus-input100 text-danger"></span>
+	</div>
+	<button type="submit">Đăng kí</button>
+	</span>
+
+</form>

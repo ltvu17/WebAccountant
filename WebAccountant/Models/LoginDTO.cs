@@ -8,5 +8,7 @@ namespace WebAccountant.Models
         public string UserName { get; set; }
 		[Required(ErrorMessage = "Trường bắt buộc nhập")]
 		public string Password { get; set; }
+        [Required(ErrorMessage = "Trường bắt buộc nhập")]
+        public string DatabaseYear { get; set; } = "2024";
     }
 }

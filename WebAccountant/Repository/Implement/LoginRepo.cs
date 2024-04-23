@@ -14,15 +14,28 @@ namespace WebAccountant.Repository.Implement
         public async Task<UserDTO> Login(LoginDTO loginDTO)
         {
             var user = (await _unitOfWork.UserDao.Find(s => s.UserName == loginDTO.UserName, 1, 1)).FirstOrDefault();
+            if (user == null) { return null; }
             var cypherPassword = ExtentionService.EncryptString(loginDTO.Password);
             if(user.Password == cypherPassword)
             {
-                return user.UserDTOMapper();
-            }
+				var database = (await _unitOfWork.DatabaseInforDAO.Find(
+				expression: db => db.User.Id == user.Id && db.DatabaseYear == loginDTO.DatabaseYear, 1, 1
+				)).FirstOrDefault().DataBaseName;
+                ExtentionService.SetAppConnectionString(ExtentionService.DecryptString(database));
+                var userDTO = user.UserDTOMapper();
+                userDTO.HasDatabase = true;
+                return userDTO;
+
+			}
             return null;
         }
 
-        public async Task<UserDTO> Register(User userEntity)
+		public void Logout()
+		{
+			ExtentionService.SetAppConnectionString("No Connection");
+		}
+
+		public async Task<UserDTO> Register(User userEntity)
         {
             var user = (await _unitOfWork.UserDao.Find(s => s.UserName == userEntity.UserName, 1, 1)).FirstOrDefault();
             if (user != null)
@@ -45,5 +58,37 @@ namespace WebAccountant.Repository.Implement
             }
 
         }
-    }
+
+		public async Task<UserDTO> RegisterTest(RegisterDTO entity)
+		{
+			var user = (await _unitOfWork.UserDao.Find(s => s.UserName == entity.UserName, 1, 1)).FirstOrDefault();
+			if (user != null)
+			{
+				throw new Exception("User Already Exist");
+			}
+			else
+			{
+				var cypherPassword = ExtentionService.EncryptString(entity.Password);
+				var entityInsert = new User()
+				{
+					UserName = entity.UserName,
+					Password = cypherPassword,
+					Email = entity.Email,
+					Phone = entity.Phone,
+				};
+				await _unitOfWork.UserDao.Add(entityInsert);
+				await _unitOfWork.SaveChangesLoginContextAsync();
+                entityInsert = (await _unitOfWork.UserDao.Find(s => s.UserName == entity.UserName, 1, 1)).FirstOrDefault();
+                var databaseInfor = new DatabaseInfor()
+                {
+                    User = entityInsert,
+                    DatabaseYear = "2024",
+                    DataBaseName = ExtentionService.EncryptString(entity.Database),
+			    };
+				await _unitOfWork.DatabaseInforDAO.Add(databaseInfor);
+				await _unitOfWork.SaveChangesLoginContextAsync();
+				return entityInsert.UserDTOMapper();
+			}
+		}
+	}
 }
