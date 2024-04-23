@@ -96,8 +96,20 @@ namespace WebAccountant.DAOs
                 return userDAO;
             }
         }
+		private readonly GenericDAO<DatabaseInfor, LoginContext> databaseInforDAO;
+		public GenericDAO<DatabaseInfor, LoginContext> DatabaseInforDAO
+		{
+			get
+			{
+				if (databaseInforDAO == null)
+				{
+					return new GenericDAO<DatabaseInfor, LoginContext>(_loginContext);
+				}
+				return databaseInforDAO;
+			}
+		}
 
-        public Task SaveChangesAsync()
+		public Task SaveChangesAsync()
         {
              return _dbContext.SaveChangesAsync();
         }

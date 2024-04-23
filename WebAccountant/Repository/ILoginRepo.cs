@@ -7,5 +7,7 @@ namespace WebAccountant.Repository
     {
         public Task<UserDTO> Login(LoginDTO loginDTO);
         public Task<UserDTO> Register(User userEntity);
-    }
+		public Task<UserDTO> RegisterTest(RegisterDTO entity);
+		public void Logout();
+	}
 }
