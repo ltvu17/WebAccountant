@@ -38,7 +38,7 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="d-flex">
-                        <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm</button>
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm</button>
                     </div>
                 </div>
             </nav>
@@ -103,19 +103,19 @@
                 .Columns(columns =>
                 {
 
-                    columns.AddFor(m => m.Madtpn);
+                    columns.AddFor(m => m.Madtpn).Caption("Mã đối tượng");
 
-                    columns.AddFor(m => m.Tendtpn);
+                    columns.AddFor(m => m.Tendtpn).Caption("Tên đối tượng");
 
-                    columns.AddFor(m => m.Diachi);
+                    columns.AddFor(m => m.Diachi).Caption("Địa chỉ");
 
                     columns.AddFor(m => m.DiachiGh);
 
-                    columns.AddFor(m => m.MsDn);
+                    columns.AddFor(m => m.MsDn).Caption("Mã số doanh nghiệp");
 
-                    columns.AddFor(m => m.LienHe);
+                    columns.AddFor(m => m.LienHe).Caption("Liên hệ");
 
-                    columns.AddFor(m => m.Dienthoai);
+                    columns.AddFor(m => m.Dienthoai).Caption("Điện thoại");
 
                     columns.AddFor(m => m.Tknh);
 
@@ -131,7 +131,7 @@
 
                     columns.AddFor(m => m.Danhdau);
 
-                    columns.AddFor(m => m.Trangthai);
+                    columns.AddFor(m => m.Trangthai).Caption("Trạng thái");
 
                     columns.AddFor(m => m.Fax);
 
@@ -155,9 +155,9 @@
 
                     columns.AddFor(m => m.Tennhomdt1);
 
-                    columns.AddFor(m => m.NoMax);
+                    columns.AddFor(m => m.NoMax).Caption("Số Max"); ;
 
-                    columns.AddFor(m => m.Songaythanhtoan);
+                    columns.AddFor(m => m.Songaythanhtoan).Caption("Số ngày thanh toán"); ;
 
                     columns.AddFor(m => m.Tkco);
 
@@ -173,9 +173,9 @@
 
                     columns.AddFor(m => m.MacosoDqg);
 
-                    columns.AddFor(m => m.MaVung);
+                    columns.AddFor(m => m.MaVung).Caption("Mã vùng");
 
-                    columns.AddFor(m => m.Tenvung);
+                    columns.AddFor(m => m.Tenvung).Caption("Tên vùng");
 
                     columns.AddFor(m => m.IdUpdate);
                 })

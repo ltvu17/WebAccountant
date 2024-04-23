@@ -32,8 +32,10 @@
     border-right: 3px solid #ddd;
     border-bottom: 3px solid #ddd;
 }
-.dx-datagrid-headers{
+.dx-datagrid-headers {
     border-width: 5px;
+    color: rgb(6, 5, 5, 0.74) !important;
+    font-weight: 500;
 }
 .active{
     font-weight: 700;
@@ -56,8 +58,11 @@
 .col-num-2 {
     border-left: 1px solid #ddd;
 }
+#infor-phieu-nhap input{
+    height: 30px !important;
+}
 .mua-form {
-    min-height:100%;
+    min-height: 100%;
     font-size: 12px;
     font-weight: 500;
     border-right: 1px solid #ddd;
@@ -126,6 +131,51 @@
 .t-center {
     text-align: center;
 }
+.t-s-11{
+    font-size:11px;
+}
+.t-s-12 {
+    font-size: 12px;
+}
+.t-s-13 {
+    font-size: 13px;
+}
+.t-s-14 {
+    font-size: 14px;
+}
+.t-s-15 {
+    font-size: 15px;
+}
+.t-s-16 {
+    font-size: 16px;
+}
+.width-pt-80 {
+    width: 80%;
+}
+.width-pt-75{
+    width: 75%;
+}
+.width-pt-60 {
+    width: 60%;
+}
+.width-pt-50 {
+    width: 50%;
+}
+.width-pt-45 {
+    width: 45%;
+}
+.width-pt-40 {
+    width: 40%;
+}
+.width-pt-35 {
+    width: 35%;
+}
+.width-pt-30 {
+    width: 30%;
+}
+.width-pt-25 {
+    width: 25%;
+}
 .width-250 {
     width: 250px;
 }
@@ -159,6 +209,9 @@
 .width-15{
     width: 15px;
 }
+.height-30{
+    height: 30px !important;
+}
 .weight-400{
     font-weight: 400
 }
@@ -170,6 +223,12 @@
 }
 .weight-700 {
     font-weight: 700
+}
+.border-none{
+    border:none !important;
+}
+.b-radius-3{
+    border-radius: 3px;
 }
 .table-text input{
     border: none;
