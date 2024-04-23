@@ -1,6 +1,7 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@model WebAccountant.ModelsBase.Kttk
 @{
     Html.RenderPartial("../Home/Header");
 }
@@ -51,110 +52,33 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                         </div>
                         <div class="modal-body">
-                            <form>
+                            <form method="post" asp-controller="Kttks" asp-action="Post">
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="mb-3 text-start">
                                             <label for="mahh" class="col-form-label">Mã tk:</label>
-                                            <input type="text" class="form-control" id="mahh">
+                                            <input type="text" class="form-control" asp-for="Matk" id="dgb2">
+                                            <span asp-validation-for="Matk" class="text-danger"></span>
                                         </div>
                                         <div class="mb-3 text-start">
-                                            <label for="dvt" class="col-form-label">Vndduco:</label>
-                                            <input type="text" class="form-control" id="dvt">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb2" class="col-form-label">Vndpsco:</label>
-                                            <input type="text" class="form-control" id="dgb2">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb4" class="col-form-label">Vndpsco Lk:</label>
-                                            <input type="text" class="form-control" id="dgb4">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgm" class="col-form-label">Vndckco:</label>
-                                            <input type="text" class="form-control" id="dgm">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="gtdk" class="col-form-label">Usdduco:</label>
-                                            <input type="text" class="form-control" id="gtdk">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgv" class="col-form-label">Usdpsco:</label>
-                                            <input type="text" class="form-control" id="dgv">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgv" class="col-form-label">Usdckco:</label>
-                                            <input type="text" class="form-control" id="dgv">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgv" class="col-form-label">Eurckno:</label>
-                                            <input type="text" class="form-control" id="dgv">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgv" class="col-form-label">Eurduno:</label>
-                                            <input type="text" class="form-control" id="dgv">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgv" class="col-form-label">Eurpsno:</label>
-                                            <input type="text" class="form-control" id="dgv">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgv" class="col-form-label">Usdpsno Lk:</label>
-                                            <input type="text" class="form-control" id="dgv">
+                                            <label for="mahh" class="col-form-label">Vndduno:</label>
+                                            <input type="text" class="form-control" asp-for="Vndduno" id="dgb2">
+                                            <span asp-validation-for="Vndduno" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="mb-3 text-start">
-                                            <label for="tenhh" class="col-form-label">Vndduno:</label>
-                                            <input type="text" class="form-control" id="tenhh">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb1" class="col-form-label">Vndpsno:</label>
-                                            <input type="text" class="form-control" id="dgb1">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb3" class="col-form-label">Vndpsno Lk:</label>
-                                            <input type="text" class="form-control" id="dgb3">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgb5" class="col-form-label">Vndckno:</label>
-                                            <input type="text" class="form-control" id="dgb5">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="sltdk" class="col-form-label">Usdduno:</label>
-                                            <input type="text" class="form-control" id="sltdk">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgv" class="col-form-label">Usdpsno:</label>
-                                            <input type="text" class="form-control" id="dgv">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgv" class="col-form-label">Usdckno:</label>
-                                            <input type="text" class="form-control" id="dgv">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgv" class="col-form-label">Eurckco:</label>
-                                            <input type="text" class="form-control" id="dgv">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgv" class="col-form-label">Eurduco:</label>
-                                            <input type="text" class="form-control" id="dgv">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgv" class="col-form-label">Eurpsco:</label>
-                                            <input type="text" class="form-control" id="dgv">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="dgv" class="col-form-label">Usdpsco Lk:</label>
-                                            <input type="text" class="form-control" id="dgv">
+                                            <label for="tenhh" class="col-form-label">Tentk:</label>
+                                            <input type="text" class="form-control" asp-for="Tentk" id="dgb2">
+                                            <span asp-validation-for="Tentk" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                    <button type="submit" class="btn btn-primary">Thêm</button>
+                                </div>
                             </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                            <button type="button" class="btn btn-primary">Thêm</button>
                         </div>
                     </div>
                 </div>

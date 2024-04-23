@@ -15,12 +15,9 @@ namespace WebAccountant.Repository.Implement
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<EntityEntry<Ktsc>> AddNew(string values)
+        public async Task<EntityEntry<Ktsc>> AddNew(Ktsc entity)
         {
-            var model = new Ktsc();
-            var valuesDict = JsonConvert.DeserializeObject<IDictionary>(values);
-            PopulateModel(model, valuesDict);
-            var result = await _unitOfWork.KTSCDAO.Add(model);
+            var result = await _unitOfWork.KTSCDAO.Add(entity);
             await _unitOfWork.SaveChangesAsync();
             return result;
         }

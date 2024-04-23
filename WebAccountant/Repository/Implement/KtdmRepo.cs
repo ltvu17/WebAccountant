@@ -22,12 +22,9 @@ namespace WebAccountant.Repository.Implement
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<EntityEntry<Ktdm>> AddNew(string values)
+        public async Task<EntityEntry<Ktdm>> AddNew(Ktdm entity)
         {
-            var model = new Ktdm();
-            var valuesDict = JsonConvert.DeserializeObject<IDictionary>(values);
-            PopulateModel(model, valuesDict);
-            var result = await _unitOfWork.KTDMDao.Add(model);
+            var result = await _unitOfWork.KTDMDao.Add(entity);
             await _unitOfWork.SaveChangesAsync();
             return result;
         }
@@ -141,6 +138,107 @@ namespace WebAccountant.Repository.Implement
         public async Task<IEnumerable<KtdmDTO>> GetAllKtdmDTO()
         {   
             return (await _unitOfWork.KTDMDao.GetAll()).Select(s => s.KTDMMapper());
+        }
+
+        public async Task<bool> SaveCartToDB(IEnumerable<KtdmDTO> items)
+        {
+            var models = (await _unitOfWork.KTDMDao.GetAll()).IntersectBy(items
+                .Select(x => new {madm = x.Madm, matk = x.Matk}), y => new { madm = y.Madm, matk = y.Matk });
+            foreach(var model in models)
+            {
+                var i = 0;
+                var modelDTO = items.FirstOrDefault(
+                        x => x.Madm == model.Madm && x.Matk == x.Matk);
+                var stt = (await _unitOfWork.KTSCDAO.GetAll()).OrderBy(x=>x.SttSc).LastOrDefault().SttSc;
+                var insertItem = new Ktsc()
+                {
+                    Lctg = "HDBR",
+                    SrHd = "1C24TYY",
+                    SoHd = "00001",
+                    NgayHd = DateTime.UtcNow,
+                    Soct = "00001",
+                    Ngayct = DateTime.UtcNow,
+                    Diengiai = "Xuất bán Trường Hà - S09562",
+                    Tkno = "131",
+                    Madtpnco = "TRUONGHA",
+                    Tkco = "5111",
+                    Madtpnno = "TRUONGHA",
+                    Madmco = "61950231",
+                    Tendm = model.Tendm,
+                    DonviCtu = model.Donvi,
+                    Donvi = model.Donvi,
+                    LuongCtu = modelDTO.Soluong,
+                    Luong = modelDTO.Soluong,
+                    Dgvnd = modelDTO.Dgban1,
+                    Ttvnd = modelDTO.Soluong* modelDTO.Dgban1,
+                    PtCk = 0,
+                    Chietkhau = 0,
+                    Hdvat = "R",
+                    Tkthue = "33311",
+                    TsGtgt = "8",
+                    Thuevnd = 0, //Tam thoi tinh toan sau///
+                    TtvndTt = modelDTO.Soluong * modelDTO.Dgban1, //chua Cong voi thue
+                    Mathang = model.Tendm,
+                    Makh = "TRUONGHA",
+                    Tenkh = "Công ty Cổ Phần Trường Hà",
+                    MsDn = "0102292496",
+                    Diachi = "352 đường Giải Phóng, Phường Phương Liệt, Quận Thanh Xuân, TP. Hà Nội",
+                    DiachiNgd = "352 đường Giải Phóng, Phường Phương Liệt, Quận Thanh Xuân, TP. Hà Nội",
+                    Khachhang = "Công ty Cổ Phần Trường Hà",
+                    Dgvon = 0,
+                    Gtvon = 0,
+                    LaiGop = modelDTO.Soluong * modelDTO.Dgban1,
+                    Tygia = 0,
+                    Ttusd = 0,
+                    Thueusd = 0,
+                    TtusdTt = 0,
+                    Ngayctgs = DateTime.UtcNow,
+                    SttSc = stt+1,
+                    Thang = 1,
+                    Mauser = "KT01",
+                    Dgusd = 0,
+                    Tienhang = 0,
+                    Dontrong = 0,
+                    Col11 = 0,
+                    Col12 = 0,
+                    Col13 = 0,
+                    Trangthai = 0,
+                    ChietkhauUsd = 0,
+                    DgGc = modelDTO.Soluong * modelDTO.Dgban1,
+                    DgVc = 0,
+                    IdChungtu = 0,
+                    Model = "T",
+                    SlGc = 0,
+                    SttTt = 0,
+                    ThangN = 1,
+                    Thueeur = 0,
+                    TkChietkhau = "5211",
+                    TkXuatkho = "1551",
+                    TnkUsd = 0,
+                    TnkVnd = 0,
+                    TsNk = 0,
+                    TtGc = 0,
+                    TtVc = 0,
+                    Tteur = 0,
+                    HsqdDvt = modelDTO.Soluong,
+                    Luong1 = 0,
+                    Luong2 = 0,
+                    SttBt = i,
+                    Chietkhau2 = 0,
+                    PtCk2 = 0,
+                    IdNghiepvu = "TIENHANG",
+                    SttSapxep = 1,
+                    Guid = "b219669e-c914-4c0a-9c54-6c8ab53c058c",
+                    Thoigiannhap = DateTime.UtcNow.ToString(),
+                    SoctN = 1,
+                    Dgmausac = 0,
+                    Ttmausac = 0,
+                };
+                await _unitOfWork.KTSCDAO.Add(insertItem);
+                i++;
+            };
+
+            return models.Any();
         }
 
         public async Task Update(string key, string values)

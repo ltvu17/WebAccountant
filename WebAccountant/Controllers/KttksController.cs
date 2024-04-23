@@ -32,13 +32,13 @@ namespace WebAccountant.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(string values) {
+        public async Task<IActionResult> Post(Kttk values) {
             if (!ModelState.IsValid)
             {
                 return BadRequest(GetFullErrorMessage(ModelState));
             }
             var result = await _kttkRepo.AddNew(values);
-            return Json(new { result.Entity.Matk });
+            return RedirectToAction("KTTK", "Home");
         }
 
         [HttpPut]
