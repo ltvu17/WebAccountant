@@ -32,13 +32,13 @@ namespace WebAccountant.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(string values) {
+        public async Task<IActionResult> Post(Ktdtpn values) {
             if (!ModelState.IsValid)
             {
                 return BadRequest(GetFullErrorMessage(ModelState));
             }
             var result = await _ktdtpnsRepo.AddNew(values);
-            return Json(new { result.Entity.Madtpn });
+            return RedirectToAction("KTDTPN", "Home");
         }
 
         [HttpPut]

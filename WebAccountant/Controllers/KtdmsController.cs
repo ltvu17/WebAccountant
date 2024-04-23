@@ -63,13 +63,13 @@ namespace WebAccountant.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(string values) {
+        public async Task<IActionResult> Post(Ktdm entity) {
             if (!ModelState.IsValid)
             {
                 return BadRequest(GetFullErrorMessage(ModelState));
             }
-            var result = await _ktdmRepo.AddNew(values);
-            return Json(new { result.Entity.Madm, result.Entity.Matk });
+            var result = await _ktdmRepo.AddNew(entity);
+            return RedirectToAction("KTDM", "Home");
         }
 
         [HttpPut]
@@ -107,6 +107,28 @@ namespace WebAccountant.Controllers
                 }
             }
             var pathValue = await _ktdmRepo.ExportPDF(items);
+            return Json(items);
+        }
+        [HttpPost]
+        public async Task<IActionResult> SubmitCartToSave()
+        {
+            var cart = HttpContext.Session.GetString("cart");
+            List<KtdmDTO> ktdmsDTO = new List<KtdmDTO>();
+            if (cart != null)
+            {
+                ktdmsDTO = JsonConvert.DeserializeObject<List<KtdmDTO>>(cart);
+            }
+            var Keys = this.Request.Form.Keys.FirstOrDefault();
+            var items = JsonConvert.DeserializeObject<List<KtdmDTO>>(Keys);
+            foreach (var item in items)
+            {
+                var getItem = ktdmsDTO.FirstOrDefault(s => s.Matk == item.Matk && s.Madm == item.Madm);
+                if (getItem != null)
+                {
+                    item.Soluong = getItem.Soluong;
+                }
+            }
+            var pathValue = await _ktdmRepo.SaveCartToDB(items);
             return Json(items);
         }
         private string GetFullErrorMessage(ModelStateDictionary modelState) {

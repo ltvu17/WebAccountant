@@ -1,90 +1,109 @@
 ﻿using WebAccountant.ModelsBase;
+using WebAccountant.ModelsLogin;
 
 namespace WebAccountant.DAOs
 {
     public class UnitOfWork
     {
         private readonly TIENHIEU2024Context _dbContext;
-        public UnitOfWork(TIENHIEU2024Context context)
+        private readonly LoginContext _loginContext;
+        public UnitOfWork(TIENHIEU2024Context context, LoginContext loginContext)
         {
             _dbContext = context;
+            _loginContext = loginContext;
         }
-        private readonly GenericDAO<Ktdm> ktdmDAO;
-        public GenericDAO<Ktdm> KTDMDao
+        private readonly GenericDAO<Ktdm, TIENHIEU2024Context> ktdmDAO;
+        public GenericDAO<Ktdm, TIENHIEU2024Context> KTDMDao
         {
             get
             {
                 if(ktdmDAO == null)
                 {
-                    return new GenericDAO<Ktdm>(_dbContext);
+                    return new GenericDAO<Ktdm, TIENHIEU2024Context>(_dbContext);
                 }
                 return ktdmDAO;
             }
         }
-        private readonly GenericDAO<Ktcn> ktcnDAO;
-        public GenericDAO<Ktcn> KTCNDAO
+        private readonly GenericDAO<Ktcn, TIENHIEU2024Context> ktcnDAO;
+        public GenericDAO<Ktcn, TIENHIEU2024Context> KTCNDAO
         {
             get
             {
                 if (ktcnDAO == null)
                 {
-                    return new GenericDAO<Ktcn>(_dbContext);
+                    return new GenericDAO<Ktcn, TIENHIEU2024Context>(_dbContext);
                 }
                 return ktcnDAO;
             }
         }
-        private readonly GenericDAO<Ktdtpn> ktdtpnDAO;
-        public GenericDAO<Ktdtpn> KTDTPNDAO
+        private readonly GenericDAO<Ktdtpn, TIENHIEU2024Context> ktdtpnDAO;
+        public GenericDAO<Ktdtpn, TIENHIEU2024Context> KTDTPNDAO
         {
             get
             {
                 if (ktdtpnDAO == null)
                 {
-                    return new GenericDAO<Ktdtpn>(_dbContext);
+                    return new GenericDAO<Ktdtpn, TIENHIEU2024Context>(_dbContext);
                 }
                 return ktdtpnDAO;
             }
         }
-        private readonly GenericDAO<Ktlctg> KtlctgDAO;
-        public GenericDAO<Ktlctg> KTLCTGDAO
+        private readonly GenericDAO<Ktlctg, TIENHIEU2024Context> KtlctgDAO;
+        public GenericDAO<Ktlctg, TIENHIEU2024Context> KTLCTGDAO
         {
             get
             {
                 if (KtlctgDAO == null)
                 {
-                    return new GenericDAO<Ktlctg>(_dbContext);
+                    return new GenericDAO<Ktlctg, TIENHIEU2024Context>(_dbContext);
                 }
                 return KtlctgDAO;
             }
         }
-        private readonly GenericDAO<Ktsc> KtscDAO;
-        public GenericDAO<Ktsc> KTSCDAO
+        private readonly GenericDAO<Ktsc, TIENHIEU2024Context> KtscDAO;
+        public GenericDAO<Ktsc, TIENHIEU2024Context> KTSCDAO
         {
             get
             {
                 if (KtscDAO == null)
                 {
-                    return new GenericDAO<Ktsc>(_dbContext);
+                    return new GenericDAO<Ktsc, TIENHIEU2024Context>(_dbContext);
                 }
                 return KtscDAO;
             }
         }
-        private readonly GenericDAO<Kttk> KttkDAO;
-        public GenericDAO<Kttk> KTTKDAO
+        private readonly GenericDAO<Kttk, TIENHIEU2024Context> KttkDAO;
+        public GenericDAO<Kttk, TIENHIEU2024Context> KTTKDAO
         {
             get
             {
                 if (KttkDAO == null)
                 {
-                    return new GenericDAO<Kttk>(_dbContext);
+                    return new GenericDAO<Kttk, TIENHIEU2024Context>(_dbContext);
                 }
                 return KttkDAO;
+            }
+        }
+        private readonly GenericDAO<User, LoginContext> userDAO;
+        public GenericDAO<User, LoginContext> UserDao
+        {
+            get
+            {
+                if (userDAO == null)
+                {
+                    return new GenericDAO<User, LoginContext>(_loginContext);
+                }
+                return userDAO;
             }
         }
 
         public Task SaveChangesAsync()
         {
              return _dbContext.SaveChangesAsync();
+        }
+        public Task SaveChangesLoginContextAsync()
+        {
+            return _loginContext.SaveChangesAsync();
         }
     }
 }

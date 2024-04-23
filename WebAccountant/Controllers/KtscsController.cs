@@ -32,7 +32,7 @@ namespace WebAccountant.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(string values) {
+        public async Task<IActionResult> Post(Ktsc values) {
             if (!ModelState.IsValid)
             {
                 return BadRequest(GetFullErrorMessage(ModelState));

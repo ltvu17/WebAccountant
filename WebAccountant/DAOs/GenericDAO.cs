@@ -5,11 +5,11 @@ using WebAccountant.ModelsBase;
 
 namespace WebAccountant.DAOs
 {
-    public class GenericDAO<T> where T:class 
+    public class GenericDAO<T,TContext> where T:class where TContext : DbContext
     {
-        private readonly TIENHIEU2024Context _context;
+        private readonly TContext _context;
         private readonly DbSet<T> _dbSet;
-        public GenericDAO(TIENHIEU2024Context context)
+        public GenericDAO(TContext context)
         {
             _context = context;
             _dbSet = _context.Set<T>();
