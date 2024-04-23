@@ -315,59 +315,57 @@
                         }
                     }
                 }
-                const madm = [
-                        'how to mak',
-                        'how to make',
-                        'html explore ',
-                        'css explore',
-                        'dom explore',
-                        'more items',
-                        'how to make a slidebar',
-                        'how to make this website',
-                        'html explore ',
-                        'css explore',
-                        'dom explore',
-                        'more items add hare that you want to suggest',
-                        'how to make a slidebar',
-                        'how to make this website',
-                        'html explore ',
-                        'css explore',
-                        'dom explore',
-                        'more items add hare that you want to suggest'
-                    ]
+                var madm = [
+                        {
+                        Madm :"",
+                        Tendm: "",
+                        TonT:""
+                        }
+                    ];
+                $.ajax({
+                    url: '@Url.Action("Get", "Ktdms")',
+                    type: 'GET',
+                    success: function (result) {
+                        if (result.data.length > 0) {
+                            madm = result.data;
+                            for (var i = 0; i < madm.length; i++) {
+                                const list = document.getElementById("list-madm-sugg");
+                                list.insertAdjacentHTML('beforeend', `
+                                     <tr onclick="madmChooseItem('${encodeURIComponent(JSON.stringify(madm[i]))}')"><td>${madm[i].Madm}</td><td>${madm[i].Tendm}</td><td>${madm[i].TonT}</td></tr>
+                                                                                         `);
+                            }
+                        }
+                    }
+                });
+                function madmChooseItem(item){
+                    console.log(JSON.parse(decodeURIComponent(item)))
 
-                for (var i = 0; i < madm.length; i++) {
-                    const list = document.getElementById("list-madm-sugg");
-                    list.insertAdjacentHTML('beforeend', `
-                                         <tr><td>${madm[i]}</td><td>${madm[i + 1]}</td><td>${madm[i]}</td></tr>
-                                                                         `);
                 }
+                var makh = [
+                        {
+                        Madtpn :"",
+                        Tendtpn: "",
+                        MsDn:""
+                        }
+                    ];
+                $.ajax({
+                    url: '@Url.Action("Get", "Ktdtpns")',
+                    type: 'GET',
+                    success: function (result) {
+                        if (result.data.length > 0) {
+                            makh = result.data;
+                            for (var i = 0; i < makh.length; i++) {
+                                const list = document.getElementById("list-makh-sugg");
+                                list.insertAdjacentHTML('beforeend', `
+                                                     <tr onclick="makhChooseItem('${encodeURIComponent(JSON.stringify(makh[i]))}')"><td>${makh[i].Madtpn}</td><td>${makh[i].Tendtpn}</td><td>${makh[i].MsDn}</td></tr>
+                                                                                         `);
+                            }
+                        }
+                    }
+                });
+                function makhChooseItem(item) {
+                    console.log(JSON.parse(decodeURIComponent(item)))
 
-                const makh = [
-                    'how to mak',
-                    'how to make',
-                    'html explore ',
-                    'css explore',
-                    'dom explore',
-                    'more items',
-                    'how to make a slidebar',
-                    'how to make this website',
-                    'html explore ',
-                    'css explore',
-                    'dom explore',
-                    'more items add hare that you want to suggest',
-                    'how to make a slidebar',
-                    'how to make this website',
-                    'html explore ',
-                    'css explore',
-                    'dom explore',
-                    'more items add hare that you want to suggest'
-                ]
-                for (var i = 0; i < makh.length; i++) {
-                    const list = document.getElementById("list-makh-sugg");
-                    list.insertAdjacentHTML('beforeend', `
-                      <tr><td>${makh[i]}</td><td>${makh[i + 1]}</td><td>${makh[i+2]}</td></tr>
-                    `);
                 }
                     
                 const manv = [
