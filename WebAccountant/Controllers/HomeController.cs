@@ -12,12 +12,49 @@ namespace WebAccountant.Controllers
         {
             _logger = logger;
         }
-
-        public IActionResult Index()
+		public IActionResult Index()
         {
+            ViewData["activeId"] = "1";
             return View();
         }
-
+        public IActionResult KTCN()
+        {
+            ViewData["activeId"] = "7";
+            return View("~/Views/Home/Pages/KTCN.cshtml");
+        }
+        public IActionResult KTDM()
+        {
+            ViewData["activeId"] = "6";
+            return View("~/Views/Home/Pages/KTDM.cshtml");
+        }
+        public IActionResult KTDTPN()
+        {
+            ViewData["activeId"] = "5";
+            return View("~/Views/Home/Pages/KTDTPN.cshtml");
+        }
+        public IActionResult KTLCTG()
+        {
+            ViewData["activeId"] = "4";
+            return View("~/Views/Home/Pages/KTLCTG.cshtml");
+        }
+        public IActionResult KTSC()
+        {
+            ViewData["activeId"] = "8";
+            return View("~/Views/Home/Pages/KTSC.cshtml");
+        }
+        public IActionResult KTTK()
+        {
+            ViewData["activeId"] = "3";
+            return View("~/Views/Home/Pages/KTTK.cshtml");
+        }
+        public IActionResult BuyProduct()
+        {
+            return View("~/Views/Home/Pages/BuyProduct.cshtml");
+        }
+        public IActionResult ExportBuyProduct()
+        {
+            return View("~/Views/Home/Pages/ExportBuyProduct.cshtml");
+        }
         public IActionResult Privacy()
         {
             return View();

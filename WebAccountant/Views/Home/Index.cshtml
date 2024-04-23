@@ -1,8 +1,14 @@
-﻿@{
+﻿@{ 
     ViewData["Title"] = "Home Page";
 }
-
+@{
+    Html.RenderPartial("../Home/Header");
+}
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div class="home-container">
+        @Html.Partial("../Home/SideBar")
+        <div class="right-bar-home content">
+            <h3>Welcome to SmartPro</h3>
+        </div>
+    </div>
 </div>

@@ -1,0 +1,397 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model WebAccountant.ModelsBase.Ktdm
+@{
+    Html.RenderPartial("../Home/Header");
+}
+<div class="text-center">
+    <div class="home-container">
+        @Html.Partial("../Home/SideBar")
+        <div class="right-bar-home content">
+            @*Navbar Here*@
+            <nav class="navbar navbar-expand-lg navbar-light bg-light bg-body-tertiary">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Danh sách</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Đơn mua hàng</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Mua hàng</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Nhận hóa đơn</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Nhận hóa đơn</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Trả lại hàng</a>
+                            </li>
+                        </ul>
+                        <div class="d-flex">
+                            <button style="float:right" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm</button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            @*Modal*@
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" style="color: #119583;" id="exampleModalLabel">Thêm Hàng Hóa</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" asp-controller="Ktdms" asp-action="Post">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="mb-3 text-start">
+                                            <label for="mahh" class="col-form-label">Matk:</label>
+                                            <input type="text" class="form-control" asp-for="Matk" id="mahh">
+                                            <span asp-validation-for="Matk" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dvt" class="col-form-label">Tên hàng hóa:</label>
+                                            <input type="text" class="form-control" asp-for="Tendm" id="dvt">
+                                            <span asp-validation-for="Tendm" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgv" class="col-form-label">Ton Ck:</label>
+                                            <input type="text" class="form-control" asp-for="TonCk" id="dgv">
+                                            <span asp-validation-for="TonCk" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgb4" class="col-form-label">Vndton T:</label>
+                                            <input type="text" class="form-control" asp-for="VndtonT" id="dgb4">
+                                            <span asp-validation-for="VndtonT" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgb2" class="col-form-label">Gioihanton:</label>
+                                            <input type="text" class="form-control" asp-for="Gioihanton" id="dgb2">
+                                            <span asp-validation-for="Gioihanton" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgb2" class="col-form-label">Dgmua Gan Nhat:</label>
+                                            <input type="text" class="form-control" asp-for="DgmuaGanNhat" id="dgb2">
+                                            <span asp-validation-for="DgmuaGanNhat" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-3 text-start">
+                                            <label for="tenhh" class="col-form-label">Mã hàng hóa:</label>
+                                            <input type="text" class="form-control" asp-for="Madm" id="tenhh">
+                                            <span asp-validation-for="Madm" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgb2" class="col-form-label">Đơn vị tính:</label>
+                                            <input type="text" class="form-control" asp-for="Donvi" id="dgb2">
+                                            <span asp-validation-for="Donvi" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgb2" class="col-form-label">Dgban:</label>
+                                            <input type="text" class="form-control" asp-for="Dgban" id="dgb2">
+                                            <span asp-validation-for="Dgban" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgb2" class="col-form-label">Dgban 1:</label>
+                                            <input type="text" class="form-control" asp-for="Dgban1" id="dgb2">
+                                            <span asp-validation-for="Dgban1" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgb2" class="col-form-label">Dgban 2:</label>
+                                            <input type="text" class="form-control" asp-for="Dgban2" id="dgb2">
+                                            <span asp-validation-for="Dgban2" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgb2" class="col-form-label">Dgban 3:</label>
+                                            <input type="text" class="form-control" asp-for="Dgban3" id="dgb2">
+                                            <span asp-validation-for="Dgban3" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dgb2" class="col-form-label">Dgban 4:</label>
+                                            <input type="text" class="form-control" asp-for="Dgban4" id="dgb2">
+                                            <span asp-validation-for="Dgban4" class="text-danger"></span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                    <button type="submit" class="btn btn-primary">Thêm</button>
+                                </div>
+
+                            </form>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            @*Data Here*@
+            @(
+                Html.DevExtreme().DataGrid<WebAccountant.ModelsBase.Ktdm>()
+                .DataSource(ds => ds.Mvc()
+                .Controller("Ktdms")
+                .LoadAction("Get")
+                .UpdateAction("Put")
+                .DeleteAction("Delete")
+                .Key("Madm", "Matk")
+                )
+                .RemoteOperations(true)
+                .FocusedRowEnabled(true)
+                .Columns(columns =>
+                {
+
+                    columns.AddFor(m => m.Matk);
+
+                    columns.AddFor(m => m.Madm);
+
+                    columns.AddFor(m => m.Tendm);
+
+                    columns.AddFor(m => m.Manhom);
+
+                    columns.AddFor(m => m.Tennhom);
+
+                    columns.AddFor(m => m.Kyhieu);
+
+                    columns.AddFor(m => m.Donvi);
+
+                    columns.AddFor(m => m.Lo);
+
+                    columns.AddFor(m => m.Ngaylo);
+
+                    columns.AddFor(m => m.Hansudung);
+
+                    columns.AddFor(m => m.Nhacungcap);
+
+                    columns.AddFor(m => m.Nhasanxuat);
+
+                    columns.AddFor(m => m.Ptchietkhau);
+
+                    columns.AddFor(m => m.Thuesuat);
+
+                    columns.AddFor(m => m.Dgxuat);
+
+                    columns.AddFor(m => m.TonT);
+
+                    columns.AddFor(m => m.VndtonT);
+
+                    columns.AddFor(m => m.NhapT);
+
+                    columns.AddFor(m => m.VndnhapT);
+
+                    columns.AddFor(m => m.XuatT);
+
+                    columns.AddFor(m => m.VndxuatT);
+
+                    columns.AddFor(m => m.TonCk);
+
+                    columns.AddFor(m => m.VndtonCk);
+
+                    columns.AddFor(m => m.Danhdau);
+
+                    columns.AddFor(m => m.Dgban);
+
+                    columns.AddFor(m => m.Dgban1);
+
+                    columns.AddFor(m => m.Dgban2);
+
+                    columns.AddFor(m => m.Dgban3);
+
+                    columns.AddFor(m => m.Dgban4);
+
+                    columns.AddFor(m => m.Donvi1);
+
+                    columns.AddFor(m => m.Donvi2);
+
+                    columns.AddFor(m => m.Donvi3);
+
+                    columns.AddFor(m => m.Hsqd1);
+
+                    columns.AddFor(m => m.Hsqd2);
+
+                    columns.AddFor(m => m.Hsqd3);
+
+                    columns.AddFor(m => m.UsdtonT);
+
+                    columns.AddFor(m => m.UsdnhapT);
+
+                    columns.AddFor(m => m.UsdxuatT);
+
+                    columns.AddFor(m => m.UsdtonCk);
+
+                    columns.AddFor(m => m.Dgusd);
+
+                    columns.AddFor(m => m.Dgnhap1);
+
+                    columns.AddFor(m => m.Dgnhap2);
+
+                    columns.AddFor(m => m.Dgnhap3);
+
+                    columns.AddFor(m => m.Dgnhap4);
+
+                    columns.AddFor(m => m.Dgnhap5);
+
+                    columns.AddFor(m => m.Trangthai);
+
+                    columns.AddFor(m => m.Dgnhap);
+
+                    columns.AddFor(m => m.DgChuyenkho);
+
+                    columns.AddFor(m => m.DgCktm);
+
+                    columns.AddFor(m => m.DgVc);
+
+                    columns.AddFor(m => m.DmCktm);
+
+                    columns.AddFor(m => m.Gioihanton);
+
+                    columns.AddFor(m => m.MadmMe);
+
+                    columns.AddFor(m => m.Manhom1);
+
+                    columns.AddFor(m => m.Manhom2);
+
+                    columns.AddFor(m => m.Manhomtp);
+
+                    columns.AddFor(m => m.Model);
+
+                    columns.AddFor(m => m.SoDdh);
+
+                    columns.AddFor(m => m.TenDdh);
+
+                    columns.AddFor(m => m.TendmMe);
+
+                    columns.AddFor(m => m.Tennhom1);
+
+                    columns.AddFor(m => m.Tennhom2);
+
+                    columns.AddFor(m => m.Tennhomtp);
+
+                    columns.AddFor(m => m.TgCktm);
+
+                    columns.AddFor(m => m.TkChietkhau);
+
+                    columns.AddFor(m => m.TkDoanhthu);
+
+                    columns.AddFor(m => m.TkGiavon);
+
+                    columns.AddFor(m => m.TkTralai);
+
+                    columns.AddFor(m => m.TyleOfNhom);
+
+                    columns.AddFor(m => m.NhapTDv1);
+
+                    columns.AddFor(m => m.NhapTDv2);
+
+                    columns.AddFor(m => m.TonCkDv1);
+
+                    columns.AddFor(m => m.TonCkDv2);
+
+                    columns.AddFor(m => m.TonTDv1);
+
+                    columns.AddFor(m => m.TonTDv2);
+
+                    columns.AddFor(m => m.XuatTDv1);
+
+                    columns.AddFor(m => m.XuatTDv2);
+
+                    columns.AddFor(m => m.Nhomck);
+
+                    columns.AddFor(m => m.Makho);
+
+                    columns.AddFor(m => m.Mavach);
+
+                    columns.AddFor(m => m.GioihantonMax);
+
+                    columns.AddFor(m => m.IdUpdate);
+
+                    columns.AddFor(m => m.Tendm2);
+
+                    columns.AddFor(m => m.DgbanGanNhat);
+
+                    columns.AddFor(m => m.DgmuaGanNhat);
+
+                    columns.AddFor(m => m.Ghichu);
+
+                    columns.AddFor(m => m.NgaybanGanNhat);
+
+                    columns.AddFor(m => m.NgaymuaGanNhat);
+
+                    columns.AddFor(m => m.Quycach);
+
+                    columns.AddFor(m => m.Songaysudung);
+                }).ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
+
+                .Editing(e =>
+                {
+                    e.Mode(GridEditMode.Popup)
+                    .AllowAdding(true).Popup(p => p
+                    .Title("Employee Info")
+                    .ShowTitle(true)
+                    .Width(700)
+                    .Height(525)
+                    )
+                    .AllowUpdating(true).UseIcons(true)
+                    .AllowDeleting(true);
+                    e.SelectTextOnEditStart(true);
+                    e.StartEditAction(GridStartEditAction.DblClick);
+                })
+                .Paging(paging => paging.PageSize(10))
+                .Pager(pager =>
+                {
+                    pager.Visible(true);
+                    pager.DisplayMode(GridPagerDisplayMode.Compact);
+                    pager.ShowPageSizeSelector(true);
+                    pager.AllowedPageSizes(new JS("[10, 20, 30]"));
+                    pager.ShowInfo(true);
+                    pager.ShowNavigationButtons(true);
+                })
+                .OnRowInserted("onRowInserted")
+                .OnContextMenuPreparing("OpenMenu").ID("grid")
+                )
+        </div>
+    </div>
+</div>
+@* @section Scrips{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+} *@
+
+<script>
+    function OpenMenu(e) {
+        if (e.rowIndex != -1) {
+            if (!e.items) e.items = [];
+            const contextMenuItem = [
+                {
+                    text: "Xóa",
+                    onItemClick: function (args) {
+                        var grid = document.getElementById("grid");
+                        var row = grid.getElementsByClassName("dx-row-focused")[0];
+                        var deleteLink = row.getElementsByClassName("dx-link-delete")[0];
+                        deleteLink.click();
+                    }
+                },
+            ];
+            contextMenuItem.forEach((item) => {
+                e.items.push(item);
+            })
+        }
+    }
+
+    function onRowInserted(e) {
+        e.component.navigateToRow(e.key);
+        e.component.option("focusedRowKey", e.key);
+    }
+</script>

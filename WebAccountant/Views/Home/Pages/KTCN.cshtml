@@ -1,0 +1,232 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model WebAccountant.ModelsBase.Ktcn
+@{
+    Html.RenderPartial("../Home/Header");
+}
+<div class="text-center">
+    <div class="home-container">
+        @Html.Partial("../Home/SideBar")
+        <div class="right-bar-home content">
+            @*Navbar Here*@
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Danh sách</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Đơn mua hàng</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Mua hàng</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Nhận hóa đơn</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Nhận hóa đơn</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Trả lại hàng</a>
+                            </li>
+                        </ul>
+                        <div class="d-flex">
+                            <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm</button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            @*Modal*@
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" style="color: #119583;" id="exampleModalLabel">Thêm Hàng Hóa</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" asp-controller="Ktcns" asp-action="Post">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="mb-3 text-start">
+                                            <label for="mahh" class="col-form-label">Mã TK:</label>
+                                            <input type="text" asp-for="Matk" class="form-control" id="mahh">
+                                            <span asp-validation-for="Matk" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="dvt" class="col-form-label">Madtpn:</label>
+                                            <input type="text" asp-for="Madtpn" class="form-control" id="mahh">
+                                            <span asp-validation-for="Madtpn" class="text-danger"></span>
+                                        </div>                                    
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-3 text-start">
+                                            <label for="tenhh" class="col-form-label">Tendtpn:</label>
+                                            <input type="text" asp-for="Tendtpn" class="form-control" id="mahh">
+                                            <span asp-validation-for="Tendtpn" class="text-danger"></span>
+                                        </div>                                       
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                    <button type="submit" class="btn btn-primary">Thêm</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            @*Data Here*@
+            @(Html.DevExtreme().DataGrid<WebAccountant.ModelsBase.Ktcn>()
+                .DataSource(ds => ds.Mvc()
+                .Controller("Ktcns")
+                .LoadAction("Get")
+                .UpdateAction("Put")
+                .DeleteAction("Delete")
+                .Key("Madtpn", "Matk")
+                )
+                .RemoteOperations(true)
+                .FocusedRowEnabled(true)
+                .Columns(columns =>
+                {
+
+                    columns.AddFor(m => m.Matk);
+
+                    columns.AddFor(m => m.Madtpn);
+
+                    columns.AddFor(m => m.Tendtpn);
+
+                    columns.AddFor(m => m.Vndduno);
+
+                    columns.AddFor(m => m.Vndduco);
+
+                    columns.AddFor(m => m.Vndpsno);
+
+                    columns.AddFor(m => m.Vndpsco);
+
+                    columns.AddFor(m => m.Vndckno);
+
+                    columns.AddFor(m => m.Vndckco);
+
+                    columns.AddFor(m => m.Usdduno);
+
+                    columns.AddFor(m => m.Usdduco);
+
+                    columns.AddFor(m => m.Usdpsno);
+
+                    columns.AddFor(m => m.Usdpsco);
+
+                    columns.AddFor(m => m.Usdckno);
+
+                    columns.AddFor(m => m.Usdckco);
+
+                    columns.AddFor(m => m.Danhdau);
+
+                    columns.AddFor(m => m.Trangthai);
+
+                    columns.AddFor(m => m.VndnoMax);
+
+                    columns.AddFor(m => m.Diachi);
+
+                    columns.AddFor(m => m.Dientich);
+
+                    columns.AddFor(m => m.Dongia);
+
+                    columns.AddFor(m => m.Eurckco);
+
+                    columns.AddFor(m => m.Eurckno);
+
+                    columns.AddFor(m => m.Eurduco);
+
+                    columns.AddFor(m => m.Eurduno);
+
+                    columns.AddFor(m => m.Eurpsco);
+
+                    columns.AddFor(m => m.Eurpsno);
+
+                    columns.AddFor(m => m.GiatriHopdong);
+
+                    columns.AddFor(m => m.Manhom1);
+
+                    columns.AddFor(m => m.Manhom2);
+
+                    columns.AddFor(m => m.Manhom3);
+
+                    columns.AddFor(m => m.Matt);
+
+                    columns.AddFor(m => m.NgayHopdong);
+
+                    columns.AddFor(m => m.NgayThanhly);
+
+                    columns.AddFor(m => m.SoHopdong);
+
+                    columns.AddFor(m => m.Tennhom1);
+
+                    columns.AddFor(m => m.Tennhom2);
+
+                    columns.AddFor(m => m.Tennhom3);
+
+                    columns.AddFor(m => m.Tentt);
+
+                    columns.AddFor(m => m.IdUpdate);
+                }).ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
+                .Editing(e =>
+                {
+                    e.Mode(GridEditMode.Batch)
+                    .AllowUpdating(true).UseIcons(true)
+                    .AllowDeleting(true);
+                    e.SelectTextOnEditStart(true);
+                    e.StartEditAction(GridStartEditAction.DblClick);
+                })
+                .Paging(paging => paging.PageSize(10))
+                .Pager(pager =>
+                {
+                    pager.Visible(true);
+                    pager.DisplayMode(GridPagerDisplayMode.Compact);
+                    pager.ShowPageSizeSelector(true);
+                    pager.AllowedPageSizes(new JS("[10, 20, 30]"));
+                    pager.ShowInfo(true);
+                    pager.ShowNavigationButtons(true);
+                })
+                .OnRowInserted("onRowInserted")
+                .OnContextMenuPreparing("OpenMenu").ID("grid")
+                )
+        </div>
+        </div>
+</div>
+<script>
+    function OpenMenu(e) {
+        if (e.rowIndex != -1) {
+            if (!e.items) e.items = [];
+            const contextMenuItem = [
+                {
+                    text: "Xóa",
+                    onItemClick: function (args) {
+                        var grid = document.getElementById("grid");
+                        var row = grid.getElementsByClassName("dx-row-focused")[0];
+                        var deleteLink = row.getElementsByClassName("dx-link-delete")[0];
+                        deleteLink.click();
+                    }
+                },
+            ];
+            contextMenuItem.forEach((item) => {
+                e.items.push(item);
+            })
+        }
+    }
+
+    function onRowInserted(e) {
+        e.component.navigateToRow(e.key);
+        e.component.option("focusedRowKey", e.key);
+    }
+</script>

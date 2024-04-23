@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.Extensions.Options;
+
 namespace WebAccountant
 {
     public class Program
@@ -7,7 +10,17 @@ namespace WebAccountant
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+            builder.Services.AddDependencyInjection();
+            builder.Services.AddDatabase();
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(60);
+            });
+            builder.Services.Configure<FormOptions>(options =>
+            {
+                options.KeyLengthLimit = int.MaxValue;
+            });
 
             var app = builder.Build();
 
@@ -21,10 +34,10 @@ namespace WebAccountant
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+           
             app.UseRouting();
-
             app.UseAuthorization();
+            app.UseSession();
 
             app.MapControllerRoute(
                 name: "default",
