@@ -10,12 +10,9 @@
         @Html.Partial("../Home/SideBar")
         <div class="right-bar-home content">
             @*Navbar Here*@
-            <nav class="navbar navbar-expand-lg navbar-light bg-light bg-body-tertiary">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex">
                 <div class="container-fluid">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="#">Danh sách</a>
@@ -36,9 +33,12 @@
                                 <a class="nav-link" href="#">Trả lại hàng</a>
                             </li>
                         </ul>
-                        <div class="d-flex">
-                            <button style="float:right" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm</button>
-                        </div>
+                    </div>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="d-flex">
+                        <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm</button>
                     </div>
                 </div>
             </nav>
@@ -129,7 +129,6 @@
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                                     <button type="submit" class="btn btn-primary">Thêm</button>
                                 </div>
-
                             </form>
                         </div>
                         
@@ -332,16 +331,11 @@
 
                     columns.AddFor(m => m.Songaysudung);
                 }).ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
-
+                .ShowBorders(true)
+                .RowAlternationEnabled(true)
                 .Editing(e =>
                 {
-                    e.Mode(GridEditMode.Popup)
-                    .AllowAdding(true).Popup(p => p
-                    .Title("Employee Info")
-                    .ShowTitle(true)
-                    .Width(700)
-                    .Height(525)
-                    )
+                    e.Mode(GridEditMode.Batch)
                     .AllowUpdating(true).UseIcons(true)
                     .AllowDeleting(true);
                     e.SelectTextOnEditStart(true);

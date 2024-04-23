@@ -133,14 +133,14 @@ iframe {
 [ Utility ]*/
 .txt1 {
   /*font-family: Ubuntu-Regular;*/
-  font-size: 15px;
+  font-size: 13px;
   color: #999999;
   line-height: 1.4;
 }
 
 .txt2 {
   /*font-family: Ubuntu-Regular;*/
-  font-size: 15px;
+  font-size: 13px;
   color: #57b846;
   line-height: 1.4;
 }
@@ -180,8 +180,8 @@ iframe {
 }
 
 .wrap-login100 {
-  width: 500px;
-  heigh: 600px;
+  width: 400px;
+  heigh: 400px;
   background: #fff;
   border-radius: 20px;
   overflow: hidden;
@@ -214,8 +214,8 @@ iframe {
   top: 0;
   left: 0;
   background-color: #57b846;
-  padding-top: 50px;
-  padding-bottom: 39px;
+  padding-top: 20px;
+  padding-bottom: 19px;
 }
 
 /*------------------------------------------------------------------
@@ -391,8 +391,17 @@ iframe {
 /*//////////////////////////////////////////////////////////////////
 [ Responsive ]*/
 @media (max-width: 576px) {
-  .login100-form {
-    padding-left: 15px;
-    padding-right: 15px;
-  }
+	.login100-form {
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+
+	.wrap-login100 {
+		width: 300px;
+	}
+}
+@media (max-width: 360px) {
+	.wrap-login100 {
+		width: 240px;
+	}
 }

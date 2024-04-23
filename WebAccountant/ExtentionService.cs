@@ -13,9 +13,11 @@ namespace WebAccountant
 {
     public static class ExtentionService
     {
+        public static string AppConnectionString = "No Connection";
         public static IServiceCollection AddDependencyInjection(this IServiceCollection services)
         {
             services.AddScoped<UnitOfWork>();
+            services.AddScoped<ILoginRepo, LoginRepo>();
             services.AddScoped<IKtdmRepo, KtdmRepo>();
             services.AddScoped<IKtcnsRepo, KtcnRepo>();
             services.AddScoped<IKtdtpnsRepo, KtdtpnRepo>();
@@ -28,7 +30,7 @@ namespace WebAccountant
         {
             services.AddDbContext<TIENHIEU2024Context>(options =>
             {
-                options.UseSqlServer(GetConnectionString());
+                options.UseSqlServer(AppConnectionString);
             });
             services.AddDbContext<LoginContext>(options =>
             {
@@ -37,6 +39,13 @@ namespace WebAccountant
             return services;
         }
 
+        public static void SetAppConnectionString(string connectionString)
+        {
+            if(AppConnectionString == "No Connection")
+            {
+				AppConnectionString = connectionString;
+			}           
+        }
         private static string GetConnectionString()
         {
             IConfiguration config = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())

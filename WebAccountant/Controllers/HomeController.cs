@@ -17,7 +17,11 @@ namespace WebAccountant.Controllers
             ViewData["activeId"] = "1";
             return View();
         }
-        public IActionResult KTCN()
+		public IActionResult Register()
+		{
+			return View("~/Views/RegisterAccount.cshtml");
+		}
+		public IActionResult KTCN()
         {
             ViewData["activeId"] = "7";
             return View("~/Views/Home/Pages/KTCN.cshtml");
@@ -49,6 +53,7 @@ namespace WebAccountant.Controllers
         }
         public IActionResult BuyProduct()
         {
+            ViewData["activeId"] = "9";
             return View("~/Views/Home/Pages/BuyProduct.cshtml");
         }
         public IActionResult ExportBuyProduct()

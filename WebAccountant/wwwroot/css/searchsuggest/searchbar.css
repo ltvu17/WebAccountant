@@ -1,0 +1,55 @@
+﻿.input-sugg {
+    width: 200px;
+    height: 30px;
+    outline: none;
+    font-size: 13px;
+    transition: .2s ease-out;
+    position: sticky, relative;
+    z-index: 1000;
+}
+    .input-sugg:hover {
+        border: 2px solid dodgerblue;
+    }
+
+.table-container table{
+    background-color: white;
+    max-height: 200px;
+    display: block;
+    overflow-y: auto;
+}
+.sugg-container {
+    border-bottom: 2px solid gray;
+    position: absolute;
+    overflow: auto;
+    transition: .2s ease-out;
+}
+    .sugg-container tr{
+        height: 30px;
+        font-size: 10px;
+        border: 1px solid #ddd;
+    }
+.sugg-container td{
+    border: none !important;
+    font-weight: 400;
+}
+#tr-1{
+    background-color: rgb(199, 255, 156) !important;
+    font-size:12px;
+}
+    #tr-1 td {
+        font-weight: 500 !important;
+    }
+    /* ul {
+    list-style-type: none;
+}
+
+    ul li a {
+        font-size: 13px;
+        text-decoration: none;
+        color: black;
+        text-transform: capitalize;
+        display: flex;
+        padding: 10px 20px;
+        cursor: default;
+    }
+*/

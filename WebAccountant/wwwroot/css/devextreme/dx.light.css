@@ -12585,22 +12585,22 @@
 .dx-datagrid-borders > .dx-datagrid-headers,
 .dx-datagrid-borders > .dx-datagrid-rowsview,
 .dx-datagrid-borders > .dx-datagrid-total-footer {
-  border-left: 1px solid #ddd;
-  border-right: 1px solid #ddd;
+  border-left: 3px solid #ddd;
+  border-right: 3px solid #ddd;
 }
 .dx-datagrid-borders > .dx-datagrid-rowsview,
 .dx-datagrid-borders > .dx-datagrid-total-footer {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 3px solid #ddd;
 }
 .dx-datagrid-borders > .dx-datagrid-filter-panel,
 .dx-datagrid-borders > .dx-datagrid-headers {
-  border-top: 1px solid #ddd;
+  border-top: 3px solid #ddd;
 }
 .dx-datagrid-borders > .dx-datagrid-filter-panel {
   border-top-width: 0;
-  border-left: 1px solid #ddd;
-  border-right: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
+  border-left: 3px solid #ddd;
+  border-right: 3px solid #ddd;
+  border-bottom: 3px solid #ddd;
 }
 .dx-sortable-dragging > div > .dx-gridbase-container > .dx-datagrid-rowsview {
   border-color: rgba(51,122,183,.5);

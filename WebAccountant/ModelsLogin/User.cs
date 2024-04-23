@@ -7,6 +7,11 @@
         public string Password { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-
+        public int Role { get; set; } = (int)ROLE.CUSTOMER;
+    }
+    public enum ROLE
+    {
+        ADMIN = 0,
+        CUSTOMER = 1,
     }
 }

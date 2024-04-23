@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DevExpress.Internal;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WebAccountant.Models;
 using WebAccountant.ModelsLogin;
@@ -32,6 +33,19 @@ namespace WebAccountant.Controllers
                 HttpContext.Session.SetString("user", JsonConvert.SerializeObject(userDTO));
 				return RedirectToAction("Index", "Home");
             }
+		}
+		[HttpPost]
+		public async Task<IActionResult> Register(RegisterDTO entity)
+		{
+			var userDTO = await _loginRepo.RegisterTest(entity);
+			return RedirectToAction("Index", "Login");		
+		}
+		[HttpPost]
+		public async Task<IActionResult> Logout()
+		{
+			HttpContext.Session.Clear();
+			_loginRepo.Logout();
+			return View("~/Views/Login.cshtml");
 		}
 	}
 }
