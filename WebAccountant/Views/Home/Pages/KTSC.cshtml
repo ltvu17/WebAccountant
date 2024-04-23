@@ -37,7 +37,7 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="d-flex">
-                        <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm</button>
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm</button>
                     </div>
                 </div>
             </nav>
@@ -283,7 +283,7 @@
 
                     columns.AddFor(m => m.Ngayct);
 
-                    columns.AddFor(m => m.Diengiai);
+                    columns.AddFor(m => m.Diengiai).Caption("Diễn giải");
 
                     columns.AddFor(m => m.Tkno);
 
@@ -311,9 +311,9 @@
 
                     columns.AddFor(m => m.Tendm);
 
-                    columns.AddFor(m => m.DonviCtu);
+                    columns.AddFor(m => m.DonviCtu).Caption("Đơn vị chứng từ");
 
-                    columns.AddFor(m => m.Donvi);
+                    columns.AddFor(m => m.Donvi).Caption("Đơn vị");
 
                     columns.AddFor(m => m.LuongCtu);
 
@@ -337,19 +337,19 @@
 
                     columns.AddFor(m => m.TtvndTt);
 
-                    columns.AddFor(m => m.Mathang);
+                    columns.AddFor(m => m.Mathang).Caption("Mặt hàng");
 
-                    columns.AddFor(m => m.Makh);
+                    columns.AddFor(m => m.Makh).Caption("Mã khách hàng");
 
-                    columns.AddFor(m => m.Tenkh);
+                    columns.AddFor(m => m.Tenkh).Caption("Tên khách hàng");
 
-                    columns.AddFor(m => m.MsDn);
+                    columns.AddFor(m => m.MsDn).Caption("Mã số doanh nghiệp");
 
-                    columns.AddFor(m => m.Diachi);
+                    columns.AddFor(m => m.Diachi).Caption("Địa chỉ");
 
                     columns.AddFor(m => m.DiachiNgd);
 
-                    columns.AddFor(m => m.Khachhang);
+                    columns.AddFor(m => m.Khachhang).Caption("Khách hàng");
 
                     columns.AddFor(m => m.Ghichu);
 
@@ -359,7 +359,7 @@
 
                     columns.AddFor(m => m.Gtvon);
 
-                    columns.AddFor(m => m.LaiGop);
+                    columns.AddFor(m => m.LaiGop).Caption("Lãi góp");
 
                     columns.AddFor(m => m.Tygia);
 
@@ -383,7 +383,7 @@
 
                     columns.AddFor(m => m.SoHopdong);
 
-                    columns.AddFor(m => m.Mauser);
+                    columns.AddFor(m => m.Mauser).Caption("Mã user");
 
                     columns.AddFor(m => m.Matttu);
 
@@ -559,7 +559,7 @@
 
                     columns.AddFor(m => m.PtCk2);
 
-                    columns.AddFor(m => m.IdNghiepvu);
+                    columns.AddFor(m => m.IdNghiepvu).Caption("ID Nghiệp vụ");
 
                     columns.AddFor(m => m.Machinhanh);
 
@@ -567,7 +567,7 @@
 
                     columns.AddFor(m => m.Guid);
 
-                    columns.AddFor(m => m.Thoigiannhap);
+                    columns.AddFor(m => m.Thoigiannhap).Caption("Thời gian nhập");
 
                     columns.AddFor(m => m.Kyduyet);
 
