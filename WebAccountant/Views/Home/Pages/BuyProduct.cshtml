@@ -359,9 +359,9 @@
                     }
                 });
                 function madmChooseItem(id, item){
+                    hide_sugg("list-madm-sugg-"+id[2]);
                     // Lấy thẻ <tr> có id là "tr1"
                     var tr = document.getElementById(id);
-
                     // Gắn giá trị vào các thẻ <td>
                     tr.querySelector('#input-madm-' + id[2]).value = JSON.parse(decodeURIComponent(item)).Madm;
                     tr.querySelector('#input-tendm-'+id[2]).value = JSON.parse(decodeURIComponent(item)).Tendm;
@@ -392,7 +392,7 @@
                 });
                 function makhChooseItem(item) {
                     console.log(JSON.parse(decodeURIComponent(item)))
-
+                    hide_sugg("list-makh-sugg");
                     // Gắn giá trị vào các thẻ <td>
                     document.getElementById('input-makh').value = JSON.parse(decodeURIComponent(item)).Madtpn;
                     document.getElementById('tenkh').value = JSON.parse(decodeURIComponent(item)).Tendtpn;
@@ -432,10 +432,10 @@
                     document.getElementById(idSugg).classList.add("d-none");
                 }
                 document.addEventListener('click', function (event) {
-                    for (let i = 1; i <= count; i++){
-                        var container = document.getElementById("list-madm-sugg-"+i);
+                    for (let i = 0; i < exist.length; i++){
+                        var container = document.getElementById("list-madm-sugg-"+exist[i]);
                         if (!container.contains(event.target) && !container.classList.contains("d-none")) {
-                            hide_sugg("list-madm-sugg-" + i);
+                            hide_sugg("list-madm-sugg-" + exist[i]);
                             break;
                         }
                     }
@@ -499,8 +499,7 @@
                         var tr = document.getElementById(id);
                         for (let i = 0; i < exist.length; i++){
                             if (exist[i] == id[2]) {
-                                exist = exist.filter(id => id != id[2]);
-                                console.log("id:" + id[2]);
+                                exist.splice(i, 1);
                             }
                         } 
                         tr.remove();
@@ -514,8 +513,6 @@
                         for (let i = 0; i < tdList.length; i++){
                             tdList[i].textContent = idList[i];
                         }
-                        
-                        console.log("exist:"+exist);
                     }
                 }
             </script>
