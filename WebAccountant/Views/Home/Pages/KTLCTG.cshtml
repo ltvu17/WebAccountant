@@ -37,7 +37,7 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="d-flex">
-                        <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm</button>
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm</button>
                     </div>
                 </div>
             </nav>
@@ -123,7 +123,7 @@
 
                     columns.AddFor(m => m.SrHd);
 
-                    columns.AddFor(m => m.Loaitien);
+                    columns.AddFor(m => m.Loaitien).Caption("Loại tiền");
 
                     columns.AddFor(m => m.Soct);
 
@@ -257,7 +257,7 @@
 
                     columns.AddFor(m => m.TkChietkhau);
 
-                    columns.AddFor(m => m.KieuChungtu);
+                    columns.AddFor(m => m.KieuChungtu).Caption("Kiểu chứng từ");
 
                     columns.AddFor(m => m.TkduTkthue);
 
@@ -265,7 +265,7 @@
 
                     columns.AddFor(m => m.DscotShowNhapps);
 
-                    columns.AddFor(m => m.Sapxepchungtu);
+                    columns.AddFor(m => m.Sapxepchungtu).Caption("Sắp xếp chứng từ");
 
                     columns.AddFor(m => m.PtCk);
 

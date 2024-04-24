@@ -38,7 +38,7 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="d-flex">
-                        <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm</button>
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm</button>
                     </div>
                 </div>
             </nav>
@@ -150,20 +150,19 @@
                 .FocusedRowEnabled(true)
                 .Columns(columns =>
                 {
-
                     columns.AddFor(m => m.Matk);
 
-                    columns.AddFor(m => m.Madm);
+                    columns.AddFor(m => m.Madm).Caption("Mã danh mục");
 
-                    columns.AddFor(m => m.Tendm);
+                    columns.AddFor(m => m.Tendm).Caption("Tên danh mục");
 
                     columns.AddFor(m => m.Manhom);
 
                     columns.AddFor(m => m.Tennhom);
 
-                    columns.AddFor(m => m.Kyhieu);
+                    columns.AddFor(m => m.Kyhieu).Caption("Ký hiệu");
 
-                    columns.AddFor(m => m.Donvi);
+                    columns.AddFor(m => m.Donvi).Caption("Đơn vị");
 
                     columns.AddFor(m => m.Lo);
 
@@ -175,11 +174,11 @@
 
                     columns.AddFor(m => m.Nhasanxuat);
 
-                    columns.AddFor(m => m.Ptchietkhau);
+                    columns.AddFor(m => m.Ptchietkhau).Caption("Phần trăm chiết khấu");
 
                     columns.AddFor(m => m.Thuesuat);
 
-                    columns.AddFor(m => m.Dgxuat);
+                    columns.AddFor(m => m.Dgxuat).Caption("Đơn giá xuất");
 
                     columns.AddFor(m => m.TonT);
 
@@ -199,21 +198,21 @@
 
                     columns.AddFor(m => m.Danhdau);
 
-                    columns.AddFor(m => m.Dgban);
+                    columns.AddFor(m => m.Dgban).Caption("Đơn giá bán");
 
-                    columns.AddFor(m => m.Dgban1);
+                    columns.AddFor(m => m.Dgban1).Caption("Đơn giá bán 1");
 
-                    columns.AddFor(m => m.Dgban2);
+                    columns.AddFor(m => m.Dgban2).Caption("Đơn giá bán 2");
 
-                    columns.AddFor(m => m.Dgban3);
+                    columns.AddFor(m => m.Dgban3).Caption("Đơn giá bán 3");
 
-                    columns.AddFor(m => m.Dgban4);
+                    columns.AddFor(m => m.Dgban4).Caption("Đơn giá bán 4");
 
-                    columns.AddFor(m => m.Donvi1);
+                    columns.AddFor(m => m.Donvi1).Caption("Đơn vị 1");
 
-                    columns.AddFor(m => m.Donvi2);
+                    columns.AddFor(m => m.Donvi2).Caption("Đơn vị 2");
 
-                    columns.AddFor(m => m.Donvi3);
+                    columns.AddFor(m => m.Donvi3).Caption("Đơn vị 3");
 
                     columns.AddFor(m => m.Hsqd1);
 
@@ -231,15 +230,15 @@
 
                     columns.AddFor(m => m.Dgusd);
 
-                    columns.AddFor(m => m.Dgnhap1);
+                    columns.AddFor(m => m.Dgnhap1).Caption("Đơn giá nhập 1");
 
-                    columns.AddFor(m => m.Dgnhap2);
+                    columns.AddFor(m => m.Dgnhap2).Caption("Đơn giá nhập 2");
 
-                    columns.AddFor(m => m.Dgnhap3);
+                    columns.AddFor(m => m.Dgnhap3).Caption("Đơn giá nhập 3");
 
-                    columns.AddFor(m => m.Dgnhap4);
+                    columns.AddFor(m => m.Dgnhap4).Caption("Đơn giá nhập 4");
 
-                    columns.AddFor(m => m.Dgnhap5);
+                    columns.AddFor(m => m.Dgnhap5).Caption("Đơn giá nhập 5");
 
                     columns.AddFor(m => m.Trangthai);
 
