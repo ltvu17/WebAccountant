@@ -209,7 +209,7 @@
                 </div>
                 <div class="bottom-content">
                     @*List product *@
-                    <table class="table-text">
+                    <table id="list-dm" class="table-text">
                         <tr class="table-menu" id="tr-1">
                             <td class="t-center width-20">#</td>
                             <td class="width-200">Mã Danh Mục</td>
@@ -220,7 +220,7 @@
                             <td class="width-150">Thành tiền</td>
                             <td class="width-70">Hành động</td>
                         </tr>
-                        <tr>
+                        <tr id="tr-2">
                             <td class="t-center">1</td>
                             <td>
                                 <input type="text"
@@ -246,7 +246,8 @@
                             <td class="t-center"><a class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
                         </tr>
                     </table>
-                    <div class="buttons d-flex justify-content-end">
+                    <div class="buttons d-flex justify-content-between m-5">
+                        <button class="btn btn-success t-s-12 height-30" id="addDm" onclick="themDm()" type="button">Thêm danh mục</button>
                         <button class="btn btn-success t-s-12 height-30" id="saveButton" onclick="Submit()" type="button">Mua sản phẩm</button>
                     </div>
                 </div>
@@ -435,6 +436,16 @@
                         hide_sugg(idSugg3);
                     }
                 });
+
+
+                function themDm(){
+                    var table = document.getElementById("list-dm");
+                    var tr = table.getElementsByTagName('tr');
+                    
+                    tr.insertAdjacentHTML('beforeend', `
+                                                      <tr><td>${manv[i]}</td><td>${manv[i + 1]}</td><td>${manv[i + 2]}</td></tr>
+                                                                                                         `);
+                }
             </script>
         </div>
     </div>
