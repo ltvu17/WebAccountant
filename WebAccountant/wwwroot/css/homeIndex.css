@@ -224,6 +224,12 @@
 .weight-700 {
     font-weight: 700
 }
+.p-5{
+    padding: 5px;
+}
+.m-5{
+    margin: 5px;
+}
 .border-none{
     border:none !important;
 }
@@ -235,4 +241,8 @@
 }
 .table-icon{
     text-decoration:none;
+}
+/*Suggest*/
+.tr-sugg:hover{
+    background-color: rgb(128, 128, 128, 0.8);
 }
