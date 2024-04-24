@@ -81,8 +81,8 @@
                                             </div>
 
                                             <div class="mb-3 text-start">
-                                                <label for="dg" class="col-form-label">Diễn giải:</label>
-                                                <input type="text" class="form-control" id="dg" readonly>
+                                                <label for="masodn" class="col-form-label">Mã số doanh nghiệp:</label>
+                                                <input type="text" class="form-control" id="masodn" readonly>
                                             </div>
                                             <div class="mb-3 text-start">
                                                 <label for="ck" class="col-form-label">Chiết khấu:</label>
@@ -214,22 +214,22 @@
                             <td class="t-center width-20">#</td>
                             <td class="width-200">Mã Danh Mục</td>
                             <td>Tên Danh Mục</td>
-                            <td class="width-50">Đơn vị</t>
+                            <td class="width-50">Đơn vị</td>
                             <td class="width-150">Đơn giá</td>
                             <td class="width-70">Số lượng</td>
                             <td class="width-150">Thành tiền</td>
                             <td class="width-70">Hành động</td>
                         </tr>
-                        <tr id="tr-2">
-                            <td class="t-center">1</td>
+                        <tr id="tr1">
+                            <td class="t-center td-index">1</td>
                             <td>
                                 <input type="text"
                                        class="form-control input-sugg"
-                                       id="input-madm"
+                                       id="input-madm-1"
                                        autofocus="autofocus"
-                                       onkeyup="SearchNow('list-madm-sugg','input-madm','list-madm-sugg')" />
+                                       onkeyup="SearchNow('list-madm-sugg-1','input-madm-1','list-madm-sugg-1')" />
                                 <div class="table-container">
-                                    <table id="list-madm-sugg" class="sugg-container d-none">
+                                    <table id="list-madm-sugg-1" class="sugg-container d-none">
                                         <tr id="tr-1">
                                             <td class="width-120">Mã danh mục</td>
                                             <td class="width-250">Tên danh mục</td>
@@ -238,12 +238,12 @@
                                     </table>
                                 </div>
                             </td>
-                            <td><input type="text" class="form-control" id="input-tendm" readonly /></td>
-                            <td><input type="text" class="form-control" id="input-donvi" readonly /></td>
-                            <td><input type="text" class="form-control" id="input-dongia" /></td>
-                            <td><input type="text" class="form-control" id="input-soluong" /></td>
-                            <td><input type="text" class="form-control" id="input-thanhtien" readonly/></td>
-                            <td class="t-center"><a class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
+                            <td><input type="text" class="form-control" id="input-tendm-1" readonly /></td>
+                            <td><input type="text" class="form-control" id="input-donvi-1" readonly /></td>
+                            <td><input type="text" class="form-control" id="input-dongia-1" /></td>
+                            <td><input type="text" class="form-control" id="input-soluong-1" /></td>
+                            <td><input type="text" class="form-control" id="input-thanhtien-1" readonly/></td>
+                            <td class="t-center"><a onClick="xoaDm('tr1')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
                         </tr>
                     </table>
                     <div class="buttons d-flex justify-content-between m-5">
@@ -254,6 +254,10 @@
             </form>
 
             <script type="text/javascript">
+                let count = 1;
+                let index = 1;
+                var exist = [];
+                exist.push(1);
                 var data = [];
                 var element;
                 function getDataGridInstance() {
@@ -311,7 +315,7 @@
                 }
 
 
-                function SearchNow(idSugg, idInput, idUl) {
+                function SearchNow(idSugg, idInput, idUl) { 
                     document.getElementById(idSugg).classList.remove("d-none");
                     // Declare variables
                     var input, filter, ul, li, a, i, txtValue;
@@ -320,7 +324,7 @@
                     ul = document.getElementById(idUl);
                     li = ul.getElementsByTagName('li');
 
-                var table = document.getElementById(idSugg);
+                    var table = document.getElementById(idSugg);
                     var tr = table.getElementsByTagName('tr');
                     for (i = 1; i < tr.length; i++) {
                         td = tr[i].getElementsByTagName("td")[0];
@@ -346,17 +350,23 @@
                         if (result.data.length > 0) {
                             madm = result.data;
                             for (var i = 0; i < madm.length; i++) {
-                                const list = document.getElementById("list-madm-sugg");
+                                const list = document.getElementById("list-madm-sugg-" + count);
                                 list.insertAdjacentHTML('beforeend', `
-                                     <tr onclick="madmChooseItem('${encodeURIComponent(JSON.stringify(madm[i]))}')"><td>${madm[i].Madm}</td><td>${madm[i].Tendm}</td><td>${madm[i].TonT}</td></tr>
-                                                                                         `);
+                                                <tr class="tr-sugg" onclick="madmChooseItem(this.closest('table').closest('tr').id,'${encodeURIComponent(JSON.stringify(madm[i]))}')"><td>${madm[i].Madm}</td><td>${madm[i].Tendm}</td><td>${madm[i].TonT}</td></tr>
+                                `);
                             }
                         }
                     }
                 });
-                function madmChooseItem(item){
-                    console.log(JSON.parse(decodeURIComponent(item)))
+                function madmChooseItem(id, item){
+                    // Lấy thẻ <tr> có id là "tr1"
+                    var tr = document.getElementById(id);
 
+                    // Gắn giá trị vào các thẻ <td>
+                    tr.querySelector('#input-madm-' + id[2]).value = JSON.parse(decodeURIComponent(item)).Madm;
+                    tr.querySelector('#input-tendm-'+id[2]).value = JSON.parse(decodeURIComponent(item)).Tendm;
+                    tr.querySelector('#input-donvi-' + id[2]).value = JSON.parse(decodeURIComponent(item)).Donvi;
+                    tr.querySelector('#input-dongia-' + id[2]).value = JSON.parse(decodeURIComponent(item)).Dgnhap;
                 }
                 var makh = [
                         {
@@ -374,8 +384,8 @@
                             for (var i = 0; i < makh.length; i++) {
                                 const list = document.getElementById("list-makh-sugg");
                                 list.insertAdjacentHTML('beforeend', `
-                                                     <tr onclick="makhChooseItem('${encodeURIComponent(JSON.stringify(makh[i]))}')"><td>${makh[i].Madtpn}</td><td>${makh[i].Tendtpn}</td><td>${makh[i].MsDn}</td></tr>
-                                                                                         `);
+                                       <tr class="tr-sugg" onclick="makhChooseItem('${encodeURIComponent(JSON.stringify(makh[i]))}')"><td>${makh[i].Madtpn}</td><td>${makh[i].Tendtpn}</td><td>${makh[i].MsDn}</td></tr>
+                                `);
                             }
                         }
                     }
@@ -383,6 +393,11 @@
                 function makhChooseItem(item) {
                     console.log(JSON.parse(decodeURIComponent(item)))
 
+                    // Gắn giá trị vào các thẻ <td>
+                    document.getElementById('input-makh').value = JSON.parse(decodeURIComponent(item)).Madtpn;
+                    document.getElementById('tenkh').value = JSON.parse(decodeURIComponent(item)).Tendtpn;
+                    document.getElementById('dc').value = JSON.parse(decodeURIComponent(item)).Diachi;
+                    document.getElementById('masodn').value = JSON.parse(decodeURIComponent(item)).MsDn;
                 }
                     
                 const manv = [
@@ -417,34 +432,91 @@
                     document.getElementById(idSugg).classList.add("d-none");
                 }
                 document.addEventListener('click', function (event) {
-                    var idSugg1 = "list-madm-sugg";
-                    var idSugg2 = "list-makh-sugg";
-                    var idSugg3 = "list-manv-sugg";
-                    var input1 = document.getElementById('input-madm');
-                    var table1 = document.getElementById('list-madm-sugg');
-                    var input2 = document.getElementById('input-makh');
-                    var table2 = document.getElementById('list-makh-sugg');
-                    var input3 = document.getElementById('input-manv');
-                    var table3 = document.getElementById('list-manv-sugg');
-                    if (!input1.contains(event.target) && !table1.contains(event.target)) {
-                        hide_sugg(idSugg1);
+                    for (let i = 1; i <= count; i++){
+                        var container = document.getElementById("list-madm-sugg-"+i);
+                        if (!container.contains(event.target) && !container.classList.contains("d-none")) {
+                            hide_sugg("list-madm-sugg-" + i);
+                            break;
+                        }
                     }
-                    if (!input2.contains(event.target) && !table2.contains(event.target)) {
-                        hide_sugg(idSugg2);
-                    }
-                    if (!input3.contains(event.target) && !table3.contains(event.target)) {
-                        hide_sugg(idSugg3);
+                    if (!document.getElementById("list-makh-sugg").contains(event.target) && !document.getElementById("list-makh-sugg").classList.contains("d-none")) {
+                        hide_sugg("list-makh-sugg");
                     }
                 });
 
-
-                function themDm(){
+                
+                function themDm() {
                     var table = document.getElementById("list-dm");
-                    var tr = table.getElementsByTagName('tr');
-                    
-                    tr.insertAdjacentHTML('beforeend', `
-                                                      <tr><td>${manv[i]}</td><td>${manv[i + 1]}</td><td>${manv[i + 2]}</td></tr>
-                                                                                                         `);
+                    count++;
+                    index++;
+                    table.insertAdjacentHTML('beforeend', `
+                                                    <tr id="tr${count}">
+                                                            <td class="t-center td-index">${index}</td>
+                                                            <td>
+                                                                <input type="text"
+                                                                       class="form-control input-sugg"
+                                                                       id="input-madm-${count}"
+                                                                       autofocus="autofocus"
+                                                                       onkeyup="SearchNow('list-madm-sugg-${count}','input-madm-${count}','list-madm-sugg-${count}')" />
+                                                                <div class="table-container">
+                                                                    <table id="list-madm-sugg-${count}" class="sugg-container d-none">
+                                                                        <tr id="tr-1">
+                                                                            <td class="width-120">Mã danh mục</td>
+                                                                            <td class="width-250">Tên danh mục</td>
+                                                                            <td class="width-90">Số lượng tồn</td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </td>
+                                                            <td><input type="text" class="form-control" id="input-tendm-${count}" readonly /></td>
+                                                            <td><input type="text" class="form-control" id="input-donvi-${count}" readonly /></td>
+                                                            <td><input type="text" class="form-control" id="input-dongia-${count}" /></td>
+                                                            <td><input type="text" class="form-control" id="input-soluong-${count}" /></td>
+                                                            <td><input type="text" class="form-control" id="input-thanhtien-${count}" readonly/></td>
+                                                            <td class="t-center"><a onClick="xoaDm('tr${count}')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
+                                                        </tr>
+                    `);
+                    $.ajax({
+                        url: '@Url.Action("Get", "Ktdms")',
+                        type: 'GET',
+                        success: function (result) {
+                            if (result.data.length > 0) {
+                                madm = result.data;
+                                for (var i = 0; i < madm.length; i++) {
+                                    const list = document.getElementById("list-madm-sugg-" + count);
+                                    list.insertAdjacentHTML('beforeend', `
+                                                                <tr class="tr-sugg" onclick="madmChooseItem(this.closest('table').closest('tr').id,'${encodeURIComponent(JSON.stringify(madm[i]))}')"><td>${madm[i].Madm}</td><td>${madm[i].Tendm}</td><td>${madm[i].TonT}</td></tr>
+                                                `);
+                                }
+                            }
+                        }
+                    });
+                    exist.push(count);
+                }
+                
+                function xoaDm(id) {
+                    if (index > 1) {
+                        var tr = document.getElementById(id);
+                        for (let i = 0; i < exist.length; i++){
+                            if (exist[i] == id[2]) {
+                                exist = exist.filter(id => id != id[2]);
+                                console.log("id:" + id[2]);
+                            }
+                        } 
+                        tr.remove();
+                        index--;
+                        var idList = [];
+                        for (let i = 1; i <= index; i++) {
+                            idList.push(i);
+                        }
+                        console.log(idList);
+                        var tdList = document.getElementsByClassName("td-index");
+                        for (let i = 0; i < tdList.length; i++){
+                            tdList[i].textContent = idList[i];
+                        }
+                        
+                        console.log("exist:"+exist);
+                    }
                 }
             </script>
         </div>

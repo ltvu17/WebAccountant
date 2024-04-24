@@ -242,3 +242,7 @@
 .table-icon{
     text-decoration:none;
 }
+/*Suggest*/
+.tr-sugg:hover{
+    background-color: rgb(128, 128, 128, 0.8);
+}
