@@ -108,6 +108,9 @@
 .bill-menu {
     font-size: 11px;
 }
+.pro{
+    padding-bottom: 5px;
+}
 .bill-product-name {
     width:75%;
     font-size: 11px;
@@ -115,6 +118,8 @@
 .bill-product-number {
     width: 25%;
     font-size: 11px;
+    text-align: end;
+    padding-right: 5px;
 }
 .so-tien {
     font-weight: 600;

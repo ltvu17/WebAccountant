@@ -106,30 +106,14 @@ namespace WebAccountant.Controllers
                     item.Soluong = getItem.Soluong;
                 }
             }
-            var pathValue = await _ktdmRepo.ExportPDF(items);
+            //var pathValue = await _ktdmRepo.ExportPDF(items);
             return Json(items);
         }
         [HttpPost]
-        public async Task<IActionResult> SubmitCartToSave()
+        public async Task<IActionResult> SubmitCartToSave(AddToKTSCDTO items)
         {
-            var cart = HttpContext.Session.GetString("cart");
-            List<KtdmDTO> ktdmsDTO = new List<KtdmDTO>();
-            if (cart != null)
-            {
-                ktdmsDTO = JsonConvert.DeserializeObject<List<KtdmDTO>>(cart);
-            }
-            var Keys = this.Request.Form.Keys.FirstOrDefault();
-            var items = JsonConvert.DeserializeObject<List<KtdmDTO>>(Keys);
-            foreach (var item in items)
-            {
-                var getItem = ktdmsDTO.FirstOrDefault(s => s.Matk == item.Matk && s.Madm == item.Madm);
-                if (getItem != null)
-                {
-                    item.Soluong = getItem.Soluong;
-                }
-            }
-            var pathValue = await _ktdmRepo.SaveCartToDB(items);
-            return Json(items);
+            await _ktdmRepo.SaveCartToDB(items);
+            return RedirectToAction("KTSC", "Home");
         }
         private string GetFullErrorMessage(ModelStateDictionary modelState) {
             var messages = new List<string>();

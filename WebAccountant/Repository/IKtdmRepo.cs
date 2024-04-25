@@ -8,7 +8,7 @@ namespace WebAccountant.Repository
     {
         public Task<IEnumerable<KtdmDTO>> GetAllKtdmDTO();
         public Task<IEnumerable<KtdmDTO>> UpdateKtdmDTO(string key, string values, List<KtdmDTO> oldCart);
-        public Task<string> ExportPDF(IEnumerable<KtdmDTO> items);
-        public Task<bool> SaveCartToDB(IEnumerable<KtdmDTO> items);
+        public Task<string> ExportPDF(AddToKTSCDTO item);
+        public Task<bool> SaveCartToDB(AddToKTSCDTO item);
     }
 }
