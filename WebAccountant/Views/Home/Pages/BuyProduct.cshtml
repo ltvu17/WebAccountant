@@ -18,8 +18,8 @@
                         <div class="mua-form col-8">
                             @* Navbar *@
                             <ul class="nav nav-tabs mua-form-nav">
-                                <li class="nav-item" onclick="phieunhapOut">
-                                    <button class="nav-link active" id="btn-phieunhap" type="button" onclick="phieunhapOut()">Phiếu nhập</button>
+                                <li class="nav-item">
+                                    <button class="nav-link active" id="btn-phieunhap" type="button" onclick="phieuMuaOut()">Phiếu mua</button>
                                 </li>
                                 <li class="nav-item">
                                     <button class="nav-link" id="btn-hoadon" type="button" onclick="hoadonOut()">Hóa đơn</button>
@@ -36,6 +36,7 @@
                                                        class="form-control input-sugg"
                                                        id="input-makh"
                                                        autofocus="autofocus"
+                                                       autocomplete="off"
                                                        onkeyup="SearchNow('list-makh-sugg','input-makh','list-makh-sugg')" />
                                                 <div class="table-container">
                                                     <table id="list-makh-sugg" class="sugg-container d-none">
@@ -131,6 +132,7 @@
                                                        class="form-control input-sugg"
                                                        id="input-makh"
                                                        autofocus="autofocus"
+                                                       autocomplete="off"
                                                        onkeyup="SearchNow('list-makh-sugg','input-makh','list-makh-sugg')" />
                                                 <div class="table-container">
                                                     <table id="list-makh-sugg" class="sugg-container d-none">
@@ -228,6 +230,7 @@
                                        class="form-control input-sugg"
                                        id="input-madm-1"
                                        autofocus="autofocus"
+                                       autocomplete="off"
                                        onkeyup="SearchNow('list-madm-sugg-1','input-madm-1','list-madm-sugg-1')" />
                                 <div class="table-container">
                                     <table id="list-madm-sugg-1" class="sugg-container d-none">
@@ -304,7 +307,7 @@
                     document.getElementById("btn-phieunhap").classList.remove("active");
                     document.getElementById("btn-hoadon").classList.add("active");
                 }
-                function phieunhapOut() {
+                function phieuMuaOut() {
                     document.getElementById("hoa-don").classList.add("d-none");
                     document.getElementById("phieu-nhap").classList.remove("d-none");
                     document.getElementById("btn-hoadon").classList.remove("active");
@@ -510,11 +513,9 @@
                                                 `);
                                 }
                             }
-                        }
-                    });
-                    exist.push(count);
-                }
-                
+                        });
+                        exist.push(count);
+                }               
                 function xoaDm(id) {
                     if (index > 1) {
                         var tr = document.getElementById(id);
