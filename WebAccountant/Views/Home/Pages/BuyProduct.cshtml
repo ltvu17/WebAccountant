@@ -17,8 +17,8 @@
                         <div class="mua-form col-8">
                             @* Navbar *@
                             <ul class="nav nav-tabs mua-form-nav">
-                                <li class="nav-item" onclick="phieunhapOut">
-                                    <button class="nav-link active" id="btn-phieunhap" type="button" onclick="phieunhapOut()">Phiếu nhập</button>
+                                <li class="nav-item">
+                                    <button class="nav-link active" id="btn-phieunhap" type="button" onclick="phieuMuaOut()">Phiếu mua</button>
                                 </li>
                                 <li class="nav-item">
                                     <button class="nav-link" id="btn-hoadon" type="button" onclick="hoadonOut()">Hóa đơn</button>
@@ -35,6 +35,7 @@
                                                        class="form-control input-sugg"
                                                        id="input-makh"
                                                        autofocus="autofocus"
+                                                       autocomplete="off"
                                                        onkeyup="SearchNow('list-makh-sugg','input-makh','list-makh-sugg')" />
                                                 <div class="table-container">
                                                     <table id="list-makh-sugg" class="sugg-container d-none">
@@ -130,6 +131,7 @@
                                                        class="form-control input-sugg"
                                                        id="input-makh"
                                                        autofocus="autofocus"
+                                                       autocomplete="off"
                                                        onkeyup="SearchNow('list-makh-sugg','input-makh','list-makh-sugg')" />
                                                 <div class="table-container">
                                                     <table id="list-makh-sugg" class="sugg-container d-none">
@@ -227,6 +229,7 @@
                                        class="form-control input-sugg"
                                        id="input-madm-1"
                                        autofocus="autofocus"
+                                       autocomplete="off"
                                        onkeyup="SearchNow('list-madm-sugg-1','input-madm-1','list-madm-sugg-1')" />
                                 <div class="table-container">
                                     <table id="list-madm-sugg-1" class="sugg-container d-none">
@@ -307,7 +310,7 @@
                     document.getElementById("btn-phieunhap").classList.remove("active");
                     document.getElementById("btn-hoadon").classList.add("active");
                 }
-                function phieunhapOut() {
+                function phieuMuaOut() {
                     document.getElementById("hoa-don").classList.add("d-none");
                     document.getElementById("phieu-nhap").classList.remove("d-none");
                     document.getElementById("btn-hoadon").classList.remove("active");
@@ -447,53 +450,53 @@
                 
                 function themDm() {
                     var table = document.getElementById("list-dm");
-                    count++;
-                    index++;
-                    table.insertAdjacentHTML('beforeend', `
-                                                    <tr id="tr${count}">
-                                                            <td class="t-center td-index">${index}</td>
-                                                            <td>
-                                                                <input type="text"
-                                                                       class="form-control input-sugg"
-                                                                       id="input-madm-${count}"
-                                                                       autofocus="autofocus"
-                                                                       onkeyup="SearchNow('list-madm-sugg-${count}','input-madm-${count}','list-madm-sugg-${count}')" />
-                                                                <div class="table-container">
-                                                                    <table id="list-madm-sugg-${count}" class="sugg-container d-none">
-                                                                        <tr id="tr-1">
-                                                                            <td class="width-120">Mã danh mục</td>
-                                                                            <td class="width-250">Tên danh mục</td>
-                                                                            <td class="width-90">Số lượng tồn</td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </div>
-                                                            </td>
-                                                            <td><input type="text" class="form-control" id="input-tendm-${count}" readonly /></td>
-                                                            <td><input type="text" class="form-control" id="input-donvi-${count}" readonly /></td>
-                                                            <td><input type="text" class="form-control" id="input-dongia-${count}" /></td>
-                                                            <td><input type="text" class="form-control" id="input-soluong-${count}" /></td>
-                                                            <td><input type="text" class="form-control" id="input-thanhtien-${count}" readonly/></td>
-                                                            <td class="t-center"><a onClick="xoaDm('tr${count}')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
-                                                        </tr>
-                    `);
-                    $.ajax({
-                        url: '@Url.Action("Get", "Ktdms")',
-                        type: 'GET',
-                        success: function (result) {
-                            if (result.data.length > 0) {
-                                madm = result.data;
-                                for (var i = 0; i < madm.length; i++) {
-                                    const list = document.getElementById("list-madm-sugg-" + count);
-                                    list.insertAdjacentHTML('beforeend', `
-                                                                <tr class="tr-sugg" onclick="madmChooseItem(this.closest('table').closest('tr').id,'${encodeURIComponent(JSON.stringify(madm[i]))}')"><td>${madm[i].Madm}</td><td>${madm[i].Tendm}</td><td>${madm[i].TonT}</td></tr>
-                                                `);
+                        count++;
+                        index++;
+                        table.insertAdjacentHTML('beforeend', `
+                                                                                    <tr id="tr${count}">
+                                                                                            <td class="t-center td-index">${index}</td>
+                                                                                            <td>
+                                                                                                <input type="text"
+                                                                                                       class="form-control input-sugg"
+                                                                                                       id="input-madm-${count}"
+                                                                                                       autofocus="autofocus"
+                                                                                                       autocomplete="off"
+                                                                                                       onkeyup="SearchNow('list-madm-sugg-${count}','input-madm-${count}','list-madm-sugg-${count}')" />
+                                                                                                <div class="table-container">
+                                                                                                    <table id="list-madm-sugg-${count}" class="sugg-container d-none">
+                                                                                                        <tr id="tr-1">
+                                                                                                            <td class="width-120">Mã danh mục</td>
+                                                                                                            <td class="width-250">Tên danh mục</td>
+                                                                                                            <td class="width-90">Số lượng tồn</td>
+                                                                                                        </tr>
+                                                                                                    </table>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td><input type="text" class="form-control" id="input-tendm-${count}" readonly /></td>
+                                                                                            <td><input type="text" class="form-control" id="input-donvi-${count}" readonly /></td>
+                                                                                            <td><input type="text" class="form-control" id="input-dongia-${count}" /></td>
+                                                                                            <td><input type="text" class="form-control" id="input-soluong-${count}" /></td>
+                                                                                            <td><input type="text" class="form-control" id="input-thanhtien-${count}" readonly/></td>
+                                                                                            <td class="t-center"><a onClick="xoaDm('tr${count}')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
+                                                                                        </tr>
+                        `);
+                        $.ajax({
+                            url: '@Url.Action("Get", "Ktdms")',
+                            type: 'GET',
+                            success: function (result) {
+                                if (result.data.length > 0) {
+                                    madm = result.data;
+                                    for (var i = 0; i < madm.length; i++) {
+                                        const list = document.getElementById("list-madm-sugg-" + count);
+                                        list.insertAdjacentHTML('beforeend', `
+                                               <tr class="tr-sugg" onclick="madmChooseItem(this.closest('table').closest('tr').id,'${encodeURIComponent(JSON.stringify(madm[i]))}')"><td>${madm[i].Madm}</td><td>${madm[i].Tendm}</td><td>${madm[i].TonT}</td></tr>
+                                        `);
+                                    }
                                 }
                             }
-                        }
-                    });
-                    exist.push(count);
-                }
-                
+                        });
+                        exist.push(count);
+                }               
                 function xoaDm(id) {
                     if (index > 1) {
                         var tr = document.getElementById(id);
