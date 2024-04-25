@@ -1,6 +1,7 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@model WebAccountant.ModelsBase.Ktsc
 @{
     Html.RenderPartial("../Home/Header");
 }
@@ -241,7 +242,7 @@
                             <td><input type="text" class="form-control" id="input-tendm-1" readonly /></td>
                             <td><input type="text" class="form-control" id="input-donvi-1" readonly /></td>
                             <td><input type="text" class="form-control" id="input-dongia-1" /></td>
-                            <td><input type="text" class="form-control" id="input-soluong-1" /></td>
+                            <td><input type="text" class="form-control" id="input-soluong-1" onchange="quantityChange(1)" /></td>
                             <td><input type="text" class="form-control" id="input-thanhtien-1" readonly/></td>
                             <td class="t-center"><a onClick="xoaDm('tr1')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
                         </tr>
@@ -259,6 +260,7 @@
                 var exist = [];
                 exist.push(1);
                 var data = [];
+                var madmItems = []
                 var element;
                 function getDataGridInstance() {
                     let element = $("#grid-container");
@@ -267,6 +269,17 @@
                 async function save() {
                     $("#grid-container div [role='button']")[0].click();
                     // $("#saveButton").after(`<button type="button" onclick="Submit()">Mua sản phẩm</button>`)
+                }
+                function quantityChange(rowIndex) {
+                    console.log($(`#input-soluong-${rowIndex}`)[0].value);
+                    var value = $(`#input-soluong-${rowIndex}`)[0].value;
+                    if (madm.length > rowIndex) {
+                        madmItems[rowIndex - 1].Soluong = parseInt(value)
+                        var tr = document.getElementById("tr"+rowIndex);
+                        // Gắn giá trị vào các thẻ <td>
+                        tr.querySelector('#input-thanhtien-' + rowIndex).value = madmItems[rowIndex - 1].Soluong * madmItems[rowIndex - 1].Dgban;
+                    }
+                    console.log(madmItems);
                 }
 
                 async function selection_changed(selectedItems) {
@@ -281,23 +294,7 @@
                     });
                 }
 
-                function Submit() {
-                    console.log(data)
-                    setTimeout(function (value) {
-                        $.ajax({
-                            url: '@Url.Action("SubmitCartToExport", "Ktdms")',
-                            type: 'POST',
-                            data: JSON.stringify(data),
-                            success: function (result) {
-                                console.log(result)
-                                //window.location.replace("/Home/ExportBuyProduct")
-                                window.open("https://localhost:7278/InvoiceReport/HoaDon.pdf", "_blank");
-                            }
-                        });
-                    }, 1000)
-                    save().then(
-                    )
-                }
+               
                 function Updated() {
                 }
                 
@@ -358,15 +355,37 @@
                         }
                     }
                 });
+                
                 function madmChooseItem(id, item){
                     hide_sugg("list-madm-sugg-"+id[2]);
+                    var addItem = JSON.parse(decodeURIComponent(item));
+                    var madmDTO = {
+                        Matk: addItem.Matk,
+                        Madm: addItem.Madm,
+                        Tendm: addItem.Tendm,
+                        Donvi: addItem.Donvi,
+                        Soluong: 0,
+                        Dgban: addItem.Dgban,
+                        TonTDv1: addItem.TonTDv1,
+                    }
+                    var index = parseInt(id.slice(2))
+                    if ( index > madmItems.length) {
+                        madmItems.push(madmDTO)
+                    }
+                    else {
+                        madmItems[index - 1] = madmDTO
+                    }
+                                    
+                    console.log(madmItems)
                     // Lấy thẻ <tr> có id là "tr1"
                     var tr = document.getElementById(id);
                     // Gắn giá trị vào các thẻ <td>
                     tr.querySelector('#input-madm-' + id[2]).value = JSON.parse(decodeURIComponent(item)).Madm;
                     tr.querySelector('#input-tendm-'+id[2]).value = JSON.parse(decodeURIComponent(item)).Tendm;
                     tr.querySelector('#input-donvi-' + id[2]).value = JSON.parse(decodeURIComponent(item)).Donvi;
-                    tr.querySelector('#input-dongia-' + id[2]).value = JSON.parse(decodeURIComponent(item)).Dgnhap;
+                    tr.querySelector('#input-dongia-' + id[2]).value = JSON.parse(decodeURIComponent(item)).Dgban;
+                    tr.querySelector('#input-soluong-' + id[2]).value = 0;
+                    tr.querySelector('#input-thanhtien-' + id[2]).value = 0;
                 }
                 var makh = [
                         {
@@ -390,8 +409,10 @@
                         }
                     }
                 });
+                var makhItems = []
                 function makhChooseItem(item) {
-                    console.log(JSON.parse(decodeURIComponent(item)))
+                    makhItems = JSON.parse(decodeURIComponent(item));
+                    console.log(makhItems);
                     hide_sugg("list-makh-sugg");
                     // Gắn giá trị vào các thẻ <td>
                     document.getElementById('input-makh').value = JSON.parse(decodeURIComponent(item)).Madtpn;
@@ -471,7 +492,7 @@
                                                             <td><input type="text" class="form-control" id="input-tendm-${count}" readonly /></td>
                                                             <td><input type="text" class="form-control" id="input-donvi-${count}" readonly /></td>
                                                             <td><input type="text" class="form-control" id="input-dongia-${count}" /></td>
-                                                            <td><input type="text" class="form-control" id="input-soluong-${count}" /></td>
+                                                                                            <td><input type="text" class="form-control" id="input-soluong-${count}" onchange="quantityChange(${count})"/></td>
                                                             <td><input type="text" class="form-control" id="input-thanhtien-${count}" readonly/></td>
                                                             <td class="t-center"><a onClick="xoaDm('tr${count}')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
                                                         </tr>
@@ -514,6 +535,23 @@
                             tdList[i].textContent = idList[i];
                         }
                     }
+                }
+                function Submit() {
+                    console.log(madm)
+                    setTimeout(function (value) {
+                        $.ajax({
+                            url: '@Url.Action("SubmitCartToExport", "Ktdms")',
+                            type: 'POST',
+                            data: JSON.stringify(madm),
+                            success: function (result) {
+                                console.log(result)
+                                //window.location.replace("/Home/ExportBuyProduct")
+                                window.open("https://localhost:7278/InvoiceReport/HoaDon.pdf", "_blank");
+                            }
+                        });
+                    }, 1000)
+                    save().then(
+                    )
                 }
             </script>
         </div>
