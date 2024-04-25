@@ -2,7 +2,10 @@
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 1000; /* Đảm bảo thanh navbar luôn ở trên cùng */
+    z-index: 5; /* Đảm bảo thanh navbar luôn ở trên cùng */
+}
+.main-color {
+    color: #119583;
 }
 .content-main {
     padding-top: 84px;
@@ -76,6 +79,13 @@
     border-width: 2px;
     font-size: 12px;
 }
+
+.add-kh path{
+    fill: green
+}
+    .add-kh path:hover {
+        fill: rgb(52, 248, 82, 0.45)
+    }
     /*Hóa đơn bên phải*/
 .bill{
     min-height:100%;
@@ -149,6 +159,12 @@
 .t-s-16 {
     font-size: 16px;
 }
+.width-pt-100 {
+    width: 100%;
+}
+.width-pt-90 {
+    width: 90%;
+}
 .width-pt-80 {
     width: 80%;
 }
@@ -175,6 +191,12 @@
 }
 .width-pt-25 {
     width: 25%;
+}
+.width-pt-15 {
+    width: 15%;
+}
+.width-pt-10 {
+    width: 10%;
 }
 .width-250 {
     width: 250px;
@@ -224,10 +246,10 @@
 .weight-700 {
     font-weight: 700
 }
-.p-5{
+.pad-5{
     padding: 5px;
 }
-.m-5{
+.mar-5{
     margin: 5px;
 }
 .border-none{
@@ -245,4 +267,23 @@
 /*Suggest*/
 .tr-sugg:hover{
     background-color: rgb(128, 128, 128, 0.8);
+}
+
+/*Add khach hang form*/
+.add-kh-form{
+    
+}
+.add-kh-form-header {
+    padding: 20px;
+    padding-bottom: 0;
+}
+.add-kh-form-body {
+    padding: 20px;
+}
+.add-kh-form-footer {
+    padding: 20px;
+    padding-top: 0;
+}
+.sub-body {
+    border-top: 1px solid #ddd;
 }

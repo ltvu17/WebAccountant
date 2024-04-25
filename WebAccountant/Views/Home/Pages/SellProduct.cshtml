@@ -1,0 +1,688 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Html.RenderPartial("../Home/Header");
+}
+
+<div>
+    <div class="home-container">
+        @Html.Partial("../Home/SideBar")
+        <div class="right-bar-home content mua-page">
+            <form>
+                <div class="top-content">
+                    @*Content*@
+                    <div class="row">
+                        @*Forms*@
+                        <div class="mua-form col-8">
+                            @* Navbar *@
+                            <ul class="nav nav-tabs mua-form-nav">
+                                <li class="nav-item">
+                                    <button class="nav-link active" id="btn-phieunhap" type="button" onclick="phieuMuaOut()">Phiếu bán</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link" id="btn-hoadon" type="button" onclick="hoadonOut()">Hóa đơn</button>
+                                </li>
+                            </ul>
+                            @*Phieu nhap*@
+                            <div id="phieu-nhap" class="row">
+                                <div id="infor-phieu-nhap" class="col-9">
+                                    <div class="row">
+                                        <div class="col-4 col-num-1">
+                                            <div class="mb-3 text-start">
+                                                <label for="input-makh" class="col-form-label">Mã khách hàng:</label>
+                                                <div class="d-flex justify-content-between">
+                                                    <input type="text"
+                                                           class="form-control input-sugg width-pt-80"
+                                                           id="input-makh"
+                                                           autofocus="autofocus"
+                                                           autocomplete="off"
+                                                           onkeyup="SearchNow('list-makh-sugg','input-makh','list-makh-sugg')" />
+                                                    <div class="height-30 width-pt-15" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                        <svg class="add-kh" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="green" d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM200 344V280H136c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H248v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z" /></svg>
+                                                    </div>
+                                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog modal-xl">
+                                                            <div class="modal-content add-kh-form">
+                                                                    <div class="add-kh-form-header d-flex justify-content-between">
+                                                                        <h6 class="modal-title main-color" id="exampleModalLabel">Thêm khách hàng</h6>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="add-kh-form-body">
+                                                                        <div class="main-body row">
+                                                                            <div class="col-3">
+                                                                                <div class="mb-3 text-start">
+                                                                                    <label for="makh-add" class="col-form-label">Mã khách hàng:</label>
+                                                                                    <input type="text"
+                                                                                           id="makh-add"
+                                                                                           class="form-control"
+                                                                                           autofocus="autofocus"
+                                                                                           autocomplete="off"/>
+                                                                                    </div>
+                                                                                <div class="mb-3 text-start">
+                                                                                    <label for="msdn-add" class="col-form-label">Mã số doanh nghiệp:</label>
+                                                                                    <input type="text"
+                                                                                           id="msdn-add"
+                                                                                           class="form-control"
+                                                                                           autofocus="autofocus"
+                                                                                           autocomplete="off" />
+                                                                                </div>
+                                                                                <div class="mb-3 text-start">
+                                                                                    <label for="dt-add" class="col-form-label">Số điện thoại:</label>
+                                                                                    <input type="text"
+                                                                                           id="dt-add"
+                                                                                           class="form-control"
+                                                                                           autofocus="autofocus"
+                                                                                           autocomplete="off" />
+                                                                                </div>
+                                                                                <div class="mb-3 text-start">
+                                                                                    <label for="email-add" class="col-form-label">Email:</label>
+                                                                                    <input type="email"
+                                                                                           id="email-add"
+                                                                                           class="form-control"
+                                                                                           autofocus="autofocus"
+                                                                                           autocomplete="off" />
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-7">
+                                                                                <div class="mb-3 text-start">
+                                                                                    <label for="tenkh-add" class="col-form-label">Tên khách hàng:</label>
+                                                                                    <input type="text"
+                                                                                           id="tenkh-add"
+                                                                                           class="form-control"
+                                                                                           autofocus="autofocus"
+                                                                                           autocomplete="off" />
+                                                                                </div>
+                                                                                <div class="mb-3 text-start">
+                                                                                    <label for="dc-add" class="col-form-label">Địa chỉ:</label>
+                                                                                    <input type="text"
+                                                                                           id="dc-add"
+                                                                                           class="form-control"
+                                                                                           autofocus="autofocus"
+                                                                                           autocomplete="off" />
+                                                                                </div>
+                                                                                <div class="mb-3 text-start">
+                                                                                    <label for="dcgh-add" class="col-form-label">Địa chỉ giao hàng:</label>
+                                                                                    <input type="text"
+                                                                                           id="dcgh-add"
+                                                                                           class="form-control"
+                                                                                           autofocus="autofocus"
+                                                                                           autocomplete="off" />
+                                                                                </div>
+                                                                                <div class="mb-3 text-start">
+                                                                                    <label for="daidien-add" class="col-form-label">Người đại diện:</label>
+                                                                                    <input type="email"
+                                                                                           id="daidien-add"
+                                                                                           class="form-control"
+                                                                                           autofocus="autofocus"
+                                                                                           autocomplete="off" />
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-2">
+                                                                                <div class="mb-3 text-start">
+                                                                                    <label for="somax-add" class="col-form-label">Số max:</label>
+                                                                                    <input type="text"
+                                                                                           id="somax-add"
+                                                                                           class="form-control"
+                                                                                           autofocus="autofocus"
+                                                                                           autocomplete="off" />
+                                                                                </div>
+                                                                                <div class="mb-3 text-start">
+                                                                                    <label for="songaythanhtoan-add" class="col-form-label">Số ngày thanh toán:</label>
+                                                                                    <input type="text"
+                                                                                           id="songaythanhtoan-add"
+                                                                                           class="form-control"
+                                                                                           autofocus="autofocus"
+                                                                                           autocomplete="off" />
+                                                                                </div>
+                                                                            <div class="mb-3 text-start">
+                                                                                <label for="kieudoituong-add" class="col-form-label">Kiểu đối tượng:</label>
+                                                                                <input type="text"
+                                                                                       id="kieudoituong-add"
+                                                                                       class="form-control"
+                                                                                       autofocus="autofocus"
+                                                                                       autocomplete="off" />
+                                                                            </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="sub-body row">
+                                                                            <div class="col-3">
+                                                                            <div class="mb-3 text-start">
+                                                                                <label for="mactyme-add" class="col-form-label">Mã công ty mẹ:</label>
+                                                                                <input type="text"
+                                                                                       id="mactyme-add"
+                                                                                       class="form-control"
+                                                                                       autofocus="autofocus"
+                                                                                       autocomplete="off" />
+                                                                            </div>
+                                                                            <div class="mb-3 text-start">
+                                                                                <label for="mavung-add" class="col-form-label">Mã vùng:</label>
+                                                                                <input type="text"
+                                                                                       id="mavung-add"
+                                                                                       class="form-control"
+                                                                                       autofocus="autofocus"
+                                                                                       autocomplete="off" />
+                                                                            </div>
+                                                                            </div>
+                                                                            <div class="col-7">
+                                                                            <div class="mb-3 text-start">
+                                                                                <label for="tenctyme-add" class="col-form-label">Tên công ty mẹ:</label>
+                                                                                <input type="text"
+                                                                                       id="tenctyme-add"
+                                                                                       class="form-control"
+                                                                                       autofocus="autofocus"
+                                                                                       autocomplete="off" />
+                                                                            </div>
+                                                                            <div class="mb-3 text-start">
+                                                                                <label for="tenvung-add" class="col-form-label">Tên vùng:</label>
+                                                                                <input type="text"
+                                                                                       id="tenvung-add"
+                                                                                       class="form-control"
+                                                                                       autofocus="autofocus"
+                                                                                       autocomplete="off" />
+                                                                            </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="add-kh-form-footer d-flex justify-content-end">
+                                                                        <button type="button" class="t-s-13 btn btn-outline-secondary mar-5" data-bs-dismiss="modal">Đóng</button>
+                                                                    <button type="button" class="t-s-13 btn btn-outline-success mar-5">Lưu</button>
+                                                                    </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="table-container">
+                                                    <table id="list-makh-sugg" class="sugg-container d-none">
+                                                        <tr id="tr-1">
+                                                            <td class="width-120">Mã khách hàng</td>
+                                                            <td class="width-250">Tên khách hàng</td>
+                                                            <td class="width-120">Mã số doanh nghiệp</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 text-start">
+                                                <label for="masodn" class="col-form-label">Mã số doanh nghiệp:</label>
+                                                <input type="text" class="form-control" id="masodn" readonly>
+                                            </div>
+                                            <div class="mb-3 text-start">
+                                                <label for="input-manv" class="col-form-label">Mã nhân viên:</label>
+                                                <input type="text"
+                                                       class="form-control input-sugg"
+                                                       id="input-manv"
+                                                       autofocus="autofocus"
+                                                       onkeyup="SearchNow('list-manv-sugg','input-manv','list-manv-sugg')" />
+                                                <div class="table-container">
+                                                    <table id="list-manv-sugg" class="sugg-container d-none">
+                                                        <tr id="tr-1">
+                                                            <td class="width-120">Mã nhân viên</td>
+                                                            <td class="width-250">Tên nhân viên</td>
+                                                            <td class="width-120">Tên phòng ban</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 text-start">
+                                                <label for="tennv" class="col-form-label">Tên nhân viên:</label>
+                                                <input type="text" class="form-control" id="tennv" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="mb-3 text-start">
+                                                <label for="tenkh" class="col-form-label">Tên khách hàng:</label>
+                                                <input type="text" class="form-control" id="tenkh" readonly>
+                                            </div>
+
+                                            <div class="mb-3 text-start">
+                                                <label for="dc" class="col-form-label">Địa chỉ:</label>
+                                                <input type="text" class="form-control" id="dc" readonly>
+                                            </div>
+
+                                            <div class="mb-3 text-start">
+                                                <label for="diengiai" class="col-form-label">Diễn giải:</label>
+                                                <input type="text" class="form-control" id="diengiai">
+                                            </div>
+                                            <div class="mb-3 text-start">
+                                                <label for="ck" class="col-form-label">Chiết khấu:</label>
+                                                <div class="d-flex justify-content-between">
+                                                    <input type="text" class="form-control width-pt-50" id="ck">
+                                                    <select class="form-select b-radius-3 height-30 width-pt-45 t-s-12">
+                                                        <option>Phần trăm</option>
+                                                        <option>VND</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="id-phieu-nhap" class="col-3 col-num-2">
+                                    <div class="ngay-hach-toan">
+                                        <div class="mb-3 text-start">
+                                            <label for="ht" class="col-form-label">Ngày hạch toán</label>
+                                            <input type="datetime-local" class="form-control" id="ht">
+                                        </div>
+                                    </div>
+                                    <div class="ngay-chung-tu">
+                                        <div class="mb-3 text-start">
+                                            <label for="ct" class="col-form-label">Ngày chứng từ</label>
+                                            <input type="date" class="form-control" id="ct">
+                                        </div>
+                                    </div>
+                                    <div class="so-phieu-nhap">
+                                        <div class="mb-3 text-start">
+                                            <label for="sopn" class="col-form-label">Số phiếu nhập</label>
+                                            <input type="text" class="form-control" id="sopn">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*Hoa don*@
+                            <div id="hoa-don" class="row d-none" aria-hidden="true">
+                                <div id="infor-hoa-don" class="col-9">
+                                    <div class="row">
+                                        <div class="col-4 col-num-1">
+                                            <div class="mb-3 text-start">
+                                                <label for="input-makh" class="col-form-label">Mã khách hàng:</label>
+                                                <input type="text"
+                                                       class="form-control input-sugg"
+                                                       id="input-makh"
+                                                       autofocus="autofocus"
+                                                       autocomplete="off"
+                                                       onkeyup="SearchNow('list-makh-sugg','input-makh','list-makh-sugg')" />
+                                                <div class="table-container">
+                                                    <table id="list-makh-sugg" class="sugg-container d-none">
+                                                        <tr id="tr-1">
+                                                            <td class="width-120">Mã khách hàng</td>
+                                                            <td class="width-250">Tên khách hàng</td>
+                                                            <td class="width-120">Mã số doanh nghiệp</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 text-start">
+                                                <label for="tenng" class="col-form-label">Mã số thuế:</label>
+                                                <input type="text" class="form-control" id="Tkthue">
+                                            </div>
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="mb-3 text-start">
+                                                <label for="tenkh" class="col-form-label">Tên khách hàng:</label>
+                                                <input type="text" class="form-control" id="tenkh">
+                                            </div>
+
+                                            <div class="mb-3 text-start">
+                                                <label for="dc" class="col-form-label">Địa chỉ:</label>
+                                                <input type="text" class="form-control" id="dc">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="id-phieu-nhap" class="col-3 col-num-2">
+                                    <div class="ngay-hach-toan">
+                                        <div class="mb-3 text-start">
+                                            <label for="tenkh" class="col-form-label">Ngày hạch toán</label>
+                                            <input type="datetime-local" class="form-control" id="tenkh">
+                                        </div>
+                                    </div>
+                                    <div class="ngay-chung-tu">
+                                        <div class="mb-3 text-start">
+                                            <label for="nct" class="col-form-label">Ngày chứng từ</label>
+                                            <input type="date" class="form-control" id="nct">
+                                        </div>
+                                    </div>
+                                    <div class="so-phieu-nhap">
+                                        <div class="mb-3 text-start">
+                                            <label for="tenkh" class="col-form-label">Số phiếu nhập</label>
+                                            <input type="text" class="form-control" id="tenkh">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*Tong tien*@
+                        <div class="col-4 bill d-flex flex-column">
+                            <div class="bill-title">Hóa đơn</div>
+                            <div id="bill-list" class="bill-list d-flex flex-column">
+                                <div style="padding-top:5px" class="bill-menu d-flex justify-content-between">
+                                    <div style="width:75%;">Tên</div>
+                                    <div style="width:25%;">Số lượng</div>
+                                </div>
+                                <div class="bill-content">
+                                    <div class="bill-product">
+                                        <div class="bill-product-name">
+                                        </div>
+                                        <div class="bill-product-number">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="so-tien mt-auto">Tổng tiền: </div>
+                        </div>
+                    </div>
+                    @*Bonus content*@
+                    @* <div class="mua-form">
+
+                    </div> *@
+                </div>
+                <div class="bottom-content">
+                    @*List product *@
+                    <table id="list-dm" class="table-text">
+                        <tr class="table-menu" id="tr-1">
+                            <td class="t-center width-20">#</td>
+                            <td class="width-200">Mã Danh Mục</td>
+                            <td>Tên Danh Mục</td>
+                            <td class="width-50">Đơn vị</td>
+                            <td class="width-150">Đơn giá</td>
+                            <td class="width-70">Số lượng</td>
+                            <td class="width-150">Thành tiền</td>
+                            <td class="width-70">Hành động</td>
+                        </tr>
+                        <tr id="tr1">
+                            <td class="t-center td-index">1</td>
+                            <td>
+                                <input type="text"
+                                       class="form-control input-sugg"
+                                       id="input-madm-1"
+                                       autofocus="autofocus"
+                                       autocomplete="off"
+                                       onkeyup="SearchNow('list-madm-sugg-1','input-madm-1','list-madm-sugg-1')" />
+                                <div class="table-container">
+                                    <table id="list-madm-sugg-1" class="sugg-container d-none">
+                                        <tr id="tr-1">
+                                            <td class="width-120">Mã danh mục</td>
+                                            <td class="width-250">Tên danh mục</td>
+                                            <td class="width-90">Số lượng tồn</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                            <td><input type="text" class="form-control" id="input-tendm-1" readonly /></td>
+                            <td><input type="text" class="form-control" id="input-donvi-1" readonly /></td>
+                            <td><input type="text" class="form-control" id="input-dongia-1" /></td>
+                            <td><input type="text" class="form-control" id="input-soluong-1" /></td>
+                            <td><input type="text" class="form-control" id="input-thanhtien-1" readonly /></td>
+                            <td class="t-center"><a onClick="xoaDm('tr1')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
+                        </tr>
+                    </table>
+                    <div class="buttons d-flex justify-content-between m-5">
+                        <button class="btn btn-success t-s-12 height-30" id="addDm" onclick="themDm()" type="button">Thêm danh mục</button>
+                        <button class="btn btn-success t-s-12 height-30" id="saveButton" onclick="Submit()" type="button">Mua sản phẩm</button>
+                    </div>
+                </div>
+            </form>
+
+            <script type="text/javascript">
+                let count = 1;
+                let index = 1;
+                var exist = [];
+                exist.push(1);
+                var data = [];
+                var element;
+                function getDataGridInstance() {
+                    let element = $("#grid-container");
+                    return DevExpress.ui.dxDataGrid.getInstance(element);
+                }
+                async function save() {
+                    $("#grid-container div [role='button']")[0].click();
+                    // $("#saveButton").after(`<button type="button" onclick="Submit()">Mua sản phẩm</button>`)
+                }
+
+                async function selection_changed(selectedItems) {
+                    var dataGrid = getDataGridInstance();
+                    data = selectedItems.selectedRowsData;
+                    $('#bill-list .bill-product-name').empty();
+                    $.each(data, function (i, product) {
+                        if (product.Donvi != "") {
+                            $('#bill-list .bill-content').append('<div class="bill-product d-flex justify-content-between">' + '<div class="product-name">' + product.Tendm + '</div><div class="product-number">' + product.Soluong + '</div></div>')
+
+                        }
+                    });
+                }
+
+                function Submit() {
+                    console.log(data)
+                    setTimeout(function (value) {
+                        $.ajax({
+                            url: '@Url.Action("SubmitCartToExport", "Ktdms")',
+                            type: 'POST',
+                            data: JSON.stringify(data),
+                            success: function (result) {
+                                console.log(result)
+                                //window.location.replace("/Home/ExportBuyProduct")
+                                window.open("https://localhost:7278/InvoiceReport/HoaDon.pdf", "_blank");
+                            }
+                        });
+                    }, 1000)
+                    save().then(
+                    )
+                }
+                function Updated() {
+                }
+
+                function hoadonOut() {
+                    document.getElementById("hoa-don").classList.remove("d-none");
+                    document.getElementById("phieu-nhap").classList.add("d-none");
+                    document.getElementById("btn-phieunhap").classList.remove("active");
+                    document.getElementById("btn-hoadon").classList.add("active");
+                }
+                function phieuMuaOut() {
+                    document.getElementById("hoa-don").classList.add("d-none");
+                    document.getElementById("phieu-nhap").classList.remove("d-none");
+                    document.getElementById("btn-hoadon").classList.remove("active");
+                    document.getElementById("btn-phieunhap").classList.add("active");
+                }
+
+
+                function SearchNow(idSugg, idInput, idUl) {
+                    document.getElementById(idSugg).classList.remove("d-none");
+                    // Declare variables
+                    var input, filter, ul, li, a, i, txtValue;
+                    input = document.getElementById(idInput);
+                    filter = input.value.toUpperCase();
+                    ul = document.getElementById(idUl);
+                    li = ul.getElementsByTagName('li');
+
+                    var table = document.getElementById(idSugg);
+                    var tr = table.getElementsByTagName('tr');
+                    for (i = 1; i < tr.length; i++) {
+                        td = tr[i].getElementsByTagName("td")[0];
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+                var madm = [
+                    {
+                        Madm: "",
+                        Tendm: "",
+                        TonT: ""
+                    }
+                ];
+                $.ajax({
+                    url: '@Url.Action("Get", "Ktdms")',
+                    type: 'GET',
+                    success: function (result) {
+                        if (result.data.length > 0) {
+                            madm = result.data;
+                            for (var i = 0; i < madm.length; i++) {
+                                const list = document.getElementById("list-madm-sugg-" + count);
+                                list.insertAdjacentHTML('beforeend', `
+                                                                                <tr class="tr-sugg" onclick="madmChooseItem(this.closest('table').closest('tr').id,'${encodeURIComponent(JSON.stringify(madm[i]))}')"><td>${madm[i].Madm}</td><td>${madm[i].Tendm}</td><td>${madm[i].TonT}</td></tr>
+                                                                `);
+                            }
+                        }
+                    }
+                });
+                function madmChooseItem(id, item) {
+                    hide_sugg("list-madm-sugg-" + id[2]);
+                    // Lấy thẻ <tr> có id là "tr1"
+                    var tr = document.getElementById(id);
+                    // Gắn giá trị vào các thẻ <td>
+                    tr.querySelector('#input-madm-' + id[2]).value = JSON.parse(decodeURIComponent(item)).Madm;
+                    tr.querySelector('#input-tendm-' + id[2]).value = JSON.parse(decodeURIComponent(item)).Tendm;
+                    tr.querySelector('#input-donvi-' + id[2]).value = JSON.parse(decodeURIComponent(item)).Donvi;
+                    tr.querySelector('#input-dongia-' + id[2]).value = JSON.parse(decodeURIComponent(item)).Dgnhap;
+                }
+                var makh = [
+                    {
+                        Madtpn: "",
+                        Tendtpn: "",
+                        MsDn: ""
+                    }
+                ];
+                $.ajax({
+                    url: '@Url.Action("Get", "Ktdtpns")',
+                    type: 'GET',
+                    success: function (result) {
+                        if (result.data.length > 0) {
+                            makh = result.data;
+                            for (var i = 0; i < makh.length; i++) {
+                                const list = document.getElementById("list-makh-sugg");
+                                list.insertAdjacentHTML('beforeend', `
+                                                                       <tr class="tr-sugg" onclick="makhChooseItem('${encodeURIComponent(JSON.stringify(makh[i]))}')"><td>${makh[i].Madtpn}</td><td>${makh[i].Tendtpn}</td><td>${makh[i].MsDn}</td></tr>
+                                                                `);
+                            }
+                        }
+                    }
+                });
+                function makhChooseItem(item) {
+                    console.log(JSON.parse(decodeURIComponent(item)))
+                    hide_sugg("list-makh-sugg");
+                    // Gắn giá trị vào các thẻ <td>
+                    document.getElementById('input-makh').value = JSON.parse(decodeURIComponent(item)).Madtpn;
+                    document.getElementById('tenkh').value = JSON.parse(decodeURIComponent(item)).Tendtpn;
+                    document.getElementById('dc').value = JSON.parse(decodeURIComponent(item)).Diachi;
+                    document.getElementById('masodn').value = JSON.parse(decodeURIComponent(item)).MsDn;
+                }
+
+                const manv = [
+                    'how to mak',
+                    'how to make',
+                    'html explore ',
+                    'css explore',
+                    'dom explore',
+                    'more items',
+                    'how to make a slidebar',
+                    'how to make this website',
+                    'html explore ',
+                    'css explore',
+                    'dom explore',
+                    'more items add hare that you want to suggest',
+                    'how to make a slidebar',
+                    'how to make this website',
+                    'html explore ',
+                    'css explore',
+                    'dom explore',
+                    'more items add hare that you want to suggest'
+                ]
+                for (var i = 0; i < manv.length; i++) {
+                    const list = document.getElementById("list-manv-sugg");
+                    list.insertAdjacentHTML('beforeend', `
+                                                                      <tr><td>${manv[i]}</td><td>${manv[i + 1]}</td><td>${manv[i + 2]}</td></tr>
+                                                                                                                         `);
+                }
+
+                //hide suggestions
+                function hide_sugg(idSugg) {
+                    document.getElementById(idSugg).classList.add("d-none");
+                }
+                document.addEventListener('click', function (event) {
+                    for (let i = 0; i < exist.length; i++) {
+                        var container = document.getElementById("list-madm-sugg-" + exist[i]);
+                        if (!container.contains(event.target) && !container.classList.contains("d-none")) {
+                            hide_sugg("list-madm-sugg-" + exist[i]);
+                            break;
+                        }
+                    }
+                    if (!document.getElementById("list-makh-sugg").contains(event.target) && !document.getElementById("list-makh-sugg").classList.contains("d-none")) {
+                        hide_sugg("list-makh-sugg");
+                    }
+                    
+                    if (!document.getElementById("list-manv-sugg").contains(event.target) && !document.getElementById("list-manv-sugg").classList.contains("d-none")) {
+                        hide_sugg("list-manv-sugg");
+                    }
+                });
+
+
+                function themDm() {
+                    var table = document.getElementById("list-dm");
+                    count++;
+                    index++;
+                    table.insertAdjacentHTML('beforeend', `
+                                                                                                                    <tr id="tr${count}">
+                                                                                                                            <td class="t-center td-index">${index}</td>
+                                                                                                                            <td>
+                                                                                                                                <input type="text"
+                                                                                                                                       class="form-control input-sugg"
+                                                                                                                                       id="input-madm-${count}"
+                                                                                                                                       autofocus="autofocus"
+                                                                                                                                       autocomplete="off"
+                                                                                                                                       onkeyup="SearchNow('list-madm-sugg-${count}','input-madm-${count}','list-madm-sugg-${count}')" />
+                                                                                                                                <div class="table-container">
+                                                                                                                                    <table id="list-madm-sugg-${count}" class="sugg-container d-none">
+                                                                                                                                        <tr id="tr-1">
+                                                                                                                                            <td class="width-120">Mã danh mục</td>
+                                                                                                                                            <td class="width-250">Tên danh mục</td>
+                                                                                                                                            <td class="width-90">Số lượng tồn</td>
+                                                                                                                                        </tr>
+                                                                                                                                    </table>
+                                                                                                                                </div>
+                                                                                                                            </td>
+                                                                                                                            <td><input type="text" class="form-control" id="input-tendm-${count}" readonly /></td>
+                                                                                                                            <td><input type="text" class="form-control" id="input-donvi-${count}" readonly /></td>
+                                                                                                                            <td><input type="text" class="form-control" id="input-dongia-${count}" /></td>
+                                                                                                                            <td><input type="text" class="form-control" id="input-soluong-${count}" /></td>
+                                                                                                                            <td><input type="text" class="form-control" id="input-thanhtien-${count}" readonly/></td>
+                                                                                                                            <td class="t-center"><a onClick="xoaDm('tr${count}')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
+                                                                                                                        </tr>
+                                                        `);
+                    $.ajax({
+                        url: '@Url.Action("Get", "Ktdms")',
+                        type: 'GET',
+                        success: function (result) {
+                            if (result.data.length > 0) {
+                                madm = result.data;
+                                for (var i = 0; i < madm.length; i++) {
+                                    const list = document.getElementById("list-madm-sugg-" + count);
+                                    list.insertAdjacentHTML('beforeend', `
+                                                                               <tr class="tr-sugg" onclick="madmChooseItem(this.closest('table').closest('tr').id,'${encodeURIComponent(JSON.stringify(madm[i]))}')"><td>${madm[i].Madm}</td><td>${madm[i].Tendm}</td><td>${madm[i].TonT}</td></tr>
+                                                                        `);
+                                }
+                            }
+                        }
+                    });
+                    exist.push(count);
+                }
+                function xoaDm(id) {
+                    if (index > 1) {
+                        var tr = document.getElementById(id);
+                        for (let i = 0; i < exist.length; i++) {
+                            if (exist[i] == id[2]) {
+                                exist.splice(i, 1);
+                            }
+                        }
+                        tr.remove();
+                        index--;
+                        var idList = [];
+                        for (let i = 1; i <= index; i++) {
+                            idList.push(i);
+                        }
+                        console.log(idList);
+                        var tdList = document.getElementsByClassName("td-index");
+                        for (let i = 0; i < tdList.length; i++) {
+                            tdList[i].textContent = idList[i];
+                        }
+                    }
+                }
+            </script>
+        </div>
+    </div>
+</div>
+
+
