@@ -11,7 +11,7 @@ namespace WebAccountant.Models
         public string? Donvi { get; set; }
         [Range(0, int.MaxValue)]
         public int Soluong { get; set; }
-        public double Dgban1 { get; set; }
+        public double Dgban { get; set; }
         public double TonTDv1 { get; set; }
     }
 }

@@ -67,7 +67,7 @@ namespace WebAccountant
                 Madm = baseEntity.Madm,
                 Donvi = baseEntity.Donvi,
                 Tendm = baseEntity.Tendm,
-                Dgban1 = baseEntity.Dgban1,
+                Dgban = baseEntity.Dgban,
                 TonTDv1 = baseEntity.TonTDv1,
                 Soluong = 0,
             };
