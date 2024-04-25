@@ -106,8 +106,8 @@ namespace WebAccountant.Repository.Implement
                                     t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text(i.Madm).FontFamily(Fonts.TimesNewRoman); 
                                     t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text(i.Tendm).FontFamily(Fonts.TimesNewRoman); 
                                     t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text(i.Soluong.ToString()).FontFamily(Fonts.TimesNewRoman); 
-                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text(i.Dgban1.ToString()).FontFamily(Fonts.TimesNewRoman); 
-                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text((i.Dgban1 * i.Soluong).ToString()).FontFamily(Fonts.TimesNewRoman); 
+                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text(i.Dgban.ToString()).FontFamily(Fonts.TimesNewRoman); 
+                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text((i.Dgban * i.Soluong).ToString()).FontFamily(Fonts.TimesNewRoman); 
                                     x++;
                                 }
                                 t.Cell().ColumnSpan(5).AlignLeft().PaddingLeft(10).Text("Tổng cộng: ").FontSize(20).FontFamily(Fonts.TimesNewRoman);
@@ -169,15 +169,15 @@ namespace WebAccountant.Repository.Implement
                     Donvi = model.Donvi,
                     LuongCtu = modelDTO.Soluong,
                     Luong = modelDTO.Soluong,
-                    Dgvnd = modelDTO.Dgban1,
-                    Ttvnd = modelDTO.Soluong* modelDTO.Dgban1,
+                    Dgvnd = modelDTO.Dgban,
+                    Ttvnd = modelDTO.Soluong* modelDTO.Dgban,
                     PtCk = 0,
                     Chietkhau = 0,
                     Hdvat = "R",
                     Tkthue = "33311",
                     TsGtgt = "8",
                     Thuevnd = 0, //Tam thoi tinh toan sau///
-                    TtvndTt = modelDTO.Soluong * modelDTO.Dgban1, //chua Cong voi thue
+                    TtvndTt = modelDTO.Soluong * modelDTO.Dgban, //chua Cong voi thue
                     Mathang = model.Tendm,
                     Makh = "TRUONGHA",
                     Tenkh = "Công ty Cổ Phần Trường Hà",
@@ -187,7 +187,7 @@ namespace WebAccountant.Repository.Implement
                     Khachhang = "Công ty Cổ Phần Trường Hà",
                     Dgvon = 0,
                     Gtvon = 0,
-                    LaiGop = modelDTO.Soluong * modelDTO.Dgban1,
+                    LaiGop = modelDTO.Soluong * modelDTO.Dgban,
                     Tygia = 0,
                     Ttusd = 0,
                     Thueusd = 0,
@@ -204,7 +204,7 @@ namespace WebAccountant.Repository.Implement
                     Col13 = 0,
                     Trangthai = 0,
                     ChietkhauUsd = 0,
-                    DgGc = modelDTO.Soluong * modelDTO.Dgban1,
+                    DgGc = modelDTO.Soluong * modelDTO.Dgban,
                     DgVc = 0,
                     IdChungtu = 0,
                     Model = "T",

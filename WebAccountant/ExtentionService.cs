@@ -13,7 +13,8 @@ namespace WebAccountant
 {
     public static class ExtentionService
     {
-        public static string AppConnectionString = "No Connection";
+        //public static string AppConnectionString = "No Connection";
+        public static string AppConnectionString = "Data Source=(local);Initial Catalog=TIENHIEU2024; Integrated Security=True;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
         public static IServiceCollection AddDependencyInjection(this IServiceCollection services)
         {
             services.AddScoped<UnitOfWork>();
@@ -66,7 +67,7 @@ namespace WebAccountant
                 Madm = baseEntity.Madm,
                 Donvi = baseEntity.Donvi,
                 Tendm = baseEntity.Tendm,
-                Dgban1 = baseEntity.Dgban1,
+                Dgban = baseEntity.Dgban,
                 TonTDv1 = baseEntity.TonTDv1,
                 Soluong = 0,
             };
