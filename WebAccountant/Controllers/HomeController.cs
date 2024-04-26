@@ -53,6 +53,7 @@ namespace WebAccountant.Controllers
         }
         public IActionResult BuyProduct()
         {
+            ViewData["isError"] = "0";
             ViewData["activeId"] = "9";
             return View("~/Views/Home/Pages/BuyProduct.cshtml");
         }

@@ -292,3 +292,6 @@
 .sub-body {
     border-top: 1px solid #ddd;
 }
+.error-msg{
+    color: red !important;
+}

@@ -33,13 +33,16 @@
                                             <div class="mb-3 text-start">
                                                 <label for="input-makh" class="col-form-label">Mã khách hàng:</label>
                                                 <div class="d-flex justify-content-between">
+                                                    <div class="width-pt-80">
                                                     <input type="text"
-                                                           class="form-control input-sugg width-pt-80"
+                                                           class="form-control input-sugg"
                                                            id="input-makh"
                                                            autofocus="autofocus"
                                                            autocomplete="off"
                                                            asp-for="Makh"
                                                            onkeyup="SearchNow('list-makh-sugg','input-makh','list-makh-sugg')" />
+                                                    <span class="error-msg" asp-validation-for="Makh"></span>
+                                                    </div>
                                                     <div class="height-30 width-pt-15" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                                         <svg class="add-kh" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="green" d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM200 344V280H136c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H248v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z" /></svg>
                                                     </div>
@@ -404,9 +407,11 @@
                             <td class="t-center"><a onClick="xoaDm('tr1')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
                         </tr>
                     </table>
-                    <div class="buttons d-flex justify-content-between m-5">
+                    <span asp-validation-for="ktdmDTOs"></span>
+                    <div class="buttons d-flex justify-content-between mar-5">
                         <button class="btn btn-success t-s-12 height-30" id="addDm" onclick="themDm()" type="button">Thêm danh mục</button>
-                        <button class="btn btn-success t-s-12 height-30" id="saveButton"  type="submit">Mua sản phẩm</button>
+                        <button class="btn btn-warning t-s-12 height-30" id="exportBill" onclick="exportPDF()">Xuất hóa đơn</button>
+                        <button class="btn btn-primary t-s-12 height-30" id="saveButton"  type="submit">Lưu đơn mua</button>
                     </div>
                 </div>
             </form>
@@ -711,7 +716,7 @@
                                 exist.splice(i, 1);
                             }
                         }
-                        for (let i = 1; i < madmItems.length; i++) {
+                        for (let i = 0; i < madmItems.length; i++) {
                             if(madmItems[i].trId == id){
                                 madmItems.splice(i,1);
                                 console.log("xoa:" + madmItems);
@@ -728,6 +733,7 @@
                         for (let i = 0; i < tdList.length; i++){
                             tdList[i].textContent = idList[i];
                         }
+                        loadBill();
                     }
                 }
                 function Submit() {
@@ -746,12 +752,50 @@
                     }, 1000)
                     save().then()
                 }
-
                 document.getElementById('myForm').onkeypress = function (e) {
                     var key = e.charCode || e.keyCode || 0;
                     if (key == 13) {
                         e.preventDefault();
                     }
+                }
+                function exportPDF(){
+                    var idKh = document.getElementById("input-makh");
+                    var khs = [
+                        {
+                            Matk: "",
+                            Madm: "",
+                            Tendm: "",
+                            Donvi: "",
+                            Soluong: "",
+                            Dgban: "",
+                            TonTDv1: ""
+                        }
+                    ];
+                    
+                    for (let i = 0; i < madmItems.length; i++){
+                        var madmDTO = {
+                            Matk: madmItems[i].Matk,
+                            Madm: madmItems[i].Madm,
+                            Tendm: madmItems[i].Tendm,
+                            Donvi: madmItems[i].Donvi,
+                            Soluong: madmItems[i].Soluong,
+                            Dgban: madmItems[i].Dgban,
+                            TonTDv1: madmItems[i].TonTDv1,
+                        }
+                        khs.push(madmDTO);
+                    }
+                    var myKeyVals = {
+                        Makh: idKh,
+                        ktdmDTOs: khs,
+                    }
+                    $.ajax({
+                        url: '@Url.Action("SubmitCartToExport", "Ktdms")',
+                        type: 'POST',
+                        data: myKeyVals,
+                        success: function (result) {
+                            console.log(result);
+                        }
+                    });
                 }
             </script>
         </div>

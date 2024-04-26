@@ -88,7 +88,7 @@ namespace WebAccountant.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SubmitCartToExport()
+        public async Task<IActionResult> SubmitCartToExport(AddToKTSCDTO items)
         {
             var cart = HttpContext.Session.GetString("cart");
             List<KtdmDTO> ktdmsDTO = new List<KtdmDTO>();
@@ -97,8 +97,8 @@ namespace WebAccountant.Controllers
                 ktdmsDTO = JsonConvert.DeserializeObject<List<KtdmDTO>>(cart);
             }
             var Keys = this.Request.Form.Keys.FirstOrDefault();       
-            var items = JsonConvert.DeserializeObject<List<KtdmDTO>>(Keys);
-            foreach(var item in items)
+            var itemss = JsonConvert.DeserializeObject<List<KtdmDTO>>(Keys);
+            foreach(var item in itemss)
             {
                 var getItem = ktdmsDTO.FirstOrDefault(s => s.Matk == item.Matk && s.Madm == item.Madm);
                 if (getItem != null)
@@ -106,8 +106,8 @@ namespace WebAccountant.Controllers
                     item.Soluong = getItem.Soluong;
                 }
             }
-            //var pathValue = await _ktdmRepo.ExportPDF(items);
-            return Json(items);
+            var pathValue = await _ktdmRepo.ExportPDF(items);
+            return RedirectToAction("ExportBuyProduct", "Home");
         }
         [HttpPost]
         public async Task<IActionResult> SubmitCartToSave(AddToKTSCDTO items)
