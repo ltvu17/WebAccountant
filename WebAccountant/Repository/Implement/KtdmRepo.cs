@@ -60,9 +60,9 @@ namespace WebAccountant.Repository.Implement
                     {
                         row.RelativeItem().AlignCenter().Width(300).Border(1).Column(col =>
                         {
-                            col.Item().AlignCenter().Text("Tên công ty").Bold().FontSize(20).FontFamily(Fonts.TimesNewRoman);
-                            col.Item().AlignCenter().Text("Địa chỉ").FontFamily(Fonts.TimesNewRoman);
-                            col.Item().AlignCenter().Text("Điện thoại").FontFamily(Fonts.TimesNewRoman);
+                            col.Item().AlignCenter().Text(customer.Tendtpn).Bold().FontSize(20).FontFamily(Fonts.TimesNewRoman);
+                            col.Item().AlignCenter().Text(customer.Diachi).FontFamily(Fonts.TimesNewRoman);
+                            col.Item().AlignCenter().Text(customer.Dienthoai).FontFamily(Fonts.TimesNewRoman);
                         });
                     });
                     page.Content().AlignCenter().PaddingTop(12).Row(row =>
@@ -76,11 +76,11 @@ namespace WebAccountant.Repository.Implement
                             });
                             col.Item().AlignLeft().Text(t =>
                             {
-                                t.Span("Khách hàng: .......................................................           ").FontSize(15).FontFamily(Fonts.TimesNewRoman);
-                                t.Span("Điện thoại: ............................").FontSize(15).FontFamily(Fonts.TimesNewRoman);
+                                t.Span("Khách hàng: "+ customer.Tendtpn).FontSize(15).FontFamily(Fonts.TimesNewRoman);
+                                t.Span("Điện thoại: "+customer.Dienthoai).FontSize(15).FontFamily(Fonts.TimesNewRoman);
                             }
                             );
-                            col.Item().AlignLeft().PaddingBottom(10).Text("Địa chỉ: .........................................................................................................................").FontSize(15).FontFamily(Fonts.TimesNewRoman);
+                            col.Item().AlignLeft().PaddingBottom(10).Text("Địa chỉ: "+customer.Diachi).FontSize(15).FontFamily(Fonts.TimesNewRoman);
                             col.Item().Border(1).MinimalBox().Table(t =>
                             {
                                 t.ColumnsDefinition(column =>
