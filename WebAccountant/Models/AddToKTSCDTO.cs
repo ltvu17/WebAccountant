@@ -7,6 +7,9 @@ namespace WebAccountant.Models
     {
         [Required(ErrorMessage = "Hãy điền khách hàng!")]
         public string Makh {  get; set; }
+        public DateTime NgayCtu { get; set; }
+        public DateTime NgayHToan {  get; set; }    
+        public double PtChietKhau { get; set; }
 
         public List<KtdmDTO> ktdmDTOs { get; set; } = new List<KtdmDTO>();
     }
