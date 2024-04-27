@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System.Collections;
 using System.Globalization;
 using WebAccountant.DAOs;
+using WebAccountant.Models;
 using WebAccountant.ModelsBase;
 
 namespace WebAccountant.Repository.Implement
@@ -43,6 +44,90 @@ namespace WebAccountant.Repository.Implement
         public async Task<IEnumerable<Ktsc>> GetAllAsync()
         {
             return await _unitOfWork.KTSCDAO.GetAll();
+        }
+
+        public async Task<IEnumerable<PhieuBanHangDTO>> GetAllDSPhieuBanHang()
+        {
+            var list = new List<PhieuBanHangDTO>();
+            var items = (await _unitOfWork.KTSCDAO.GetAll()).GroupBy(i => new
+            {
+                i.SoHd,
+                i.Tenkh,
+                i.Ngayct
+            }).ToList();
+            foreach (var item in items)
+            {
+                var groupItem = item.Where(s => s.Lctg == "HDBR" && !s.Diengiai.Contains("Thuế GTGT đầu ra HĐ")
+                                            && !s.Diengiai.Contains(" Chiết khấu theo chứng từ")).ToList();
+                var insertItem = new PhieuBanHangDTO();
+                double tongtien = 0;
+                double thanhTien = 0;
+                double chietKhau = 0;
+                double tongCk = 0;
+                double khTratien = 0;
+                foreach (var i in groupItem)
+                {
+                    tongtien += i.Ttvnd - i.Chietkhau + i.Thuevnd;
+                    thanhTien += i.Ttvnd;
+                    chietKhau += i.PtCk;
+                    tongCk += i.Chietkhau;
+                }
+                var key = item.FirstOrDefault();
+                insertItem.TongTien = tongtien.ToString();
+                insertItem.NgayCtu = (DateTime)key.Ngayct;
+                insertItem.Soctu = key.Soct;
+                insertItem.ThanhTien = thanhTien.ToString();
+                insertItem.ckPhanTram = chietKhau.ToString();
+                insertItem.CkThanhTien = tongCk.ToString();
+                insertItem.KhTraTien = khTratien.ToString();
+                insertItem.MaKh = key.Makh;
+                insertItem.TenKh = key.Tenkh;
+                insertItem.Diachi = key.Diachi;
+                list.Add(insertItem);
+            }
+            return list;
+        }
+
+        public async Task<IEnumerable<PhieuMuaHangDTO>> GetAllDSPhieuMuaHang()
+        {
+            var list = new List<PhieuMuaHangDTO>();
+            var items = (await _unitOfWork.KTSCDAO.GetAll()).Where(s=>s.Lctg == "PNK").GroupBy(i => new
+            {
+                i.SoHd,
+                i.Tenkh,
+                i.Ngayct
+            }).ToList();
+            foreach (var item in items)
+            {
+                var groupItem = item.Where(s => s.Lctg == "PNK" && !s.Diengiai.Contains(" Thuế GTGT mua vào HĐ")
+                                            && !s.Diengiai.Contains(" Chiết khấu theo chứng từ")).ToList();
+                var insertItem = new PhieuMuaHangDTO();
+                double tongtien = 0;
+                double thanhTien = 0;
+                double chietKhau = 0;
+                double tongCk = 0;
+                double khTratien = 0;
+                foreach (var i in groupItem)
+                {
+                    tongtien += i.Ttvnd - i.Chietkhau + i.Thuevnd;
+                    thanhTien += i.Ttvnd;
+                    chietKhau += i.PtCk;
+                    tongCk += i.Chietkhau;
+                }
+                var key = item.FirstOrDefault();
+                insertItem.TongTien = tongtien.ToString();
+                insertItem.NgayCtu = (DateTime)key.Ngayct;
+                insertItem.Soctu = key.Soct;
+                insertItem.ThanhTien = thanhTien.ToString();
+                insertItem.ckPhanTram = chietKhau.ToString();
+                insertItem.CkThanhTien = tongCk.ToString();
+                insertItem.KhTraTien = khTratien.ToString();
+                insertItem.MaKh = key.Makh;
+                insertItem.TenKh = key.Tenkh;
+                insertItem.Diachi = key.Diachi;
+                list.Add(insertItem);
+            }
+            return list;
         }
 
         public async Task Update(string key, string values)
