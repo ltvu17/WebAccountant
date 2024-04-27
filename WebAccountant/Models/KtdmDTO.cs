@@ -12,6 +12,8 @@ namespace WebAccountant.Models
         [Range(0, int.MaxValue)]
         public int Soluong { get; set; }
         public double Dgban { get; set; }
+        public double PtChietKhau { get; set; }
+        public double PtThue { get; set; }
         public double TonTDv1 { get; set; }
     }
 }

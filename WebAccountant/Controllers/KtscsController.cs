@@ -24,7 +24,18 @@ namespace WebAccountant.Controllers
         public KtscsController(IKtscRepo ktscRepo) {
             _ktscRepo = ktscRepo;
         }
-
+        [HttpGet]
+        public async Task<IActionResult> GetALLDSPhieuBanHang(DataSourceLoadOptions loadOptions)
+        {
+            var ktscBanHangs = await _ktscRepo.GetAllDSPhieuBanHang();
+            return Json(DataSourceLoader.Load(ktscBanHangs, loadOptions));
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetALLDSPhieuMuaHang(DataSourceLoadOptions loadOptions)
+        {
+            var ktscMuaHangs = await _ktscRepo.GetAllDSPhieuMuaHang();
+            return Json(DataSourceLoader.Load(ktscMuaHangs, loadOptions));
+        }
         [HttpGet]
         public async Task<IActionResult> Get(DataSourceLoadOptions loadOptions) {
             var ktscs = await _ktscRepo.GetAllAsync();
