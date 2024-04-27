@@ -103,9 +103,9 @@
                 .Columns(columns =>
                 {
 
-                    columns.AddFor(m => m.Madtpn).Caption("Mã đối tượng");
+                    columns.AddFor(m => m.Madtpn).Caption("Mã đối tượng").Fixed(true);
 
-                    columns.AddFor(m => m.Tendtpn).Caption("Tên đối tượng");
+                    columns.AddFor(m => m.Tendtpn).Caption("Tên đối tượng").Fixed(true);
 
                     columns.AddFor(m => m.Diachi).Caption("Địa chỉ");
 

@@ -5,7 +5,7 @@
     font-size: 13px;
     transition: .2s ease-out;
     position: sticky, relative;
-    z-index: 1000;
+    z-index: 4;
 }
     .input-sugg:hover {
         border: 2px solid dodgerblue;
@@ -39,17 +39,3 @@
     #tr-1 td {
         font-weight: 500 !important;
     }
-    /* ul {
-    list-style-type: none;
-}
-
-    ul li a {
-        font-size: 13px;
-        text-decoration: none;
-        color: black;
-        text-transform: capitalize;
-        display: flex;
-        padding: 10px 20px;
-        cursor: default;
-    }
-*/
