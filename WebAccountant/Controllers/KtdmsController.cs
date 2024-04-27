@@ -106,7 +106,7 @@ namespace WebAccountant.Controllers
                     item.Soluong = getItem.Soluong;
                 }
             }
-            var pathValue = await _ktdmRepo.ExportPDF(items);
+           // var pathValue = await _ktdmRepo.ExportPDF(items);
             return Json(items);
         }
         [HttpPost]

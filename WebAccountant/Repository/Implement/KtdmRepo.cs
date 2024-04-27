@@ -186,7 +186,7 @@ namespace WebAccountant.Repository.Implement
                         TtvndTt = modelDTO.Soluong * modelDTO.Dgban, //chua Cong voi thue
                         Mathang = model.Tendm,
                         Makh = customer.Madtpn,
-                        Tenkh = customer.Tentknh,
+                        Tenkh = customer.Tendtpn,
                         MsDn = customer.MsDn,
                         Diachi = customer.Diachi,
                         DiachiNgd = customer.Diachi,

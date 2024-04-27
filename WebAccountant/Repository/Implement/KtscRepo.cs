@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System.Collections;
 using System.Globalization;
 using WebAccountant.DAOs;
+using WebAccountant.Models;
 using WebAccountant.ModelsBase;
 
 namespace WebAccountant.Repository.Implement
@@ -42,7 +43,35 @@ namespace WebAccountant.Repository.Implement
 
         public async Task<IEnumerable<Ktsc>> GetAllAsync()
         {
+            var items = (await _unitOfWork.KTSCDAO.GetAll()).GroupBy(i => new
+            {
+                i.SoHd,
+                i.Tenkh,
+                i.Ngayct
+            }).ToList();
             return await _unitOfWork.KTSCDAO.GetAll();
+        }
+
+        public async Task<IEnumerable<PhieuBanHangDTO>> GetAllDSPhieuBanHang()
+        {
+            var list = new List<PhieuBanHangDTO>();
+            var items = (await _unitOfWork.KTSCDAO.GetAll()).GroupBy(i => new
+            {
+                i.SoHd,
+                i.Tenkh,
+                i.Ngayct
+            }).ToList();
+            foreach(var item in items)
+            {
+                var groupItem = item.Where(s=>s.Diengiai == s.Tenkh).ToList();
+                var insertItem = new PhieuBanHangDTO();
+                foreach(var i in groupItem)
+                {
+                    insertItem.TongTien += (i.Ttvnd - i.Chietkhau + i.Thuevnd);
+                }
+                list.Add(insertItem);
+            }
+            return list;
         }
 
         public async Task Update(string key, string values)
