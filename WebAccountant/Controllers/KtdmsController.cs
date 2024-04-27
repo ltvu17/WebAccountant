@@ -90,23 +90,7 @@ namespace WebAccountant.Controllers
         [HttpPost]
         public async Task<IActionResult> SubmitCartToExport(AddToKTSCDTO items)
         {
-            var cart = HttpContext.Session.GetString("cart");
-            List<KtdmDTO> ktdmsDTO = new List<KtdmDTO>();
-            if (cart != null)
-            {
-                ktdmsDTO = JsonConvert.DeserializeObject<List<KtdmDTO>>(cart);
-            }
-            var Keys = this.Request.Form.Keys.FirstOrDefault();       
-            var itemss = JsonConvert.DeserializeObject<List<KtdmDTO>>(Keys);
-            foreach(var item in itemss)
-            {
-                var getItem = ktdmsDTO.FirstOrDefault(s => s.Matk == item.Matk && s.Madm == item.Madm);
-                if (getItem != null)
-                {
-                    item.Soluong = getItem.Soluong;
-                }
-            }
-           // var pathValue = await _ktdmRepo.ExportPDF(items);
+            var pathValue = await _ktdmRepo.ExportPDF(items);
             return Json(items);
         }
         [HttpPost]

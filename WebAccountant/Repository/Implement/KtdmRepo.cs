@@ -145,6 +145,7 @@ namespace WebAccountant.Repository.Implement
         public async Task<bool> SaveCartToDB(AddToKTSCDTO item)
         {
             var items = item.ktdmDTOs.ToList();
+            var newGuid = Guid.NewGuid();
             var customer = (await _unitOfWork.KTDTPNDAO.Find(s => s.Madtpn == item.Makh, 1, 1)).FirstOrDefault();
             var models = (await _unitOfWork.KTDMDao.GetAll()).IntersectBy(items
                 .Select(x => new {madm = x.Madm, matk = x.Matk}), y => new { madm = y.Madm, matk = y.Matk });
@@ -155,42 +156,54 @@ namespace WebAccountant.Repository.Implement
                     var i = 0;
                     var modelDTO = items.FirstOrDefault(
                             x => x.Madm == model.Madm && x.Matk == x.Matk);
-                    var stt = (await _unitOfWork.KTSCDAO.GetAll()).OrderBy(x => x.SttSc).LastOrDefault().SttSc;
-                    var insertItem = new Ktsc()
+                    var modelForSTT = (await _unitOfWork.KTSCDAO.GetAll()).OrderBy(x => x.SttSc).LastOrDefault();
+                    var Ttvnd = modelDTO.Soluong * modelDTO.Dgban;
+                    var Chietkhau = modelDTO.Soluong * modelDTO.Dgban * (modelDTO.PtChietKhau / 100);
+                    var Thuevnd = (modelDTO.Soluong * modelDTO.Dgban - modelDTO.Soluong * modelDTO.Dgban * (modelDTO.PtChietKhau / 100)) * (modelDTO.PtThue / 100);
+                    var modelForId = (await _unitOfWork.KTSCDAO.GetAll()).OrderBy(s => s.SttSapxep).LastOrDefault();
+                    double IdChungtu = 0;
+                    double SttSapXep = 0;
+                    double stt = 0;
+                    if(modelForId != null)
+                    {
+                        IdChungtu = modelForId.IdChungtu + 1 ;
+                        SttSapXep = modelForId.SttSapxep + 1;
+                    }
+                    if (modelForSTT != null)
+                    {
+                        stt = modelForSTT.SttSc + 1;
+                    }
+                    var insertPhieuHang = new Ktsc()
                     {
                         Lctg = "HDBR",
-                        SrHd = "1C24TYY",
+                        SrHd = DateTime.UtcNow.Year.ToString(),
                         SoHd = "00001",
-                        NgayHd = DateTime.UtcNow,
-                        Soct = "00001",
-                        Ngayct = DateTime.UtcNow,
-                        Diengiai = "Xuất bán Trường Hà - S09562",
+                        NgayHd = item.NgayHToan,
+                        Ngayct = item.NgayCtu,
+                        Diengiai = customer.Tendtpn,
                         Tkno = "131",
-                        Madtpnco = customer.Madtpn,
-                        Tkco = "5111",
                         Madtpnno = customer.Madtpn,
-                        Madmco = "0",
-                        Tendm = model.Tendm,
-                        DonviCtu = model.Donvi,
+                        Madtpnco = "",
+                        Tkco = "511",
+                        MaCt="",
+                        Madmco = model.Madm,
                         Donvi = model.Donvi,
-                        LuongCtu = modelDTO.Soluong,
+                        LuongCtu = 0,
                         Luong = modelDTO.Soluong,
                         Dgvnd = modelDTO.Dgban,
-                        Ttvnd = modelDTO.Soluong * modelDTO.Dgban,
-                        PtCk = 0,
-                        Chietkhau = 0,
+                        Ttvnd = Ttvnd,
+                        PtCk = modelDTO.PtChietKhau,
+                        Chietkhau = Chietkhau,
                         Hdvat = "R",
                         Tkthue = "33311",
-                        TsGtgt = "8",
-                        Thuevnd = 0, //Tam thoi tinh toan sau///
-                        TtvndTt = modelDTO.Soluong * modelDTO.Dgban, //chua Cong voi thue
-                        Mathang = model.Tendm,
+                        TsGtgt = modelDTO.PtThue.ToString(),
+                        Thuevnd = Thuevnd,
+                        TtvndTt = Ttvnd - Chietkhau + Thuevnd,
                         Makh = customer.Madtpn,
                         Tenkh = customer.Tendtpn,
                         MsDn = customer.MsDn,
                         Diachi = customer.Diachi,
                         DiachiNgd = customer.Diachi,
-                        Khachhang = customer.Tentknh,
                         Dgvon = 0,
                         Gtvon = 0,
                         LaiGop = modelDTO.Soluong * modelDTO.Dgban,
@@ -199,9 +212,9 @@ namespace WebAccountant.Repository.Implement
                         Thueusd = 0,
                         TtusdTt = 0,
                         Ngayctgs = DateTime.UtcNow,
-                        SttSc = stt + 1,
+                        SttSc = stt,
                         Thang = 1,
-                        Mauser = "KT01",
+                        Mauser = "QUANLY",
                         Dgusd = 0,
                         Tienhang = 0,
                         Dontrong = 0,
@@ -212,14 +225,95 @@ namespace WebAccountant.Repository.Implement
                         ChietkhauUsd = 0,
                         DgGc = modelDTO.Soluong * modelDTO.Dgban,
                         DgVc = 0,
-                        IdChungtu = 0,
+                        IdChungtu = IdChungtu,
                         Model = "T",
                         SlGc = 0,
                         SttTt = 0,
-                        ThangN = 1,
+                        ThangN = DateTime.UtcNow.Month,
                         Thueeur = 0,
-                        TkChietkhau = "5211",
-                        TkXuatkho = "1551",
+                        TkChietkhau = "521",
+                        TkXuatkho = "1561",
+                        TnkUsd = 0,
+                        TnkVnd = 0,
+                        TsNk = 0,
+                        TtGc = 0,
+                        TtVc = 0,
+                        Tteur = 0,
+                        Mangd = customer.Madtpn,
+                        HsqdDvt = modelDTO.Soluong,
+                        Luong1 = 0,
+                        Luong2 = 0,
+                        SttBt = i,
+                        Chietkhau2 = 0,
+                        PtCk2 = 0,
+                        IdNghiepvu = "TIENHANG",
+                        SttSapxep = SttSapXep,
+                        Guid = newGuid.ToString(),
+                        SoctN = 0,
+                        Dgmausac = 0,
+                        Ttmausac = 0,
+                    };
+                    var insertPhieuXuat = new Ktsc()
+                    {
+                        Lctg = "PXK",
+                        SrHd = DateTime.UtcNow.Year.ToString(),
+                        SoHd = "00001",
+                        NgayHd = item.NgayHToan,
+                        Ngayct = item.NgayCtu,
+                        Diengiai = " Xuất kho theo chứng từ : ",
+                        Tkno = "632",
+                        Madtpnno = customer.Madtpn,
+                        Madtpnco = "",
+                        Tkco = "156",
+                        MaCt = "",
+                        Madmco = model.Madm,
+                        Donvi = model.Donvi,
+                        LuongCtu = 0,
+                        Luong = modelDTO.Soluong,
+                        Dgvnd = 0,
+                        Ttvnd = 0,
+                        PtCk = 0,
+                        Chietkhau = 0,
+                        Hdvat = "",
+                        Tkthue = "",
+                        TsGtgt = modelDTO.PtThue.ToString(),
+                        Thuevnd = Thuevnd,
+                        TtvndTt = 0, 
+                        Makh = customer.Madtpn,
+                        Tenkh = customer.Tendtpn,
+                        MsDn = customer.MsDn,
+                        Diachi = customer.Diachi,
+                        DiachiNgd = customer.Diachi,
+                        Dgvon = 0,
+                        Gtvon = 0,
+                        LaiGop = modelDTO.Soluong * modelDTO.Dgban,
+                        Tygia = 0,
+                        Ttusd = 0,
+                        Thueusd = 0,
+                        TtusdTt = 0,
+                        Ngayctgs = DateTime.UtcNow,
+                        SttSc = stt,
+                        Thang = 1,
+                        Mauser = "QUANLY",
+                        Dgusd = 0,
+                        Tienhang = 0,
+                        Dontrong = 0,
+                        Col11 = 0,
+                        Col12 = 0,
+                        Col13 = 0,
+                        Trangthai = 0,
+                        ChietkhauUsd = 0,
+                        DgGc = modelDTO.Soluong * modelDTO.Dgban,
+                        DgVc = 0,
+                        IdChungtu = IdChungtu,
+                        Model = "T",
+                        SlGc = 0,
+                        SttTt = 0,
+                        ThangN = DateTime.UtcNow.Month,
+                        Thueeur = 0,
+                        Mangd = customer.Madtpn,
+                        TkChietkhau = "521",
+                        TkXuatkho = "1561",
                         TnkUsd = 0,
                         TnkVnd = 0,
                         TsNk = 0,
@@ -232,19 +326,18 @@ namespace WebAccountant.Repository.Implement
                         SttBt = i,
                         Chietkhau2 = 0,
                         PtCk2 = 0,
-                        IdNghiepvu = "TIENHANG",
-                        SttSapxep = 1,
-                        Guid = "b219669e-c914-4c0a-9c54-6c8ab53c058c",
-                        Thoigiannhap = DateTime.UtcNow.ToString(),
-                        SoctN = 1,
+                        IdNghiepvu = "GIAVON",
+                        SttSapxep = SttSapXep,
+                        Guid = newGuid.ToString(),
+                        SoctN = 0,
                         Dgmausac = 0,
                         Ttmausac = 0,
                     };
-                    await _unitOfWork.KTSCDAO.Add(insertItem);
+                    await _unitOfWork.KTSCDAO.Add(insertPhieuHang);
+                    await _unitOfWork.KTSCDAO.Add(insertPhieuXuat);
                     await _unitOfWork.SaveChangesAsync();
                     i++;
                 };
-
             }
             return models.Any();
         }

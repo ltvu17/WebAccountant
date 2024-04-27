@@ -249,7 +249,8 @@
                                             <div class="mb-3 text-start">
                                                 <label for="ck" class="col-form-label">Chiết khấu:</label>
                                                 <div class="d-flex justify-content-between">
-                                                    <input type="text" class="form-control width-pt-50" id="ck">
+                                                    <input type="text" class="form-control width-pt-50" id="ck" asp-for="PtChietKhau">
+                                                    <span class="error-msg" asp-validation-for="PtChietKhau"></span>
                                                     <select class="form-select b-radius-3 height-30 width-pt-45 t-s-12">
                                                         <option>Phần trăm</option>
                                                         <option>VND</option>
@@ -262,14 +263,15 @@
                                 <div id="id-phieu-nhap" class="col-3 col-num-2">
                                     <div class="ngay-hach-toan">
                                         <div class="mb-3 text-start">
-                                            <label for="ht" class="col-form-label">Ngày hạch toán</label>
-                                            <input type="datetime-local" class="form-control" id="ht">
+                                            <label class="col-form-label">Ngày hạch toán</label>
+                                            <input type="datetime-local" class="form-control" asp-for="NgayHToan" id="ht" value="@DateTime.UtcNow.AddHours(7).ToString("s")">
+                                            <span class="error-msg" asp-validation-for="NgayHToan"></span>
                                         </div>
                                     </div>
                                     <div class="ngay-chung-tu">
                                         <div class="mb-3 text-start">
-                                            <label for="ct" class="col-form-label">Ngày chứng từ</label>
-                                            <input type="date" class="form-control" id="ct">
+                                            <label class="col-form-label">Ngày chứng từ</label>
+                                            <input type="datetime-local" class="form-control" asp-for="NgayCtu" id="ct" value="@DateTime.UtcNow.AddHours(7).ToString("s")">
                                         </div>
                                     </div>
                                     <div class="so-phieu-nhap">
@@ -759,17 +761,10 @@
                     }
                 }
                 function exportPDF(){
-                    var idKh = document.getElementById("input-makh");
+                    var idKh = document.getElementById("input-makh").value;
+                    var idHt = document.getElementById("ht").value;
+                    var idKt = document.getElementById("ct").value;
                     var khs = [
-                        {
-                            Matk: "",
-                            Madm: "",
-                            Tendm: "",
-                            Donvi: "",
-                            Soluong: "",
-                            Dgban: "",
-                            TonTDv1: ""
-                        }
                     ];
                     
                     for (let i = 0; i < madmItems.length; i++){
@@ -784,8 +779,11 @@
                         }
                         khs.push(madmDTO);
                     }
+                    console.log(idKh);
                     var myKeyVals = {
                         Makh: idKh,
+                        NgayCtu : idKt,
+                        NgayHToan: idHt,
                         ktdmDTOs: khs,
                     }
                     $.ajax({
@@ -794,6 +792,7 @@
                         data: myKeyVals,
                         success: function (result) {
                             console.log(result);
+                            window.open("https://localhost:7278/InvoiceReport/HoaDon.pdf", "_blank");
                         }
                     });
                 }
