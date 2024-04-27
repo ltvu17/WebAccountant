@@ -10,7 +10,25 @@
     <div class="home-container">
         @Html.Partial("../Home/SideBar")
         <div class="right-bar-home content mua-page">
-            <form id="myForm" asp-controller="Ktdms" asp-action="SubmitCartToSave">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex">
+                <div class="container-fluid">
+                    <div class="collapse navbar-collapse">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="data-link" aria-current="page" href="#" onclick="listOut()">Danh sách</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="order-link" onclick="orderOut()">Mua hàng</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <div id="mua-data">
+                @*data ne*@
+                data ne
+            </div>
+            <form id="myForm" class="d-none" asp-controller="Ktdms" asp-action="SubmitCartToSave">
                 <div class="top-content">
                     @*Content*@
                     <div class="row">
@@ -795,6 +813,28 @@
                             window.open("https://localhost:7278/InvoiceReport/HoaDon.pdf", "_blank");
                         }
                     });
+                }
+                function listOut(){
+                    var linkData = document.getElementById("data-link");
+                    var muaData = document.getElementById("mua-data");
+                    var linkOrder = document.getElementById("order-link");
+                    var form = document.getElementById("myForm");
+                    if (!linkData.classList.contains("active")) {
+                        linkData.classList.add("active");
+                        linkOrder.classList.remove("active");
+                        muaData.classList.remove("d-none");
+                        form.classList.add("d-none");
+                    }
+                }
+                function orderOut(){
+                        var linkData = document.getElementById("data-link");
+                        var muaData = document.getElementById("mua-data");
+                        var linkOrder = document.getElementById("order-link");
+                        var form = document.getElementById("myForm");
+                        linkData.classList.remove("active");
+                        muaData.classList.add("d-none")
+                        linkOrder.classList.add("active");
+                        form.classList.remove("d-none");
                 }
             </script>
         </div>
