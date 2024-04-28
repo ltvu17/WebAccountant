@@ -64,6 +64,9 @@
 #infor-phieu-nhap input{
     height: 30px !important;
 }
+#id-phieu-nhap input {
+    height: 30px !important;
+}
 .mua-form {
     min-height: 100%;
     font-size: 12px;
