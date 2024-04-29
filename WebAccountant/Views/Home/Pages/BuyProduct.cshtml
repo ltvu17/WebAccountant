@@ -10,7 +10,7 @@
     <div class="home-container">
         @Html.Partial("../Home/SideBar")
         <div class="right-bar-home content mua-page">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex t-s-14">
                 <div class="container-fluid">
                     <div class="collapse navbar-collapse">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -25,8 +25,26 @@
                 </div>
             </nav>
             <div id="mua-data">
-                @*data ne*@
-                data ne
+                <table class="table-text text-center">
+                    <tr class="table-menu" id="tr-1">
+                        <td>#</td>
+                        <td>Mã khách hàng</td>
+                        <td>Tên khách hàng</td>
+                        <td>Số chứng từ</td>
+                        <td>Ngày chứng từ</td>
+                        <td>Chiết khấu phần trăm</td>
+                        <td>Chiết khấu thành tiền</td>
+                        <td>Thành tiền</td>
+                        <td>Hình thức thanh toán</td>
+                        <td>Khách hàng trả tiền</td>
+                        <td>Mã số thuế</td>
+                        <td>Địa chỉ</td>
+                        <td>Ghi chú</td>
+                        <td>Nhân viên bán</td>
+                        <td>Tổng tiền</td>
+                    </tr>
+                    <tr></tr>
+                </table>
             </div>
             <form id="myForm" class="d-none" asp-controller="Ktdms" asp-action="SubmitCartToSave">
                 <div class="top-content">
@@ -279,23 +297,32 @@
                                     </div>
                                 </div>
                                 <div id="id-phieu-nhap" class="col-3 col-num-2">
-                                    <div class="ngay-hach-toan">
+                                    <div>
                                         <div class="mb-3 text-start">
                                             <label class="col-form-label">Ngày hạch toán</label>
-                                            <input type="datetime-local" class="form-control" asp-for="NgayHToan" id="ht" value="@DateTime.UtcNow.AddHours(7).ToString("s")">
+                                            <input type="datetime-local" class="form-control height-30" asp-for="NgayHToan" id="ht" value="@DateTime.UtcNow.AddHours(7).ToString("s")">
                                             <span class="error-msg" asp-validation-for="NgayHToan"></span>
                                         </div>
                                     </div>
-                                    <div class="ngay-chung-tu">
+                                    <div>
                                         <div class="mb-3 text-start">
                                             <label class="col-form-label">Ngày chứng từ</label>
-                                            <input type="datetime-local" class="form-control" asp-for="NgayCtu" id="ct" value="@DateTime.UtcNow.AddHours(7).ToString("s")">
+                                            <input type="datetime-local" class="form-control height-30" asp-for="NgayCtu" id="ct" value="@DateTime.UtcNow.AddHours(7).ToString("s")">
                                         </div>
                                     </div>
-                                    <div class="so-phieu-nhap">
+                                    <div>
                                         <div class="mb-3 text-start">
-                                            <label for="sopn" class="col-form-label">Số phiếu nhập</label>
-                                            <input type="text" class="form-control" id="sopn">
+                                            <label for="soct" class="col-form-label">Số Chứng từ</label>
+                                            <input type="text" class="form-control height-30" id="soct">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="mb-3 text-start">
+                                            <label for="httt" class="col-form-label">Hình thức thanh toán</label>
+                                            <select class="form-select b-radius-3 height-30 width-pt-100 t-s-12 height-30">
+                                                <option>Thanh toán trực tiếp</option>
+                                                <option>Nợ</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -369,7 +396,7 @@
                             <div class="bill-title">Hóa đơn</div>
                             <div id="bill-list" class="bill-list d-flex flex-column">
                                 <div style="padding-top:5px" class="bill-menu d-flex justify-content-between">
-                                    <div class="t-s-12">Tên</div>
+                                    <div class="t-s-12">Tên danh mục</div>
                                     <div class="t-s-12">Số lượng</div>
                                 </div>
                                 <div id="list-p" class="bill-content">
