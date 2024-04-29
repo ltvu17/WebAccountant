@@ -94,9 +94,15 @@ namespace WebAccountant.Controllers
             return Json(items);
         }
         [HttpPost]
-        public async Task<IActionResult> SubmitCartToSave(AddToKTSCDTO items)
+        public async Task<IActionResult> SubmitCartToSave(FormBanHangDTO items)
         {
             await _ktdmRepo.SaveCartToDB(items);
+            return RedirectToAction("KTSC", "Home");
+        }
+        [HttpPost]
+        public async Task<IActionResult> SubmitBuyCartToSave(AddToKTSCDTO items)
+        {
+            await _ktdmRepo.SaveBuyingCartToDB(items);
             return RedirectToAction("KTSC", "Home");
         }
         private string GetFullErrorMessage(ModelStateDictionary modelState) {

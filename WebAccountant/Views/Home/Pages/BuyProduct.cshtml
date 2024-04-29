@@ -25,28 +25,47 @@
                 </div>
             </nav>
             <div id="mua-data">
-                <table class="table-text text-center">
-                    <tr class="table-menu" id="tr-1">
-                        <td>#</td>
-                        <td>Mã khách hàng</td>
-                        <td>Tên khách hàng</td>
-                        <td>Số chứng từ</td>
-                        <td>Ngày chứng từ</td>
-                        <td>Chiết khấu phần trăm</td>
-                        <td>Chiết khấu thành tiền</td>
-                        <td>Thành tiền</td>
-                        <td>Hình thức thanh toán</td>
-                        <td>Khách hàng trả tiền</td>
-                        <td>Mã số thuế</td>
-                        <td>Địa chỉ</td>
-                        <td>Ghi chú</td>
-                        <td>Nhân viên bán</td>
-                        <td>Tổng tiền</td>
-                    </tr>
-                    <tr></tr>
-                </table>
+                @(Html.DevExtreme().DataGrid<WebAccountant.Models.PhieuMuaHangDTO>()
+                    .DataSource(ds => ds.Mvc()
+                    .Controller("Ktscs")
+                    .LoadAction("GetALLDSPhieuMuaHang")
+                    .Key("id")
+                    .ErrorHandler("error")
+                    )
+                    .RemoteOperations(true).FocusedRowEnabled(true)
+                    .Columns(columns =>
+                    {
+                        columns.AddFor(s=> s.NgayCtu);
+                        columns.AddFor(s => s.Soctu);
+                        columns.AddFor(s => s.HTThanhToan);
+                        columns.AddFor(s => s.ThanhTien);
+                        columns.AddFor(s => s.ckPhanTram);
+                        columns.AddFor(s => s.CkThanhTien);
+                        columns.AddFor(s => s.TongTien);
+                        columns.AddFor(s => s.KhTraTien);
+                        columns.AddFor(s => s.MaKh);
+                        columns.AddFor(s => s.TenKh);
+                        columns.AddFor(s => s.MsThue);
+                        columns.AddFor(s => s.Diachi);
+                        columns.AddFor(s => s.GhiChu);
+                        columns.AddFor(s => s.NhanVienBan);
+                    })
+                    .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
+                    .ShowBorders(true)
+                    .RowAlternationEnabled(true)
+                    .Paging(paging => paging.PageSize(10))
+                    .Pager(pager =>
+                    {
+                        pager.Visible(true);
+                        pager.DisplayMode(GridPagerDisplayMode.Compact);
+                        pager.ShowPageSizeSelector(true);
+                        pager.AllowedPageSizes(new JS("[10, 20, 30]"));
+                        pager.ShowInfo(true);
+                        pager.ShowNavigationButtons(true);
+                    })
+                    )
             </div>
-            <form id="myForm" class="d-none" asp-controller="Ktdms" asp-action="SubmitCartToSave">
+            <form id="myForm" class="d-none" asp-controller="Ktdms" asp-action="SubmitBuyCartToSave">
                 <div class="top-content">
                     @*Content*@
                     <div class="row">
@@ -313,13 +332,13 @@
                                     <div>
                                         <div class="mb-3 text-start">
                                             <label for="soct" class="col-form-label">Số Chứng từ</label>
-                                            <input type="text" class="form-control height-30" id="soct">
+                                            <input type="text" class="form-control height-30" id="soct" asp-for="SoCtu">
                                         </div>
                                     </div>
                                     <div>
                                         <div class="mb-3 text-start">
                                             <label for="httt" class="col-form-label">Hình thức thanh toán</label>
-                                            <select class="form-select b-radius-3 height-30 width-pt-100 t-s-12 height-30">
+                                            <select class="form-select b-radius-3 height-30 width-pt-100 t-s-12 height-30" asp-for="HthucThanhToan">
                                                 <option>Thanh toán trực tiếp</option>
                                                 <option>Nợ</option>
                                             </select>
@@ -863,6 +882,8 @@
                         linkOrder.classList.add("active");
                         form.classList.remove("d-none");
                 }
+                function error(error) {
+}
             </script>
         </div>
     </div>
