@@ -167,7 +167,7 @@ namespace WebAccountant.Repository.Implement
                     var modelDTO = items.FirstOrDefault(
                             x => x.Madm == model.Madm && x.Matk == x.Matk);
                     var Ttvnd = modelDTO.Soluong * modelDTO.Dgban;
-                    var Chietkhau = modelDTO.Soluong * modelDTO.Dgban * (item.PtChietKhau / 100);
+                    var Chietkhau = modelDTO.Soluong * modelDTO.Dgban * (modelDTO.PtChietKhau / 100);
                     var Thuevnd = (modelDTO.Soluong * modelDTO.Dgban - modelDTO.Soluong * modelDTO.Dgban * (modelDTO.PtChietKhau / 100)) * (modelDTO.PtThue / 100);
                     tongCK += Chietkhau;
                     tongThue += Thuevnd;
@@ -199,7 +199,7 @@ namespace WebAccountant.Repository.Implement
                         Luong = modelDTO.Soluong,
                         Dgvnd = modelDTO.Dgban,
                         Ttvnd = Ttvnd,
-                        PtCk = item.PtChietKhau,
+                        PtCk = modelDTO.PtChietKhau,
                         Chietkhau = Chietkhau,
                         Hdvat = "R",
                         Tkthue = "33311",

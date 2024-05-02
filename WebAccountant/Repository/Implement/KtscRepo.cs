@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DevExpress.Data;
+using DevExpress.Pdf.Native.BouncyCastle.Utilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
 using System.Collections;
@@ -6,6 +8,7 @@ using System.Globalization;
 using WebAccountant.DAOs;
 using WebAccountant.Models;
 using WebAccountant.ModelsBase;
+using static System.Net.WebRequestMethods;
 
 namespace WebAccountant.Repository.Implement
 {
@@ -58,7 +61,7 @@ namespace WebAccountant.Repository.Implement
             var t = 0;
             foreach (var item in items)
             {
-                var groupItem = item.Where(s => s.Lctg == "HDBR" && !s.Diengiai.Contains("Thuế GTGT đầu ra HĐ")
+                var groupItem = item.Where(s => s.Lctg == "HDBR" && !s.Diengiai.Contains("Thuế GTGT đầu ra HĐ") && !s.IdNghiepvu.Contains("GIAVON")
                                             && !s.Diengiai.Contains(" Chiết khấu theo chứng từ")).ToList();
                 var insertItem = new PhieuBanHangDTO();
                 double tongtien = 0;
@@ -69,11 +72,12 @@ namespace WebAccountant.Repository.Implement
                 var hthucthanhtoan = "Nợ";
                 foreach (var i in groupItem)
                 {
-                    tongtien += i.Ttvnd - i.Chietkhau + i.Thuevnd;
+                    tongtien += i.TtvndTt;
                     thanhTien += i.Ttvnd;
                     chietKhau += i.PtCk;
                     tongCk += i.Chietkhau;
                     hthucthanhtoan = i.Httt;
+                    insertItem.ktscs.Add(i);
                 }
                 var key = item.FirstOrDefault();
                 insertItem.id = t;
@@ -142,6 +146,40 @@ namespace WebAccountant.Repository.Implement
             return list;
         }
 
+        public async Task<FormBanHangDTO> GetDetailPhieuBanHang(int id)
+        {
+            var item = (await GetAllDSPhieuBanHang()).Where(s => s.id == id).FirstOrDefault();
+            var ktscs = item.ktscs;
+            var ktdmDTOs = new List<KtdmDTO>();
+            foreach (var ktp in ktscs)
+            {
+                var ktdm = (await _unitOfWork.KTDMDao.Find(s => s.Madm == ktp.Madmco, 1, 1)).FirstOrDefault();
+                ktdmDTOs.Add(new KtdmDTO()
+                {
+                    Madm = ktdm.Madm,
+                    Matk = ktdm.Matk,
+                    Dgban = ktp.Dgvnd,
+                    Donvi = ktp.Donvi,
+                    PtChietKhau = ktp.PtCk,
+                    PtThue = Double.Parse(ktp.TsGtgt),
+                    Soluong = (int)ktp.Luong,
+                    Tendm = ktdm.Tendm,
+                    TonTDv1 = ktdm.TonTDv1,
+                });
+            }
+            if (item == null) return new FormBanHangDTO();
+            var returnForm = new FormBanHangDTO()
+            {
+                KhachHang = (await _unitOfWork.KTDTPNDAO.Find(s => s.Madtpn == item.MaKh, 1, 1)).FirstOrDefault(),
+                ktdmDTOs = ktdmDTOs,
+                HthucThanhToan = ktscs.FirstOrDefault().Httt == "Nợ" ? "2" : "1",
+                NgayCtu = (DateTime)ktscs.FirstOrDefault().Ngayct,
+                NgayHToan = (DateTime)ktscs.FirstOrDefault().NgayHd,
+                id = id
+            };
+            return returnForm;
+        }
+
         public async Task Update(string key, string values)
         {
             var keyParse = Double.TryParse(key, out var valueParse);
@@ -161,6 +199,277 @@ namespace WebAccountant.Repository.Implement
             PopulateModel(model, valuesDict);
             await _unitOfWork.SaveChangesAsync();
         }
+
+        public async Task<bool> UpdateDetailPhieuBanHang(FormBanHangDTO item)
+        {
+            var phieu = (await GetAllDSPhieuBanHang()).Where(s => s.id == item.id).FirstOrDefault();
+            var ktscs = phieu.ktscs;
+            if(item.Makh != ktscs.FirstOrDefault().Makh)
+            {
+                var khachHang = (await _unitOfWork.KTDTPNDAO.Find(s=>s.Madtpn == item.Makh,1,1)).FirstOrDefault();
+                if(khachHang != null)
+                {
+                    foreach(var ktsc in ktscs)
+                    {
+                        ktsc.Makh = khachHang.Madtpn;
+                        ktsc.Madmno = khachHang.Madtpn;
+                        ktsc.Tenkh = khachHang.Tendtpn;
+                        ktsc.MsDn = khachHang.MsDn;
+                        ktsc.Diachi = khachHang.Diachi;
+                        ktsc.DiachiNgd = khachHang.Diachi;
+                        ktsc.Mangd = khachHang.Madtpn;
+                        ktsc.Httt = item.HthucThanhToan == 1.ToString() ? "Thanh Toán Trực Tiếp" : "Nợ";
+                        await _unitOfWork.KTSCDAO.Update(ktsc);
+                        await _unitOfWork.SaveChangesAsync();
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            if(item.ktdmDTOs.Count > 0)
+            {
+                var ktscMau = ktscs.LastOrDefault();
+                double tongCK = 0;
+                double tongThue = 0;
+                foreach (var ktdmDTO in item.ktdmDTOs)
+                {
+                    if (ktscs.Any(s=>s.Madmco == ktdmDTO.Madm))
+                    {
+                        var ktsc = ktscs.Where(s => s.Madmco == ktdmDTO.Madm).FirstOrDefault();
+                        var ktscGiavon = (await _unitOfWork.KTSCDAO.Find(s => s.SttSc == (ktsc.SttSc + 1) && s.IdChungtu == ktsc.IdChungtu && s.IdNghiepvu == ktsc.IdNghiepvu, 1, 1)).FirstOrDefault();
+                        if (ktsc != null && ktscGiavon != null)
+                        {
+                            var Ttvnd = ktdmDTO.Soluong * ktdmDTO.Dgban;
+                            var Chietkhau = ktdmDTO.Soluong * ktdmDTO.Dgban * (ktdmDTO.PtChietKhau / 100);
+                            var Thuevnd = (Ttvnd - Chietkhau) * (ktdmDTO.PtThue / 100);
+                            tongCK += Chietkhau;
+                            tongThue += Thuevnd;
+                            ktsc.Dgvnd = ktdmDTO.Dgban;
+                            ktsc.Luong = ktdmDTO.Soluong;
+                            ktsc.Ttvnd = Ttvnd;
+                            ktsc.PtCk = ktdmDTO.PtChietKhau;
+                            ktsc.TsGtgt = ktdmDTO.PtThue.ToString();
+                            ktsc.Chietkhau = Chietkhau;
+                            ktsc.Thuevnd = Thuevnd;
+                            ktscGiavon.Luong = ktdmDTO.Soluong;
+                            ktscGiavon.Ttvnd = ktdmDTO.Soluong * ktscGiavon.Dgvnd;
+                            await _unitOfWork.KTSCDAO.Update(ktsc);
+                            await _unitOfWork.KTSCDAO.Update(ktscGiavon);
+                            await _unitOfWork.SaveChangesAsync();
+                        }
+                    }
+                    else
+                    {
+                        double i = 0.001;
+                        double t = 0.001;
+                        var khachHang = (await _unitOfWork.KTDTPNDAO.Find(s => s.Madtpn == item.Makh, 1, 1)).FirstOrDefault();
+                        var model = (await _unitOfWork.KTDMDao.GetAll()).FirstOrDefault(
+                            x => x.Madm == ktdmDTO.Madm && x.Matk == ktdmDTO.Matk);
+                        var Ttvnd = ktdmDTO.Soluong * ktdmDTO.Dgban;
+                        var Chietkhau = ktdmDTO.Soluong * ktdmDTO.Dgban * (ktdmDTO.PtChietKhau / 100);
+                        var Thuevnd = (Ttvnd - Chietkhau) * (ktdmDTO.PtThue / 100);
+                        tongCK += Chietkhau;
+                        tongThue += Thuevnd;
+                        double SttSapXep = 0;
+                        double stt = 0;
+                        if (ktscMau != null && model != null && khachHang != null)
+                        {
+                            SttSapXep = ktscMau.SttSapxep + t;
+                            var Giavon = ktdmDTO.Soluong * model.Dgban;
+                            stt = ktscMau.SttSc + i;
+                            var insertPhieuHang = new Ktsc()
+                            {
+                                Lctg = "HDBR",
+                                SrHd = DateTime.UtcNow.Year.ToString(),
+                                SoHd = "0000" + ktscMau.IdChungtu,
+                                Soct = "00000" + ktscMau.IdChungtu,
+                                NgayHd = item.NgayHToan,
+                                Ngayct = item.NgayCtu,
+                                Diengiai = "DOANH THU",
+                                Tkno = "131",
+                                Madtpnno = khachHang.Madtpn,
+                                Madtpnco = "",
+                                Tkco = "5111",
+                                MaCt = "",
+                                Madmco = model.Madm,
+                                Tendm = model.Tendm,
+                                Donvi = model.Donvi,
+                                LuongCtu = 0,
+                                Luong = ktdmDTO.Soluong,
+                                Dgvnd = ktdmDTO.Dgban,
+                                Ttvnd = Ttvnd,
+                                PtCk = ktdmDTO.PtChietKhau,
+                                Chietkhau = Chietkhau,
+                                Hdvat = "R",
+                                Tkthue = "33311",
+                                TsGtgt = ktdmDTO.PtThue.ToString(),
+                                Thuevnd = Thuevnd,
+                                TtvndTt = Ttvnd - Chietkhau + Thuevnd,
+                                Makh = khachHang.Madtpn,
+                                Tenkh = khachHang.Tendtpn,
+                                MsDn = khachHang.MsDn,
+                                Diachi = khachHang.Diachi,
+                                DiachiNgd = khachHang.Diachi,
+                                Dgvon = 0,
+                                Gtvon = 0,
+                                LaiGop = ktdmDTO.Soluong * ktdmDTO.Dgban,
+                                Tygia = 0,
+                                Ttusd = 0,
+                                Thueusd = 0,
+                                TtusdTt = 0,
+                                Ngayctgs = DateTime.UtcNow,
+                                SttSc = stt,
+                                Thang = DateTime.UtcNow.Month,
+                                Mauser = "QUANLY",
+                                Dgusd = 0,
+                                Tienhang = 0,
+                                Dontrong = 0,
+                                Col11 = 0,
+                                Col12 = 0,
+                                Col13 = 0,
+                                Trangthai = 0,
+                                ChietkhauUsd = 0,
+                                DgGc = ktdmDTO.Soluong * ktdmDTO.Dgban,
+                                DgVc = 0,
+                                IdChungtu = ktscMau.IdChungtu,
+                                Model = "T",
+                                SlGc = 0,
+                                SttTt = 0,
+                                ThangN = DateTime.UtcNow.Month,
+                                Thueeur = 0,
+                                TkChietkhau = "5211",
+                                TkXuatkho = "1561",
+                                TnkUsd = 0,
+                                TnkVnd = 0,
+                                TsNk = 0,
+                                TtGc = 0,
+                                TtVc = 0,
+                                Tteur = 0,
+                                Mangd = khachHang.Madtpn,
+                                HsqdDvt = ktdmDTO.Soluong,
+                                Luong1 = 0,
+                                Luong2 = 0,
+                                SttBt = t,
+                                Httt = item.HthucThanhToan == 1.ToString() ? "Thanh Toán Trực Tiếp" : "Nợ",
+                                Chietkhau2 = 0,
+                                Thoigiannhap = DateTime.UtcNow.AddHours(7).ToString(),
+                                PtCk2 = 0,
+                                IdNghiepvu = "TIENHANG",
+                                SttSapxep = stt,
+                                Guid = ktscMau.Guid,
+                                SoctN = ktscMau.IdChungtu,
+                                Dgmausac = 0,
+                                Ttmausac = 0,
+                            };
+                            var insertPhieuXuat = new Ktsc()
+                            {
+                                Lctg = "PXK",
+                                SrHd = DateTime.UtcNow.Year.ToString(),
+                                SoHd = "0000" + ktscMau.IdChungtu,
+                                Soct = "00000" + ktscMau.IdChungtu,
+                                NgayHd = item.NgayHToan,
+                                Ngayct = item.NgayCtu,
+                                Diengiai = "GIÁ VỐN",
+                                Tkno = "632",
+                                Madtpnno = khachHang.Madtpn,
+                                Madtpnco = "",
+                                Tkco = "1561",
+                                MaCt = "",
+                                Madmco = model.Madm,
+                                Tendm = model.Tendm,
+                                Donvi = model.Donvi,
+                                LuongCtu = 0,
+                                Luong = ktdmDTO.Soluong,
+                                Dgvnd = model.Dgban,
+                                Ttvnd = Giavon,
+                                PtCk = 0,
+                                Chietkhau = 0,
+                                Hdvat = "",
+                                Tkthue = "",
+                                TsGtgt = "",
+                                Thuevnd = 0,
+                                TtvndTt = 0,
+                                Makh = khachHang.Madtpn,
+                                Tenkh = khachHang.Tendtpn,
+                                MsDn = khachHang.MsDn,
+                                Diachi = khachHang.Diachi,
+                                DiachiNgd = khachHang.Diachi,
+                                Dgvon = 0,
+                                Gtvon = 0,
+                                LaiGop = ktdmDTO.Soluong * ktdmDTO.Dgban,
+                                Tygia = 0,
+                                Ttusd = 0,
+                                Thueusd = 0,
+                                TtusdTt = 0,
+                                Ngayctgs = DateTime.UtcNow,
+                                SttSc = stt + 0.001,
+                                Thang = DateTime.UtcNow.Month,
+                                Mauser = "QUANLY",
+                                Dgusd = 0,
+                                Tienhang = 0,
+                                Dontrong = 0,
+                                Col11 = 0,
+                                Col12 = 0,
+                                Col13 = 0,
+                                Trangthai = 0,
+                                ChietkhauUsd = 0,
+                                DgGc = ktdmDTO.Soluong * ktdmDTO.Dgban,
+                                DgVc = 0,
+                                IdChungtu = ktscMau.IdChungtu,
+                                Model = "T",
+                                SlGc = 0,
+                                SttTt = 0,
+                                ThangN = DateTime.UtcNow.Month,
+                                Thueeur = 0,
+                                Mangd = khachHang.Madtpn,
+                                TkChietkhau = "521",
+                                TkXuatkho = "1561",
+                                TnkUsd = 0,
+                                TnkVnd = 0,
+                                TsNk = 0,
+                                TtGc = 0,
+                                TtVc = 0,
+                                Tteur = 0,
+                                HsqdDvt = ktdmDTO.Soluong,
+                                Luong1 = 0,
+                                Luong2 = 0,
+                                SttBt = t,
+                                Httt = item.HthucThanhToan == 1.ToString() ? "Thanh Toán Trực Tiếp" : "Nợ",
+                                Chietkhau2 = 0,
+                                Thoigiannhap = DateTime.UtcNow.AddHours(7).ToString(),
+                                PtCk2 = 0,
+                                IdNghiepvu = "GIAVON",
+                                SttSapxep = stt + 1,
+                                Guid = ktscMau.Guid,
+                                SoctN = ktscMau.IdChungtu,
+                                Dgmausac = 0,
+                                Ttmausac = 0,
+                            };
+                            await _unitOfWork.KTSCDAO.Add(insertPhieuHang);
+                            await _unitOfWork.KTSCDAO.Add(insertPhieuXuat);
+                            await _unitOfWork.SaveChangesAsync();
+                            i += 0.002;
+                            t += 0.001;
+                        }
+
+                    }
+                }
+                var phieuChietKhau = (await _unitOfWork.KTSCDAO.Find(s=>s.Soct == ktscMau.Soct && s.Ngayct == ktscMau.Ngayct && s.IdNghiepvu == "CHIETKHAU_HDBR", 1,1)).FirstOrDefault();
+                var phieuThue = (await _unitOfWork.KTSCDAO.Find(s => s.Soct == ktscMau.Soct && s.Ngayct == ktscMau.Ngayct && s.IdNghiepvu == "VAT_RA", 1, 1)).FirstOrDefault();
+                if (phieuChietKhau != null && phieuThue != null && tongCK > 0 && tongThue > 0)
+                {
+                    phieuChietKhau.TtvndTt = tongCK;
+                    phieuThue.TtvndTt = tongThue;
+                    await _unitOfWork.KTSCDAO.Update(phieuChietKhau);
+                    await _unitOfWork.KTSCDAO.Update(phieuThue);
+                    await _unitOfWork.SaveChangesAsync();
+                }
+            }
+            return true;
+        }
+
         private void PopulateModel(Ktsc model, IDictionary values)
         {
             string LCTG = nameof(Ktsc.Lctg);
