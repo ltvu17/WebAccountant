@@ -10,7 +10,7 @@ namespace WebAccountant.Models
         public DateTime NgayCtu { get; set; }
         public DateTime NgayHToan {  get; set; }    
         public string SoCtu { get; set; }
-        public double PtChietKhau { get; set; }
+        public double? PtChietKhau { get; set; }
         public string HthucThanhToan { get; set; }
         public List<KtdmDTO> ktdmDTOs { get; set; } = new List<KtdmDTO>();
     }
