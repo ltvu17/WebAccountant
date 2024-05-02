@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAccountant.Models;
 using WebAccountant.ModelsBase;
 using WebAccountant.Repository;
 using WebAccountant.Repository.Implement;
@@ -29,6 +30,12 @@ namespace WebAccountant.Controllers
         {
             var ktscBanHangs = await _ktscRepo.GetAllDSPhieuBanHang();
             return Json(DataSourceLoader.Load(ktscBanHangs, loadOptions));
+        }
+        [HttpGet("/{id}")]
+        public async Task<IActionResult> GetDetailPhieuBanHang(int id)
+        {
+            var phieuBanHang = await _ktscRepo.GetDetailPhieuBanHang(id);
+            return Json(phieuBanHang);
         }
         [HttpGet]
         public async Task<IActionResult> GetALLDSPhieuMuaHang(DataSourceLoadOptions loadOptions)
@@ -51,7 +58,12 @@ namespace WebAccountant.Controllers
             var result = await _ktscRepo.AddNew(values);
             return Json(new { result.Entity.SttSc });
         }
-
+        [HttpPut]
+        public async Task<IActionResult> UpdateDetailPhieuBanHang(FormBanHangDTO item)
+        {
+            var result = await _ktscRepo.UpdateDetailPhieuBanHang(item);
+            return RedirectToAction("BuyProduct", "Home");
+        }
         [HttpPut]
         public async Task<IActionResult> Put(double key, string values) {
             await _ktscRepo.Update(key.ToString(), values);
