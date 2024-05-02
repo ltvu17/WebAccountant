@@ -260,6 +260,9 @@
 .mar-5{
     margin: 5px;
 }
+.mar-15 {
+    margin: 15px;
+}
 .border-none{
     border:none !important;
 }
@@ -297,4 +300,25 @@
 }
 .error-msg{
     color: red !important;
+}
+
+/**/
+.buy-edit {
+    background-color: aliceblue;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 15px;
+    width: 90%;
+}
+
+#edit-page {
+    position: fixed; /* Đặt div ở vị trí cố định trên màn hình */
+    z-index: 9999; /* Đảm bảo div này nằm trên cùng */
+    top: 0; /* Đặt div ở đầu trang */
+    left: 0; /* Đặt div ở bên trái trang */
+    width: 100%; /* Chiếm toàn bộ chiều rộng của trang */
+    height: 100%; /* Chiếm toàn bộ chiều cao của trang */
+    display: flex; /* Sử dụng flexbox để căn giữa nội dung */
+    justify-content: center; /* Căn giữa nội dung theo chiều ngang */
+    align-items: center; /* Căn giữa nội dung theo chiều dọc */
 }
