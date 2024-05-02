@@ -49,12 +49,13 @@ namespace WebAccountant.Repository.Implement
         public async Task<IEnumerable<PhieuBanHangDTO>> GetAllDSPhieuBanHang()
         {
             var list = new List<PhieuBanHangDTO>();
-            var items = (await _unitOfWork.KTSCDAO.GetAll()).GroupBy(i => new
+            var items = (await _unitOfWork.KTSCDAO.GetAll()).Where(s => s.Lctg == "HDBR").OrderByDescending(s => s.Ngayct).GroupBy(i => new
             {
                 i.SoHd,
                 i.Tenkh,
                 i.Ngayct
             }).ToList();
+            var t = 0;
             foreach (var item in items)
             {
                 var groupItem = item.Where(s => s.Lctg == "HDBR" && !s.Diengiai.Contains("Thuế GTGT đầu ra HĐ")
@@ -65,15 +66,19 @@ namespace WebAccountant.Repository.Implement
                 double chietKhau = 0;
                 double tongCk = 0;
                 double khTratien = 0;
+                var hthucthanhtoan = "Nợ";
                 foreach (var i in groupItem)
                 {
                     tongtien += i.Ttvnd - i.Chietkhau + i.Thuevnd;
                     thanhTien += i.Ttvnd;
                     chietKhau += i.PtCk;
                     tongCk += i.Chietkhau;
+                    hthucthanhtoan = i.Httt;
                 }
                 var key = item.FirstOrDefault();
+                insertItem.id = t;
                 insertItem.TongTien = tongtien.ToString();
+                insertItem.HTThanhToan = hthucthanhtoan;
                 insertItem.NgayCtu = (DateTime)key.Ngayct;
                 insertItem.Soctu = key.Soct;
                 insertItem.ThanhTien = thanhTien.ToString();
@@ -84,6 +89,7 @@ namespace WebAccountant.Repository.Implement
                 insertItem.TenKh = key.Tenkh;
                 insertItem.Diachi = key.Diachi;
                 list.Add(insertItem);
+                t++;
             }
             return list;
         }
@@ -91,12 +97,13 @@ namespace WebAccountant.Repository.Implement
         public async Task<IEnumerable<PhieuMuaHangDTO>> GetAllDSPhieuMuaHang()
         {
             var list = new List<PhieuMuaHangDTO>();
-            var items = (await _unitOfWork.KTSCDAO.GetAll()).Where(s=>s.Lctg == "PNK").GroupBy(i => new
+            var items = (await _unitOfWork.KTSCDAO.GetAll()).Where(s=>s.Lctg == "PNK").OrderByDescending(s => s.Ngayct).GroupBy(i => new
             {
                 i.SoHd,
                 i.Tenkh,
                 i.Ngayct
             }).ToList();
+            var t = 1;
             foreach (var item in items)
             {
                 var groupItem = item.Where(s => s.Lctg == "PNK" && !s.Diengiai.Contains(" Thuế GTGT mua vào HĐ")
@@ -107,17 +114,21 @@ namespace WebAccountant.Repository.Implement
                 double chietKhau = 0;
                 double tongCk = 0;
                 double khTratien = 0;
+                var hthucthanhtoan = "Nợ";
                 foreach (var i in groupItem)
                 {
                     tongtien += i.Ttvnd - i.Chietkhau + i.Thuevnd;
                     thanhTien += i.Ttvnd;
                     chietKhau += i.PtCk;
                     tongCk += i.Chietkhau;
+                    hthucthanhtoan = i.Httt;
                 }
                 var key = item.FirstOrDefault();
+                insertItem.id = t;
                 insertItem.TongTien = tongtien.ToString();
                 insertItem.NgayCtu = (DateTime)key.Ngayct;
                 insertItem.Soctu = key.Soct;
+                insertItem.HTThanhToan = hthucthanhtoan;
                 insertItem.ThanhTien = thanhTien.ToString();
                 insertItem.ckPhanTram = chietKhau.ToString();
                 insertItem.CkThanhTien = tongCk.ToString();
@@ -126,6 +137,7 @@ namespace WebAccountant.Repository.Implement
                 insertItem.TenKh = key.Tenkh;
                 insertItem.Diachi = key.Diachi;
                 list.Add(insertItem);
+                t++;
             }
             return list;
         }
