@@ -106,8 +106,8 @@ namespace WebAccountant.Repository.Implement
             var t = 1;
             foreach (var item in items)
             {
-                var groupItem = item.Where(s => s.Lctg == "PNK" && !s.Diengiai.Contains(" Thuế GTGT mua vào HĐ")
-                                            && !s.Diengiai.Contains(" Chiết khấu theo chứng từ")).ToList();
+                var groupItem = item.Where(s => s.Lctg == "PNK" && !s.Diengiai.Contains("Thuế GTGT mua vào HĐ")
+                                            && !s.Diengiai.Contains("Chiết khấu theo chứng từ")).ToList();
                 var insertItem = new PhieuMuaHangDTO();
                 double tongtien = 0;
                 double thanhTien = 0;
