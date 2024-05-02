@@ -10,7 +10,62 @@
     <div class="home-container">
         @Html.Partial("../Home/SideBar")
         <div class="right-bar-home content mua-page">
-            <form id="myForm" asp-controller="Ktdms" asp-action="SubmitCartToSave">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex t-s-14">
+                <div class="container-fluid">
+                    <div class="collapse navbar-collapse">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="data-link" aria-current="page" href="#" onclick="listOut()">Danh sách</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="order-link" onclick="orderOut()">Mua hàng</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <div id="mua-data">
+                @(Html.DevExtreme().DataGrid<WebAccountant.Models.PhieuMuaHangDTO>()
+                    .DataSource(ds => ds.Mvc()
+                    .Controller("Ktscs")
+                    .LoadAction("GetALLDSPhieuMuaHang")
+                    .Key("id")
+                    .ErrorHandler("error")
+                    )
+                    .RemoteOperations(true).FocusedRowEnabled(true)
+                    .Columns(columns =>
+                    {
+                        columns.AddFor(s=> s.NgayCtu);
+                        columns.AddFor(s => s.Soctu);
+                        columns.AddFor(s => s.HTThanhToan);
+                        columns.AddFor(s => s.ThanhTien);
+                        columns.AddFor(s => s.ckPhanTram);
+                        columns.AddFor(s => s.CkThanhTien);
+                        columns.AddFor(s => s.TongTien);
+                        columns.AddFor(s => s.KhTraTien);
+                        columns.AddFor(s => s.MaKh);
+                        columns.AddFor(s => s.TenKh);
+                        columns.AddFor(s => s.MsThue);
+                        columns.AddFor(s => s.Diachi);
+                        columns.AddFor(s => s.GhiChu);
+                        columns.AddFor(s => s.NhanVienBan);
+                    })
+                    .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
+                    .ShowBorders(true)
+                    .RowAlternationEnabled(true)
+                    .Paging(paging => paging.PageSize(10))
+                    .Pager(pager =>
+                    {
+                        pager.Visible(true);
+                        pager.DisplayMode(GridPagerDisplayMode.Compact);
+                        pager.ShowPageSizeSelector(true);
+                        pager.AllowedPageSizes(new JS("[10, 20, 30]"));
+                        pager.ShowInfo(true);
+                        pager.ShowNavigationButtons(true);
+                    })
+                    )
+            </div>
+            <form id="myForm" class="d-none" asp-controller="Ktdms" asp-action="SubmitBuyCartToSave">
                 <div class="top-content">
                     @*Content*@
                     <div class="row">
@@ -261,23 +316,32 @@
                                     </div>
                                 </div>
                                 <div id="id-phieu-nhap" class="col-3 col-num-2">
-                                    <div class="ngay-hach-toan">
+                                    <div>
                                         <div class="mb-3 text-start">
                                             <label class="col-form-label">Ngày hạch toán</label>
-                                            <input type="datetime-local" class="form-control" asp-for="NgayHToan" id="ht" value="@DateTime.UtcNow.AddHours(7).ToString("s")">
+                                            <input type="datetime-local" class="form-control height-30" asp-for="NgayHToan" id="ht" value="@DateTime.UtcNow.AddHours(7).ToString("s")">
                                             <span class="error-msg" asp-validation-for="NgayHToan"></span>
                                         </div>
                                     </div>
-                                    <div class="ngay-chung-tu">
+                                    <div>
                                         <div class="mb-3 text-start">
                                             <label class="col-form-label">Ngày chứng từ</label>
-                                            <input type="datetime-local" class="form-control" asp-for="NgayCtu" id="ct" value="@DateTime.UtcNow.AddHours(7).ToString("s")">
+                                            <input type="datetime-local" class="form-control height-30" asp-for="NgayCtu" id="ct" value="@DateTime.UtcNow.AddHours(7).ToString("s")">
                                         </div>
                                     </div>
-                                    <div class="so-phieu-nhap">
+                                    <div>
                                         <div class="mb-3 text-start">
-                                            <label for="sopn" class="col-form-label">Số phiếu nhập</label>
-                                            <input type="text" class="form-control" id="sopn">
+                                            <label for="soct" class="col-form-label">Số Chứng từ</label>
+                                            <input type="text" class="form-control height-30" id="soct" asp-for="SoCtu">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="mb-3 text-start">
+                                            <label for="httt" class="col-form-label">Hình thức thanh toán</label>
+                                            <select class="form-select b-radius-3 height-30 width-pt-100 t-s-12 height-30" asp-for="HthucThanhToan">
+                                                <option value="1">Thanh toán trực tiếp</option>
+                                                <option value="2">Nợ</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -351,7 +415,7 @@
                             <div class="bill-title">Hóa đơn</div>
                             <div id="bill-list" class="bill-list d-flex flex-column">
                                 <div style="padding-top:5px" class="bill-menu d-flex justify-content-between">
-                                    <div class="t-s-12">Tên</div>
+                                    <div class="t-s-12">Tên danh mục</div>
                                     <div class="t-s-12">Số lượng</div>
                                 </div>
                                 <div id="list-p" class="bill-content">
@@ -796,6 +860,30 @@
                         }
                     });
                 }
+                function listOut(){
+                    var linkData = document.getElementById("data-link");
+                    var muaData = document.getElementById("mua-data");
+                    var linkOrder = document.getElementById("order-link");
+                    var form = document.getElementById("myForm");
+                    if (!linkData.classList.contains("active")) {
+                        linkData.classList.add("active");
+                        linkOrder.classList.remove("active");
+                        muaData.classList.remove("d-none");
+                        form.classList.add("d-none");
+                    }
+                }
+                function orderOut(){
+                        var linkData = document.getElementById("data-link");
+                        var muaData = document.getElementById("mua-data");
+                        var linkOrder = document.getElementById("order-link");
+                        var form = document.getElementById("myForm");
+                        linkData.classList.remove("active");
+                        muaData.classList.add("d-none")
+                        linkOrder.classList.add("active");
+                        form.classList.remove("d-none");
+                }
+                function error(error) {
+}
             </script>
         </div>
     </div>

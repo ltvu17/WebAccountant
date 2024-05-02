@@ -2,6 +2,7 @@
 {
     public class PhieuMuaHangDTO
     {
+        public int id { get; set; }
         public DateTime NgayCtu { get; set; }
         public string Soctu { get; set; }
         public string HTThanhToan { get; set; }
