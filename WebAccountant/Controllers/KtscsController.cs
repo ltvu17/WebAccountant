@@ -38,6 +38,12 @@ namespace WebAccountant.Controllers
             return Json(phieuBanHang);
         }
         [HttpGet]
+        public async Task<IActionResult> GetDetailPhieuMuaHang(int id)
+        {
+            var phieuBanHang = await _ktscRepo.GetDetailPhieuMuaHang(id);
+            return PartialView("~/Views/Home/Pages/Actions/BuyEditPage.cshtml", phieuBanHang);
+        }
+        [HttpGet]
         public async Task<IActionResult> GetALLDSPhieuMuaHang(DataSourceLoadOptions loadOptions)
         {
             var ktscMuaHangs = await _ktscRepo.GetAllDSPhieuMuaHang();

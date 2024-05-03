@@ -1,6 +1,7 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@model WebAccountant.Models.AddToKTSCDTO
 @{
 }
 <div class="buy-edit">
@@ -16,19 +17,19 @@
                 <div class="col-2">
                     <div class="mb-3 text-start">
                         <label for="makh" class="col-form-label">Mã khách hàng:</label>
-                        <input type="text" class="form-control height-30" id="makh" readonly>
+                        <input type="text" class="form-control height-30" id="makh" value="@Model.KhachHang.Madtpn" readonly>
                     </div>
                 </div>
                 <div class="col-5">
                     <div class="mb-3 text-start">
                         <label for="tenkh" class="col-form-label">Tên khách hàng:</label>
-                        <input type="text" class="form-control height-30" id="tenkh" readonly>
+                        <input type="text" class="form-control height-30" id="tenkh" value="@Model.KhachHang.Tendtpn" readonly>
                     </div>
                 </div>
                 <div class="col-5">
                     <div class="mb-3 text-start">
                         <label for="diachi" class="col-form-label">Địa chỉ:</label>
-                        <input type="text" class="form-control height-30" id="diachi" readonly>
+                        <input type="text" class="form-control height-30" id="diachi" value="@Model.KhachHang.Diachi" readonly>
                     </div>
                 </div>
             </div>
@@ -47,38 +48,48 @@
                         <td class="width-150">Thành tiền</td>
                         <td class="width-70">Hành động</td>
                     </tr>
-                    <tr id="e1">
-                        <td class="t-center td-index">1</td>
-                        <td>
-                            <input type="text"
-                                   class="form-control input-sugg"
-                                   id="edit-madm-1"
-                                   autofocus="autofocus"
-                                   autocomplete="off"
-                                   onkeyup="SearchNow('edit-sugg-1','edit-madm-1','edit-sugg-1')" />
-                            <div class="table-container">
-                                <table id="edit-sugg-1" class="sugg-container d-none">
-                                    <tr id="tr-1">
-                                        <td class="width-120">Mã danh mục</td>
-                                        <td class="width-250">Tên danh mục</td>
-                                        <td class="width-90">Số lượng tồn</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </td>
-                        <td>
-                            <input type="text" class="form-control" id="edit-tendm-1" readonly />
-                            <input type="text" class="form-control" id="edit-matk-1" hidden readonly />
-                        </td>
-                        <td><input type="text" class="form-control" id="edit-donvi-1" readonly /></td>
-                        <td><input type="number" class="form-control" id="edit-dongia-1" min="0" onchange="tienEdit(1)" /></td>
-                        <td><input type="number" class="form-control" id="edit-soluong-1" min="1" onchange="tienEdit(1)" /></td>
-                        <td><input type="number" class="form-control" id="edit-ck-1" min="0" max="100" onchange="tienEdit(1)" /></td>
-                        <td><input type="number" class="form-control" id="edit-thue-1" min="0" max="100" onchange="tienEdit(1)" /></td>
-                        <td><input type="number" class="form-control" id="edit-thanhtien-1" readonly /></td>
-                        <td></td>
-                        @* <td class="t-center"><a class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td> *@
-                    </tr>
+                    @foreach(var item in Model.ktdmDTOs)
+                    {
+                        {
+                            var Ttvnd = item.Soluong * item.Dgban;
+                            var Chietkhau = item.Soluong * item.Dgban * (item.PtChietKhau / 100);
+                            var Thuevnd = (Ttvnd - Chietkhau) * (item.PtThue / 100);
+                            var tt = Ttvnd - Chietkhau + Thuevnd;
+                            <tr id="e1">
+                                <td class="t-center td-index">1</td>
+                                <td>
+                                    <input type="text"
+                                    class="form-control input-sugg"
+                                    id="edit-madm-1"
+                                    autofocus="autofocus"
+                                    autocomplete="off"
+                                    value="@item.Madm"
+                                    onkeyup="SearchNow('edit-sugg-1','edit-madm-1','edit-sugg-1')" />
+                                    <div class="table-container">
+                                        <table id="edit-sugg-1" class="sugg-container d-none">
+                                            <tr id="tr-1">
+                                                <td class="width-120">Mã danh mục</td>
+                                                <td class="width-250">Tên danh mục</td>
+                                                <td class="width-90">Số lượng tồn</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" id="edit-tendm-1" value="@item.Tendm" readonly />
+                                    <input type="text" class="form-control" id="edit-matk-1" value="@item.Matk" hidden readonly />
+                                </td>
+                                <td><input type="text" class="form-control" id="edit-donvi-1" readonly value="@item.Donvi" /></td>
+                                <td><input type="number" class="form-control" id="edit-dongia-1" min="0" onchange="tienEdit(1)" value="@item.Dgban" /></td>
+                                <td><input type="number" class="form-control" id="edit-soluong-1" min="1" onchange="tienEdit(1)" value="@item.Soluong" /></td>
+                                <td><input type="number" class="form-control" id="edit-ck-1" min="0" max="100" onchange="tienEdit(1)" value="@item.PtChietKhau" /></td>
+                                <td><input type="number" class="form-control" id="edit-thue-1" min="0" max="100" onchange="tienEdit(1)" value="@item.PtThue" /></td>
+                                <td><input type="number" class="form-control" id="edit-thanhtien-1" readonly value="@tt" /></td>
+                                <td></td>
+                                @* <td class="t-center"><a class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td> *@
+                            </tr>
+                        }
+                    }     
                 </table>
                 <div class="buttons d-flex justify-content-between mar-15">
                     <button class="btn btn-success t-s-12 height-30" id="addDm" onclick="addEditDm()" type="button">Thêm danh mục</button>
@@ -89,7 +100,7 @@
     </form>
 </div>
 <script>
-    let ecount = 1;
+    let ecount = @Model.ktdmDTOs.Count;
     let eindex = 1;
     var eexist = [];
     eexist.push(1);

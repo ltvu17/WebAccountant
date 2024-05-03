@@ -1,4 +1,6 @@
-﻿namespace WebAccountant.Models
+﻿using WebAccountant.ModelsBase;
+
+namespace WebAccountant.Models
 {
     public class PhieuMuaHangDTO
     {
@@ -17,6 +19,7 @@
         public string Diachi { get; set; }
         public string GhiChu { get; set; }
         public string NhanVienBan { get; set; }
+        public List<Ktsc> ktscs { get; set; } = new List<Ktsc>();
 
     }
 }
