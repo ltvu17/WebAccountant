@@ -11,7 +11,7 @@
             <button type="button" class="btn-close" onclick="closeEdit()"></button>
         </div>
     </div>
-    <form>
+    <form id="edit-form">
         <div class="body-buy-edit">
             <div class="row t-s-12">
                 <div class="col-2">
@@ -129,25 +129,44 @@
         }
     });
 
+    document.addEventListener('click', function (event) {
+        for (let i = 0; i < eexist.length; i++) {
+            var container = document.getElementById("edit-sugg-" + eexist[i]);
+            if (!container.contains(event.target) && !container.classList.contains("d-none")) {
+                hide_sugg("edit-sugg-" + eexist[i]);
+                break;
+            }
+        }
+    });
     function tienEdit(rowIndex) {
         var sl = $(`#edit-soluong-${rowIndex}`)[0].value;
         var dgia = $(`#edit-dongia-${rowIndex}`)[0].value;
         var ck = $(`#edit-ck-${rowIndex}`)[0].value;
         var thue = $(`#edit-thue-${rowIndex}`)[0].value;
-        if (madm.length > rowIndex) {
-            editItems[rowIndex - 1].Soluong = parseInt(sl);
-            editItems[rowIndex - 1].Dgban = parseInt(dgia);
-            editItems[rowIndex - 1].PtChietkhau = parseInt(ck);
-            editItems[rowIndex - 1].PtThue = parseInt(thue);
+        for (let i = 0; i < editItems.length; i++) {
             var tr = document.getElementById("e" + rowIndex);
-            // Gắn giá trị vào các thẻ <td>
-            var thanhtien = editItems[rowIndex - 1].Soluong * (editItems[rowIndex - 1].Dgban * (1 - editItems[rowIndex - 1].PtChietkhau / 100)) * (1 + editItems[rowIndex - 1].PtThue / 100);
-            tr.querySelector('#edit-thanhtien-' + rowIndex).value = parseFloat(thanhtien).toFixed(0);
+            if (editItems[i].trId == ("e" + rowIndex)) {
+                editItems[i].Soluong = parseInt(sl);
+                editItems[i].Dgban = parseInt(dgia);
+                editItems[i].PtChietkhau = parseInt(ck);
+                editItems[i].PtThue = parseInt(thue);
+
+                // Gắn giá trị vào các thẻ <td>
+                var thanhtien = editItems[i].Soluong * (editItems[i].Dgban * (1 - editItems[i].PtChietkhau / 100)) * (1 + editItems[i].PtThue / 100);
+                tr.querySelector('#edit-thanhtien-' + rowIndex).value = parseFloat(thanhtien).toFixed(0);
+                break;
+            }
         }
         console.log(editItems);
         loadMoney();
     }
 
+    document.getElementById('edit-form').onkeypress = function (e) {
+        var key = e.charCode || e.keyCode || 0;
+        if (key == 13) {
+            e.preventDefault();
+        }
+    }
     function addEditDm() {
         if (editItems.length == eindex) {
             var table = document.getElementById("edit-dm");
@@ -155,7 +174,7 @@
             eindex++;
             table.insertAdjacentHTML('beforeend', `
                                                         <tr id="e${ecount}">
-                                                                <td class="t-center td-index">${eindex}</td>
+                                                                <td class="t-center td-eindex">${eindex}</td>
                                                                 <td>
                                                                     <input type="text"
                                                                            class="form-control input-sugg"
@@ -266,11 +285,11 @@
             tr.remove();
             eindex--;
             var idList = [];
-            for (let i = 1; i <= index; i++) {
+            for (let i = 1; i <= eindex; i++) {
                 idList.push(i);
             }
             console.log(idList);
-            var tdList = document.getElementsByClassName("td-index");
+            var tdList = document.getElementsByClassName("td-eindex");
             for (let i = 0; i < tdList.length; i++) {
                 tdList[i].textContent = idList[i];
             }

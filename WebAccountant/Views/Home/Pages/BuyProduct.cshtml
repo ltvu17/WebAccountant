@@ -503,19 +503,23 @@
                     // $("#saveButton").after(`<button type="button" onclick="Submit()">Mua sản phẩm</button>`)
                 }
                 function tinhTien(rowIndex) {
-                    var sl = $(`#input-soluong-${rowIndex}`)[0].value;
+                    var sl = document.getElementById("input-soluong-"+rowIndex).value;
                     var dgia = $(`#input-dongia-${rowIndex}`)[0].value;
                     var ck = $(`#input-ck-${rowIndex}`)[0].value;
                     var thue = $(`#input-thue-${rowIndex}`)[0].value;
-                    if (madm.length > rowIndex) {
-                        madmItems[rowIndex - 1].Soluong = parseInt(sl);
-                        madmItems[rowIndex - 1].Dgban = parseInt(dgia);
-                        madmItems[rowIndex - 1].PtChietkhau = parseInt(ck);
-                        madmItems[rowIndex - 1].PtThue = parseInt(thue);
-                        var tr = document.getElementById("tr"+rowIndex);
-                        // Gắn giá trị vào các thẻ <td>
-                        var thanhtien = madmItems[rowIndex - 1].Soluong * (madmItems[rowIndex - 1].Dgban * (1 - madmItems[rowIndex - 1].PtChietkhau / 100)) * (1 + madmItems[rowIndex - 1].PtThue / 100);
-                        tr.querySelector('#input-thanhtien-' + rowIndex).value = parseFloat(thanhtien).toFixed(0);
+                    for (let i = 0; i < madmItems.length; i++) {
+                        var tr = document.getElementById("tr" + rowIndex);
+                        if (madmItems[i].trId == ("tr" + rowIndex)) {
+                            madmItems[i].Soluong = parseInt(sl);
+                            madmItems[i].Dgban = parseInt(dgia);
+                            madmItems[i].PtChietkhau = parseInt(ck);
+                            madmItems[i].PtThue = parseInt(thue);
+                            
+                            // Gắn giá trị vào các thẻ <td>
+                            var thanhtien = madmItems[i].Soluong * (madmItems[i].Dgban * (1 - madmItems[i].PtChietkhau / 100)) * (1 + madmItems[i].PtThue / 100);
+                            tr.querySelector('#input-thanhtien-' + rowIndex).value = parseFloat(thanhtien).toFixed(0);
+                            break;
+                        }
                     }
                     console.log(madmItems);
                     loadBill();
@@ -559,7 +563,15 @@
                         td = tr[i].getElementsByTagName("td")[0];
                         txtValue = td.textContent || td.innerText;
                         if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                            tr[i].style.display = "";
+                            var isNone = false;
+                            for (let u = 0; u < madmItems.length; u++) {
+                                if (txtValue.toUpperCase() == madmItems[u].Madm.toUpperCase()) {
+                                    tr[i].style.display = "none";
+                                    isNone = true;
+                                    break;
+                                }
+                            }
+                            if(!isNone) tr[i].style.display = "";
                         } else {
                             tr[i].style.display = "none";
                         }
@@ -605,12 +617,12 @@
                         PtThue: 0,
                         trId: id,
                     }
-                    var index = parseInt(id.slice(2))
-                    if ( index > madmItems.length) {
+                    var dmindex = parseInt(id.slice(2))
+                    if ( dmindex > madmItems.length) {
                         madmItems.push(madmDTO)
                     }
                     else {
-                        madmItems[index - 1] = madmDTO
+                        madmItems[dmindex - 1] = madmDTO
                     }
                     var numId = id[2];                
                     console.log(madmItems)
@@ -948,7 +960,7 @@
                 function closeEdit(){
                     document.getElementById("edit-page").classList.add("d-none");
                     document.getElementById("edit-page").classList.remove("d-relative");
-                    location.reload();
+                    //location.reload();
                 }
             </script>
         </div>
