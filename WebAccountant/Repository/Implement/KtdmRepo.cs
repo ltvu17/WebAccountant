@@ -175,9 +175,17 @@ namespace WebAccountant.Repository.Implement
                     {
                         SttSapXep = modelForId.SttSapxep + i;
                     }
+                    else
+                    {
+                        SttSapXep = 1 + i;
+                    }
                     if (modelForSTT != null)
                     {
                         stt = modelForSTT.SttSc + i;
+                    }
+                    else
+                    {
+                        stt = 1 + i;
                     }
                     var insertPhieuHang = new Ktsc()
                     {
@@ -470,9 +478,17 @@ namespace WebAccountant.Repository.Implement
                     {
                         SttSapXep = modelForId.SttSapxep + t;
                     }
+                    else
+                    {
+                        SttSapXep = 1 + t;
+                    }
                     if (modelForSTT != null)
                     {
                         stt = modelForSTT.SttSc + i;
+                    }
+                    else
+                    {
+                        stt = 1 + i;
                     }
                     var insertPhieuHang = new Ktsc()
                     {

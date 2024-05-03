@@ -44,6 +44,18 @@ namespace WebAccountant.Repository.Implement
             await _unitOfWork.SaveChangesAsync();
         }
 
+        public async Task<bool> DeletePhieuBanHang(int id)
+        {
+            var item = (await GetAllDSPhieuBanHang()).Where(s => s.id == id).FirstOrDefault();
+            var ktscs = item.ktscs;
+            foreach(var ktsc in ktscs)
+            {
+                await _unitOfWork.KTSCDAO.RemoveEntity(ktsc);
+                await _unitOfWork.SaveChangesAsync();
+            }
+            return true;
+        }
+
         public async Task<IEnumerable<Ktsc>> GetAllAsync()
         {
             return await _unitOfWork.KTSCDAO.GetAll();
