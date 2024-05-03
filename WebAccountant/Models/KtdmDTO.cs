@@ -15,5 +15,7 @@ namespace WebAccountant.Models
         public double PtChietKhau { get; set; }
         public double PtThue { get; set; }
         public double TonTDv1 { get; set; }
+
+
     }
 }

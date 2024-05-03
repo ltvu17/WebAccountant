@@ -7,5 +7,9 @@ namespace WebAccountant.Repository
     {
         public Task<IEnumerable<PhieuBanHangDTO>> GetAllDSPhieuBanHang();
         public Task<IEnumerable<PhieuMuaHangDTO>> GetAllDSPhieuMuaHang();
+        public Task<FormBanHangDTO> GetDetailPhieuBanHang(int id);
+        public Task<AddToKTSCDTO> GetDetailPhieuMuaHang(int id);
+        public Task<bool> UpdateDetailPhieuBanHang(FormBanHangDTO item);
+        public Task<bool> DeletePhieuBanHang(int id);
     }
 }
