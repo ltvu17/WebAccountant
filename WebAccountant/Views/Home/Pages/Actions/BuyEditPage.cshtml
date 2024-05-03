@@ -232,17 +232,17 @@
     function loadMoney() {
         var tongtien = 0;
         for (let i = 0; i < editItems.length; i++) {
-            var numId = exist[i];
+            var numId = eexist[i];
             tongtien = tongtien + parseInt(document.getElementById("edit-thanhtien-" + numId).value);
         }
         console.log("tongtienne:" + tongtien);
         //document.getElementById("tongtien").textContent = tongtien;
     }
     function lessItem(id) {
-        if (index > 1) {
+        if (eindex > 1) {
             var tr = document.getElementById(id);
             for (let i = 0; i < eexist.length; i++) {
-                if (eexist[i] == id[2]) {
+                if (eexist[i] == id[1]) {
                     eexist.splice(i, 1);
                 }
             }
@@ -253,7 +253,7 @@
                 }
             }
             tr.remove();
-            index--;
+            eindex--;
             var idList = [];
             for (let i = 1; i <= index; i++) {
                 idList.push(i);
