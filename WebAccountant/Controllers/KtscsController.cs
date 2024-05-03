@@ -31,7 +31,7 @@ namespace WebAccountant.Controllers
             var ktscBanHangs = await _ktscRepo.GetAllDSPhieuBanHang();
             return Json(DataSourceLoader.Load(ktscBanHangs, loadOptions));
         }
-        [HttpGet("/{id}")]
+        [HttpGet]
         public async Task<IActionResult> GetDetailPhieuBanHang(int id)
         {
             var phieuBanHang = await _ktscRepo.GetDetailPhieuBanHang(id);
@@ -73,6 +73,11 @@ namespace WebAccountant.Controllers
         [HttpDelete]
         public async Task Delete(double key) {
             await _ktscRepo.Delete(key.ToString());
+        }
+        [HttpDelete]
+        public async Task DeletePhieuBanHang(int id)
+        {
+            await _ktscRepo.DeletePhieuBanHang(id);
         }
         private string GetFullErrorMessage(ModelStateDictionary modelState) {
             var messages = new List<string>();
