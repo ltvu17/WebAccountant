@@ -73,8 +73,8 @@ namespace WebAccountant.Repository.Implement
             var t = 0;
             foreach (var item in items)
             {
-                var groupItem = item.Where(s => s.Lctg == "HDBR" && !s.Diengiai.Contains("Thuế GTGT đầu ra HĐ") && !s.IdNghiepvu.Contains("GIAVON")
-                                            && !s.Diengiai.Contains(" Chiết khấu theo chứng từ")).ToList();
+                var groupItem = item.Where(s => s.Lctg == "HDBR" && !s.Diengiai.Contains("Thuế GTGT đầu ra HĐ") && !s.IdNghiepvu.Contains("GIAVON") && !s.IdNghiepvu.Contains("CHIETKHAU_HDBR") && !s.IdNghiepvu.Contains("VAT_RA")
+                                            && !s.Diengiai.Contains("Chiết khấu theo chứng từ")).ToList();
                 var insertItem = new PhieuBanHangDTO();
                 double tongtien = 0;
                 double thanhTien = 0;
@@ -122,7 +122,7 @@ namespace WebAccountant.Repository.Implement
             var t = 1;
             foreach (var item in items)
             {
-                var groupItem = item.Where(s => s.Lctg == "PNK" && !s.Diengiai.Contains("Thuế GTGT mua vào HĐ")
+                var groupItem = item.Where(s => s.Lctg == "PNK" && !s.Diengiai.Contains("Thuế GTGT mua vào HĐ") && !s.IdNghiepvu.Contains("CHIETKHAU") && !s.IdNghiepvu.Contains("VAT_PNK_PC")
                                             && !s.Diengiai.Contains("Chiết khấu theo chứng từ")).ToList();
                 var insertItem = new PhieuMuaHangDTO();
                 double tongtien = 0;
@@ -138,6 +138,7 @@ namespace WebAccountant.Repository.Implement
                     chietKhau += i.PtCk;
                     tongCk += i.Chietkhau;
                     hthucthanhtoan = i.Httt;
+                    insertItem.ktscs.Add(i);
                 }
                 var key = item.FirstOrDefault();
                 insertItem.id = t;
@@ -191,7 +192,39 @@ namespace WebAccountant.Repository.Implement
             };
             return returnForm;
         }
-
+        public async Task<AddToKTSCDTO> GetDetailPhieuMuaHang(int id)
+        {
+            var item = (await GetAllDSPhieuMuaHang()).Where(s => s.id == id).FirstOrDefault();
+            var ktscs = item.ktscs;
+            var ktdmDTOs = new List<KtdmDTO>();
+            foreach (var ktp in ktscs)
+            {
+                var ktdm = (await _unitOfWork.KTDMDao.Find(s => s.Madm == ktp.Madmno, 1, 1)).FirstOrDefault();
+                ktdmDTOs.Add(new KtdmDTO()
+                {
+                    Madm = ktdm.Madm,
+                    Matk = ktdm.Matk,
+                    Dgban = ktp.Dgvnd,
+                    Donvi = ktp.Donvi,
+                    PtChietKhau = ktp.PtCk,
+                    PtThue = Double.Parse(ktp.TsGtgt),
+                    Soluong = (int)ktp.Luong,
+                    Tendm = ktdm.Tendm,
+                    TonTDv1 = ktdm.TonTDv1,
+                });
+            }
+            if (item == null) return new AddToKTSCDTO();
+            var returnForm = new AddToKTSCDTO()
+            {
+                KhachHang = (await _unitOfWork.KTDTPNDAO.Find(s => s.Madtpn == item.MaKh, 1, 1)).FirstOrDefault(),
+                ktdmDTOs = ktdmDTOs,
+                HthucThanhToan = ktscs.FirstOrDefault().Httt == "Nợ" ? "2" : "1",
+                NgayCtu = (DateTime)ktscs.FirstOrDefault().Ngayct,
+                NgayHToan = (DateTime)ktscs.FirstOrDefault().NgayHd,
+                id = id
+            };
+            return returnForm;
+        }
         public async Task Update(string key, string values)
         {
             var keyParse = Double.TryParse(key, out var valueParse);
