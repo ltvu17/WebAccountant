@@ -13,13 +13,17 @@
             <button type="button" class="btn-close" onclick="closeEdit()"></button>
         </div>
     </div>
-    <form id="edit-form">
+    <form id="edit-form" asp-controller="Ktscs" asp-action="UpdateDetailPhieuMuaHang">
         <div class="body-buy-edit">
             <div class="row kh-info t-s-12">
                 <div class="col-2">
                     <div class="mb-3 text-start">
                         <label for="makh" class="col-form-label">Mã khách hàng:</label>
                         <input type="text" class="form-control height-30" id="makh" value="@Model.KhachHang.Madtpn" readonly>
+                        <input type="text" class="form-control height-30" id="makh" value="@Model.KhachHang.Madtpn" asp-for="@Model.Makh" readonly>
+                        <input type="datetime-local" class="form-control height-30" asp-for="@Model.NgayHToan" id="ht" value="@DateTime.UtcNow.AddHours(7).ToString("s")" hidden>
+                        <input type="number" class="form-control height-30" asp-for="@Model.id" id="ht" value="@Model.id" hidden>
+                        <input type="datetime-local" class="form-control height-30" asp-for="@Model.NgayCtu" id="ct" value="@DateTime.UtcNow.AddHours(7).ToString("s")" hidden>
                     </div>
                 </div>
                 <div class="col-5">
@@ -67,6 +71,7 @@
                                     autofocus="autofocus"
                                     autocomplete="off"
                                     value="@item.Madm"
+                                    asp-for="ktdmDTOs[ecount-1].Madm"
                                        onkeyup="findDm('edit-sugg-@ecount','edit-madm-@ecount','edit-sugg-@ecount')" />
                                     <div class="table-container">
                                     <table id="edit-sugg-@ecount" class="sugg-container d-none">
@@ -79,16 +84,16 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" id="edit-tendm-@ecount" value="@item.Tendm" readonly />
-                                    <input type="text" class="form-control" id="edit-matk-@ecount" value="@item.Matk" hidden readonly />
-                                </td>
-                                <td><input type="text" class="form-control" id="edit-donvi-@ecount" readonly value="@item.Donvi" /></td>
-                                <td><input type="number" class="form-control" id="edit-dongia-@ecount" min="0" onchange="tienEdit(@ecount)" value="@item.Dgban" /></td>
-                                <td><input type="number" class="form-control" id="edit-soluong-@ecount" min="1" onchange="tienEdit(@ecount)" value="@item.Soluong" /></td>
-                                <td><input type="number" class="form-control" id="edit-ck-@ecount" min="0" max="100" onchange="tienEdit(@ecount)" value="@item.PtChietKhau" /></td>
-                                <td><input type="number" class="form-control" id="edit-thue-@ecount" min="0" max="100" onchange="tienEdit(@ecount)" value="@item.PtThue" /></td>
-                                <td><input type="number" class="form-control" id="edit-thanhtien-@ecount" readonly value="@tt" /></td>
-                                <td></td>
+                                <input type="text" class="form-control" id="edit-tendm-@ecount" value="@item.Tendm" asp-for="ktdmDTOs[ecount-1].Tendm" readonly />
+                                <input type="text" class="form-control" id="edit-matk-@ecount" value="@item.Matk" asp-for="ktdmDTOs[ecount-1].Matk" hidden readonly />
+                            </td>
+                            <td><input type="text" class="form-control" id="edit-donvi-@ecount" readonly value="@item.Donvi" asp-for="ktdmDTOs[ecount-1].Donvi" /></td>
+                            <td><input type="number" class="form-control" id="edit-dongia-@ecount" min="0" onchange="tienEdit(@ecount)" asp-for="ktdmDTOs[ecount-1].Dgban" value="@item.Dgban" /></td>
+                            <td><input type="number" class="form-control" id="edit-soluong-@ecount" min="1" onchange="tienEdit(@ecount)" value="@item.Soluong" asp-for="ktdmDTOs[ecount-1].Soluong" /></td>
+                            <td><input type="number" class="form-control" id="edit-ck-@ecount" min="0" max="100" onchange="tienEdit(@ecount)" value="@item.PtChietKhau" asp-for="ktdmDTOs[ecount-1].PtChietKhau" /></td>
+                            <td><input type="number" class="form-control" id="edit-thue-@ecount" min="0" max="100" onchange="tienEdit(@ecount)" value="@item.PtThue" asp-for="ktdmDTOs[ecount-1].PtThue" /></td>
+                            <td><input type="number" class="form-control" id="edit-thanhtien-@ecount" readonly value="@tt" /></td>
+                            <td></td>
                                 @* <td class="t-center"><a class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td> *@
                         </tr>
                         
@@ -214,6 +219,7 @@
                                                                            class="form-control input-sugg"
                                                                            id="edit-madm-${eecount}"
                                                                            autofocus="autofocus"
+                                                                               name="ktdmDTOs[${eecount - 1}].Madm"
                                                                            onkeyup="findDm('edit-sugg-${eecount}','edit-madm-${eecount}','edit-sugg-${eecount}')" />
                                                                     <div class="table-container">
                                                                         <table id="edit-sugg-${eecount}" class="sugg-container d-none">
@@ -224,18 +230,18 @@
                                                                             </tr>
                                                                         </table>
                                                                     </div>
-                                                                </td>
+                                                                    </td>
 
-                                                                <td><input type="text" class="form-control" id="edit-tendm-${eecount}" readonly />
-                                                                <input type="text" class="form-control" id="edit-matk-${eecount}" hidden readonly /></td>
-                                                                <td><input type="text" class="form-control" id="edit-donvi-${eecount}" readonly /></td>
-                                                                <td><input type="number" class="form-control" id="edit-dongia-${eecount}" min="0" onchange="tienEdit(${eecount})" /></td>
-                                                                <td><input type="number" class="form-control" id="edit-soluong-${eecount}" min="1" onchange="tienEdit(${eecount})" /></td>
-                                                                <td><input type="number" class="form-control" id="edit-ck-${eecount}" min="0" max="100" onchange="tienEdit(${eecount})" /></td>
-                                                                <td><input type="number" class="form-control" id="edit-thue-${eecount}" min="0" max="100" onchange="tienEdit(${eecount})" /></td>
-                                                                <td><input type="number" class="form-control" id="edit-thanhtien-${eecount}" readonly/></td>
-                                                                <td class="t-center"><a onClick="lessItem('e-${eecount}')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
-                                                            </tr>
+                                                                        <td><input type="text" class="form-control" id="edit-tendm-${eecount}" name="ktdmDTOs[${eecount - 1}].Tendm" readonly />
+                                                                        <input type="text" class="form-control" id="edit-matk-${eecount}" name="ktdmDTOs[${eecount - 1}].Matk" hidden readonly /></td>
+                                                                        <td><input type="text" class="form-control" id="edit-donvi-${eecount}" name="ktdmDTOs[${eecount - 1}].Donvi" readonly /></td>
+                                                                        <td><input type="number" class="form-control" id="edit-dongia-${eecount}" name="ktdmDTOs[${eecount - 1}].Dgban" min="0" onchange="tienEdit(${eecount})" /></td>
+                                                                        <td><input type="number" class="form-control" id="edit-soluong-${eecount}" name="ktdmDTOs[${eecount - 1}].Soluong" min="1" onchange="tienEdit(${eecount})" /></td>
+                                                                        <td><input type="number" class="form-control" id="edit-ck-${eecount}" name="ktdmDTOs[${eecount - 1}].PtChietKhau" min="0" max="100" onchange="tienEdit(${eecount})" /></td>
+                                                                        <td><input type="number" class="form-control" id="edit-thue-${eecount}" name="ktdmDTOs[${eecount - 1}].PtThue" min="0" max="100" onchange="tienEdit(${eecount})" /></td>
+                                                                        <td><input type="number" class="form-control" id="edit-thanhtien-${eecount}" readonly/></td>
+                                                                        <td class="t-center"><a onClick="lessItem('e-${eecount}')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
+                                                                    </tr>
                         `);
             $.ajax({
                 url: '@Url.Action("Get", "Ktdms")',
