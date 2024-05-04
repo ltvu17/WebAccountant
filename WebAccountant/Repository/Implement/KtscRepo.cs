@@ -164,6 +164,7 @@ namespace WebAccountant.Repository.Implement
             var item = (await GetAllDSPhieuBanHang()).Where(s => s.id == id).FirstOrDefault();
             var ktscs = item.ktscs;
             var ktdmDTOs = new List<KtdmDTO>();
+            var count = 1;
             foreach (var ktp in ktscs)
             {
                 var ktdm = (await _unitOfWork.KTDMDao.Find(s => s.Madm == ktp.Madmco, 1, 1)).FirstOrDefault();
@@ -178,7 +179,9 @@ namespace WebAccountant.Repository.Implement
                     Soluong = (int)ktp.Luong,
                     Tendm = ktdm.Tendm,
                     TonTDv1 = ktdm.TonTDv1,
+                    eId = count,
                 });
+                count++;
             }
             if (item == null) return new FormBanHangDTO();
             var returnForm = new FormBanHangDTO()
@@ -197,6 +200,7 @@ namespace WebAccountant.Repository.Implement
             var item = (await GetAllDSPhieuMuaHang()).Where(s => s.id == id).FirstOrDefault();
             var ktscs = item.ktscs;
             var ktdmDTOs = new List<KtdmDTO>();
+            var count = 1;
             foreach (var ktp in ktscs)
             {
                 var ktdm = (await _unitOfWork.KTDMDao.Find(s => s.Madm == ktp.Madmno, 1, 1)).FirstOrDefault();
@@ -211,7 +215,9 @@ namespace WebAccountant.Repository.Implement
                     Soluong = (int)ktp.Luong,
                     Tendm = ktdm.Tendm,
                     TonTDv1 = ktdm.TonTDv1,
+                    eId = count,
                 });
+                count++;
             }
             if (item == null) return new AddToKTSCDTO();
             var returnForm = new AddToKTSCDTO()

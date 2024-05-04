@@ -35,7 +35,7 @@ namespace WebAccountant.Controllers
         public async Task<IActionResult> GetDetailPhieuBanHang(int id)
         {
             var phieuBanHang = await _ktscRepo.GetDetailPhieuBanHang(id);
-            return PartialView("~/Views/Home/Pages/Actions/BuyEditPage.cshtml", phieuBanHang);
+            return PartialView("~/Views/Home/Pages/Actions/SellEditPage.cshtml", phieuBanHang);
         }
         [HttpGet]
         public async Task<IActionResult> GetDetailPhieuMuaHang(int id)
