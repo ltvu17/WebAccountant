@@ -69,7 +69,7 @@
                     .OnContextMenuPreparing("edit").ID("grid")
                     )
             </div>
-            <div id="edit-page" class="d-none">@Html.Partial("../Home/Pages/Actions/BuyEditPage")</div>
+            <div id="edit-page" class="d-none"></div>
             <form id="myForm" class="d-none" asp-controller="Ktdms" asp-action="SubmitCartToSave">
                 <div class="top-content">
                     @*Content*@
@@ -959,6 +959,17 @@
                                     console.log(id);
                                     document.getElementById("edit-page").classList.remove("d-none");
                                     document.getElementById("edit-page").classList.add("d-relative");
+                                    $.ajax({
+                                        url: '@Url.Action("GetDetailPhieuBanHang", "Ktscs")',
+                                        type: 'GET',
+                                        data: {
+                                            id: id
+                                        },
+                                        success: function (result) {
+                                            console.log(result);
+                                            $("#edit-page").append(result);
+                                        }
+                                    });
                                 }
                             },
                         ];
