@@ -310,7 +310,9 @@
     padding: 15px;
     width: 90%;
 }
-
+.header-buy-edit{
+    font-weight:600;
+}
 #edit-page {
     position: fixed; /* Đặt div ở vị trí cố định trên màn hình */
     z-index: 9999; /* Đảm bảo div này nằm trên cùng */
@@ -320,5 +322,10 @@
     height: 100%; /* Chiếm toàn bộ chiều cao của trang */
     display: flex; /* Sử dụng flexbox để căn giữa nội dung */
     justify-content: center; /* Căn giữa nội dung theo chiều ngang */
-    align-items: center; /* Căn giữa nội dung theo chiều dọc */
+    margin-top: 130px;
+    align-items: start; /* Căn giữa nội dung theo chiều dọc */
+}
+
+.kh-info input{
+    font-size: 12px;
 }

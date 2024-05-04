@@ -12,6 +12,9 @@
         <div class="right-bar-home content mua-page">
             <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex t-s-14">
                 <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
@@ -22,9 +25,6 @@
                             </li>
                         </ul>
                     </div>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
                 </div>
             </nav>
             <div id="mua-data" >
@@ -69,7 +69,7 @@
                     .OnContextMenuPreparing("edit").ID("grid")
                     )
             </div>
-            <div id="edit-page" class="d-none">@Html.Partial("../Home/Pages/Actions/BuyEditPage")</div>
+            <div id="edit-page" class="d-none"></div>
             <form id="myForm" class="d-none" asp-controller="Ktdms" asp-action="SubmitCartToSave">
                 <div class="top-content">
                     @*Content*@
@@ -403,14 +403,14 @@
                         <div class="col-4 bill d-flex flex-column">
                             <div class="bill-title">Hóa đơn</div>
                             <div id="bill-list" class="bill-list d-flex flex-column">
-                                <div style="padding-top:5px" class="bill-menu d-flex justify-content-between">
+                                <div style="padding: 5px 0" class="bill-menu d-flex justify-content-between">
                                     <div class="t-s-12">Tên danh mục</div>
                                     <div class="t-s-12">Số lượng</div>
                                 </div>
                                 <div id="list-p" class="bill-content">
                                 </div>
                             </div>
-                            <div class="so-tien d-flex justify-content-between">
+                            <div class="so-tien d-flex justify-content-between mt-auto">
                                 <div>Tổng tiền: </div>
                                 <div id="tongtien">0</div>
                             </div>
@@ -618,12 +618,20 @@
                         PtThue: 0,
                         trId: id,
                     }
-                    var dmindex = parseInt(id.slice(2))
-                    if (dmindex > madmItems.length) {
-                        madmItems.push(madmDTO)
+                    var dmindex = id[2];
+                    var isExist = false;
+                    for (let i = 0; i < madmItems.length; i++) {
+                        if (madmItems[i].trId[2] == dmindex) {
+                            isExist = true;
+                            dmindex = i;
+                            break;
+                        }
+                    }
+                    if (!isExist) {
+                        madmItems.push(madmDTO);
                     }
                     else {
-                        madmItems[dmindex - 1] = madmDTO
+                        madmItems[dmindex] = madmDTO;
                     }
                     var numId = id[2];
                     console.log(madmItems)
@@ -959,6 +967,22 @@
                                     console.log(id);
                                     document.getElementById("edit-page").classList.remove("d-none");
                                     document.getElementById("edit-page").classList.add("d-relative");
+                                    $.ajax({
+                                        url: '@Url.Action("GetDetailPhieuBanHang", "Ktscs")',
+                                        type: 'GET',
+                                        data: {
+                                            id: id
+                                        },
+                                        success: function (result) {
+                                            console.log(result);
+                                            var editPage = document.getElementById("edit-page");
+                                            var modal = editPage.getElementsByClassName("buy-edit");
+                                            while (modal.length > 0) {
+                                                modal[0].parentNode.removeChild(modal[0]);
+                                            }
+                                            $("#edit-page").append(result);
+                                        }
+                                    });
                                 }
                             },
                         ];
