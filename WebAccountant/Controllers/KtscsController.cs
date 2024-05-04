@@ -1,3 +1,4 @@
+using DevExpress.Pdf.Native.BouncyCastle.Utilities;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
 using Microsoft.AspNetCore.Mvc;
@@ -64,10 +65,86 @@ namespace WebAccountant.Controllers
             var result = await _ktscRepo.AddNew(values);
             return Json(new { result.Entity.SttSc });
         }
-        [HttpPut]
-        public async Task<IActionResult> UpdateDetailPhieuBanHang(FormBanHangDTO item)
+        [HttpPost]
+        public async Task<IActionResult> UpdateDetailPhieuBanHang(FormBanHangDTO items)
         {
-            var result = await _ktscRepo.UpdateDetailPhieuBanHang(item);
+            List<KtdmDTO> addList = new List<KtdmDTO>();
+            var ktdmDTOs = this.Request.Form.Where(s => s.Key.Contains(typeof(KtdmDTO).Name.ToString(), StringComparison.OrdinalIgnoreCase));
+            var keyString = ktdmDTOs.LastOrDefault().Key;
+            var numberOfEntity = keyString.ElementAt(keyString.IndexOf("[") + 1);
+            var result = int.TryParse(numberOfEntity.ToString(), out var totalEntity);
+            if (result)
+            {
+                if (totalEntity != items.ktdmDTOs.Count)
+                {
+                    for (int i = 0; i <= totalEntity; i++)
+                    {
+                        var checkValue = ktdmDTOs.Where(s => s.Key.Contains("[" + i + "]")).FirstOrDefault().Value;
+                        if (!string.IsNullOrEmpty(checkValue))
+                        {
+                            var ts = typeof(KtdmDTO).Name.ToString() + "s[" + i + "].Dgban";
+                            var test = ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].Dgban", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value;
+                            addList.Add(new KtdmDTO
+                            {
+                                Dgban = double.Parse(ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].Dgban", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value),
+                                Donvi = ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].Donvi", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value,
+                                Madm = ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].Madm", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value,
+                                Matk = ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].Matk", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value,
+                                PtChietKhau = double.Parse(ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].PtChietKhau", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value),
+                                PtThue = double.Parse(ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].PtThue", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value),
+                                Soluong = int.Parse(ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].Soluong", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value),
+                                Tendm = ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].Tendm", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value,
+                            });
+                        }
+                    }
+                }
+            }
+            if (addList.Count > 0)
+            {
+                items.ktdmDTOs = addList;
+            }
+            await _ktscRepo.UpdateDetailPhieuBanHang(items);
+            return RedirectToAction("SellProduct", "Home");
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateDetailPhieuMuaHang(AddToKTSCDTO items)
+        {
+            List<KtdmDTO> addList = new List<KtdmDTO>();
+            var ktdmDTOs = this.Request.Form.Where(s => s.Key.Contains(typeof(KtdmDTO).Name.ToString(), StringComparison.OrdinalIgnoreCase));
+            var keyString = ktdmDTOs.LastOrDefault().Key;
+            var numberOfEntity = keyString.ElementAt(keyString.IndexOf("[") + 1);
+            var result = int.TryParse(numberOfEntity.ToString(), out var totalEntity);
+            if (result)
+            {
+                if (totalEntity != items.ktdmDTOs.Count)
+                {
+                    for (int i = 0; i <= totalEntity; i++)
+                    {
+                        var checkValue = ktdmDTOs.Where(s => s.Key.Contains("[" + i + "]")).FirstOrDefault().Value;
+                        if (!string.IsNullOrEmpty(checkValue))
+                        {
+                            var ts = typeof(KtdmDTO).Name.ToString() + "s[" + i + "].Dgban";
+                            var test = ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].Dgban", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value;
+                            addList.Add(new KtdmDTO
+                            {
+                                Dgban = double.Parse(ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].Dgban", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value),
+                                Donvi = ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].Donvi", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value,
+                                Madm = ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].Madm", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value,
+                                Matk = ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].Matk", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value,
+                                PtChietKhau = double.Parse(ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].PtChietKhau", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value),
+                                PtThue = double.Parse(ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].PtThue", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value),
+                                Soluong = int.Parse(ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].Soluong", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value),
+                                Tendm = ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].Tendm", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value,
+                            });
+                        }
+                    }
+                }
+            }
+            if (addList.Count > 0)
+            {
+                items.ktdmDTOs = addList;
+            }
+            await _ktscRepo.UpdateDetailPhieuMuaHang(items);
             return RedirectToAction("BuyProduct", "Home");
         }
         [HttpPut]
