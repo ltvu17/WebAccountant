@@ -40,8 +40,8 @@ namespace WebAccountant.Controllers
         [HttpGet]
         public async Task<IActionResult> GetDetailPhieuMuaHang(int id)
         {
-            var phieuBanHang = await _ktscRepo.GetDetailPhieuMuaHang(id);
-            return PartialView("~/Views/Home/Pages/Actions/BuyEditPage.cshtml", phieuBanHang);
+            var phieuMuaHang = await _ktscRepo.GetDetailPhieuMuaHang(id);
+            return PartialView("~/Views/Home/Pages/Actions/BuyEditPage.cshtml", phieuMuaHang);
         }
         [HttpGet]
         public async Task<IActionResult> GetALLDSPhieuMuaHang(DataSourceLoadOptions loadOptions)
