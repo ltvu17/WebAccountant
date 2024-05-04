@@ -38,20 +38,20 @@
                     .RemoteOperations(true).FocusedRowEnabled(true)
                     .Columns(columns =>
                     {
-                        columns.AddFor(s => s.NgayCtu);
-                        columns.AddFor(s => s.Soctu);
-                        columns.AddFor(s => s.HTThanhToan);
-                        columns.AddFor(s => s.ThanhTien);
+                        columns.AddFor(s => s.NgayCtu).Caption("Ngày chứng từ");
+                        columns.AddFor(s => s.Soctu).Caption("Số chứng từ");
+                        columns.AddFor(s => s.HTThanhToan).Caption("Hình thức thanh toán");
+                        columns.AddFor(s => s.ThanhTien).Caption("Thành tiền");
                         columns.AddFor(s => s.ckPhanTram);
-                        columns.AddFor(s => s.CkThanhTien);
-                        columns.AddFor(s => s.TongTien);
+                        columns.AddFor(s => s.CkThanhTien).Caption("Chiết khấu thành tiền");
+                        columns.AddFor(s => s.TongTien).Caption("Tổng tiền");
                         columns.AddFor(s => s.KhTraTien);
-                        columns.AddFor(s => s.MaKh);
-                        columns.AddFor(s => s.TenKh);
-                        columns.AddFor(s => s.MsThue);
-                        columns.AddFor(s => s.Diachi);
-                        columns.AddFor(s => s.GhiChu);
-                        columns.AddFor(s => s.NhanVienBan);
+                        columns.AddFor(s => s.MaKh).Caption("Mã khách hàng");
+                        columns.AddFor(s => s.TenKh).Caption("Tên khách hàng");
+                        columns.AddFor(s => s.MsThue).Caption("Mã số thuế");
+                        columns.AddFor(s => s.Diachi).Caption("Địa chỉ");
+                        columns.AddFor(s => s.GhiChu).Caption("Ghi chú");
+                        columns.AddFor(s => s.NhanVienBan).Caption("Nhân viên bán");
                     })
                     .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
                     .ShowBorders(true)
