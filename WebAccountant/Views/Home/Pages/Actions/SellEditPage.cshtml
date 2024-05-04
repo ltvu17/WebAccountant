@@ -19,19 +19,34 @@
                 <div class="col-2">
                     <div class="mb-3 text-start">
                         <label for="makh" class="col-form-label">Mã khách hàng:</label>
-                        <input type="text" class="form-control height-30" id="makh" value="@Model.KhachHang.Madtpn" readonly>
+                        <input type="text"
+                               class="form-control input-sugg height-30"
+                               id="input-makh"
+                               autofocus="autofocus"
+                               autocomplete="off"
+                               value="@Model.KhachHang.Madtpn"
+                               onkeyup="findDm('list-makh-sugg','input-makh','list-makh-sugg')" />
+                        <div class="table-container">
+                            <table id="list-makh-sugg" class="sugg-container d-none">
+                                <tr id="tr-1">
+                                    <td class="width-120">Mã khách hàng</td>
+                                    <td class="width-250">Tên khách hàng</td>
+                                    <td class="width-120">Mã số doanh nghiệp</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div class="col-5">
                     <div class="mb-3 text-start">
-                        <label for="tenkh" class="col-form-label">Tên khách hàng:</label>
-                        <input type="text" class="form-control height-30" id="tenkh" value="@Model.KhachHang.Tendtpn" readonly>
+                        <label for="ip-tenkh" class="col-form-label">Tên khách hàng:</label>
+                        <input type="text" class="form-control height-30" id="ip-tenkh" value="@Model.KhachHang.Tendtpn" readonly>
                     </div>
                 </div>
                 <div class="col-5">
                     <div class="mb-3 text-start">
-                        <label for="diachi" class="col-form-label">Địa chỉ:</label>
-                        <input type="text" class="form-control height-30" id="diachi" value="@Model.KhachHang.Diachi" readonly>
+                        <label for="ip-dc" class="col-form-label">Địa chỉ:</label>
+                        <input type="text" class="form-control height-30" id="ip-dc" value="@Model.KhachHang.Diachi" readonly>
                     </div>
                 </div>
             </div>
@@ -133,6 +148,38 @@
                 }
             }
         });
+    }
+    var makh = [
+        {
+            Madtpn: "",
+            Tendtpn: "",
+            MsDn: ""
+        }
+    ];
+    $.ajax({
+        url: '@Url.Action("Get", "Ktdtpns")',
+        type: 'GET',
+        success: function (result) {
+            if (result.data.length > 0) {
+                makh = result.data;
+                for (var i = 0; i < makh.length; i++) {
+                    const list = document.getElementById("list-makh-sugg");
+                    list.insertAdjacentHTML('beforeend', `
+                                               <tr class="tr-sugg" onclick="makhChoose('${encodeURIComponent(JSON.stringify(makh[i]))}')"><td>${makh[i].Madtpn}</td><td>${makh[i].Tendtpn}</td><td>${makh[i].MsDn}</td></tr>
+                                        `);
+                }
+            }
+        }
+    });
+    var makhItems = []
+    function makhChoose(item) {
+        makhItems = JSON.parse(decodeURIComponent(item));
+        console.log(makhItems);
+        hide_sugg("list-makh-sugg");
+        // Gắn giá trị vào các thẻ <td>
+        document.getElementById('input-makh').value = JSON.parse(decodeURIComponent(item)).Madtpn;
+        document.getElementById('ip-tenkh').value = JSON.parse(decodeURIComponent(item)).Tendtpn;
+        document.getElementById('ip-dc').value = JSON.parse(decodeURIComponent(item)).Diachi;
     }
     function findDm(idSugg, idInput, idUl) {
         document.getElementById(idSugg).classList.remove("d-none");

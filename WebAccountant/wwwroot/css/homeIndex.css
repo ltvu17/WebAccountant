@@ -311,7 +311,10 @@
     width: 90%;
 }
 .header-buy-edit{
-    font-weight:600;
+    font-weight:700;
+}
+.body-buy-edit label {
+    font-weight:500;
 }
 #edit-page {
     position: fixed; /* Đặt div ở vị trí cố định trên màn hình */
