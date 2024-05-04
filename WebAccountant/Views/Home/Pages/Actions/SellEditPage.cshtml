@@ -19,27 +19,23 @@
                 <div class="col-2">
                     <div class="mb-3 text-start">
                         <label for="makh" class="col-form-label">Mã khách hàng:</label>
-                        <input type="text" class="form-control height-30" id="makh" value="@Model.KhachHang.Madtpn" asp-for="@Model.Makh" readonly>
+                        <input type="text" class="form-control input-sugg height-30" id="input-makh"
+                               value="@Model.KhachHang.Madtpn" asp-for="@Model.Makh"
+                               autofocus="autofocus"
+                               autocomplete="off"
+                               onkeyup="findDm('list-makh-sugg','input-makh','list-makh-sugg')" />
                         <input type="datetime-local" class="form-control height-30" asp-for="@Model.NgayHToan" id="ht" value="@DateTime.UtcNow.AddHours(7).ToString("s")" hidden>
                         <input type="number" class="form-control height-30" asp-for="@Model.id" id="ht" value="@Model.id" hidden>
                         <input type="datetime-local" class="form-control height-30" asp-for="@Model.NgayCtu" id="ct" value="@DateTime.UtcNow.AddHours(7).ToString("s")" hidden>
-
-                        <input type="text"
-       class="form-control input-sugg height-30"
-       id="input-makh"
-       autofocus="autofocus"
-       autocomplete="off"
-       value="@Model.KhachHang.Madtpn"
-       onkeyup="findDm('list-makh-sugg','input-makh','list-makh-sugg')" />
-<div class="table-container">
-    <table id="list-makh-sugg" class="sugg-container d-none">
-        <tr id="tr-1">
-            <td class="width-120">Mã khách hàng</td>
-            <td class="width-250">Tên khách hàng</td>
-            <td class="width-120">Mã số doanh nghiệp</td>
-        </tr>
-    </table>
-</div>
+                        <div class="table-container">
+                            <table id="list-makh-sugg" class="sugg-container d-none">
+                                <tr id="tr-1">
+                                    <td class="width-120">Mã khách hàng</td>
+                                    <td class="width-250">Tên khách hàng</td>
+                                    <td class="width-120">Mã số doanh nghiệp</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div class="col-5">
@@ -88,16 +84,8 @@
                                        autocomplete="off"
                                        asp-for="ktdmDTOs[ecount-1].Madm"
                                        value="@item.Madm"
-                                       onkeyup="findDm('edit-sugg-@ecount','edit-madm-@ecount','edit-sugg-@ecount')" />
-                                <div class="table-container">
-                                    <table id="edit-sugg-@ecount" class="sugg-container d-none">
-                                        <tr id="tr-1">
-                                            <td class="width-120">Mã danh mục</td>
-                                            <td class="width-250">Tên danh mục</td>
-                                            <td class="width-90">Số lượng tồn</td>
-                                        </tr>
-                                    </table>
-                                </div>
+                                       onkeyup="findDm('edit-sugg-@ecount','edit-madm-@ecount','edit-sugg-@ecount')" readonly/>
+                                
                             </td>
                             <td>
                                 <input type="text" class="form-control" id="edit-tendm-@ecount" value="@item.Tendm" asp-for="ktdmDTOs[ecount-1].Tendm" readonly />

@@ -132,7 +132,7 @@ namespace WebAccountant.Controllers
                 items.ktdmDTOs = addList;
             }
             await _ktdmRepo.SaveCartToDB(items);
-            return RedirectToAction("KTSC", "Home");
+            return RedirectToAction("SellProduct", "Home");
         }
         [HttpPost]
         public async Task<IActionResult> SubmitBuyCartToSave(AddToKTSCDTO items)
@@ -173,7 +173,7 @@ namespace WebAccountant.Controllers
                 items.ktdmDTOs = addList;
             }
             await _ktdmRepo.SaveBuyingCartToDB(items);
-            return RedirectToAction("KTSC", "Home");
+            return RedirectToAction("BuyProduct", "Home");
         }
         private string GetFullErrorMessage(ModelStateDictionary modelState) {
             var messages = new List<string>();
