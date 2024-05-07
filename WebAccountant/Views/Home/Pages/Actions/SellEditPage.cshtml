@@ -1,30 +1,29 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model WebAccountant.Models.AddToKTSCDTO
+@model WebAccountant.Models.FormBanHangDTO
 @{
     var ecount = 0;
     var eindex = 0;
 }
 <div class="buy-edit">
     <div class="header-buy-edit d-flex justify-content-between">
-        <div>Sửa đơn mua</div>
+        <div>Sửa đơn bán</div>
         <div>
             <button type="button" class="btn-close" onclick="closeEdit()"></button>
         </div>
     </div>
-    <form id="edit-form" asp-controller="Ktscs" asp-action="UpdateDetailPhieuMuaHang">
+    <form id="edit-form" asp-controller="Ktscs" asp-action="UpdateDetailPhieuBanHang">
         <div class="body-buy-edit">
             <div class="row kh-info t-s-12">
                 <div class="col-2">
                     <div class="mb-3 text-start">
                         <label for="makh" class="col-form-label">Mã khách hàng:</label>
                         <input type="text" class="form-control input-sugg height-30" id="input-makh"
+                               value="@Model.KhachHang.Madtpn" asp-for="@Model.Makh"
                                autofocus="autofocus"
                                autocomplete="off"
-                               onkeyup="findDm('list-makh-sugg','input-makh','list-makh-sugg')"
-                               value="@Model.KhachHang.Madtpn"
-                               asp-for="@Model.Makh">
+                               onkeyup="findDm('list-makh-sugg','input-makh','list-makh-sugg')" />
                         <input type="datetime-local" class="form-control height-30" asp-for="@Model.NgayHToan" id="ht" value="@DateTime.UtcNow.AddHours(7).ToString("s")" hidden>
                         <input type="number" class="form-control height-30" asp-for="@Model.id" id="ht" value="@Model.id" hidden>
                         <input type="datetime-local" class="form-control height-30" asp-for="@Model.NgayCtu" id="ct" value="@DateTime.UtcNow.AddHours(7).ToString("s")" hidden>
@@ -67,27 +66,28 @@
                         <td class="width-150">Thành tiền</td>
                         <td class="width-70">Hành động</td>
                     </tr>
-                    @foreach(var item in Model.ktdmDTOs)
+                    @foreach (var item in Model.ktdmDTOs)
                     {
                         ecount++;
                         eindex++;
-                            var Ttvnd = item.Soluong * item.Dgban;
-                            var Chietkhau = item.Soluong * item.Dgban * (item.PtChietKhau / 100);
-                            var Thuevnd = (Ttvnd - Chietkhau) * (item.PtThue / 100);
-                            var tt = Ttvnd - Chietkhau + Thuevnd;
-                            <tr id='e-@ecount'>
-                                <td class="t-center td-eindex">@eindex</td>
-                                <td>
-                                    <input type="text"
-                                    class="form-control input-sugg"
+                        var Ttvnd = item.Soluong * item.Dgban;
+                        var Chietkhau = item.Soluong * item.Dgban * (item.PtChietKhau / 100);
+                        var Thuevnd = (Ttvnd - Chietkhau) * (item.PtThue / 100);
+                        var tt = Ttvnd - Chietkhau + Thuevnd;
+                        <tr id='e-@ecount'>
+                            <td class="t-center td-eindex">@eindex</td>
+                            <td>
+                                <input type="text"
+                                       class="form-control input-sugg"
                                        id="edit-madm-@ecount"
-                                    autofocus="autofocus"
-                                    autocomplete="off"
-                                    value="@item.Madm"
-                                    asp-for="ktdmDTOs[ecount-1].Madm"
+                                       autofocus="autofocus"
+                                       autocomplete="off"
+                                       asp-for="ktdmDTOs[ecount-1].Madm"
+                                       value="@item.Madm"
                                        onkeyup="findDm('edit-sugg-@ecount','edit-madm-@ecount','edit-sugg-@ecount')" readonly/>
-                                </td>
-                                <td>
+                                
+                            </td>
+                            <td>
                                 <input type="text" class="form-control" id="edit-tendm-@ecount" value="@item.Tendm" asp-for="ktdmDTOs[ecount-1].Tendm" readonly />
                                 <input type="text" class="form-control" id="edit-matk-@ecount" value="@item.Matk" asp-for="ktdmDTOs[ecount-1].Matk" hidden readonly />
                             </td>
@@ -98,10 +98,10 @@
                             <td><input type="number" class="form-control" id="edit-thue-@ecount" min="0" max="100" onchange="tienEdit(@ecount)" value="@item.PtThue" asp-for="ktdmDTOs[ecount-1].PtThue" /></td>
                             <td><input type="number" class="form-control" id="edit-thanhtien-@ecount" readonly value="@tt" /></td>
                             <td></td>
-                                @* <td class="t-center"><a class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td> *@
+                            @* <td class="t-center"><a class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td> *@
                         </tr>
-                        
-                    }     
+                        <span asp-validation-for="ktdmDTOs"></span>
+                    }
                 </table>
                 <div class="buttons d-flex justify-content-between mar-15">
                     <button class="btn btn-success t-s-12 height-30" id="addDm" onclick="moreItem()" type="button">Thêm danh mục</button>
@@ -136,8 +136,8 @@
                     for (var i = 0; i < madm.length; i++) {
                         const list = document.getElementById("edit-sugg-" + a);
                         list.insertAdjacentHTML('beforeend', `
-                                  <tr class="tr-sugg" onclick="chooseItem(this.closest('table').closest('tr').id,'${encodeURIComponent(JSON.stringify(madm[i]))}')"><td>${madm[i].Madm}</td><td>${madm[i].Tendm}</td><td>${madm[i].TonT}</td></tr>
-                        `);
+                                      <tr class="tr-sugg" onclick="chooseItem(this.closest('table').closest('tr').id,'${encodeURIComponent(JSON.stringify(madm[i]))}')"><td>${madm[i].Madm}</td><td>${madm[i].Tendm}</td><td>${madm[i].TonT}</td></tr>
+                            `);
                     }
                 }
             }
@@ -159,8 +159,8 @@
                 for (var i = 0; i < makh.length; i++) {
                     const list = document.getElementById("list-makh-sugg");
                     list.insertAdjacentHTML('beforeend', `
-                                           <tr class="tr-sugg" onclick="makhChoose('${encodeURIComponent(JSON.stringify(makh[i]))}')"><td>${makh[i].Madtpn}</td><td>${makh[i].Tendtpn}</td><td>${makh[i].MsDn}</td></tr>
-                                    `);
+                                               <tr class="tr-sugg" onclick="makhChoose('${encodeURIComponent(JSON.stringify(makh[i]))}')"><td>${makh[i].Madtpn}</td><td>${makh[i].Tendtpn}</td><td>${makh[i].MsDn}</td></tr>
+                                        `);
                 }
             }
         }
@@ -248,37 +248,37 @@
             eeindex++;
             var table = document.getElementById("edit-dm");
             table.insertAdjacentHTML('beforeend', `
-                                                        <tr id="e-${eecount}">
-                                                                <td class="t-center td-eindex">${eeindex}</td>
-                                                                <td>
-                                                                    <input type="text"
-                                                                           class="form-control input-sugg"
-                                                                           id="edit-madm-${eecount}"
-                                                                           autofocus="autofocus"
+                                                            <tr id="e-${eecount}">
+                                                                    <td class="t-center td-eindex">${eeindex}</td>
+                                                                    <td>
+                                                                        <input type="text"
+                                                                               class="form-control input-sugg"
+                                                                               id="edit-madm-${eecount}"
+                                                                               autofocus="autofocus"
                                                                                name="ktdmDTOs[${eecount - 1}].Madm"
-                                                                           onkeyup="findDm('edit-sugg-${eecount}','edit-madm-${eecount}','edit-sugg-${eecount}')" />
-                                                                    <div class="table-container">
-                                                                        <table id="edit-sugg-${eecount}" class="sugg-container d-none">
-                                                                            <tr id="tr-1">
-                                                                                <td class="width-120">Mã danh mục</td>
-                                                                                <td class="width-250">Tên danh mục</td>
-                                                                                <td class="width-90">Số lượng tồn</td>
-                                                                            </tr>
-                                                                        </table>
-                                                                    </div>
+                                                                               onkeyup="findDm('edit-sugg-${eecount}','edit-madm-${eecount}','edit-sugg-${eecount}')" />
+                                                                        <div class="table-container">
+                                                                            <table id="edit-sugg-${eecount}" class="sugg-container d-none">
+                                                                                <tr id="tr-1">
+                                                                                    <td class="width-120">Mã danh mục</td>
+                                                                                    <td class="width-250">Tên danh mục</td>
+                                                                                    <td class="width-90">Số lượng tồn</td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div>
                                                                     </td>
 
-                                                                        <td><input type="text" class="form-control" id="edit-tendm-${eecount}" name="ktdmDTOs[${eecount - 1}].Tendm" readonly />
-                                                                        <input type="text" class="form-control" id="edit-matk-${eecount}" name="ktdmDTOs[${eecount - 1}].Matk" hidden readonly /></td>
-                                                                        <td><input type="text" class="form-control" id="edit-donvi-${eecount}" name="ktdmDTOs[${eecount - 1}].Donvi" readonly /></td>
-                                                                        <td><input type="number" class="form-control" id="edit-dongia-${eecount}" name="ktdmDTOs[${eecount - 1}].Dgban" min="0" onchange="tienEdit(${eecount})" /></td>
-                                                                        <td><input type="number" class="form-control" id="edit-soluong-${eecount}" name="ktdmDTOs[${eecount - 1}].Soluong" min="1" onchange="tienEdit(${eecount})" /></td>
-                                                                        <td><input type="number" class="form-control" id="edit-ck-${eecount}" name="ktdmDTOs[${eecount - 1}].PtChietKhau" min="0" max="100" onchange="tienEdit(${eecount})" /></td>
-                                                                        <td><input type="number" class="form-control" id="edit-thue-${eecount}" name="ktdmDTOs[${eecount - 1}].PtThue" min="0" max="100" onchange="tienEdit(${eecount})" /></td>
-                                                                        <td><input type="number" class="form-control" id="edit-thanhtien-${eecount}" readonly/></td>
-                                                                        <td class="t-center"><a onClick="lessItem('e-${eecount}')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
-                                                                    </tr>
-                        `);
+                                                                    <td><input type="text" class="form-control" id="edit-tendm-${eecount}" name="ktdmDTOs[${eecount - 1}].Tendm" readonly />
+                                                                    <input type="text" class="form-control" id="edit-matk-${eecount}" name="ktdmDTOs[${eecount - 1}].Matk" hidden readonly /></td>
+                                                                    <td><input type="text" class="form-control" id="edit-donvi-${eecount}" name="ktdmDTOs[${eecount - 1}].Donvi" readonly /></td>
+                                                                    <td><input type="number" class="form-control" id="edit-dongia-${eecount}" name="ktdmDTOs[${eecount - 1}].Dgban" min="0" onchange="tienEdit(${eecount})" /></td>
+                                                                    <td><input type="number" class="form-control" id="edit-soluong-${eecount}" name="ktdmDTOs[${eecount - 1}].Soluong" min="1" onchange="tienEdit(${eecount})" /></td>
+                                                                    <td><input type="number" class="form-control" id="edit-ck-${eecount}" name="ktdmDTOs[${eecount - 1}].PtChietKhau" min="0" max="100" onchange="tienEdit(${eecount})" /></td>
+                                                                    <td><input type="number" class="form-control" id="edit-thue-${eecount}" name="ktdmDTOs[${eecount - 1}].PtThue" min="0" max="100" onchange="tienEdit(${eecount})" /></td>
+                                                                    <td><input type="number" class="form-control" id="edit-thanhtien-${eecount}" readonly/></td>
+                                                                    <td class="t-center"><a onClick="lessItem('e-${eecount}')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
+                                                                </tr>
+                            `);
             $.ajax({
                 url: '@Url.Action("Get", "Ktdms")',
                 type: 'GET',
@@ -286,10 +286,10 @@
                     if (result.data.length > 0) {
                         madm = result.data;
                         for (var i = 0; i < madm.length; i++) {
-                            const list = document.getElementById("edit-sugg-" +eecount);
+                            const list = document.getElementById("edit-sugg-" + eecount);
                             list.insertAdjacentHTML('beforeend', `
-                                                                        <tr class="tr-sugg" onclick="chooseItem(this.closest('table').closest('tr').id,'${encodeURIComponent(JSON.stringify(madm[i]))}')"><td>${madm[i].Madm}</td><td>${madm[i].Tendm}</td><td>${madm[i].TonT}</td></tr>
-                            `);
+                                                                            <tr class="tr-sugg" onclick="chooseItem(this.closest('table').closest('tr').id,'${encodeURIComponent(JSON.stringify(madm[i]))}')"><td>${madm[i].Madm}</td><td>${madm[i].Tendm}</td><td>${madm[i].TonT}</td></tr>
+                                `);
                         }
                     }
                 }
@@ -315,8 +315,8 @@
         }
         var index = id[2];
         var isExist = false;
-        for (let i = 0; i < editItems.length; i++){
-            if(editItems[i].eId == index){
+        for (let i = 0; i < editItems.length; i++) {
+            if (editItems[i].eId == index) {
                 isExist = true;
                 index = i;
                 break;
@@ -354,7 +354,7 @@
         //document.getElementById("tongtien").textContent = tongtien;
     }
     function lessItem(id) {
-        if (eeindex > @eindex){
+        if (eeindex > @eindex) {
             var tr = document.getElementById(id);
             for (let i = 0; i < eexist.length; i++) {
                 if (eexist[i] == id[2]) {
@@ -379,5 +379,6 @@
                 tdList[i].textContent = idList[i];
             }
             loadMoney();
-        }}
+        }
+    }
 </script>
