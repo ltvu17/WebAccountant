@@ -479,12 +479,14 @@
                     var table = document.getElementById(idSugg);
                     var tr = table.getElementsByTagName('tr');
                     for (i = 1; i < tr.length; i++) {
-                        td = tr[i].getElementsByTagName("td")[0];
-                        txtValue = td.textContent || td.innerText;
-                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tdMa = tr[i].getElementsByTagName("td")[0];
+                        maValue = tdMa.textContent || tdMa.innerText;
+                        tdTen = tr[i].getElementsByTagName("td")[1];
+                        tenValue = tdTen.textContent || tdTen.innerText;
+                        if (maValue.toUpperCase().indexOf(filter) > -1 || tenValue.toUpperCase().indexOf(filter) > -1) {
                             var isNone = false;
                             for (let u = 0; u < madmItems.length; u++) {
-                                if (txtValue.toUpperCase() == madmItems[u].Madm.toUpperCase()) {
+                                if (maValue.toUpperCase() == madmItems[u].Madm.toUpperCase()) {
                                     tr[i].style.display = "none";
                                     isNone = true;
                                     break;
@@ -674,7 +676,6 @@
                         hide_sugg("list-manv-sugg");
                     }
                 });
-
                 
                 function themDm() {
                     if (madmItems.length  == index) {
