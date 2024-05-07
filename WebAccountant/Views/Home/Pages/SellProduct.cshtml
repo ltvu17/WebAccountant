@@ -467,7 +467,7 @@
                 function SearchNow(idSugg, idInput, idUl) {
                     document.getElementById(idSugg).classList.remove("d-none");
                     // Declare variables
-                    var input, filter, ul, li, a, i, txtValue;
+                    var input, filter, ul, li, a, i;
                     input = document.getElementById(idInput);
                     filter = input.value.toUpperCase();
                     ul = document.getElementById(idUl);
@@ -476,12 +476,16 @@
                     var table = document.getElementById(idSugg);
                     var tr = table.getElementsByTagName('tr');
                     for (i = 1; i < tr.length; i++) {
-                        td = tr[i].getElementsByTagName("td")[0];
-                        txtValue = td.textContent || td.innerText;
-                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        var tdMa = tr[i].getElementsByTagName("td")[0];
+                        var maValue = tdMa.textContent || tdMa.innerText;
+                        var tdTen = tr[i].getElementsByTagName("td")[1];
+                        var tenValue = tdTen.textContent || tdTen.innerText;
+
+                        if (maValue.toUpperCase().indexOf(filter) > -1 || tenValue.toUpperCase().indexOf(filter) > -1) {
                             var isNone = false;
+                            console.log("tenn:" + tenValue);
                             for (let u = 0; u < madmItems.length; u++) {
-                                if (txtValue.toUpperCase() == madmItems[u].Madm.toUpperCase()) {
+                                if (maValue.toUpperCase() == madmItems[u].Madm.toUpperCase()) {
                                     tr[i].style.display = "none";
                                     isNone = true;
                                     break;
