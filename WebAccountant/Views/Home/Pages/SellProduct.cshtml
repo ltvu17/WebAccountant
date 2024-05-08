@@ -6,24 +6,25 @@
     Html.RenderPartial("../Home/Header");
 }
 
-<div>
     <div class="home-container">
         @Html.Partial("../Home/SideBar")
         <div class="right-bar-home content mua-page">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex t-s-14">
-                <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex t-s-14" id="nav-sell">
+                <div class="container-fluid" >
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <ul class="navbar-nav mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link active" id="data-link" aria-current="page" href="#" onclick="listOut()">Danh sách</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="order-link" onclick="orderOut()">Bán hàng</a>
+                                <a class="nav-link active" id="data-link" aria-current="page" href="#">Danh sách</a>
                             </li>
                         </ul>
+                    </div>
+                    <div>
+                        <button class="btn btn-success" onclick="orderOut()" type="button">
+                            Thêm
+                        </button>
                     </div>
                 </div>
             </nav>
@@ -56,7 +57,7 @@
                     .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
                     .ShowBorders(true)
                     .RowAlternationEnabled(true)
-                    .Paging(paging => paging.PageSize(10))
+                    .Paging(paging => paging.PageSize(12))
                     .Pager(pager =>
                     {
                         pager.Visible(true);
@@ -68,6 +69,13 @@
                     })
                     .OnContextMenuPreparing("edit").ID("grid")
                     )
+                    <div class="footer-data d-flex justify-content-end">
+                        <button class="btn btn-primary width-100" type="button">Thêm</button>
+                        <button class="btn btn-primary width-100" type="button" onclick="suaOrder()">Sửa</button>
+                        <button class="btn btn-primary width-100" type="button" onclick="xoaOrder()">Xóa</button>
+                        <button class="btn btn-primary width-100" type="button" onclick="inOrder()">In</button>
+                        <button class="btn btn-primary" type="button">Xuất hóa đơn</button>
+                    </div>
             </div>
             <div id="edit-page" class="d-none"></div>
             <form id="myForm" class="d-none" asp-controller="Ktdms" asp-action="SubmitCartToSave">
@@ -76,21 +84,12 @@
                     <div class="row">
                         @*Forms*@
                         <div class="mua-form col-8">
-                            @* Navbar *@
-                            <ul class="nav nav-tabs mua-form-nav">
-                                <li class="nav-item">
-                                    <button class="nav-link active" id="btn-phieunhap" type="button" onclick="phieuOut()">Phiếu bán</button>
-                                </li>
-                                <li class="nav-item">
-                                    <button class="nav-link" id="btn-hoadon" type="button" onclick="hoadonOut()">Hóa đơn</button>
-                                </li>
-                            </ul>
                             @*Phieu nhap*@
                             <div id="phieu-nhap" class="row">
                                 <div id="infor-phieu-nhap" class="col-9">
                                     <div class="row">
-                                        <div class="col-4 col-num-1">
-                                            <div class="mb-3 text-start">
+                                        <div class="col-4 col-num-1 pb-3">
+                                            <div class=" text-start">
                                                 <label for="input-makh" class="col-form-label">Mã khách hàng:</label>
                                                 <div class="d-flex justify-content-between">
                                                     <input type="text"
@@ -113,7 +112,7 @@
                                                                 <div class="add-kh-form-body">
                                                                     <div class="main-body row">
                                                                         <div class="col-3">
-                                                                            <div class="mb-3 text-start">
+                                                                            <div class=" text-start">
                                                                                 <label for="makh-add" class="col-form-label">Mã khách hàng:</label>
                                                                                 <input type="text"
                                                                                        id="makh-add"
@@ -121,7 +120,7 @@
                                                                                        autofocus="autofocus"
                                                                                        autocomplete="off" />
                                                                             </div>
-                                                                            <div class="mb-3 text-start">
+                                                                            <div class=" text-start">
                                                                                 <label for="msdn-add" class="col-form-label">Mã số doanh nghiệp:</label>
                                                                                 <input type="text"
                                                                                        id="msdn-add"
@@ -132,7 +131,7 @@
 
                                                                         </div>
                                                                         <div class="col-7">
-                                                                            <div class="mb-3 text-start">
+                                                                            <div class=" text-start">
                                                                                 <label for="tenkh-add" class="col-form-label">Tên khách hàng:</label>
                                                                                 <input type="text"
                                                                                        id="tenkh-add"
@@ -140,7 +139,7 @@
                                                                                        autofocus="autofocus"
                                                                                        autocomplete="off" />
                                                                             </div>
-                                                                            <div class="mb-3 text-start">
+                                                                            <div class=" text-start">
                                                                                 <label for="dc-add" class="col-form-label">Địa chỉ:</label>
                                                                                 <input type="text"
                                                                                        id="dc-add"
@@ -150,7 +149,7 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-2">
-                                                                            <div class="mb-3 text-start">
+                                                                            <div class=" text-start">
                                                                                 <label for="dt-add" class="col-form-label">Số điện thoại:</label>
                                                                                 <input type="text"
                                                                                        id="dt-add"
@@ -180,11 +179,11 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                            <div class="mb-3 text-start">
+                                            <div class=" text-start">
                                                 <label for="masodn" class="col-form-label">Mã số doanh nghiệp:</label>
                                                 <input type="text" class="form-control" id="masodn" readonly>
                                             </div>
-                                            <div class="mb-3 text-start">
+                                            <div class="text-start">
                                                 <label for="input-manv" class="col-form-label">Mã nhân viên:</label>
                                                 <input type="text"
                                                        class="form-control input-sugg"
@@ -201,29 +200,29 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                            <div class="mb-3 text-start">
+                                            <div class="text-start">
                                                 <label for="tennv" class="col-form-label">Tên nhân viên:</label>
                                                 <input type="text" class="form-control" id="tennv" readonly>
                                             </div>
-                                            <div class="mb-3 text-start">
+                                            <div class="text-start">
                                                 <label for="tennvgh" class="col-form-label">Tên nhân viên giao:</label>
                                                 <input type="text" class="form-control" id="tennvgh" readonly>
                                             </div>
                                         </div>
-                                        <div class="col-8">
-                                            <div class="mb-3 text-start">
+                                        <div class="col-8 pb-3">
+                                            <div class=" text-start">
                                                 <label for="tenkh" class="col-form-label">Tên khách hàng:</label>
                                                 <input type="text" class="form-control" id="tenkh" readonly>
                                             </div>
-                                            <div class="mb-3 text-start">
+                                            <div class=" text-start">
                                                 <label for="dc" class="col-form-label">Địa chỉ:</label>
                                                 <input type="text" class="form-control" id="dc" readonly>
                                             </div>
-                                            <div class="mb-3 text-start">
+                                            <div class=" text-start">
                                                 <label for="dcgh" class="col-form-label">Địa chỉ giao hàng:</label>
                                                 <input type="text" class="form-control" id="dcgh" readonly>
                                             </div>
-                                            <div class="mb-3 text-start">
+                                            <div class=" text-start">
                                                 <label for="ck" class="col-form-label">Chiết khấu cho tất cả (%):</label>
                                                 <div class="d-flex justify-content-between">
                                                     <input type="number" class="form-control width-pt-80" id="ckChung" min="0" max="100" asp-for="PtChietKhau">
@@ -234,15 +233,19 @@
                                     </div>
                                 </div>
                                 <div id="id-phieu-nhap" class="col-3 col-num-2">
-                                        <div class="mb-3 text-start">
-                                            <label for="ht" class="col-form-label">Ngày hạch toán</label>
-                                        <input type="datetime-local" class="form-control" asp-for="NgayHToan" id="ht" value="@DateTime.UtcNow.AddHours(7).ToString("s")">
-                                        </div>
-                                        <div class="mb-3 text-start">
-                                            <label for="ct" class="col-form-label">Ngày chứng từ</label>
-                                        <input type="datetime-local" class="form-control" id="ct" asp-for="NgayCtu" value="@DateTime.UtcNow.AddHours(7).ToString("s")">
-                                        </div>
-                                    <div class="mb-3 text-start">
+                                    <div class=" text-start">
+                                        <label for="ht" class="col-form-label">Ngày hóa đơn</label>
+                                    <input type="datetime-local" class="form-control" asp-for="NgayHToan" id="ht" value="@DateTime.UtcNow.AddHours(7).ToString("s")">
+                                    </div>
+                                    <div class=" text-start">
+                                        <label for="sohd" class="col-form-label">Số hóa đơn:</label>
+                                        <input type="text" class="form-control" id="sohd" readonly>
+                                    </div>
+                                    <div class=" text-start">
+                                        <label for="sosr" class="col-form-label">Số seri:</label>
+                                        <input type="text" class="form-control" id="sosr" readonly>
+                                    </div>
+                                    <div class=" text-start">
                                         <label for="httt" class="col-form-label">Hình thức thanh toán</label>
                                         <select class="form-select b-radius-3 height-30 width-pt-100 t-s-12" asp-for="HthucThanhToan">
                                             <option value="1">Thanh toán trực tiếp</option>
@@ -251,73 +254,10 @@
                                     </div>
                                 </div>
                             </div>
-
-                            @*Hoa don*@
-                            <div id="hoa-don" class="row d-none" aria-hidden="true">
-                                <div id="infor-hoa-don" class="col-9">
-                                    <div class="row">
-                                        <div class="col-4 col-num-1">
-                                            <div class="mb-3 text-start">
-                                                <label for="input-makh" class="col-form-label">Mã khách hàng:</label>
-                                                <input type="text"
-                                                       class="form-control input-sugg"
-                                                       id="input-makh"
-                                                       autofocus="autofocus"
-                                                       autocomplete="off"
-                                                       onkeyup="SearchNow('list-makh-sugg','input-makh','list-makh-sugg')" />
-                                                <div class="table-container">
-                                                    <table id="list-makh-sugg" class="sugg-container d-none">
-                                                        <tr id="tr-1">
-                                                            <td class="width-120">Mã khách hàng</td>
-                                                            <td class="width-250">Tên khách hàng</td>
-                                                            <td class="width-120">Mã số doanh nghiệp</td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                            <div class="mb-3 text-start">
-                                                <label for="tenng" class="col-form-label">Mã số thuế:</label>
-                                                <input type="text" class="form-control" id="Tkthue">
-                                            </div>
-                                        </div>
-                                        <div class="col-8">
-                                            <div class="mb-3 text-start">
-                                                <label for="tenkh" class="col-form-label">Tên khách hàng:</label>
-                                                <input type="text" class="form-control" id="tenkh">
-                                            </div>
-
-                                            <div class="mb-3 text-start">
-                                                <label for="dc" class="col-form-label">Địa chỉ:</label>
-                                                <input type="text" class="form-control" id="dc">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="id-phieu-nhap" class="col-3 col-num-2">
-                                    <div class="ngay-hach-toan">
-                                        <div class="mb-3 text-start">
-                                            <label for="tenkh" class="col-form-label">Ngày hạch toán</label>
-                                            <input type="datetime-local" class="form-control" id="tenkh">
-                                        </div>
-                                    </div>
-                                    <div class="ngay-chung-tu">
-                                        <div class="mb-3 text-start">
-                                            <label for="nct" class="col-form-label">Ngày chứng từ</label>
-                                            <input type="date" class="form-control" id="nct">
-                                        </div>
-                                    </div>
-                                    <div class="so-phieu-nhap">
-                                        <div class="mb-3 text-start">
-                                            <label for="tenkh" class="col-form-label">Số phiếu nhập</label>
-                                            <input type="text" class="form-control" id="tenkh">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         @*Tong tien*@
                         <div class="col-4 bill d-flex flex-column">
-                            <div class="bill-title">Hóa đơn</div>
+                            <div class="bill-title t-s-16">Hóa đơn</div>
                             <div id="bill-list" class="bill-list d-flex flex-column">
                                 <div style="padding: 5px 0" class="bill-menu d-flex justify-content-between">
                                     <div class="t-s-12">Tên danh mục</div>
@@ -326,7 +266,7 @@
                                 <div id="list-p" class="bill-content">
                                 </div>
                             </div>
-                            <div class="so-tien d-flex justify-content-between mt-auto">
+                            <div class="so-tien d-flex justify-content-between mt-auto t-s-16">
                                 <div>Tổng tiền: </div>
                                 <div id="tongtien">0</div>
                             </div>
@@ -341,18 +281,20 @@
                 <div class="bottom-content">
                     @*List product *@
                     <table id="list-dm" class="table-text">
-                        <tr class="table-menu" id="tr-1">
-                            <td class="t-center width-20">#</td>
-                            <td class="width-200">Mã Danh Mục</td>
-                            <td>Tên Danh Mục</td>
-                            <td class="width-50">Đơn vị</td>
-                            <td class="width-120">Đơn giá</td>
-                            <td class="width-70">Số lượng</td>
-                            <td class="width-90">Chiết khấu (%)</td>
-                            <td class="width-70">Thuế (%)</td>
-                            <td class="width-150">Thành tiền</td>
-                            <td class="width-70">Hành động</td>
-                        </tr>
+                    <tr class="table-menu" id="tr-1">
+                        <td class="t-center width-20">#</td>
+                        <td class="width-150">Mã mặt hàng</td>
+                        <td class="width-300">Tên mặt hàng</td>
+                        <td class="width-50">Đơn vị</td>
+                        <td class="width-120">Đơn giá</td>
+                        <td class="width-70">Số lượng</td>
+                        <td class="width-90">Chiết khấu (%)</td>
+                        <td class="width-120">Chiết khấu (VND)</td>
+                        <td class="width-70">Thuế (%)</td>
+                        <td class="width-90">Thuế (VND)</td>
+                        <td class="width-150">Thành tiền</td>
+                        <td class="width-70">Hành động</td>
+                    </tr>
                         <tr id="tr1">
                             <td class="t-center td-index">1</td>
                             <td>
@@ -361,6 +303,7 @@
                                        id="input-madm-1"
                                        autofocus="autofocus"
                                        autocomplete="off"
+                                       placeholder="Nhập mặt hàng..."
                                        asp-for="ktdmDTOs[0].Madm"
                                        onkeyup="SearchNow('list-madm-sugg-1','input-madm-1','list-madm-sugg-1')" />
                                 <div class="table-container">
@@ -380,14 +323,18 @@
                             <td><input type="number" class="form-control" id="input-dongia-1" asp-for="ktdmDTOs[0].Dgban" min="0" onchange="tinhTien(1)" /></td>
                             <td><input type="number" class="form-control" id="input-soluong-1" asp-for="ktdmDTOs[0].Soluong" min="1" onchange="tinhTien(1)" /></td>
                             <td><input type="number" class="form-control" id="input-ck-1" asp-for="ktdmDTOs[0].PtChietKhau" min="0" max="100" onchange="tinhTien(1)" /></td>
+                            <td><input type="number" class="form-control" id="input-ck-vnd-1" asp-for="ktdmDTOs[0].PtChietKhau" min="0" onchange="lamTron(1)" /></td>
                             <td><input type="number" class="form-control" id="input-thue-1" asp-for="ktdmDTOs[0].PtThue" min="0" max="100" onchange="tinhTien(1)" /></td>
+                            <td><input type="number" class="form-control" id="input-thue-vnd-1" asp-for="ktdmDTOs[0].PtThue" min="0" onchange="lamTron(1)" /></td>
                             <td><input type="text" class="form-control" id="input-thanhtien-1" readonly /></td>
                             <td class="t-center"><a onClick="xoaDm('tr1')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
                         </tr>
                     </table>
                     <div class="buttons d-flex justify-content-between mar-5">
-                        <button class="btn btn-success t-s-12 height-30" id="addDm" onclick="themDm()" type="button">Thêm danh mục</button>
+                        <button class="btn btn-success t-s-12 height-30" id="addDm" onclick="themDm()" type="button">Thêm mặt hàng</button>
+                        <button class="btn btn-danger t-s-12 height-30" onclick="xoaHet()" type="button">Xóa hết</button>
                         <button class="btn btn-warning t-s-12 height-30" id="exportBill" onclick="exportPDF()" type="button">Xuất hóa đơn</button>
+                        <button class="btn btn-danger t-s-12 height-30" onclick="backList()" type="button">Quay lại</button>
                         <button class="btn btn-primary t-s-12 height-30" id="saveButton" type="submit">Lưu đơn bán</button>
                     </div>
                 </div>
@@ -426,13 +373,29 @@
                             madmItems[i].Dgban = parseInt(dgia);
                             madmItems[i].PtChietkhau = parseInt(ck);
                             madmItems[i].PtThue = parseInt(thue);
-
                             // Gắn giá trị vào các thẻ <td>
+                            var ckVnd = madmItems[i].Soluong * madmItems[i].Dgban * madmItems[i].PtChietkhau / 100;
+                            tr.querySelector('#input-ck-vnd-' + rowIndex).value = parseFloat(ckVnd).toFixed(0);
+                            var thueVnd = madmItems[i].Soluong * (madmItems[i].Dgban * (1 - madmItems[i].PtChietkhau / 100)) * madmItems[i].PtThue / 100;
+                            tr.querySelector('#input-thue-vnd-' + rowIndex).value = parseFloat(thueVnd).toFixed(0);
                             var thanhtien = madmItems[i].Soluong * (madmItems[i].Dgban * (1 - madmItems[i].PtChietkhau / 100)) * (1 + madmItems[i].PtThue / 100);
                             tr.querySelector('#input-thanhtien-' + rowIndex).value = parseFloat(thanhtien).toFixed(0);
                             break;
                         }
                     }
+                    console.log(madmItems);
+                    loadBill();
+                }
+                function lamTron(rowIndex) {
+                    var sl = document.getElementById("input-soluong-" + rowIndex).value;
+                    var dgia = $(`#input-dongia-${rowIndex}`)[0].value;
+                    var tr = document.getElementById("tr" + rowIndex);
+                    var ckVnd = tr.querySelector('#input-ck-vnd-' + rowIndex).value;
+                    var thueVnd = tr.querySelector('#input-thue-vnd-' + rowIndex).value;
+                    var thanhtien = parseFloat(sl).toFixed(0) * parseFloat(dgia).toFixed(0) - parseFloat(ckVnd).toFixed(0);
+                    console.log("hi" +thanhtien);
+                    thanhtien = parseFloat(parseFloat(thanhtien).toFixed(0)) + parseFloat(parseFloat(thueVnd).toFixed(0));
+                    tr.querySelector('#input-thanhtien-' + rowIndex).value = parseFloat(thanhtien).toFixed(0);
                     console.log(madmItems);
                     loadBill();
                 }
@@ -451,18 +414,7 @@
 
                 function Updated() {
                 }
-                function hoadonOut() {
-                    document.getElementById("hoa-don").classList.remove("d-none");
-                    document.getElementById("phieu-nhap").classList.add("d-none");
-                    document.getElementById("btn-phieunhap").classList.remove("active");
-                    document.getElementById("btn-hoadon").classList.add("active");
-                }
-                function phieuOut() {
-                    document.getElementById("hoa-don").classList.add("d-none");
-                    document.getElementById("phieu-nhap").classList.remove("d-none");
-                    document.getElementById("btn-hoadon").classList.remove("active");
-                    document.getElementById("btn-phieunhap").classList.add("active");
-                }
+                
 
                 function SearchNow(idSugg, idInput, idUl) {
                     document.getElementById(idSugg).classList.remove("d-none");
@@ -566,7 +518,9 @@
                     tr.querySelector('#input-soluong-' + id[2]).value = 1;
                     tr.querySelector('#input-thanhtien-' + id[2]).value = 0;
                     tr.querySelector('#input-ck-' + id[2]).value = chietkhau;
+                    tr.querySelector('#input-ck-vnd-' + id[2]).value = chietkhau;
                     tr.querySelector('#input-thue-' + id[2]).value = 0;
+                    tr.querySelector('#input-thue-vnd-' + id[2]).value = 0;
                     loadBill();
                 }
                 function loadBill(){
@@ -689,6 +643,7 @@
                                                                                        class="form-control input-sugg"
                                                                                        id="input-madm-${count}"
                                                                                        autofocus="autofocus"
+                                                                                       placeholder="Nhập mặt hàng..."
                                                                                        name="ktdmDTOs[${count - 1}].Madm"
                                                                                        onkeyup="SearchNow('list-madm-sugg-${count}','input-madm-${count}','list-madm-sugg-${count}')" />
                                                                                 <div class="table-container">
@@ -708,7 +663,9 @@
                                                                             <td><input type="number" class="form-control" id="input-dongia-${count}" name="ktdmDTOs[${count - 1}].Dgban" min="0" onchange="tinhTien(${count})" /></td>
                                                                             <td><input type="number" class="form-control" id="input-soluong-${count}" name="ktdmDTOs[${count - 1}].Soluong" min="1" onchange="tinhTien(${count})" /></td>
                                                                             <td><input type="number" class="form-control" id="input-ck-${count}" name="ktdmDTOs[${count - 1}].PtChietKhau" min="0" max="100" onchange="tinhTien(${count})" /></td>
+                                                                            <td><input type="number" class="form-control" id="input-ck-vnd-${count}" name="ktdmDTOs[${count - 1}].PtChietKhau" min="0" onchange="tinhTien(${count})" /></td>
                                                                             <td><input type="number" class="form-control" id="input-thue-${count}" name="ktdmDTOs[${count - 1}].PtThue" min="0" max="100" onchange="tinhTien(${count})" /></td>
+                                                                            <td><input type="number" class="form-control" id="input-thue-vnd-${count}" name="ktdmDTOs[${count - 1}].PtThue" min="0" onchange="tinhTien(${count})" /></td>
                                                                             <td><input type="number" class="form-control" id="input-thanhtien-${count}" readonly/></td>
                                                                             <td class="t-center"><a onClick="xoaDm('tr${count}')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
                                                                         </tr>
@@ -729,10 +686,13 @@
                             }
                         });
                         exist.push(count);
+                    } else {
+                        alert("Hãy chọn mặt hàng trước!");
                     }
                 }
                 function xoaDm(id) {
-                    if (index > 1) {
+                    if (index == 1) themDm();
+                    if (madmItems.length != 0) {
                         var tr = document.getElementById(id);
                         for (let i = 0; i < exist.length; i++){
                             if (exist[i] == id[2]) {
@@ -757,6 +717,12 @@
                             tdList[i].textContent = idList[i];
                         }
                         loadBill();
+                    }
+                }
+                function xoaHet(){
+                    var size = madmItems.length;
+                    for (let i = 0; i < size; i++){
+                        xoaDm(madmItems[0].trId);
                     }
                 }
                 function Submit() {
@@ -817,26 +783,20 @@
                         }
                     });
                 }
-                function listOut() {
-                    var linkData = document.getElementById("data-link");
+                function backList() {
+                    var navSell = document.getElementById("nav-sell");
                     var muaData = document.getElementById("mua-data");
-                    var linkOrder = document.getElementById("order-link");
                     var form = document.getElementById("myForm");
-                    if (!linkData.classList.contains("active")) {
-                        linkData.classList.add("active");
-                        linkOrder.classList.remove("active");
                         muaData.classList.remove("d-none");
                         form.classList.add("d-none");
-                    }
+                        navSell.classList.remove("d-none");
                 }
                 function orderOut() {
-                    var linkData = document.getElementById("data-link");
+                    var navSell = document.getElementById("nav-sell");
                     var muaData = document.getElementById("mua-data");
-                    var linkOrder = document.getElementById("order-link");
                     var form = document.getElementById("myForm");
-                    linkData.classList.remove("active");
+                    navSell.classList.add("d-none");
                     muaData.classList.add("d-none")
-                    linkOrder.classList.add("active");
                     form.classList.remove("d-none");
                 }
                 $(document).ready(function () {
@@ -916,9 +876,61 @@
                     document.getElementById("edit-page").classList.remove("d-relative");
                     //location.reload();
                 }
+
+                function convert_vi_to_en(str) {
+                    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a"); 
+                    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+                    str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");       str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+                    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");     str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+                    str = str.replace(/đ/g, "d");               str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "A");
+                    str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");     str = str.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, "I");
+                    str = str.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, "O");
+                    str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "U");     str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "Y");
+                    str = str.replace(/Đ/g, "D");
+                    return str;
+                }
+
+                function xoaOrder(){
+                    var tr = document.getElementsByClassName("dx-row-focused");
+                    var soct;
+                    if (tr.length == 0) {
+                        alert("Hãy ấn vào đơn bạn muốn xóa!");
+                    } else if (tr.length == 1) {
+                        var td = tr[0].getElementsByTagName("td");
+                        soct = td[1].textContent;
+                        console.log("sochungtu:" + soct);
+                    } else {
+                        alert("Chỉ ấn vào 1 đơn bạn muốn xóa!");
+                    }
+                }
+                function suaOrder(){
+                    var tr = document.getElementsByClassName("dx-row-focused");
+                    var soct;
+                    if (tr.length == 0) {
+                        alert("Hãy ấn vào đơn bạn muốn sửa!");
+                    } else if (tr.length == 1) {
+                        var td = tr[0].getElementsByTagName("td");
+                        soct = td[1].textContent;
+                        console.log("sochungtu:" + soct);
+                    } else {
+                        alert("Chỉ ấn vào 1 đơn bạn muốn sửa!");
+                    }
+                }
+                function inOrder() {
+                    var tr = document.getElementsByClassName("dx-row-focused");
+                    var soct;
+                    if (tr.length == 0) {
+                        alert("Hãy ấn vào đơn bạn muốn in!");
+                    } else if (tr.length == 1) {
+                        var td = tr[0].getElementsByTagName("td");
+                        soct = td[1].textContent;
+                        console.log("sochungtu:" + soct);
+                    } else {
+                        alert("Chỉ ấn vào 1 đơn bạn muốn in!");
+                    }
+                }
             </script>
         </div>
     </div>
-</div>
 
 
