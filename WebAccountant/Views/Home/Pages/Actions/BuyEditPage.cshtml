@@ -19,23 +19,36 @@
                 <div class="col-2">
                     <div class="mb-3 text-start">
                         <label for="makh" class="col-form-label">Mã khách hàng:</label>
-                        <input type="text" class="form-control height-30" id="makh" value="@Model.KhachHang.Madtpn" readonly>
-                        <input type="text" class="form-control height-30" id="makh" value="@Model.KhachHang.Madtpn" asp-for="@Model.Makh" readonly>
+                        <input type="text" class="form-control input-sugg height-30" id="ip-makh"
+                               autofocus="autofocus"
+                               autocomplete="off"
+                               onkeyup="findDm('makh-sugg','ip-makh','makh-sugg')"
+                               value="@Model.KhachHang.Madtpn"
+                               asp-for="@Model.Makh">
                         <input type="datetime-local" class="form-control height-30" asp-for="@Model.NgayHToan" id="ht" value="@DateTime.UtcNow.AddHours(7).ToString("s")" hidden>
                         <input type="number" class="form-control height-30" asp-for="@Model.id" id="ht" value="@Model.id" hidden>
                         <input type="datetime-local" class="form-control height-30" asp-for="@Model.NgayCtu" id="ct" value="@DateTime.UtcNow.AddHours(7).ToString("s")" hidden>
+                        <div class="table-container">
+                            <table id="makh-sugg" class="sugg-container d-none">
+                                <tr id="tr-1">
+                                    <td class="width-120">Mã khách hàng</td>
+                                    <td class="width-250">Tên khách hàng</td>
+                                    <td class="width-120">Mã số doanh nghiệp</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div class="col-5">
                     <div class="mb-3 text-start">
-                        <label for="tenkh" class="col-form-label">Tên khách hàng:</label>
-                        <input type="text" class="form-control height-30" id="tenkh" value="@Model.KhachHang.Tendtpn" readonly>
+                        <label for="ip-tenkh" class="col-form-label">Tên khách hàng:</label>
+                        <input type="text" class="form-control height-30" id="ip-tenkh" value="@Model.KhachHang.Tendtpn" readonly>
                     </div>
                 </div>
                 <div class="col-5">
                     <div class="mb-3 text-start">
-                        <label for="diachi" class="col-form-label">Địa chỉ:</label>
-                        <input type="text" class="form-control height-30" id="diachi" value="@Model.KhachHang.Diachi" readonly>
+                        <label for="ip-dc" class="col-form-label">Địa chỉ:</label>
+                        <input type="text" class="form-control height-30" id="ip-dc" value="@Model.KhachHang.Diachi" readonly>
                     </div>
                 </div>
             </div>
@@ -72,16 +85,7 @@
                                     autocomplete="off"
                                     value="@item.Madm"
                                     asp-for="ktdmDTOs[ecount-1].Madm"
-                                       onkeyup="findDm('edit-sugg-@ecount','edit-madm-@ecount','edit-sugg-@ecount')" />
-                                    <div class="table-container">
-                                    <table id="edit-sugg-@ecount" class="sugg-container d-none">
-                                            <tr id="tr-1">
-                                                <td class="width-120">Mã danh mục</td>
-                                                <td class="width-250">Tên danh mục</td>
-                                                <td class="width-90">Số lượng tồn</td>
-                                            </tr>
-                                        </table>
-                                    </div>
+                                       onkeyup="findDm('edit-sugg-@ecount','edit-madm-@ecount','edit-sugg-@ecount')" readonly/>
                                 </td>
                                 <td>
                                 <input type="text" class="form-control" id="edit-tendm-@ecount" value="@item.Tendm" asp-for="ktdmDTOs[ecount-1].Tendm" readonly />
@@ -94,9 +98,7 @@
                             <td><input type="number" class="form-control" id="edit-thue-@ecount" min="0" max="100" onchange="tienEdit(@ecount)" value="@item.PtThue" asp-for="ktdmDTOs[ecount-1].PtThue" /></td>
                             <td><input type="number" class="form-control" id="edit-thanhtien-@ecount" readonly value="@tt" /></td>
                             <td></td>
-                                @* <td class="t-center"><a class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td> *@
                         </tr>
-                        
                     }     
                 </table>
                 <div class="buttons d-flex justify-content-between mar-15">
@@ -139,6 +141,38 @@
             }
         });
     }
+    var makh = [
+        {
+            Madtpn: "",
+            Tendtpn: "",
+            MsDn: ""
+        }
+    ];
+    $.ajax({
+        url: '@Url.Action("Get", "Ktdtpns")',
+        type: 'GET',
+        success: function (result) {
+            if (result.data.length > 0) {
+                makh = result.data;
+                for (var i = 0; i < makh.length; i++) {
+                    const list = document.getElementById("makh-sugg");
+                    list.insertAdjacentHTML('beforeend', `
+                                           <tr class="tr-sugg" onclick="makhChoose('${encodeURIComponent(JSON.stringify(makh[i]))}')"><td>${makh[i].Madtpn}</td><td>${makh[i].Tendtpn}</td><td>${makh[i].MsDn}</td></tr>
+                                    `);
+                }
+            }
+        }
+    });
+    var makhitem = []
+    function makhChoose(item) {
+        makhitem = JSON.parse(decodeURIComponent(item));
+        console.log(makhitem);
+        hide_sugg("makh-sugg");
+        // Gắn giá trị vào các thẻ <td>
+        document.getElementById('ip-makh').value = JSON.parse(decodeURIComponent(item)).Madtpn;
+        document.getElementById('ip-tenkh').value = JSON.parse(decodeURIComponent(item)).Tendtpn;
+        document.getElementById('ip-dc').value = JSON.parse(decodeURIComponent(item)).Diachi;
+    }
     function findDm(idSugg, idInput, idUl) {
         document.getElementById(idSugg).classList.remove("d-none");
         // Declare variables
@@ -151,12 +185,14 @@
         var table = document.getElementById(idSugg);
         var tr = table.getElementsByTagName('tr');
         for (i = 1; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[0];
-            txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tdMa = tr[i].getElementsByTagName("td")[0];
+            maValue = tdMa.textContent || tdMa.innerText;
+            tdTen = tr[i].getElementsByTagName("td")[1];
+            tenValue = tdTen.textContent || tdTen.innerText;
+            if (maValue.toUpperCase().indexOf(filter) > -1 || tenValue.toUpperCase().indexOf(filter) > -1) {
                 var isNone = false;
                 for (let u = 0; u < editItems.length; u++) {
-                    if (txtValue.toUpperCase() == editItems[u].Madm.toUpperCase()) {
+                    if (maValue.toUpperCase() == editItems[u].Madm.toUpperCase()) {
                         tr[i].style.display = "none";
                         isNone = true;
                         break;
@@ -169,7 +205,8 @@
         }
     }
     document.addEventListener('click', function (event) {
-        for (let i = 0; i < eexist.length; i++) {
+        var start = @ecount;
+        for (let i = start; i < eexist.length; i++) {
             var container = document.getElementById("edit-sugg-" + eexist[i]);
             if (!container.contains(event.target) && !container.classList.contains("d-none")) {
                 hide_sugg("edit-sugg-" + eexist[i]);
@@ -343,6 +380,5 @@
                 tdList[i].textContent = idList[i];
             }
             loadMoney();
-        }
-    }
+        }}
 </script>

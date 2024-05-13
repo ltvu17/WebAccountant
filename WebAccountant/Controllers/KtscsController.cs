@@ -32,11 +32,33 @@ namespace WebAccountant.Controllers
             var ktscBanHangs = await _ktscRepo.GetAllDSPhieuBanHang();
             return Json(DataSourceLoader.Load(ktscBanHangs, loadOptions));
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetALLDSPhieuBanHangByDate(DateTime fromDate, DateTime toDate)
+        {
+            Console.WriteLine(fromDate.ToString());
+            toDate = toDate.AddHours(23).AddMinutes(59).AddSeconds(59);
+            var ktscBanHangs = await _ktscRepo.GetAllDSPhieuBanHang();
+            var filteredData = ktscBanHangs.Where(m => m.NgayCtu >= fromDate && m.NgayCtu <= toDate);
+            return Json(filteredData);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetDetailPhieuBanHang(int id)
         {
             var phieuBanHang = await _ktscRepo.GetDetailPhieuBanHang(id);
             return PartialView("~/Views/Home/Pages/Actions/SellEditPage.cshtml", phieuBanHang);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetALLDSPhieuMuaHangByDate(DateTime fromDate, DateTime toDate)
+        {
+            Console.WriteLine(fromDate.ToString());
+            toDate = toDate.AddHours(23).AddMinutes(59).AddSeconds(59);
+            var ktscBanHangs = await _ktscRepo.GetAllDSPhieuMuaHang();
+            var filteredData = ktscBanHangs.Where(m => m.NgayCtu >= fromDate && m.NgayCtu <= toDate);
+            return Json(filteredData);
         }
         [HttpGet]
         public async Task<IActionResult> GetDetailPhieuMuaHang(int id)
