@@ -856,7 +856,7 @@
                         document.getElementById("edit-page").classList.remove("d-none");
                                     document.getElementById("edit-page").classList.add("d-relative");
                                     $.ajax({
-                                        url: '@Url.Action("GetDetailPhieuMuaHang", "Ktscs")',
+                                        url: '@Url.Action("GetDetailPhieuBanHang", "Ktscs")',
                                         type: 'GET',
                                         data: {
                                             id: id
@@ -1040,7 +1040,7 @@
                     document.getElementById("edit-page").classList.remove("d-none");
                     document.getElementById("edit-page").classList.add("d-relative");
                     $.ajax({
-                        url: '@Url.Action("GetDetailPhieuMuaHang", "Ktscs")',
+                        url: '@Url.Action("GetDetailPhieuBanHang", "Ktscs")',
                         type: 'GET',
                         data: {
                             id: idSua
