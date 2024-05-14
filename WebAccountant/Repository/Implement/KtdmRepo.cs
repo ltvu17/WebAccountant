@@ -11,6 +11,7 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
+using DevExpress.Pdf.Native.BouncyCastle.Utilities;
 
 namespace WebAccountant.Repository.Implement
 {
@@ -110,6 +111,186 @@ namespace WebAccountant.Repository.Implement
                                     t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text(i.Soluong.ToString()).FontFamily(Fonts.TimesNewRoman); 
                                     t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text(i.Dgban.ToString()).FontFamily(Fonts.TimesNewRoman); 
                                     t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text((i.Dgban * i.Soluong).ToString()).FontFamily(Fonts.TimesNewRoman); 
+                                    x++;
+                                }
+                                t.Cell().ColumnSpan(5).AlignLeft().PaddingLeft(10).Text("Tổng cộng: ").FontSize(20).FontFamily(Fonts.TimesNewRoman);
+                            });
+                            col.Item().AlignLeft().PaddingTop(10).Text(t =>
+                            {
+                                t.Span("Đặt trước: .................................................................           ").FontSize(15).FontFamily(Fonts.TimesNewRoman);
+                                t.Span("Còn lại: ............................").FontSize(15).FontFamily(Fonts.TimesNewRoman);
+                            }
+                            );
+                            col.Item().AlignLeft().PaddingBottom(10).Text("Viết bằng chữ: ...............................................................................................................").FontSize(15).FontFamily(Fonts.TimesNewRoman);
+                            var date = DateTime.Now.ToShortDateString().Split("/");
+                            col.Item().PaddingLeft(250).AlignLeft().PaddingBottom(10).Text("Tp. Hồ Chí Minh, Ngày " + date[1]
+                                + " Tháng " + date[0] + " Năm " + date[2]).FontSize(15).FontFamily(Fonts.TimesNewRoman).Italic();
+                            col.Item().PaddingLeft(325).AlignLeft().PaddingBottom(10).Text("Người viết hóa đơn").FontSize(15).FontFamily(Fonts.TimesNewRoman).Bold();
+                        });
+                    });
+                });
+            }).GeneratePdf(path);
+            return path;
+        }
+
+        public async Task<string> ExportPDFPhieuBanHang(IEnumerable<PhieuBanHangDTO> items)
+        {
+            string pathDir = Directory.GetCurrentDirectory().Split("bin")[0] + "\\wwwroot\\PhieuBanHangReport";
+            string path = Path.Combine(pathDir, "PhieuBanHang.pdf");
+            //var models = (await _unitOfWork.KTDMDao.GetAll()).IntersectBy(items.Select(x => new {madm = x.Madm, matk = x.Matk}), y => new { madm = y.Madm, matk = y.Matk });
+            QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+            QuestPDF.Fluent.Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Size(PageSizes.A4);
+                    page.Margin(30);
+                    page.Header().AlignCenter().Row(row =>
+                    {
+                        row.RelativeItem().AlignCenter().Width(300).Border(1).Column(col =>
+                        {
+                         /*   col.Item().AlignCenter().Text(customer.Tendtpn).Bold().FontSize(20).FontFamily(Fonts.TimesNewRoman);
+                            col.Item().AlignCenter().Text(customer.Diachi).FontFamily(Fonts.TimesNewRoman);
+                            col.Item().AlignCenter().Text(customer.Dienthoai).FontFamily(Fonts.TimesNewRoman);*/
+                        });
+                    });
+                    page.Content().AlignCenter().PaddingTop(12).Row(row =>
+                    {
+                        row.RelativeItem().AlignCenter().Column(col =>
+                        {
+                            col.Item().AlignLeft().Text(text =>
+                            {
+                                text.Span("                 HÓA ĐƠN").ExtraBold().FontSize(40).FontFamily(Fonts.TimesNewRoman);
+                                text.Span("             Số.........").ExtraBold().FontSize(20).FontFamily(Fonts.TimesNewRoman);
+                            });
+                            col.Item().AlignLeft().Text(t =>
+                            {
+                                t.Span("Khách hàng: ").FontSize(15).FontFamily(Fonts.TimesNewRoman);
+                                t.Span("Điện thoại: ").FontSize(15).FontFamily(Fonts.TimesNewRoman);
+                            }
+                            );
+                            col.Item().AlignLeft().PaddingBottom(10).Text("Địa chỉ: ").FontSize(15).FontFamily(Fonts.TimesNewRoman);
+                            col.Item().Border(1).MinimalBox().Table(t =>
+                            {
+                                t.ColumnsDefinition(column =>
+                                {
+                                    column.ConstantColumn(35);
+                                    column.RelativeColumn();
+                                    column.RelativeColumn();
+                                    column.ConstantColumn(75);
+                                    column.ConstantColumn(75);
+                                    column.RelativeColumn();
+                                });
+                                t.Header(header =>
+                                {
+                                    header.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text("Stt").Bold().FontFamily(Fonts.TimesNewRoman);
+                                    header.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text("Ngày chứng từ").Bold().FontFamily(Fonts.TimesNewRoman);
+                                    header.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text("Số chứng từ").Bold().FontFamily(Fonts.TimesNewRoman);
+                                    header.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text("Tổng tiền").Bold().FontFamily(Fonts.TimesNewRoman);
+                                    header.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text("Tên khách hàng").Bold().FontFamily(Fonts.TimesNewRoman);
+                                    header.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text("Địa chỉ").Bold().FontFamily(Fonts.TimesNewRoman);
+                                    header.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text("Ghi chú").Bold().FontFamily(Fonts.TimesNewRoman);
+                                });
+                                foreach (var i in items)
+                                {
+                                    var x = 1;
+                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text(x.ToString()).FontFamily(Fonts.TimesNewRoman);
+                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text(i.NgayCtu).FontFamily(Fonts.TimesNewRoman);
+                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text(i.Soctu).FontFamily(Fonts.TimesNewRoman);
+                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text(i.TongTien.ToString()).FontFamily(Fonts.TimesNewRoman);
+                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text(i.TenKh.ToString()).FontFamily(Fonts.TimesNewRoman);
+                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text((i.Diachi).ToString()).FontFamily(Fonts.TimesNewRoman);
+                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text((i.GhiChu).ToString()).FontFamily(Fonts.TimesNewRoman);
+                                    x++;
+                                }
+                                t.Cell().ColumnSpan(5).AlignLeft().PaddingLeft(10).Text("Tổng cộng: ").FontSize(20).FontFamily(Fonts.TimesNewRoman);
+                            });
+                            col.Item().AlignLeft().PaddingTop(10).Text(t =>
+                            {
+                                t.Span("Đặt trước: .................................................................           ").FontSize(15).FontFamily(Fonts.TimesNewRoman);
+                                t.Span("Còn lại: ............................").FontSize(15).FontFamily(Fonts.TimesNewRoman);
+                            }
+                            );
+                            col.Item().AlignLeft().PaddingBottom(10).Text("Viết bằng chữ: ...............................................................................................................").FontSize(15).FontFamily(Fonts.TimesNewRoman);
+                            var date = DateTime.Now.ToShortDateString().Split("/");
+                            col.Item().PaddingLeft(250).AlignLeft().PaddingBottom(10).Text("Tp. Hồ Chí Minh, Ngày " + date[1]
+                                + " Tháng " + date[0] + " Năm " + date[2]).FontSize(15).FontFamily(Fonts.TimesNewRoman).Italic();
+                            col.Item().PaddingLeft(325).AlignLeft().PaddingBottom(10).Text("Người viết hóa đơn").FontSize(15).FontFamily(Fonts.TimesNewRoman).Bold();
+                        });
+                    });
+                });
+            }).GeneratePdf(path);
+            return path;
+        }
+
+        public async Task<string> ExportPDFPhieuMuaHang(IEnumerable<PhieuMuaHangDTO> items)
+        {
+            string pathDir = Directory.GetCurrentDirectory().Split("bin")[0] + "\\wwwroot\\PhieuBanHangReport";
+            string path = Path.Combine(pathDir, "PhieuMuaHang.pdf");
+            //var models = (await _unitOfWork.KTDMDao.GetAll()).IntersectBy(items.Select(x => new {madm = x.Madm, matk = x.Matk}), y => new { madm = y.Madm, matk = y.Matk });
+            QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+            QuestPDF.Fluent.Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Size(PageSizes.A4);
+                    page.Margin(30);
+                    page.Header().AlignCenter().Row(row =>
+                    {
+                        row.RelativeItem().AlignCenter().Width(300).Border(1).Column(col =>
+                        {
+                            /*   col.Item().AlignCenter().Text(customer.Tendtpn).Bold().FontSize(20).FontFamily(Fonts.TimesNewRoman);
+                               col.Item().AlignCenter().Text(customer.Diachi).FontFamily(Fonts.TimesNewRoman);
+                               col.Item().AlignCenter().Text(customer.Dienthoai).FontFamily(Fonts.TimesNewRoman);*/
+                        });
+                    });
+                    page.Content().AlignCenter().PaddingTop(12).Row(row =>
+                    {
+                        row.RelativeItem().AlignCenter().Column(col =>
+                        {
+                            col.Item().AlignLeft().Text(text =>
+                            {
+                                text.Span("                 HÓA ĐƠN").ExtraBold().FontSize(40).FontFamily(Fonts.TimesNewRoman);
+                                text.Span("             Số.........").ExtraBold().FontSize(20).FontFamily(Fonts.TimesNewRoman);
+                            });
+                            col.Item().AlignLeft().Text(t =>
+                            {
+                                t.Span("Khách hàng: ").FontSize(15).FontFamily(Fonts.TimesNewRoman);
+                                t.Span("Điện thoại: ").FontSize(15).FontFamily(Fonts.TimesNewRoman);
+                            }
+                            );
+                            col.Item().AlignLeft().PaddingBottom(10).Text("Địa chỉ: ").FontSize(15).FontFamily(Fonts.TimesNewRoman);
+                            col.Item().Border(1).MinimalBox().Table(t =>
+                            {
+                                t.ColumnsDefinition(column =>
+                                {
+                                    column.ConstantColumn(35);
+                                    column.RelativeColumn();
+                                    column.RelativeColumn();
+                                    column.ConstantColumn(75);
+                                    column.ConstantColumn(75);
+                                    column.RelativeColumn();
+                                });
+                                t.Header(header =>
+                                {
+                                    header.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text("Stt").Bold().FontFamily(Fonts.TimesNewRoman);
+                                    header.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text("Ngày chứng từ").Bold().FontFamily(Fonts.TimesNewRoman);
+                                    header.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text("Số chứng từ").Bold().FontFamily(Fonts.TimesNewRoman);
+                                    header.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text("Tổng tiền").Bold().FontFamily(Fonts.TimesNewRoman);
+                                    header.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text("Tên khách hàng").Bold().FontFamily(Fonts.TimesNewRoman);
+                                    header.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text("Địa chỉ").Bold().FontFamily(Fonts.TimesNewRoman);
+                                    header.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text("Ghi chú").Bold().FontFamily(Fonts.TimesNewRoman);
+                                });
+                                foreach (var i in items)
+                                {
+                                    var x = 1;
+                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text(x.ToString()).FontFamily(Fonts.TimesNewRoman);
+                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text(i.NgayCtu).FontFamily(Fonts.TimesNewRoman);
+                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text(i.Soctu).FontFamily(Fonts.TimesNewRoman);
+                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text(i.TongTien.ToString()).FontFamily(Fonts.TimesNewRoman);
+                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text(i.TenKh.ToString()).FontFamily(Fonts.TimesNewRoman);
+                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text((i.Diachi).ToString()).FontFamily(Fonts.TimesNewRoman);
+                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text((i.GhiChu).ToString()).FontFamily(Fonts.TimesNewRoman);
                                     x++;
                                 }
                                 t.Cell().ColumnSpan(5).AlignLeft().PaddingLeft(10).Text("Tổng cộng: ").FontSize(20).FontFamily(Fonts.TimesNewRoman);
@@ -445,7 +626,7 @@ namespace WebAccountant.Repository.Implement
         public async Task<bool> SaveCartToDB(FormBanHangDTO item)
         {
             var items = item.ktdmDTOs.ToList();
-            var newGuid = Guid.NewGuid();
+                var newGuid = Guid.NewGuid();
             var customer = (await _unitOfWork.KTDTPNDAO.Find(s => s.Madtpn == item.Makh, 1, 1)).FirstOrDefault();
             var models = (await _unitOfWork.KTDMDao.GetAll()).IntersectBy(items
                 .Select(x => new {madm = x.Madm, matk = x.Matk}), y => new { madm = y.Madm, matk = y.Matk });

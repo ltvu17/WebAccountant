@@ -51,8 +51,8 @@ namespace WebAccountant.Repository.Implement
             foreach(var ktsc in ktscs)
             {
                 await _unitOfWork.KTSCDAO.RemoveEntity(ktsc);
-                await _unitOfWork.SaveChangesAsync();
             }
+            await _unitOfWork.SaveChangesAsync();
             return true;
         }
 
@@ -273,6 +273,15 @@ namespace WebAccountant.Repository.Implement
                         ktsc.DiachiNgd = khachHang.Diachi;
                         ktsc.Mangd = khachHang.Madtpn;
                         ktsc.Httt = ktscs.LastOrDefault().Httt;
+                        var phieuNhapKho = (await _unitOfWork.KTSCDAO.Find(s => s.Soct == ktscMau.Soct && s.Ngayct == ktscMau.Ngayct && s.IdNghiepvu == "GIAVON" && s.Madmco == ktsc.Madmco, 1, 1)).FirstOrDefault();
+                        phieuNhapKho.Makh = khachHang.Madtpn;
+                        phieuNhapKho.Madtpnno = khachHang.Madtpn;
+                        phieuNhapKho.Tenkh = khachHang.Tendtpn;
+                        phieuNhapKho.MsDn = khachHang.MsDn;
+                        phieuNhapKho.Diachi = khachHang.Diachi;
+                        phieuNhapKho.DiachiNgd = khachHang.Diachi;
+                        phieuNhapKho.Mangd = khachHang.Madtpn;
+                        phieuNhapKho.Httt = ktscs.LastOrDefault().Httt;
                         await _unitOfWork.KTSCDAO.Update(ktsc);
                         await _unitOfWork.SaveChangesAsync();
                     }
