@@ -50,25 +50,23 @@
             <div id="mua-data">
                 <div class="table-data">
                     <table id="data-tb" class="table-text text-menu">
-                        <thead>
-                            <tr id="tr-1">
-                                <td>Ngày chứng từ</td>
-                                <td>Số chứng từ</td>
-                                <td>Hình thức thanh toán</td>
-                                <td>Thành tiền</td>
-                                <td>CkPhantram</td>
-                                <td>Chiết khấu thành tiền</td>
-                                <td>Tổng tiền</td>
-                                <td>Khtratien</td>
-                                <td>Mã khách hàng</td>
-                                <td>Tên khách hàng</td>
-                                <td>Mã số thuế</td>
-                                <td>Địa chỉ</td>
-                                <td>Ghi chú</td>
-                                <td>Nhân viên bán</td>
-                            </tr>
-                        </thead>
-                        <tr >
+                        <tr id="tr-1">
+                            <td>Ngày chứng từ</td>
+                            <td>Số chứng từ</td>
+                            <td>Hình thức thanh toán</td>
+                            <td>Thành tiền</td>
+                            <td>CkPhantram</td>
+                            <td>Chiết khấu thành tiền</td>
+                            <td>Tổng tiền</td>
+                            <td>Khtratien</td>
+                            <td>Mã khách hàng</td>
+                            <td>Tên khách hàng</td>
+                            <td>Mã số thuế</td>
+                            <td>Địa chỉ</td>
+                            <td>Ghi chú</td>
+                            <td>Nhân viên bán</td>
+                        </tr>
+                        <tr>
                             <td colspan="14" class="text-center" style="height:200px">Data đang được tải lên...</td>
                         </tr>
                     </table>
@@ -931,14 +929,16 @@
                         success: function (response) {
                             const table = document.getElementById("data-tb");
                             while (table.rows.length > 1) {
-                                table.deleteRow(1);
+                                table.deleteRow(1); // Use deleteRow to remove specific rows
                             }
                             fil = response;
                             for (let i = 1; i <= fil.length; i++) {
                                 table.insertAdjacentHTML('beforeend', `
                                     <tr id="t-${i}"  onclick="tractive(this.id)">
-                                        <td id="ngayct-${i}"></td>
-                                        <input id="ip-id-${i}" hidden type="number"/>
+                                        <td>
+                                            <input id="ip-id-${i}" hidden type="number"/> 
+                                            <div id="ngayct-${i}"></div>
+                                        </td>
                                         <td id="soct-${i}"></td>
                                         <td id="httt-${i}"></td>
                                         <td id="thanhtien-${i}"></td>
@@ -1011,14 +1011,16 @@
                         success: function (response) {
                             const table = document.getElementById("data-tb");
                             while (table.rows.length > 1) {
-                                table.deleteRow(1);
+                                table.deleteRow(1); // Use deleteRow to remove specific rows
                             }
                             fil = response;
                             for (let i = 1; i <= fil.length; i++) {
                                 table.insertAdjacentHTML('beforeend', `
                                     <tr id="t-${i}"  onclick="tractive(this.id)">
-                                        <td id="ngayct-${i}"></td>
-                                        <input id="ip-id-${i}" hidden type="number"/>
+                                        <td>
+                                            <input id="ip-id-${i}" hidden type="number"/> 
+                                            <div id="ngayct-${i}"></div>
+                                        </td>
                                         <td id="soct-${i}"></td>
                                         <td id="httt-${i}"></td>
                                         <td id="thanhtien-${i}"></td>
