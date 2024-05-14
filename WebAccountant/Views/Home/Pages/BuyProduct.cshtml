@@ -237,6 +237,7 @@
                                     <div class=" text-start">
                                         <label for="ht" class="col-form-label">Ngày hóa đơn</label>
                                         <input type="datetime-local" class="form-control" asp-for="NgayHToan" id="ht" value="@DateTime.UtcNow.AddHours(7).ToString("s")">
+                                        <input type="datetime-local" class="form-control" asp-for="NgayCtu" id="ht" value="@DateTime.UtcNow.AddHours(7).ToString("s")" hidden>
                                     </div>
                                     <div class=" text-start">
                                         <label for="sohd" class="col-form-label">Số hóa đơn:</label>
@@ -959,7 +960,7 @@
                                 document.getElementById("soct-" + ii).textContent = fil[i].Soctu ? fil[i].Soctu : "";
                                 document.getElementById("httt-" + ii).textContent = fil[i].HTThanhToan ? fil[i].HTThanhToan : "";
                                 document.getElementById("thanhtien-" + ii).textContent = fil[i].ThanhTien ? fil[i].ThanhTien : "";
-                                document.getElementById("ckpt-" + ii).textContent = "0";
+                                document.getElementById("ckpt-" + ii).textContent = fil[i].ckPhanTram ? fil[i].ckPhanTram : "";
                                 document.getElementById("ckVnd-" + ii).textContent = fil[i].CkThanhTien ? fil[i].CkThanhTien : "";
                                 document.getElementById("tongVnd-" + ii).textContent = fil[i].TongTien ? fil[i].TongTien : "";
                                 document.getElementById("khtt-" + ii).textContent = fil[i].KhTraTien ? fil[i].KhTraTien : "";
@@ -1053,6 +1054,13 @@
                         document.getElementById(id).classList.add("tr-atv");
                     }
                 }
+                $.ajax({
+                    url: '@Url.Action("GetSoHoaDon", "Ktscs")',
+                    type: 'GET',
+                    success: function (result) {
+                        $("#sohd").val(`0000${result}`);
+                    }
+                });
             </script>
         </div>
     </div>

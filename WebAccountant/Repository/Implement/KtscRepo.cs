@@ -98,7 +98,7 @@ namespace WebAccountant.Repository.Implement
                 insertItem.NgayCtu = (DateTime)key.Ngayct;
                 insertItem.Soctu = key.Soct;
                 insertItem.ThanhTien = thanhTien.ToString();
-                insertItem.ckPhanTram = chietKhau.ToString();
+                insertItem.ckPhanTram = key.PtCk.ToString();
                 insertItem.CkThanhTien = tongCk.ToString();
                 insertItem.KhTraTien = khTratien.ToString();
                 insertItem.MaKh = key.Makh;
@@ -147,7 +147,7 @@ namespace WebAccountant.Repository.Implement
                 insertItem.Soctu = key.Soct;
                 insertItem.HTThanhToan = hthucthanhtoan;
                 insertItem.ThanhTien = thanhTien.ToString();
-                insertItem.ckPhanTram = chietKhau.ToString();
+                insertItem.ckPhanTram = key.PtCk.ToString();
                 insertItem.CkThanhTien = tongCk.ToString();
                 insertItem.KhTraTien = khTratien.ToString();
                 insertItem.MaKh = key.Makh;

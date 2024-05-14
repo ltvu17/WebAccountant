@@ -167,8 +167,8 @@ namespace WebAccountant.Repository.Implement
                     var modelDTO = items.FirstOrDefault(
                             x => x.Madm == model.Madm && x.Matk == x.Matk);
                     var Ttvnd = modelDTO.Soluong * modelDTO.Dgban;
-                    var Chietkhau = modelDTO.Soluong * modelDTO.Dgban * (modelDTO.PtChietKhau / 100);
-                    var Thuevnd = (modelDTO.Soluong * modelDTO.Dgban - modelDTO.Soluong * modelDTO.Dgban * (modelDTO.PtChietKhau / 100)) * (modelDTO.PtThue / 100);
+                    var Chietkhau = modelDTO.ChietKhauThanhTien;
+                    var Thuevnd = modelDTO.ThueThanhTien;
                     tongCK += Chietkhau;
                     tongThue += Thuevnd;
                     if (modelForId != null)
@@ -470,8 +470,8 @@ namespace WebAccountant.Repository.Implement
                             x => x.Madm == model.Madm && x.Matk == x.Matk);
                     var Ttvnd = modelDTO.Soluong * modelDTO.Dgban;
                     var Giavon = modelDTO.Soluong * model.Dgban;
-                    var Chietkhau = modelDTO.Soluong * modelDTO.Dgban * (modelDTO.PtChietKhau / 100);
-                    var Thuevnd = (Ttvnd - Chietkhau) * (modelDTO.PtThue / 100);
+                    var Chietkhau = modelDTO.ChietKhauThanhTien;
+                    var Thuevnd = modelDTO.ThueThanhTien;
                     tongCK += Chietkhau;
                     tongThue += Thuevnd;
                     if (modelForId != null)
