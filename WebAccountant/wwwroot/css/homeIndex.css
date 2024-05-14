@@ -202,16 +202,17 @@
 .tr-atv{
     background-color: rgb(92, 92, 92, 0.50);
 }
+.list-dm {
+    overflow-x: auto;
+}
 .table-text {
     font-size: 14px;
-    max-width: 100%;
 }
     .table-text td {
         border: 1px solid #ddd;
         white-space: nowrap;
     }
     .table-text input {
-        white-space: nowrap;
         font-size: 12px;
     }
 .table-menu div {
@@ -328,6 +329,9 @@
 }
 .width-90 {
     width: 90px;
+}
+.width-80 {
+    width: 80px;
 }
 .width-70 {
     width: 70px;
