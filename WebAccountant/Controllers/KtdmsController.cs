@@ -86,7 +86,18 @@ namespace WebAccountant.Controllers
         public async Task Delete(string key) {
            await _ktdmRepo.Delete(key);
         }
-
+        [HttpPost]
+        public async Task<IActionResult> SubmitCartToExportPhieuBanHang(IEnumerable<PhieuBanHangDTO> items)
+        {
+            var pathValue = await _ktdmRepo.ExportPDFPhieuBanHang(items);
+            return Json(pathValue);
+        }
+        [HttpPost]
+        public async Task<IActionResult> SubmitCartToExportPhieuMuaHang(IEnumerable<PhieuMuaHangDTO> items)
+        {
+            var pathValue = await _ktdmRepo.ExportPDFPhieuMuaHang(items);
+            return Json(pathValue);
+        }
         [HttpPost]
         public async Task<IActionResult> SubmitCartToExport(AddToKTSCDTO items)
         {
@@ -122,6 +133,8 @@ namespace WebAccountant.Controllers
                                 PtThue = double.Parse(ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].PtThue", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value),
                                 Soluong = int.Parse(ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].Soluong", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value),
                                 Tendm = ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].Tendm", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value,
+                                ThueThanhTien = double.Parse(ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].ThueThanhTien", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value),
+                                ChietKhauThanhTien = double.Parse(ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].ChietKhauThanhTien", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value),
                             });
                         }
                     }
@@ -163,6 +176,8 @@ namespace WebAccountant.Controllers
                                 PtThue = double.Parse(ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].PtThue", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value),
                                 Soluong = int.Parse(ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].Soluong", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value),
                                 Tendm = ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].Tendm", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value,
+                                ThueThanhTien = double.Parse(ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].ThueThanhTien", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value),
+                                ChietKhauThanhTien = double.Parse(ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].ChietKhauThanhTien", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value),
                             });
                         }
                     }
