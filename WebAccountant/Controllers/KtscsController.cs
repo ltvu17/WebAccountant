@@ -37,13 +37,18 @@ namespace WebAccountant.Controllers
         [HttpGet]
         public async Task<IActionResult> GetALLDSPhieuBanHangByDate(DateTime fromDate, DateTime toDate)
         {
-            Console.WriteLine(fromDate.ToString());
             toDate = toDate.AddHours(23).AddMinutes(59).AddSeconds(59);
             var ktscBanHangs = await _ktscRepo.GetAllDSPhieuBanHang();
             var filteredData = ktscBanHangs.Where(m => m.NgayCtu >= fromDate && m.NgayCtu <= toDate);
             return Json(filteredData);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetSoHoaDon()
+        {
+            var ktsc = (await _ktscRepo.GetAllAsync()).OrderByDescending(s=>s.IdChungtu).FirstOrDefault().IdChungtu + 1;
+            return Json(ktsc);
+        }
         [HttpGet]
         public async Task<IActionResult> GetDetailPhieuBanHang(int id)
         {

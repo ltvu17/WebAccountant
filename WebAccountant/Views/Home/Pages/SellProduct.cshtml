@@ -240,6 +240,7 @@
                                     <div class=" text-start">
                                         <label for="ht" class="col-form-label">Ngày hóa đơn</label>
                                     <input type="datetime-local" class="form-control" asp-for="NgayHToan" id="ht" value="@DateTime.UtcNow.AddHours(7).ToString("s")">
+                                    <input type="datetime-local" class="form-control" asp-for="NgayCtu" id="ht" value="@DateTime.UtcNow.AddHours(7).ToString("s")" hidden>
                                     </div>
                                     <div class=" text-start">
                                         <label for="sohd" class="col-form-label">Số hóa đơn:</label>
@@ -330,9 +331,9 @@
                             <td><input type="number" class="form-control" id="input-dongia-1" asp-for="ktdmDTOs[0].Dgban" min="0" onchange="tinhTien(1)" /></td>
                             <td><input type="number" class="form-control" id="input-soluong-1" asp-for="ktdmDTOs[0].Soluong" min="1" onchange="tinhTien(1)" /></td>
                             <td><input type="number" class="form-control" id="input-ck-1" asp-for="ktdmDTOs[0].PtChietKhau" min="0" max="100" onchange="tinhTien(1)" /></td>
-                            <td><input type="number" class="form-control" id="input-ck-vnd-1" asp-for="ktdmDTOs[0].PtChietKhau" min="0" onchange="lamTron(1)" /></td>
+                            <td><input type="number" class="form-control" id="input-ck-vnd-1" asp-for="ktdmDTOs[0].ChietKhauThanhTien" min="0" onchange="lamTron(1)" /></td>
                             <td><input type="number" class="form-control" id="input-thue-1" asp-for="ktdmDTOs[0].PtThue" min="0" max="100" onchange="tinhTien(1)" /></td>
-                            <td><input type="number" class="form-control" id="input-thue-vnd-1" asp-for="ktdmDTOs[0].PtThue" min="0" onchange="lamTron(1)" /></td>
+                            <td><input type="number" class="form-control" id="input-thue-vnd-1" asp-for="ktdmDTOs[0].ThueThanhTien" min="0" onchange="lamTron(1)" /></td>
                             <td><input type="text" class="form-control" id="input-thanhtien-1" readonly /></td>
                             <td class="t-center"><a onClick="xoaDm('tr1')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
                         </tr>
@@ -671,9 +672,9 @@
                                                             <td><input type="number" class="form-control" id="input-dongia-${count}" name="ktdmDTOs[${count - 1}].Dgban" min="0" onchange="tinhTien(${count})" /></td>
                                                             <td><input type="number" class="form-control" id="input-soluong-${count}" name="ktdmDTOs[${count - 1}].Soluong" min="1" onchange="tinhTien(${count})" /></td>
                                                             <td><input type="number" class="form-control" id="input-ck-${count}" name="ktdmDTOs[${count - 1}].PtChietKhau" min="0" max="100" onchange="tinhTien(${count})" /></td>
-                                                            <td><input type="number" class="form-control" id="input-ck-vnd-${count}" name="ktdmDTOs[${count - 1}].PtChietKhau" min="0" onchange="tinhTien(${count})" /></td>
+                                                            <td><input type="number" class="form-control" id="input-ck-vnd-${count}" name="ktdmDTOs[${count - 1}].ChietKhauThanhTien" min="0" onchange="tinhTien(${count})" /></td>
                                                             <td><input type="number" class="form-control" id="input-thue-${count}" name="ktdmDTOs[${count - 1}].PtThue" min="0" max="100" onchange="tinhTien(${count})" /></td>
-                                                            <td><input type="number" class="form-control" id="input-thue-vnd-${count}" name="ktdmDTOs[${count - 1}].PtThue" min="0" onchange="tinhTien(${count})" /></td>
+                                                            <td><input type="number" class="form-control" id="input-thue-vnd-${count}" name="ktdmDTOs[${count - 1}].ThueThanhTien" min="0" onchange="tinhTien(${count})" /></td>
                                                             <td><input type="number" class="form-control" id="input-thanhtien-${count}" readonly/></td>
                                                             <td class="t-center"><a onClick="xoaDm('tr${count}')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
                                                         </tr>
@@ -997,7 +998,7 @@
                                 document.getElementById("soct-" + ii).textContent = fil[i].Soctu ? fil[i].Soctu : "";
                                 document.getElementById("httt-" + ii).textContent = fil[i].HTThanhToan ? fil[i].HTThanhToan : "";
                                 document.getElementById("thanhtien-" + ii).textContent = fil[i].ThanhTien ? fil[i].ThanhTien : "";
-                                document.getElementById("ckpt-" + ii).textContent = "0";
+                                document.getElementById("ckpt-" + ii).textContent = fil[i].ckPhanTram ? fil[i].ckPhanTram : "";
                                 document.getElementById("ckVnd-" + ii).textContent = fil[i].CkThanhTien ? fil[i].CkThanhTien : "";
                                 document.getElementById("tongVnd-" + ii).textContent = fil[i].TongTien ? fil[i].TongTien : "";
                                 document.getElementById("khtt-" + ii).textContent = fil[i].KhTraTien ? fil[i].KhTraTien : "";
@@ -1091,6 +1092,13 @@
                         document.getElementById(id).classList.add("tr-atv");
                     }
                 }
+                $.ajax({
+                    url: '@Url.Action("GetSoHoaDon", "Ktscs")',
+                    type: 'GET',
+                    success: function (result) {
+                        $("#sohd").val(`0000${result}`);
+                    }
+                });
             </script>
         </div>
     </div>
