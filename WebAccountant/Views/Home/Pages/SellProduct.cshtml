@@ -975,8 +975,10 @@
                             for (let i = 1; i <= fil.length; i++) {
                                 table.insertAdjacentHTML('beforeend', `
                                                     <tr id="t-${i}"  onclick="tractive(this.id)">
-                                                        <td id="ngayct-${i}"></td>
-                                                        <input id="ip-id-${i}" hidden type="number"/>
+                                                        <td>
+                                                            <input id="ip-id-${i}" hidden type="number"/> 
+                                                            <div id="ngayct-${i}"></div>
+                                                        </td>
                                                         <td id="soct-${i}"></td>
                                                         <td id="httt-${i}"></td>
                                                         <td id="thanhtien-${i}"></td>
@@ -1064,8 +1066,10 @@
                             for (let i = 1; i <= fil.length; i++) {
                                 table.insertAdjacentHTML('beforeend', `
                                                     <tr id="t-${i}"  onclick="tractive(this.id)">
-                                                        <td id="ngayct-${i}"></td>
-                                                        <input id="ip-id-${i}" hidden type="number"/>
+                                                        <td>
+                                                            <input id="ip-id-${i}" hidden type="number"/>
+                                                            <div id="ngayct-${i}"></div>
+                                                        </td>
                                                         <td id="soct-${i}"></td>
                                                         <td id="httt-${i}"></td>
                                                         <td id="thanhtien-${i}"></td>

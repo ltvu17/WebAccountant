@@ -329,9 +329,9 @@
                                 <td><input type="number" class="form-control" id="input-dongia-1" asp-for="ktdmDTOs[0].Dgban" min="0" onchange="tinhTien(1)" /></td>
                                 <td><input type="number" class="form-control" id="input-soluong-1" asp-for="ktdmDTOs[0].Soluong" min="1" onchange="tinhTien(1)" /></td>
                                 <td><input type="number" class="form-control" id="input-ck-1" asp-for="ktdmDTOs[0].PtChietKhau" min="0" max="100" onchange="tinhTien(1)" /></td>
-                                <td><input type="number" class="form-control" id="input-ck-vnd-1" asp-for="ktdmDTOs[0].PtChietKhau" min="0" onchange="lamTron(1)" /></td>
+                                <td><input type="number" class="form-control" id="input-ck-vnd-1" asp-for="ktdmDTOs[0].ChietKhauThanhTien" min="0" onchange="lamTron(1)" /></td>
                                 <td><input type="number" class="form-control" id="input-thue-1" asp-for="ktdmDTOs[0].PtThue" min="0" max="100" onchange="tinhTien(1)" /></td>
-                                <td><input type="number" class="form-control" id="input-thue-vnd-1" asp-for="ktdmDTOs[0].PtThue" min="0" onchange="lamTron(1)" /></td>
+                                <td><input type="number" class="form-control" id="input-thue-vnd-1" asp-for="ktdmDTOs[0].ThueThanhTien" min="0" onchange="lamTron(1)" /></td>
                                 <td><input type="text" class="form-control" id="input-thanhtien-1" readonly /></td>
                                 <td class="t-center"><a onClick="xoaDm('tr1')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
                             </tr>
@@ -666,9 +666,9 @@
                                                             <td><input type="number" class="form-control" id="input-dongia-${count}" name="ktdmDTOs[${count - 1}].Dgban" min="0" onchange="tinhTien(${count})" /></td>
                                                             <td><input type="number" class="form-control" id="input-soluong-${count}" name="ktdmDTOs[${count - 1}].Soluong" min="1" onchange="tinhTien(${count})" /></td>
                                                             <td><input type="number" class="form-control" id="input-ck-${count}" name="ktdmDTOs[${count - 1}].PtChietKhau" min="0" max="100" onchange="lamTron(${count})" /></td>
-                                                            <td><input type="number" class="form-control" id="input-ck-vnd-${count}" name="ktdmDTOs[${count - 1}].PtChietKhau" min="0" onchange="tinhTien(${count})" /></td>
+                                                            <td><input type="number" class="form-control" id="input-ck-vnd-${count}" name="ktdmDTOs[${count - 1}].ChietKhauThanhTien" min="0" onchange="tinhTien(${count})" /></td>
                                                             <td><input type="number" class="form-control" id="input-thue-${count}" name="ktdmDTOs[${count - 1}].PtThue" min="0" max="100" onchange="lamTron(${count})" /></td>
-                                                            <td><input type="number" class="form-control" id="input-thue-vnd-${count}" name="ktdmDTOs[${count - 1}].PtThue" min="0" onchange="tinhTien(${count})" /></td>
+                                                            <td><input type="number" class="form-control" id="input-thue-vnd-${count}" name="ktdmDTOs[${count - 1}].ThueThanhTien" min="0" onchange="tinhTien(${count})" /></td>
                                                             <td><input type="number" class="form-control" id="input-thanhtien-${count}" readonly/></td>
                                                             <td class="t-center"><a onClick="xoaDm('tr${count}')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
                                                         </tr>
