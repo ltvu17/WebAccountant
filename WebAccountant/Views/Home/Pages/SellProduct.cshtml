@@ -9,12 +9,12 @@
     <div class="home-container">
         @Html.Partial("../Home/SideBar")
         <div class="right-bar-home content mua-page">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex t-s-14" id="nav-sell">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex t-s-14">
                 <div class="container-fluid" >
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navSell" aria-controls="navSell" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div class="collapse navbar-collapse" id="navSell">
                         <ul class="navbar-nav mb-2 mb-lg-0">
                             <li class="nav-item">
                                 <a class="nav-link active t-s-16" id="data-link" aria-current="page" href="#">Danh sách</a>
@@ -30,13 +30,19 @@
                                 <input id="date-to" class="form-control width-pt-75 t-s-13 height-30" type="date" />
                             </div>
                             <div class="d-flex justify-content-center">
-                                <button type="button" class="btn btn-primary height-30 t-s-13" onclick="confirmDate()">Xác nhận</button>
+                                <button type="button" class="btn btn-primary height-30 width-80 t-s-13" onclick="confirmDate()">Xác nhận</button>
+                            </div>
+                            <div class="d-flex justify-content-center" style="margin-left:10px">
+                                <button type="button" class="btn btn-secondary height-30 t-s-13 width-80" onclick="resetDate()">Cài lại</button>
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <button class="btn btn-success height-30 t-s-13 width-80" onclick="orderOut()" type="button">
+                    <div class="width-80">
+                        <button class="btn btn-success height-30 t-s-13 width-80" id="themBtn" onclick="orderOut()" type="button">
                             Thêm
+                        </button>
+                        <button class="btn btn-primary height-30 t-s-13 width-80 d-none" id="backBtn" onclick="backList()" type="button">
+                            Quay lại
                         </button>
                     </div>
                 </div>
@@ -44,25 +50,23 @@
             <div id="mua-data">
                 <div class="table-data">
                     <table id="data-tb" class="table-text text-menu">
-                        <thead>
-                            <tr id="tr-1">
-                                <td>Ngày chứng từ</td>
-                                <td>Số chứng từ</td>
-                                <td>Hình thức thanh toán</td>
-                                <td>Thành tiền</td>
-                                <td>CkPhantram</td>
-                                <td>Chiết khấu thành tiền</td>
-                                <td>Tổng tiền</td>
-                                <td>Khtratien</td>
-                                <td>Mã khách hàng</td>
-                                <td>Tên khách hàng</td>
-                                <td>Mã số thuế</td>
-                                <td>Địa chỉ</td>
-                                <td>Ghi chú</td>
-                                <td>Nhân viên bán</td>
-                            </tr>
-                        </thead>
-                        <tr >
+                        <tr id="tr-1">
+                            <td>Ngày chứng từ</td>
+                            <td>Số chứng từ</td>
+                            <td>Hình thức thanh toán</td>
+                            <td>Thành tiền</td>
+                            <td>CkPhantram</td>
+                            <td>Chiết khấu thành tiền</td>
+                            <td>Tổng tiền</td>
+                            <td>Khtratien</td>
+                            <td>Mã khách hàng</td>
+                            <td>Tên khách hàng</td>
+                            <td>Mã số thuế</td>
+                            <td>Địa chỉ</td>
+                            <td>Ghi chú</td>
+                            <td>Nhân viên bán</td>
+                        </tr>
+                        <tr>
                             <td colspan="14" class="text-center" style="height:200px">Data đang được tải lên...</td>
                         </tr>
                     </table>
@@ -339,11 +343,14 @@
                         </tr>
                     </table>
                     <div class="buttons d-flex justify-content-between mar-5">
-                        <button class="btn btn-success t-s-12 height-30" id="addDm" onclick="themDm()" type="button">Thêm mặt hàng</button>
-                        <button class="btn btn-danger t-s-12 height-30" onclick="xoaHet()" type="button">Xóa hết</button>
-                        <button class="btn btn-warning t-s-12 height-30" id="exportBill" onclick="exportPDF()" type="button">Xuất hóa đơn</button>
-                        <button class="btn btn-danger t-s-12 height-30" onclick="backList()" type="button">Quay lại</button>
-                        <button class="btn btn-primary t-s-12 height-30" id="saveButton" type="submit">Lưu đơn bán</button>
+                        <div>
+                            <button class="btn btn-success t-s-12 height-30" id="addDm" onclick="themDm()" type="button">Thêm mặt hàng</button>
+                            <button class="btn btn-danger t-s-12 height-30" onclick="xoaHet()" type="button">Xóa hết</button>
+                        </div>
+                        <div>
+                            <button class="btn btn-warning t-s-12 height-30" id="exportBill" onclick="exportPDF()" type="button">Xuất hóa đơn</button>
+                            <button class="btn btn-primary t-s-12 height-30" id="saveButton" type="submit">Lưu đơn bán</button>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -391,7 +398,6 @@
                             break;
                         }
                     }
-                    console.log(madmItems);
                     loadBill();
                 }
                 function lamTron(rowIndex) {
@@ -401,10 +407,8 @@
                     var ckVnd = tr.querySelector('#input-ck-vnd-' + rowIndex).value;
                     var thueVnd = tr.querySelector('#input-thue-vnd-' + rowIndex).value;
                     var thanhtien = parseFloat(sl).toFixed(0) * parseFloat(dgia).toFixed(0) - parseFloat(ckVnd).toFixed(0);
-                    console.log("hi" +thanhtien);
                     thanhtien = parseFloat(parseFloat(thanhtien).toFixed(0)) + parseFloat(parseFloat(thueVnd).toFixed(0));
                     tr.querySelector('#input-thanhtien-' + rowIndex).value = parseFloat(thanhtien).toFixed(0);
-                    console.log(madmItems);
                     loadBill();
                 }
 
@@ -443,7 +447,6 @@
 
                         if (maValue.toUpperCase().indexOf(filter) > -1 || tenValue.toUpperCase().indexOf(filter) > -1) {
                             var isNone = false;
-                            console.log("tenn:" + tenValue);
                             for (let u = 0; u < madmItems.length; u++) {
                                 if (maValue.toUpperCase() == madmItems[u].Madm.toUpperCase()) {
                                     tr[i].style.display = "none";
@@ -514,10 +517,10 @@
                         madmItems[dmindex] = madmDTO;
                     }
                     var numId = id[2];
-                    console.log(madmItems)
                     // Lấy thẻ <tr> có id là "tr1"
                     var tr = document.getElementById(id);
                     // Gắn giá trị vào các thẻ <td>
+                    tr.querySelector('#ip-tendm-' + id[2]).textContent = JSON.parse(decodeURIComponent(item)).Tendm;
                     tr.querySelector('#input-matk-' + id[2]).value = JSON.parse(decodeURIComponent(item)).Matk;
                     tr.querySelector('#input-madm-' + id[2]).value = JSON.parse(decodeURIComponent(item)).Madm;
                     tr.querySelector('#input-tendm-' + id[2]).value = JSON.parse(decodeURIComponent(item)).Tendm;
@@ -581,7 +584,6 @@
                 var makhItems = []
                 function makhChooseItem(item) {
                     makhItems = JSON.parse(decodeURIComponent(item));
-                    console.log(makhItems);
                     hide_sugg("list-makh-sugg");
                     // Gắn giá trị vào các thẻ <td>
                     document.getElementById('input-makh').value = JSON.parse(decodeURIComponent(item)).Madtpn;
@@ -672,9 +674,9 @@
                                                             <td><input type="number" class="form-control" id="input-dongia-${count}" name="ktdmDTOs[${count - 1}].Dgban" min="0" onchange="tinhTien(${count})" /></td>
                                                             <td><input type="number" class="form-control" id="input-soluong-${count}" name="ktdmDTOs[${count - 1}].Soluong" min="1" onchange="tinhTien(${count})" /></td>
                                                             <td><input type="number" class="form-control" id="input-ck-${count}" name="ktdmDTOs[${count - 1}].PtChietKhau" min="0" max="100" onchange="tinhTien(${count})" /></td>
-                                                            <td><input type="number" class="form-control" id="input-ck-vnd-${count}" name="ktdmDTOs[${count - 1}].ChietKhauThanhTien" min="0" onchange="tinhTien(${count})" /></td>
+                                                            <td><input type="number" class="form-control" id="input-ck-vnd-${count}" name="ktdmDTOs[${count - 1}].ChietKhauThanhTien" min="0" onchange="lamTron(${count})" /></td>
                                                             <td><input type="number" class="form-control" id="input-thue-${count}" name="ktdmDTOs[${count - 1}].PtThue" min="0" max="100" onchange="tinhTien(${count})" /></td>
-                                                            <td><input type="number" class="form-control" id="input-thue-vnd-${count}" name="ktdmDTOs[${count - 1}].ThueThanhTien" min="0" onchange="tinhTien(${count})" /></td>
+                                                            <td><input type="number" class="form-control" id="input-thue-vnd-${count}" name="ktdmDTOs[${count - 1}].ThueThanhTien" min="0" onchange="lamTron(${count})" /></td>
                                                             <td><input type="number" class="form-control" id="input-thanhtien-${count}" readonly/></td>
                                                             <td class="t-center"><a onClick="xoaDm('tr${count}')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
                                                         </tr>
@@ -711,7 +713,6 @@
                         for (let i = 0; i < madmItems.length; i++) {
                             if(madmItems[i].trId == id){
                                 madmItems.splice(i,1);
-                                console.log("xoa:" + madmItems);
                             }
                         }
                         tr.remove();
@@ -720,7 +721,6 @@
                         for (let i = 1; i <= index; i++) {
                             idList.push(i);
                         }
-                        console.log(idList);
                         var tdList = document.getElementsByClassName("td-index");
                         for (let i = 0; i < tdList.length; i++){
                             tdList[i].textContent = idList[i];
@@ -735,14 +735,12 @@
                     }
                 }
                 function Submit() {
-                    console.log(madm)
                     setTimeout(function (value) {
                         $.ajax({
                             url: '@Url.Action("SubmitCartToExport", "Ktdms")',
                             type: 'POST',
                             data: JSON.stringify(madm),
                             success: function (result) {
-                                console.log(result)
                                 //window.location.replace("/Home/ExportBuyProduct")
                                 window.open("https://localhost:7278/InvoiceReport/HoaDon.pdf", "_blank");
                             }
@@ -775,7 +773,6 @@
                         }
                         khs.push(madmDTO);
                     }
-                    console.log(idKh);
                     var myKeyVals = {
                         Makh: idKh,
                         NgayCtu: idKt,
@@ -787,24 +784,33 @@
                         type: 'POST',
                         data: myKeyVals,
                         success: function (result) {
-                            console.log(result);
                             window.open("https://localhost:7278/InvoiceReport/HoaDon.pdf", "_blank");
                         }
                     });
                 }
                 function backList() {
-                    var navSell = document.getElementById("nav-sell");
+                    var btnThem = document.getElementById("themBtn");
+                    var btnBack = document.getElementById("backBtn");
+                    var navSell = document.getElementById("navSell");
                     var muaData = document.getElementById("mua-data");
                     var form = document.getElementById("myForm");
-                        muaData.classList.remove("d-none");
-                        form.classList.add("d-none");
-                        navSell.classList.remove("d-none");
+                    btnThem.classList.remove("d-none");
+                    navSell.classList.remove("d-none");
+                    navSell.classList.add("navbar-collapse");
+                    btnBack.classList.add("d-none");
+                    muaData.classList.remove("d-none")
+                    form.classList.add("d-none");
                 }
                 function orderOut() {
-                    var navSell = document.getElementById("nav-sell");
+                    var btnThem = document.getElementById("themBtn");
+                    var btnBack = document.getElementById("backBtn");
+                    var navSell = document.getElementById("navSell");
                     var muaData = document.getElementById("mua-data");
                     var form = document.getElementById("myForm");
-                    navSell.classList.add("d-none");
+                    btnThem.classList.add("d-none");
+                    navSell.classList.add("d-none"); 
+                    navSell.classList.remove("navbar-collapse");
+                    btnBack.classList.remove("d-none");
                     muaData.classList.add("d-none")
                     form.classList.remove("d-none");
                 }
@@ -813,7 +819,6 @@
                         url: '@Url.Action("GetALLDSPhieuBanHang", "Ktscs")', // Thay 'ControllerName' bằng tên thực của controller
                         type: 'GET',
                         success: function (data) {
-                            console.log("heia");
                             var table = $('<table/>').addClass('dataTable');
                             $.each(data, function (i, obj) {
                                 var row = $('<tr/>');
@@ -852,7 +857,6 @@
                         var grid = document.getElementById("data-tb");
                         var row = grid.getElementsByClassName("tr-atv")[0];
                         var id = document.getElementById("ip-id-" + row.id[2]).value;
-                        console.log("idd+"+id);
 
                         document.getElementById("edit-page").classList.remove("d-none");
                                     document.getElementById("edit-page").classList.add("d-relative");
@@ -940,8 +944,8 @@
 
                 }
                 var fil = [];
-                confirmDate();
-                function confirmDate() {
+                resetDate();
+                function resetDate() {
                     var date = new Date();
                     date.setDate(date.getDate() - 30); // Trừ đi 30 ngày
                     var dd = String(date.getDate()).padStart(2, '0');
@@ -954,9 +958,98 @@
                     mm = String(date.getMonth() + 1).padStart(2, '0'); // Tháng trong JavaScript bắt đầu từ 0
                     yyyy = date.getFullYear();
                     var currentDate = yyyy + '-' + mm + '-' + dd; // Định dạng YYYY-MM-DD
-                    var fromDate = document.getElementById("date-from").value ? document.getElementById("date-from").value : defaultDate;
-                    var toDate = document.getElementById("date-to").value ? document.getElementById("date-to").value : currentDate;
+                    var fromDate = defaultDate;
+                    var toDate = currentDate;
+                    document.getElementById("date-to").value = "";
+                    document.getElementById("date-from").value = "";
+                    $.ajax({
+                        url: '@Url.Action("GetALLDSPhieuBanHangByDate", "Ktscs")',
+                        type: 'GET',
+                        data: { fromDate: fromDate, toDate: toDate },
+                        success: function (response) {
+                            const table = document.getElementById("data-tb");
+                            while (table.rows.length > 1) {
+                                table.deleteRow(1);
+                            }
+                            fil = response;
+                            for (let i = 1; i <= fil.length; i++) {
+                                table.insertAdjacentHTML('beforeend', `
+                                                    <tr id="t-${i}"  onclick="tractive(this.id)">
+                                                        <td id="ngayct-${i}"></td>
+                                                        <input id="ip-id-${i}" hidden type="number"/>
+                                                        <td id="soct-${i}"></td>
+                                                        <td id="httt-${i}"></td>
+                                                        <td id="thanhtien-${i}"></td>
+                                                        <td id="ckpt-${i}"></td>
+                                                        <td id="ckVnd-${i}"></td>
+                                                        <td id="tongVnd-${i}"></td>
+                                                        <td id="khtt-${i}"></td>
+                                                        <td id="makh-${i}"></td>
+                                                        <td id="tenkh-${i}"></td>
+                                                        <td id="msthue-${i}"></td>
+                                                        <td id="dc-${i}"></td>
+                                                        <td id="gc-${i}"></td>
+                                                        <td id="nvban-${i}"></td>
+                                                    </tr>
+                                               `);
+                            }
+                            for (let i = 0; i < fil.length; i++) {
+                                let ii = i + 1;
+                                var date = new Date(fil[i].NgayCtu);
+                                var dateString = date.toISOString().split('T')[0];
+                                document.getElementById("ip-id-" + ii).value = fil[i].id ? fil[i].id : "";
+                                document.getElementById("ngayct-" + ii).textContent = fil[i].NgayCtu ? dateString : "";
+                                document.getElementById("soct-" + ii).textContent = fil[i].Soctu ? fil[i].Soctu : "";
+                                document.getElementById("httt-" + ii).textContent = fil[i].HTThanhToan ? fil[i].HTThanhToan : "";
+                                document.getElementById("thanhtien-" + ii).textContent = fil[i].ThanhTien ? fil[i].ThanhTien : "";
+                                document.getElementById("ckpt-" + ii).textContent = fil[i].ckPhanTram ? fil[i].ckPhanTram : "";
+                                document.getElementById("ckVnd-" + ii).textContent = fil[i].CkThanhTien ? fil[i].CkThanhTien : "";
+                                document.getElementById("tongVnd-" + ii).textContent = fil[i].TongTien ? fil[i].TongTien : "";
+                                document.getElementById("khtt-" + ii).textContent = fil[i].KhTraTien ? fil[i].KhTraTien : "";
+                                document.getElementById("makh-" + ii).textContent = fil[i].MaKh ? fil[i].MaKh : "";
+                                document.getElementById("tenkh-" + ii).textContent = fil[i].TenKh ? fil[i].TenKh : "";
+                                document.getElementById("msthue-" + ii).textContent = fil[i].MsThue ? fil[i].MsThue : "";
+                                document.getElementById("dc-" + ii).textContent = fil[i].Diachi ? fil[i].Diachi : "";
+                                document.getElementById("gc-" + ii).textContent = fil[i].GhiChu ? fil[i].GhiChu : "";
+                                document.getElementById("nvban-" + ii).textContent = fil[i].NhanVienBan ? fil[i].NhanVienBan : "";
+                            }
+                        }
+                    });
+                    var today = new Date();
+                    var dd = String(today.getDate()).padStart(2, '0');
+                    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                    var yyyy = today.getFullYear();
 
+                    today = yyyy + '-' + mm + '-' + dd;
+                    document.getElementById("date-from").setAttribute("max", today);
+                    document.getElementById("date-to").setAttribute("max", today);
+                    document.getElementById("date-to").setAttribute("min", "");
+                }
+
+                function confirmDate() {
+                    var toDate = document.getElementById("date-to").value ? document.getElementById("date-to").value : new Date();
+                    try {
+                        toDate = new Date(toDate);
+                        var monthDate = new Date();
+                        monthDate.setDate(toDate.getDate() - 30); // Trừ đi 30 ngày
+                        var dd = String(toDate.getDate()).padStart(2, '0');
+                        var mm = String(toDate.getMonth() + 1).padStart(2, '0'); // Tháng trong JavaScript bắt đầu từ 0
+                        var yyyy = toDate.getFullYear();
+                        var currentDate = yyyy + '-' + mm + '-' + dd; // Định dạng YYYY-MM-DD
+                        toDate = currentDate;
+
+                        var dd = String(monthDate.getDate()).padStart(2, '0');
+                        var mm = String(monthDate.getMonth() + 1).padStart(2, '0'); // Tháng trong JavaScript bắt đầu từ 0
+                        var yyyy = monthDate.getFullYear();
+                        monthDate = yyyy + '-' + mm + '-' + dd; // Định dạng YYYY-MM-DD
+                    } catch (error) {
+                        console.error("Error parsing date:", error);
+                        // Handle the parsing error gracefully (e.g., set to today's date or provide a default value)
+                        //toDate = new Date();
+                    }
+                    var fromDate = document.getElementById("date-from").value ? document.getElementById("date-from").value : monthDate;
+                    console.log(fromDate);
+                    console.log(toDate);
                     // Gửi yêu cầu HTTP đến API với ngày "Từ" và "Đến" làm tham số
                     $.ajax({
                         url: '@Url.Action("GetALLDSPhieuBanHangByDate", "Ktscs")',
@@ -1047,7 +1140,6 @@
                             id: idSua
                         },
                         success: function (result) {
-                            console.log(result);
                             var editPage = document.getElementById("edit-page");
                             var modal = editPage.getElementsByClassName("buy-edit");
                             while (modal.length > 0) {
@@ -1056,8 +1148,6 @@
                             $("#edit-page").append(result);
                         }
                     });
-                    // Gọi hàm xử lý sửa dữ liệu với ID được truyền vào
-                    suaDuLieu(id);
                 });
 
                 $(document).on('click', '#xoa', function (e) {
@@ -1067,11 +1157,6 @@
                     // Gọi hàm xử lý xóa dữ liệu với ID được truyền vào
                     xoaDuLieu(id);
                 });
-
-                // Hàm xử lý sửa dữ liệu
-                function suaDuLieu(id) {
-
-                }
 
                 // Hàm xử lý xóa dữ liệu
                 function xoaDuLieu(id) {
