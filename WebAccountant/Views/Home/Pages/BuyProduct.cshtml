@@ -746,39 +746,42 @@
                        e.preventDefault();
                    }
                 }
-                function exportPDF(){
-                    var idKh = document.getElementById("input-makh").value;
+                function exportPDF() {
+                    var idKh = document.getElementById("input-makh").value ? document.getElementById("input-makh").value : alert("Hãy chọn khách hàng!");
                     var idHt = document.getElementById("ht").value;
-                    var idKt = document.getElementById("ct").value;
+                    var idKt = document.getElementById("ht").value;
                     var khs = [
                     ];
-                    
-                    for (let i = 0; i < madmItems.length; i++){
-                        var madmDTO = {
-                            Matk: madmItems[i].Matk,
-                            Madm: madmItems[i].Madm,
-                            Tendm: madmItems[i].Tendm,
-                            Donvi: madmItems[i].Donvi,
-                            Soluong: madmItems[i].Soluong,
-                            Dgban: madmItems[i].Dgban,
-                            TonTDv1: madmItems[i].TonTDv1,
+                    if (madmItems.length > 0) {
+                        for (let i = 0; i < madmItems.length; i++) {
+                            var madmDTO = {
+                                Matk: madmItems[i].Matk,
+                                Madm: madmItems[i].Madm,
+                                Tendm: madmItems[i].Tendm,
+                                Donvi: madmItems[i].Donvi,
+                                Soluong: madmItems[i].Soluong,
+                                Dgban: madmItems[i].Dgban,
+                                TonTDv1: madmItems[i].TonTDv1,
+                            }
+                            khs.push(madmDTO);
                         }
-                        khs.push(madmDTO);
-                    }
-                    var myKeyVals = {
-                        Makh: idKh,
-                        NgayCtu : idKt,
-                        NgayHToan: idHt,
-                        ktdmDTOs: khs,
-                    }
-                    $.ajax({
-                        url: '@Url.Action("SubmitCartToExport", "Ktdms")',
-                        type: 'POST',
-                        data: myKeyVals,
-                        success: function (result) {
-                            window.open("https://localhost:7278/InvoiceReport/HoaDon.pdf", "_blank");
+                        var myKeyVals = {
+                            Makh: idKh,
+                            NgayCtu: idKt,
+                            NgayHToan: idHt,
+                            ktdmDTOs: khs,
                         }
-                    });
+                        $.ajax({
+                            url: '@Url.Action("SubmitCartToExport", "Ktdms")',
+                            type: 'POST',
+                            data: myKeyVals,
+                            success: function (result) {
+                                window.open("https://localhost:7278/InvoiceReport/HoaDon.pdf", "_blank");
+                            }
+                        });
+                    } else {
+                        alert("Hãy chọn 1 mặt hàng!");
+                    }
                 }
                 
                 function error(error) {
