@@ -180,6 +180,7 @@ namespace WebAccountant.Repository.Implement
                                     column.ConstantColumn(75);
                                     column.ConstantColumn(75);
                                     column.RelativeColumn();
+                                    column.RelativeColumn();
                                 });
                                 t.Header(header =>
                                 {
@@ -200,7 +201,7 @@ namespace WebAccountant.Repository.Implement
                                     t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text(i.TongTien.ToString()).FontFamily(Fonts.TimesNewRoman);
                                     t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text(i.TenKh.ToString()).FontFamily(Fonts.TimesNewRoman);
                                     t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text((i.Diachi).ToString()).FontFamily(Fonts.TimesNewRoman);
-                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text((i.GhiChu).ToString()).FontFamily(Fonts.TimesNewRoman);
+                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text(("").ToString()).FontFamily(Fonts.TimesNewRoman);
                                     x++;
                                 }
                                 t.Cell().ColumnSpan(5).AlignLeft().PaddingLeft(10).Text("Tổng cộng: ").FontSize(20).FontFamily(Fonts.TimesNewRoman);
@@ -270,6 +271,7 @@ namespace WebAccountant.Repository.Implement
                                     column.ConstantColumn(75);
                                     column.ConstantColumn(75);
                                     column.RelativeColumn();
+                                    column.RelativeColumn();
                                 });
                                 t.Header(header =>
                                 {
@@ -290,7 +292,7 @@ namespace WebAccountant.Repository.Implement
                                     t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text(i.TongTien.ToString()).FontFamily(Fonts.TimesNewRoman);
                                     t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text(i.TenKh.ToString()).FontFamily(Fonts.TimesNewRoman);
                                     t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text((i.Diachi).ToString()).FontFamily(Fonts.TimesNewRoman);
-                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text((i.GhiChu).ToString()).FontFamily(Fonts.TimesNewRoman);
+                                    t.Cell().Border(1).Padding(5).ExtendHorizontal().AlignCenter().AlignMiddle().Text("").FontFamily(Fonts.TimesNewRoman);
                                     x++;
                                 }
                                 t.Cell().ColumnSpan(5).AlignLeft().PaddingLeft(10).Text("Tổng cộng: ").FontSize(20).FontFamily(Fonts.TimesNewRoman);

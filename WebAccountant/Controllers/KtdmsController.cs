@@ -89,12 +89,14 @@ namespace WebAccountant.Controllers
         [HttpPost]
         public async Task<IActionResult> SubmitCartToExportPhieuBanHang(IEnumerable<PhieuBanHangDTO> items)
         {
+            items = JsonConvert.DeserializeObject<IEnumerable<PhieuBanHangDTO>>(Request.Form.Keys.FirstOrDefault().ToString());
             var pathValue = await _ktdmRepo.ExportPDFPhieuBanHang(items);
             return Json(pathValue);
         }
         [HttpPost]
         public async Task<IActionResult> SubmitCartToExportPhieuMuaHang(IEnumerable<PhieuMuaHangDTO> items)
         {
+            items = JsonConvert.DeserializeObject<IEnumerable<PhieuMuaHangDTO>>(Request.Form.Keys.FirstOrDefault().ToString());
             var pathValue = await _ktdmRepo.ExportPDFPhieuMuaHang(items);
             return Json(pathValue);
         }

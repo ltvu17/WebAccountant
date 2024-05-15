@@ -12,5 +12,6 @@ namespace WebAccountant.Repository
         public Task<bool> UpdateDetailPhieuBanHang(FormBanHangDTO item);
         public Task<bool> UpdateDetailPhieuMuaHang(AddToKTSCDTO item);
         public Task<bool> DeletePhieuBanHang(int id);
+        public Task<bool> DeletePhieuMuaHang(int id);
     }
 }

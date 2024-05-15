@@ -189,6 +189,12 @@ namespace WebAccountant.Controllers
         {
             await _ktscRepo.DeletePhieuBanHang(id);
         }
+        [HttpDelete]
+        public async Task DeletePhieuMuaHang(int id)
+        {
+            await _ktscRepo.DeletePhieuMuaHang(id);
+        }
+
         private string GetFullErrorMessage(ModelStateDictionary modelState) {
             var messages = new List<string>();
 
