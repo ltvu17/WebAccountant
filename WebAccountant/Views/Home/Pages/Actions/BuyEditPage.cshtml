@@ -7,7 +7,7 @@
     var eindex = 0;
 }
 <div class="buy-edit">
-    <div class="header-buy-edit d-flex justify-content-between">
+    <div id="e-head" class="header-buy-edit d-flex justify-content-between">
         <div>Sửa đơn mua</div>
         <div>
             <button type="button" class="btn-close" onclick="closeEdit()"></button>
@@ -18,7 +18,7 @@
             <div class="row kh-info t-s-12">
                 <div class="col-2">
                     <div class="mb-3 text-start">
-                        <label for="makh" class="col-form-label">Mã khách hàng:</label>
+                        <label for="ip-makh" class="col-form-label">Mã khách hàng:</label>
                         <input type="text" class="form-control input-sugg height-30" id="ip-makh"
                                autofocus="autofocus"
                                autocomplete="off"
@@ -52,7 +52,7 @@
                     </div>
                 </div>
             </div>
-            <div>
+            <div class="body-tb">
                 <div class="list-dm">
                     @*List product *@
                     <table id="edit-dm" class="table-text">
@@ -114,7 +114,7 @@
                         }
                     </table>
                 </div>
-                <div class="buttons d-flex justify-content-between mar-15">
+                <div class="e-footer buttons d-flex justify-content-between mar-15">
                     <button class="btn btn-success t-s-12 height-30" id="addDm" onclick="moreItem()" type="button">Thêm danh mục</button>
                     <button class="btn btn-primary t-s-12 height-30" id="saveEdit" type="submit">Lưu đơn mua</button>
                 </div>
@@ -123,6 +123,15 @@
     </form>
 </div>
 <script>
+    maxWidth();
+    window.addEventListener('resize', function () {
+        maxWidth();
+    });
+    function maxWidth() {
+        var title = document.getElementById("e-head");
+        $('#edit-dm').css('max-width', title.offsetWidth + 'px');
+    }
+
     var eecount = @ecount;
     var eeindex = @eindex;
     var eexist = [];
@@ -225,6 +234,10 @@
                 hide_sugg("edit-sugg-" + eexist[i]);
                 break;
             }
+        }
+        var khcon = document.getElementById("makh-sugg");
+        if (!khcon.contains(event.target) && !khcon.classList.contains("d-none")) {
+            hide_sugg("makh-sugg");
         }
     });
     function lamTronEdit(rowIndex) {

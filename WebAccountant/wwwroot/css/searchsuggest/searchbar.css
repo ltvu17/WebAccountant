@@ -12,17 +12,17 @@
     }
 
 .table-container table{
-    background-color: white;
     max-height: 200px;
     display: block;
     overflow-y: auto;
 }
 .sugg-container {
-    z-index:7;
+    z-index:100;
     border-bottom: 2px solid gray;
     position: absolute;
     overflow: auto;
     transition: .2s ease-out;
+    background-color: rgb(235, 235, 235)
 }
     .sugg-container tr{
         height: 30px;
