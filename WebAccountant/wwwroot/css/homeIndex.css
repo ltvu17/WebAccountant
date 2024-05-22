@@ -1,4 +1,6 @@
-﻿
+﻿html, body{
+    height:90vh;
+}
 .nav-main {
     position: fixed;
     top: 0;
@@ -18,7 +20,7 @@
         width: 100%;
     }
 .home-container {
-    height: 660px;
+    height: 90vh;
     width:100%;
     display:flex;
     justify-content: space-between;
@@ -151,6 +153,7 @@
 }
 .table-data {
     height: 100%;
+    
 }
     .table-data table {
         display: block;
@@ -231,7 +234,7 @@
 .footer-data {
     display: block;
     border-top: 1px solid #ddd;
-    background-color: rgb(128, 128, 128, 0.1);
+    /*background-color: rgb(128, 128, 128, 0.1);*/
 }
 .e-footer {
     display: block;
