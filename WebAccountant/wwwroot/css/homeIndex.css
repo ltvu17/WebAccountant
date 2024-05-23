@@ -158,7 +158,7 @@
     .table-data table {
         display: block;
         overflow-y: auto;
-        max-height: 550px;
+        max-height: 530px;
     }
     .table-data td {
         font-size: 14px !important;

@@ -44,9 +44,6 @@
                         </div>
                     </div>
                     <div class="width-80">
-                        <button class="btn btn-success height-30 t-s-13 width-80" id="themBtn" onclick="orderOut()" type="button">
-                            Thêm
-                        </button>
                         <button class="btn btn-primary height-30 t-s-13 width-80 d-none" id="backBtn" onclick="backList()" type="button">
                             Quay lại
                         </button>
@@ -76,8 +73,22 @@
                             <td colspan="14" class="text-center" style="height:200px">Data đang được tải lên...</td>
                         </tr>
                     </table>
+                    
                 </div>
+                <table class="table-text">
+                    <tr class="height-30">
+                        <td class="t-s-13 weight-700">Tổng số lượng</td>
+                        <td class="t-s-13 width-200 text-end" id="tong-sl">0</td>
+                        <td class="t-s-13 weight-700">Tổng tiền chiết khấu</td>
+                        <td class="t-s-13 width-200 text-end" id="tong-ck">0</td>
+                        <td class="t-s-13 weight-700">Tổng tiền thuế</td>
+                        <td class="t-s-13 width-200 text-end" id="tong-thue">0</td>
+                        <td class="t-s-13 weight-700">Tổng tiền</td>
+                        <td class="t-s-13 width-200 text-end" id="tong-thanh-tien">0</td>
+                    </tr>
+                </table>
                 <div class="footer-data d-flex justify-content-start">
+                    <button class="btn btn-primary width-100" id="themBtn" onclick="orderOut()" type="button">Thêm</button>
                     <button class="btn btn-primary width-100" type="button" onclick="edit()">Sửa</button>
                     <button class="btn btn-primary width-100" type="button" onclick="xoaOrder()">Xóa</button>
                     <button class="btn btn-primary width-100" type="button" onclick="inOrder()">In</button>
@@ -286,10 +297,6 @@
 
                         </div>
                     </div>
-                    @*Bonus content*@
-                    @* <div class="mua-form">
-
-                    </div> *@
                 </div>
                 <div class="bottom-content">
                     <div class="table-data2">
@@ -1097,8 +1104,9 @@
                                 let ii = i + 1;
                                 var date = new Date(fil[i].NgayCtu);
                                 var dateString = date.toISOString().split('T')[0];
+                                var formatDate = dateString.split('-')[2] + '-' + dateString.split('-')[1] + '-' + dateString.split('-')[0];
                                 document.getElementById("ip-id-" + ii).value = fil[i].id ? fil[i].id : "";
-                                document.getElementById("ngayct-" + ii).textContent = fil[i].NgayCtu ? dateString : "";
+                                document.getElementById("ngayct-" + ii).textContent = fil[i].NgayCtu ? formatDate : "";
                                 document.getElementById("soct-" + ii).textContent = fil[i].Soctu ? fil[i].Soctu : "";
                                 document.getElementById("httt-" + ii).textContent = fil[i].HTThanhToan ? fil[i].HTThanhToan : "";
                                 document.getElementById("thanhtien-" + ii).textContent = fil[i].ThanhTien ? formatFromNumber(fil[i].ThanhTien) : "";
@@ -1188,8 +1196,9 @@
                                 let ii = i + 1;
                                 var date = new Date(fil[i].NgayCtu);
                                 var dateString = date.toISOString().split('T')[0];
+                                var formatDate = dateString.split('-')[2] + '-' + dateString.split('-')[1] + '-' + dateString.split('-')[0];
                                 document.getElementById("ip-id-" + ii).value = fil[i].id ? fil[i].id : "";
-                                document.getElementById("ngayct-" + ii).textContent = fil[i].NgayCtu ? dateString : "";
+                                document.getElementById("ngayct-" + ii).textContent = fil[i].NgayCtu ? formatDate : "";
                                 document.getElementById("soct-" + ii).textContent = fil[i].Soctu ? fil[i].Soctu : "";
                                 document.getElementById("httt-" + ii).textContent = fil[i].HTThanhToan ? fil[i].HTThanhToan : "";
                                 document.getElementById("thanhtien-" + ii).textContent = fil[i].ThanhTien ? formatFromNumber(fil[i].ThanhTien) : "";
