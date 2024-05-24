@@ -63,9 +63,9 @@
                             <td>Tổng tiền</td>
                             <td>Khtratien</td>
                             <td>Mã khách hàng</td>
-                            <td>Tên khách hàng</td>
+                            <td class="width-200">Tên khách hàng</td>
                             <td>Mã số thuế</td>
-                            <td>Địa chỉ</td>
+                            <td class="width-200">Địa chỉ</td>
                             <td>Ghi chú</td>
                             <td>Nhân viên bán</td>
                         </tr>
@@ -1120,24 +1120,28 @@
                             }
                             for (let i = 0; i < size; i++) {
                                 let ii = i + 1;
-                                var date = new Date(fil[i].NgayCtu);
-                                var dateString = date.toISOString().split('T')[0];
-                                var formatDate = dateString.split('-')[2] + '-' + dateString.split('-')[1] + '-' + dateString.split('-')[0];
-                                document.getElementById("ip-id-" + ii).value = fil[i].id ? fil[i].id : "";
-                                document.getElementById("ngayct-" + ii).textContent = fil[i].NgayCtu ? formatDate : "";
-                                document.getElementById("soct-" + ii).textContent = fil[i].Soctu ? fil[i].Soctu : "";
-                                document.getElementById("httt-" + ii).textContent = fil[i].HTThanhToan ? fil[i].HTThanhToan : "";
-                                document.getElementById("thanhtien-" + ii).textContent = fil[i].ThanhTien ? formatFromNumber(fil[i].ThanhTien) : "";
-                                document.getElementById("ckpt-" + ii).textContent = fil[i].ckPhanTram ? fil[i].ckPhanTram : "";
-                                document.getElementById("ckVnd-" + ii).textContent = fil[i].CkThanhTien ? formatFromNumber(fil[i].CkThanhTien) : "";
-                                document.getElementById("tongVnd-" + ii).textContent = fil[i].TongTien ? formatFromNumber(fil[i].TongTien) : "";
-                                document.getElementById("khtt-" + ii).textContent = fil[i].KhTraTien ? formatFromNumber(fil[i].KhTraTien) : "";
-                                document.getElementById("makh-" + ii).textContent = fil[i].MaKh ? fil[i].MaKh : "";
-                                document.getElementById("tenkh-" + ii).textContent = fil[i].TenKh ? fil[i].TenKh : "";
-                                document.getElementById("msthue-" + ii).textContent = fil[i].MsThue ? fil[i].MsThue : "";
-                                document.getElementById("dc-" + ii).textContent = fil[i].Diachi ? fil[i].Diachi : "";
-                                document.getElementById("gc-" + ii).textContent = fil[i].GhiChu ? fil[i].GhiChu : "";
-                                document.getElementById("nvban-" + ii).textContent = fil[i].NhanVienBan ? fil[i].NhanVienBan : "";
+                                if (i < fil.length) { 
+                                    var date = new Date(fil[i].NgayCtu);
+                                    var dateString = date.toISOString().split('T')[0];
+                                    var formatDate = dateString.split('-')[2] + '-' + dateString.split('-')[1] + '-' + dateString.split('-')[0];
+                                    if (fil[i].id != null) {
+                                        document.getElementById("ip-id-" + ii).value = fil[i].id;
+                                    } else document.getElementById("ip-id-" + ii).value = "";
+                                    document.getElementById("ngayct-" + ii).textContent = fil[i].NgayCtu ? formatDate : "";
+                                    document.getElementById("soct-" + ii).textContent = fil[i].Soctu ? fil[i].Soctu : "";
+                                    document.getElementById("httt-" + ii).textContent = fil[i].HTThanhToan ? fil[i].HTThanhToan : "";
+                                    document.getElementById("thanhtien-" + ii).textContent = fil[i].ThanhTien ? formatFromNumber(fil[i].ThanhTien) : "";
+                                    document.getElementById("ckpt-" + ii).textContent = fil[i].ckPhanTram ? fil[i].ckPhanTram : "";
+                                    document.getElementById("ckVnd-" + ii).textContent = fil[i].CkThanhTien ? formatFromNumber(fil[i].CkThanhTien) : "";
+                                    document.getElementById("tongVnd-" + ii).textContent = fil[i].TongTien ? formatFromNumber(fil[i].TongTien) : "";
+                                    document.getElementById("khtt-" + ii).textContent = fil[i].KhTraTien ? formatFromNumber(fil[i].KhTraTien) : "";
+                                    document.getElementById("makh-" + ii).textContent = fil[i].MaKh ? fil[i].MaKh : "";
+                                    document.getElementById("tenkh-" + ii).textContent = fil[i].TenKh ? fil[i].TenKh : "";
+                                    document.getElementById("msthue-" + ii).textContent = fil[i].MsThue ? fil[i].MsThue : "";
+                                    document.getElementById("dc-" + ii).textContent = fil[i].Diachi ? fil[i].Diachi : "";
+                                    document.getElementById("gc-" + ii).textContent = fil[i].GhiChu ? fil[i].GhiChu : "";
+                                    document.getElementById("nvban-" + ii).textContent = fil[i].NhanVienBan ? fil[i].NhanVienBan : "";
+                                }
                             }
                         }
                     });
@@ -1213,24 +1217,28 @@
                             }
                             for (let i = 0; i < size; i++) {
                                 let ii = i + 1;
-                                var date = new Date(fil[i].NgayCtu);
-                                var dateString = date.toISOString().split('T')[0];
-                                var formatDate = dateString.split('-')[2] + '-' + dateString.split('-')[1] + '-' + dateString.split('-')[0];
-                                document.getElementById("ip-id-" + ii).value = fil[i].id ? fil[i].id : "";
-                                document.getElementById("ngayct-" + ii).textContent = fil[i].NgayCtu ? formatDate : "";
-                                document.getElementById("soct-" + ii).textContent = fil[i].Soctu ? fil[i].Soctu : "";
-                                document.getElementById("httt-" + ii).textContent = fil[i].HTThanhToan ? fil[i].HTThanhToan : "";
-                                document.getElementById("thanhtien-" + ii).textContent = fil[i].ThanhTien ? formatFromNumber(fil[i].ThanhTien) : "";
-                                document.getElementById("ckpt-" + ii).textContent = fil[i].ckPhanTram ? fil[i].ckPhanTram : "";
-                                document.getElementById("ckVnd-" + ii).textContent = fil[i].CkThanhTien ? formatFromNumber(fil[i].CkThanhTien) : "";
-                                document.getElementById("tongVnd-" + ii).textContent = fil[i].TongTien ? formatFromNumber(fil[i].TongTien) : "";
-                                document.getElementById("khtt-" + ii).textContent = fil[i].KhTraTien ? formatFromNumber(fil[i].KhTraTien) : "";
-                                document.getElementById("makh-" + ii).textContent = fil[i].MaKh ? fil[i].MaKh : "";
-                                document.getElementById("tenkh-" + ii).textContent = fil[i].TenKh ? fil[i].TenKh : "";
-                                document.getElementById("msthue-" + ii).textContent = fil[i].MsThue ? fil[i].MsThue : "";
-                                document.getElementById("dc-" + ii).textContent = fil[i].Diachi ? fil[i].Diachi : "";
-                                document.getElementById("gc-" + ii).textContent = fil[i].GhiChu ? fil[i].GhiChu : "";
-                                document.getElementById("nvban-" + ii).textContent = fil[i].NhanVienBan ? fil[i].NhanVienBan : "";
+                                if (i < fil.length) {
+                                    var date = new Date(fil[i].NgayCtu);
+                                    var dateString = date.toISOString().split('T')[0];
+                                    var formatDate = dateString.split('-')[2] + '-' + dateString.split('-')[1] + '-' + dateString.split('-')[0];
+                                    if (fil[i].id != null) {
+                                        document.getElementById("ip-id-" + ii).value = fil[i].id;
+                                    } else document.getElementById("ip-id-" + ii).value = "";
+                                    document.getElementById("ngayct-" + ii).textContent = fil[i].NgayCtu ? formatDate : "";
+                                    document.getElementById("soct-" + ii).textContent = fil[i].Soctu ? fil[i].Soctu : "";
+                                    document.getElementById("httt-" + ii).textContent = fil[i].HTThanhToan ? fil[i].HTThanhToan : "";
+                                    document.getElementById("thanhtien-" + ii).textContent = fil[i].ThanhTien ? formatFromNumber(fil[i].ThanhTien) : "";
+                                    document.getElementById("ckpt-" + ii).textContent = fil[i].ckPhanTram ? fil[i].ckPhanTram : "";
+                                    document.getElementById("ckVnd-" + ii).textContent = fil[i].CkThanhTien ? formatFromNumber(fil[i].CkThanhTien) : "";
+                                    document.getElementById("tongVnd-" + ii).textContent = fil[i].TongTien ? formatFromNumber(fil[i].TongTien) : "";
+                                    document.getElementById("khtt-" + ii).textContent = fil[i].KhTraTien ? formatFromNumber(fil[i].KhTraTien) : "";
+                                    document.getElementById("makh-" + ii).textContent = fil[i].MaKh ? fil[i].MaKh : "";
+                                    document.getElementById("tenkh-" + ii).textContent = fil[i].TenKh ? fil[i].TenKh : "";
+                                    document.getElementById("msthue-" + ii).textContent = fil[i].MsThue ? fil[i].MsThue : "";
+                                    document.getElementById("dc-" + ii).textContent = fil[i].Diachi ? fil[i].Diachi : "";
+                                    document.getElementById("gc-" + ii).textContent = fil[i].GhiChu ? fil[i].GhiChu : "";
+                                    document.getElementById("nvban-" + ii).textContent = fil[i].NhanVienBan ? fil[i].NhanVienBan : "";
+                                }
                             }
                         }
                     });
@@ -1261,6 +1269,7 @@
                     e.preventDefault();
                     var id = $(this).data('tb');
                     var idSua = document.getElementById("ip-id-" + id.substring(2, 10)).value;
+                    console.log("dhsia:" + idSua);
                     document.getElementById("edit-page").classList.remove("d-none");
                     document.getElementById("edit-page").classList.add("d-relative");
                     if (idSua != "") {
