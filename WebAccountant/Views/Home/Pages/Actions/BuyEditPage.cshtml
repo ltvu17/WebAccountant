@@ -159,7 +159,9 @@
     });
     function maxWidth() {
         var title = document.getElementById("e-head");
-        $('#edit-dm').css('max-width', title.offsetWidth + 'px');
+        if (title != null) {
+            $('#edit-dm').css('max-width', title.offsetWidth + 'px');
+        }
     }
 
     var eecount = @ecount;
@@ -218,7 +220,6 @@
     var makhitem = []
     function makhChoose(item) {
         makhitem = JSON.parse(decodeURIComponent(item));
-        console.log(makhitem);
         hide_sugg("makh-sugg");
         // Gắn giá trị vào các thẻ <td>
         document.getElementById('ip-makh').value = JSON.parse(decodeURIComponent(item)).Madtpn;
@@ -260,14 +261,18 @@
         var start = @ecount;
         for (let i = start; i < eexist.length; i++) {
             var container = document.getElementById("edit-sugg-" + eexist[i]);
-            if (!container.contains(event.target) && !container.classList.contains("d-none")) {
-                hide_sugg("edit-sugg-" + eexist[i]);
-                break;
+            if (container != null) {
+                if (!container.contains(event.target) && !container.classList.contains("d-none")) {
+                    hide_sugg("edit-sugg-" + eexist[i]);
+                    break;
+                }
             }
         }
         var khcon = document.getElementById("makh-sugg");
-        if (!khcon.contains(event.target) && !khcon.classList.contains("d-none")) {
-            hide_sugg("makh-sugg");
+        if (khcon != null) {
+            if (!khcon.contains(event.target) && !khcon.classList.contains("d-none")) {
+                hide_sugg("makh-sugg");
+            }
         }
     });
     function lamTronEdit(rowIndex) {
@@ -277,10 +282,8 @@
         var ckVnd = tr.querySelector('#edit-ck-vnd-' + rowIndex).value;
         var thueVnd = tr.querySelector('#edit-thue-vnd-' + rowIndex).value;
         var thanhtien = parseFloat(sl).toFixed(0) * parseFloat(dgia).toFixed(0) - parseFloat(ckVnd).toFixed(0);
-        console.log("hi" + thanhtien);
         thanhtien = parseFloat(parseFloat(thanhtien).toFixed(0)) + parseFloat(parseFloat(thueVnd).toFixed(0));
         tr.querySelector('#edit-thanhtien-' + rowIndex).value = parseFloat(thanhtien).toFixed(0);
-        console.log(madmItems);
         countTotalEdit();
         loadMoney();
     }
@@ -297,7 +300,6 @@
                 editItems[i].PtChietKhau = parseInt(ck);
                 editItems[i].PtThue = parseInt(thue);
                 var ckVnd = sl * dgia * ck / 100;
-                console.log("vndck:" + ckVnd);
                 tr.querySelector('#edit-ck-vnd-' + rowIndex).value = parseFloat(ckVnd).toFixed(0);
                 var thueVnd = sl * (dgia * (1 - ck / 100)) * thue / 100;
                 tr.querySelector('#edit-thue-vnd-' + rowIndex).value = parseFloat(thueVnd).toFixed(0);
@@ -307,7 +309,6 @@
                 break;
             }
         }
-        console.log(editItems);
         setNumToTextEdit(rowIndex);
         countTotalEdit();
         loadMoney();
@@ -398,7 +399,6 @@
         }
     }
     function chooseItem(id, item) {
-        console.log("eidcho:" + id);
         hide_sugg("edit-sugg-" + id[2]);
         var addItem = JSON.parse(decodeURIComponent(item));
         var madmDTO = {
@@ -429,7 +429,6 @@
             editItems[index] = madmDTO;
         }
         var numId = id[2];
-        console.log(editItems)
         // Lấy thẻ <tr> có id là "tr1"
         var tr = document.getElementById(id);
         // Gắn giá trị vào các thẻ <td>
@@ -462,7 +461,6 @@
             var numId = eexist[i];
             tongtien = tongtien + parseInt(document.getElementById("edit-thanhtien-" + numId).value);
         }
-        console.log("tongtienne:" + tongtien);
         //document.getElementById("tongtien").textContent = tongtien;
     }
     function lessItem(id) {
@@ -476,7 +474,6 @@
             for (let i = 0; i < editItems.length; i++) {
                 if (editItems[i].eId == id[2]) {
                     editItems.splice(i, 1);
-                    console.log("xoa:" + editItems);
                 }
             }
             tr.remove();
@@ -485,7 +482,6 @@
             for (let i = 1; i <= eeindex; i++) {
                 idList.push(i);
             }
-            console.log(idList);
             var tdList = document.getElementsByClassName("td-eindex");
             for (let i = 0; i < tdList.length; i++) {
                 tdList[i].textContent = idList[i];
@@ -512,7 +508,6 @@
     }
     function setTextToNumEdit(id) {
         document.getElementById("edit-dongia-" + id).value = convertNumToText(document.getElementById("e-dongia-" + id).value);
-        console.log(document.getElementById("edit-dongia-" + id).value + "hia");
         document.getElementById("edit-soluong-" + id).value = convertNumToText(document.getElementById("e-soluong-" + id).value);
         document.getElementById("edit-ck-" + id).value = convertNumToText(document.getElementById("e-ck-" + id).value);
         document.getElementById("edit-ck-vnd-" + id).value = convertNumToText(document.getElementById("e-ck-vnd-" + id).value);
