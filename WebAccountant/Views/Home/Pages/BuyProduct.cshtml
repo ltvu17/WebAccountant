@@ -44,9 +44,6 @@
                         </div>
                     </div>
                     <div>
-                        <button class="btn btn-success height-30 t-s-13 width-80" id="themBtn" onclick="orderOut()" type="button">
-                            Thêm
-                        </button>
                         <button class="btn btn-primary height-30 t-s-13 width-80 d-none" id="backBtn" onclick="backList()" type="button">
                             Quay lại
                         </button>
@@ -66,9 +63,9 @@
                             <td>Tổng tiền</td>
                             <td>Khtratien</td>
                             <td>Mã khách hàng</td>
-                            <td>Tên khách hàng</td>
+                            <td class="width-200">Tên khách hàng</td>
                             <td>Mã số thuế</td>
-                            <td>Địa chỉ</td>
+                            <td class="width-200">Địa chỉ</td>
                             <td>Ghi chú</td>
                             <td>Nhân viên bán</td>
                         </tr>
@@ -77,7 +74,18 @@
                         </tr>
                     </table>
                 </div>
+                <table id="table-tong" class="table-text">
+                    <tr class="height-30">
+                        <td class="t-s-13 weight-700 width-150">Tổng số tiền</td>
+                        <td class="t-s-13 width-200 text-end" style="padding-right:10px" id="tong-data-st">0</td>
+                        <td class="t-s-13 weight-700 width-150">Tổng tiền chiết khấu</td>
+                        <td class="t-s-13 width-200 text-end" style="padding-right:10px" id="tong-data-ck">0</td>
+                        <td class="t-s-13 weight-700 width-150">Tổng thành tiền</td>
+                        <td class="t-s-13 width-200 text-end" style="padding-right:10px" id="tong-data-thanhtien">0</td>
+                    </tr>
+                </table>
                 <div class="footer-data d-flex justify-content-start">
+                    <button class="btn btn-primary width-100" id="themBtn" onclick="orderOut()" type="button">Thêm</button>
                     <button class="btn btn-primary width-100" type="button" onclick="edit()">Sửa</button>
                     <button class="btn btn-primary width-100" type="button" onclick="xoaOrder()">Xóa</button>
                     <button class="btn btn-primary width-100" type="button" onclick="inOrder()">In</button>
@@ -364,19 +372,19 @@
                                 <td class="t-center"><a onClick="xoaDm('tr1')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
                             </tr>
                         </table>
-                        <table class="table-text">
-                            <tr class="height-30">
-                                <td class="t-s-13 weight-700">Tổng số lượng</td>
-                                <td class="t-s-13 width-200 text-end" id="tong-sl">0</td>
-                                <td class="t-s-13 weight-700">Tổng tiền chiết khấu</td>
-                                <td class="t-s-13 width-200 text-end" id="tong-ck">0</td>
-                                <td class="t-s-13 weight-700">Tổng tiền thuế</td>
-                                <td class="t-s-13 width-200 text-end" id="tong-thue">0</td>
-                                <td class="t-s-13 weight-700">Tổng tiền</td>
-                                <td class="t-s-13 width-200 text-end" id="tong-thanh-tien">0</td>
-                            </tr>
-                        </table>
                     </div>
+                    <table class="table-text" id="tong-phieu">
+                        <tr class="height-30">
+                            <td class="t-s-13 weight-700">Tổng số lượng</td>
+                            <td class="t-s-13 width-200 text-end" id="tong-sl">0</td>
+                            <td class="t-s-13 weight-700">Tổng tiền chiết khấu</td>
+                            <td class="t-s-13 width-200 text-end" id="tong-ck">0</td>
+                            <td class="t-s-13 weight-700">Tổng tiền thuế</td>
+                            <td class="t-s-13 width-200 text-end" id="tong-thue">0</td>
+                            <td class="t-s-13 weight-700">Tổng tiền</td>
+                            <td class="t-s-13 width-200 text-end" id="tong-thanh-tien">0</td>
+                        </tr>
+                    </table>
                     <div class="footer-data2 buttons d-flex justify-content-between mar-5">
                         <div>
                             <button class="btn btn-success t-s-12 height-30" id="addDm" onclick="themDm()" type="button">Thêm mặt hàng</button>
@@ -402,6 +410,20 @@
                 let isCkChung = false;
 
                 ////FUNCTION///////////////////////////////
+                function tongData() {
+                    var tst = 0, tck = 0, tthanhtien = 0;
+                    for (let i = 0; i < fil.length; i++) {
+                        tst += parseInt(fil[i].TongTien);
+                        tck += parseInt(fil[i].CkThanhTien);
+                        tthanhtien += parseInt(fil[i].ThanhTien);
+                    }
+                    document.getElementById("tong-data-st").textContent = formatFromNumber(tst);
+                    document.getElementById("tong-data-ck").textContent = formatFromNumber(tck);
+                    document.getElementById("tong-data-thanhtien").textContent = formatFromNumber(tthanhtien);
+                }
+
+
+
                 function getDataGridInstance() {
                     let element = $("#grid-container");
                     return DevExpress.ui.dxDataGrid.getInstance(element);
@@ -870,26 +892,23 @@
                     } else if (tr.length == 1) {
                         var grid = document.getElementById("data-tb");
                         var row = grid.getElementsByClassName("tr-atv")[0];
-                        var id = document.getElementById("ip-id-" + row.id[2]).value;
-
+                        var id = document.getElementById("ip-id-" + row.id.substring(2, 10)).value;
                         document.getElementById("edit-page").classList.remove("d-none");
-                                    document.getElementById("edit-page").classList.add("d-relative");
-                                    $.ajax({
-                                        url: '@Url.Action("GetDetailPhieuMuaHang", "Ktscs")',
-                                        type: 'GET',
-                                        data: {
-                                            id: id
-                                        },
-                                        success: function (result) {
-                                            var editPage = document.getElementById("edit-page");
-                                            var modal = editPage.getElementsByClassName("buy-edit");
-                                            while (modal.length > 0) {
-                                                modal[0].parentNode.removeChild(modal[0]);
-                                            }
-                                            $("#edit-page").append(result);
-                                        }
-                                    });
-                  
+                        document.getElementById("edit-page").classList.add("d-relative");
+                        if (id != "") {
+                            $.ajax({
+                                url: '@Url.Action("GetDetailPhieuMuaHang", "Ktscs")',
+                                type: 'GET',
+                                data: {
+                                    id: id
+                                },
+                                success: function (result) {
+                                    $("#edit-page").append(result);
+                                }
+                            });
+                        } else {
+                            alert("Hãy chọn hàng có dữ liệu muốn sửa!");
+                        }
                     } else {
                         alert("Chỉ ấn vào 1 đơn bạn muốn sửa!");
                     }
@@ -897,7 +916,11 @@
                 function closeEdit(){
                     document.getElementById("edit-page").classList.add("d-none");
                     document.getElementById("edit-page").classList.remove("d-relative");
-                    //location.reload();
+                    var editPage = document.getElementById("edit-page");
+                    var modal = editPage.getElementsByClassName("buy-edit");
+                    while (modal.length > 0) {
+                        modal[0].parentNode.removeChild(modal[0]);
+                    }
                 }
 
                 function backList() {
@@ -932,18 +955,22 @@
                         alert("Hãy ấn vào đơn bạn muốn xóa!");
                     } else if (tr.length == 1) {
                         var idTr = tr[0].id;
-                        var idXoa = document.getElementById("ip-id-" + idTr[2]).value;
-                        $.ajax({
-                            url: '@Url.Action("DeletePhieuMuaHang", "Ktscs")',
-                            type: 'DELETE',
-                            data: {
-                                id: idXoa.toString()
-                            },
-                            success: function () {
-                                alert("Xóa thành công!");
-                                resetDate();
-                            }
-                        });
+                        var idXoa = document.getElementById("ip-id-" + idTr.substring(2, 10)).value;
+                        if (idXoa != "") {
+                            $.ajax({
+                                url: '@Url.Action("DeletePhieuMuaHang", "Ktscs")',
+                                type: 'DELETE',
+                                data: {
+                                    id: idXoa.toString()
+                                },
+                                success: function () {
+                                    alert("Xóa thành công!");
+                                    resetDate();
+                                }
+                            });
+                        } else {
+                            alert("Hãy chọn hàng có dữ liệu muốn xóa!");
+                        }
                     } else {
                         alert("Chỉ ấn vào 1 đơn bạn muốn xóa!");
                     }
@@ -990,6 +1017,8 @@
                 function maxWidthTb() {
                     var nav = document.getElementById("navne");
                     $('#data-tb').css('max-width', nav.offsetWidth + 'px');
+                    $('#table-tong').css('max-width', nav.offsetWidth + 'px');
+                    $('#tong-phieu').css('max-width', nav.offsetWidth + 'px');
                 }
                 resetDate();
                 function resetDate(){
@@ -1019,7 +1048,9 @@
                                 table.deleteRow(1); // Use deleteRow to remove specific rows
                             }
                             fil = response;
-                            for (let i = 1; i <= fil.length; i++) {
+                            var size = fil.length >= 15 ? fil.length : 15;
+                            tongData();
+                            for (let i = 1; i <= size; i++) {
                                 table.insertAdjacentHTML('beforeend', `
                                     <tr id="t-${i}"  onclick="tractive(this.id)">
                                         <td>
@@ -1042,25 +1073,30 @@
                                     </tr>
                                `);
                             }
-                            for (let i = 0; i < fil.length; i++) {
+                            for (let i = 0; i < size; i++) {
                                 let ii = i + 1;
-                                var date = new Date(fil[i].NgayCtu);
-                                var dateString = date.toISOString().split('T')[0];
-                                document.getElementById("ip-id-" + ii).value = fil[i].id ? fil[i].id : "";
-                                document.getElementById("ngayct-" + ii).textContent = fil[i].NgayCtu ? dateString : "";
-                                document.getElementById("soct-" + ii).textContent = fil[i].Soctu ? fil[i].Soctu : "";
-                                document.getElementById("httt-" + ii).textContent = fil[i].HTThanhToan ? fil[i].HTThanhToan : "";
-                                document.getElementById("thanhtien-" + ii).textContent = fil[i].ThanhTien ? formatFromNumber(fil[i].ThanhTien) : "";
-                                document.getElementById("ckpt-" + ii).textContent = fil[i].ckPhanTram ? fil[i].ckPhanTram : "";
-                                document.getElementById("ckVnd-" + ii).textContent = fil[i].CkThanhTien ? formatFromNumber(fil[i].CkThanhTien) : "";
-                                document.getElementById("tongVnd-" + ii).textContent = fil[i].TongTien ? formatFromNumber(fil[i].TongTien) : "";
-                                document.getElementById("khtt-" + ii).textContent = fil[i].KhTraTien ? formatFromNumber(fil[i].KhTraTien) : "";
-                                document.getElementById("makh-" + ii).textContent = fil[i].MaKh ? fil[i].MaKh : "";
-                                document.getElementById("tenkh-" + ii).textContent = fil[i].TenKh ? fil[i].TenKh : "";
-                                document.getElementById("msthue-" + ii).textContent = fil[i].MsThue ? fil[i].MsThue : "";
-                                document.getElementById("dc-" + ii).textContent = fil[i].Diachi ? fil[i].Diachi : "";
-                                document.getElementById("gc-" + ii).textContent = fil[i].GhiChu ? fil[i].GhiChu : "";
-                                document.getElementById("nvban-" + ii).textContent = fil[i].NhanVienBan ? fil[i].NhanVienBan : "";
+                                if (i < fil.length) {
+                                    var date = new Date(fil[i].NgayCtu);
+                                    var dateString = date.toISOString().split('T')[0];
+                                    var formatDate = dateString.split('-')[2] + '-' + dateString.split('-')[1] + '-' + dateString.split('-')[0];
+                                    if (fil[i].id != null) {
+                                        document.getElementById("ip-id-" + ii).value = fil[i].id;
+                                    } else document.getElementById("ip-id-" + ii).value = "";
+                                    document.getElementById("ngayct-" + ii).textContent = fil[i].NgayCtu ? formatDate : "";
+                                    document.getElementById("soct-" + ii).textContent = fil[i].Soctu ? fil[i].Soctu : "";
+                                    document.getElementById("httt-" + ii).textContent = fil[i].HTThanhToan ? fil[i].HTThanhToan : "";
+                                    document.getElementById("thanhtien-" + ii).textContent = fil[i].ThanhTien ? formatFromNumber(fil[i].ThanhTien) : "";
+                                    document.getElementById("ckpt-" + ii).textContent = fil[i].ckPhanTram ? fil[i].ckPhanTram : "";
+                                    document.getElementById("ckVnd-" + ii).textContent = fil[i].CkThanhTien ? formatFromNumber(fil[i].CkThanhTien) : "";
+                                    document.getElementById("tongVnd-" + ii).textContent = fil[i].TongTien ? formatFromNumber(fil[i].TongTien) : "";
+                                    document.getElementById("khtt-" + ii).textContent = fil[i].KhTraTien ? formatFromNumber(fil[i].KhTraTien) : "";
+                                    document.getElementById("makh-" + ii).textContent = fil[i].MaKh ? fil[i].MaKh : "";
+                                    document.getElementById("tenkh-" + ii).textContent = fil[i].TenKh ? fil[i].TenKh : "";
+                                    document.getElementById("msthue-" + ii).textContent = fil[i].MsThue ? fil[i].MsThue : "";
+                                    document.getElementById("dc-" + ii).textContent = fil[i].Diachi ? fil[i].Diachi : "";
+                                    document.getElementById("gc-" + ii).textContent = fil[i].GhiChu ? fil[i].GhiChu : "";
+                                    document.getElementById("nvban-" + ii).textContent = fil[i].NhanVienBan ? fil[i].NhanVienBan : "";
+                                }
                             }
                         }
                     });
@@ -1101,7 +1137,9 @@
                                 table.deleteRow(1); // Use deleteRow to remove specific rows
                             }
                             fil = response;
-                            for (let i = 1; i <= fil.length; i++) {
+                            var size = fil.length >= 15 ? fil.length : 15;
+                            tongData();
+                            for (let i = 1; i <= size; i++) {
                                 table.insertAdjacentHTML('beforeend', `
                                     <tr id="t-${i}"  onclick="tractive(this.id)">
                                         <td>
@@ -1124,25 +1162,30 @@
                                     </tr>
                                `);
                             }
-                            for (let i = 0; i < fil.length; i++) {
+                            for (let i = 0; i < size; i++) {
                                 let ii = i + 1;
-                                var date = new Date(fil[i].NgayCtu);
-                                var dateString = date.toISOString().split('T')[0];
-                                document.getElementById("ip-id-" + ii).value = fil[i].id ? fil[i].id : "";
-                                document.getElementById("ngayct-" + ii).textContent = fil[i].NgayCtu ? dateString : "";
-                                document.getElementById("soct-" + ii).textContent = fil[i].Soctu ? fil[i].Soctu : "";
-                                document.getElementById("httt-" + ii).textContent = fil[i].HTThanhToan ? fil[i].HTThanhToan : "";
-                                document.getElementById("thanhtien-" + ii).textContent = fil[i].ThanhTien ? formatFromNumber(fil[i].ThanhTien) : "";
-                                document.getElementById("ckpt-" + ii).textContent = fil[i].ckPhanTram ? fil[i].ckPhanTram : "";
-                                document.getElementById("ckVnd-" + ii).textContent = fil[i].CkThanhTien ? formatFromNumber(fil[i].CkThanhTien) : "";
-                                document.getElementById("tongVnd-" + ii).textContent = fil[i].TongTien ? formatFromNumber(fil[i].TongTien) : "";
-                                document.getElementById("khtt-" + ii).textContent = fil[i].KhTraTien ? formatFromNumber(fil[i].KhTraTien) : "";
-                                document.getElementById("makh-" + ii).textContent = fil[i].MaKh ? fil[i].MaKh : "";
-                                document.getElementById("tenkh-" + ii).textContent = fil[i].TenKh ? fil[i].TenKh : "";
-                                document.getElementById("msthue-" + ii).textContent = fil[i].MsThue ? fil[i].MsThue : "";
-                                document.getElementById("dc-" + ii).textContent = fil[i].Diachi ? fil[i].Diachi : "";
-                                document.getElementById("gc-" + ii).textContent = fil[i].GhiChu ? fil[i].GhiChu : "";
-                                document.getElementById("nvban-" + ii).textContent = fil[i].NhanVienBan ? fil[i].NhanVienBan : "";
+                                if (i < fil.length) {
+                                    var date = new Date(fil[i].NgayCtu);
+                                    var dateString = date.toISOString().split('T')[0];
+                                    var formatDate = dateString.split('-')[2] + '-' + dateString.split('-')[1] + '-' + dateString.split('-')[0];
+                                    if (fil[i].id != null) {
+                                        document.getElementById("ip-id-" + ii).value = fil[i].id;
+                                    } else document.getElementById("ip-id-" + ii).value = "";
+                                    document.getElementById("ngayct-" + ii).textContent = fil[i].NgayCtu ? formatDate : "";
+                                    document.getElementById("soct-" + ii).textContent = fil[i].Soctu ? fil[i].Soctu : "";
+                                    document.getElementById("httt-" + ii).textContent = fil[i].HTThanhToan ? fil[i].HTThanhToan : "";
+                                    document.getElementById("thanhtien-" + ii).textContent = fil[i].ThanhTien ? formatFromNumber(fil[i].ThanhTien) : "";
+                                    document.getElementById("ckpt-" + ii).textContent = fil[i].ckPhanTram ? fil[i].ckPhanTram : "";
+                                    document.getElementById("ckVnd-" + ii).textContent = fil[i].CkThanhTien ? formatFromNumber(fil[i].CkThanhTien) : "";
+                                    document.getElementById("tongVnd-" + ii).textContent = fil[i].TongTien ? formatFromNumber(fil[i].TongTien) : "";
+                                    document.getElementById("khtt-" + ii).textContent = fil[i].KhTraTien ? formatFromNumber(fil[i].KhTraTien) : "";
+                                    document.getElementById("makh-" + ii).textContent = fil[i].MaKh ? fil[i].MaKh : "";
+                                    document.getElementById("tenkh-" + ii).textContent = fil[i].TenKh ? fil[i].TenKh : "";
+                                    document.getElementById("msthue-" + ii).textContent = fil[i].MsThue ? fil[i].MsThue : "";
+                                    document.getElementById("dc-" + ii).textContent = fil[i].Diachi ? fil[i].Diachi : "";
+                                    document.getElementById("gc-" + ii).textContent = fil[i].GhiChu ? fil[i].GhiChu : "";
+                                    document.getElementById("nvban-" + ii).textContent = fil[i].NhanVienBan ? fil[i].NhanVienBan : "";
+                                }
                             }
                         }
                     });
@@ -1150,7 +1193,6 @@
                     var dd = String(today.getDate()).padStart(2, '0');
                     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
                     var yyyy = today.getFullYear();
-
                     today = yyyy + '-' + mm + '-' + dd;
                     document.getElementById("date-from").setAttribute("max", today);
                     document.getElementById("date-to").setAttribute("max", today);
@@ -1181,41 +1223,44 @@
                 $(document).on('click', '#sua', function (e) {
                     e.preventDefault();
                     var id = $(this).data('tb');
-                    var idSua = document.getElementById("ip-id-" + id[2]).value;
+                    var idSua = document.getElementById("ip-id-" + id.substring(2, 10)).value;
                     document.getElementById("edit-page").classList.remove("d-none");
                     document.getElementById("edit-page").classList.add("d-relative");
-                    $.ajax({
-                        url: '@Url.Action("GetDetailPhieuMuaHang", "Ktscs")',
-                        type: 'GET',
-                        data: {
-                            id: idSua
-                        },
-                        success: function (result) {
-                            var editPage = document.getElementById("edit-page");
-                            var modal = editPage.getElementsByClassName("buy-edit");
-                            while (modal.length > 0) {
-                                modal[0].parentNode.removeChild(modal[0]);
+                    if (idSua != "") {
+                        $.ajax({
+                            url: '@Url.Action("GetDetailPhieuMuaHang", "Ktscs")',
+                            type: 'GET',
+                            data: {
+                                id: idSua
+                            },
+                            success: function (result) {
+                                $("#edit-page").append(result);
                             }
-                            $("#edit-page").append(result);
-                        }
-                    });
+                        });
+                    } else {
+                        alert("Hãy chọn hàng có dữ liệu muốn sửa!");
+                    }
                 });
 
                 $(document).on('click', '#xoa', function (e) {
                     e.preventDefault();
                     var id = $(this).data('tb');
-                    var idXoa = document.getElementById("ip-id-" + id[2]).value;
-                    $.ajax({
-                        url: '@Url.Action("DeletePhieuMuaHang", "Ktscs")',
-                        type: 'DELETE',
-                        data: {
-                            id: idXoa
-                        },
-                        success: function () {
-                            alert("Xóa thành công!");
-                            resetDate();
-                        }
-                    });
+                    var idXoa = document.getElementById("ip-id-" + id.substring(2, 10)).value;
+                    if (idXoa != "") {
+                        $.ajax({
+                            url: '@Url.Action("DeletePhieuMuaHang", "Ktscs")',
+                            type: 'DELETE',
+                            data: {
+                                id: idXoa
+                            },
+                            success: function () {
+                                alert("Xóa thành công!");
+                                resetDate();
+                            }
+                        });
+                    } else {
+                        alert("Hãy chọn hàng có dữ liệu muốn xóa!");
+                    }
                 });
 
                 function fastDate() {
