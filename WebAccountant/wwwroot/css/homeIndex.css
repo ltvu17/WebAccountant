@@ -174,7 +174,6 @@
     border-bottom: 1px solid #ddd;
     border-right: 1px solid #ddd;
     border-top: 1px solid #ddd;
-    width: 100%;
 }
 
     #data-tb tr {
@@ -188,7 +187,6 @@
         display: block;
         overflow-y: auto;
         max-height: 300px;
-        width: 100%;
     }
 
     .table-data2 td {
@@ -221,7 +219,7 @@
         height: 32px;
     }
 #mua-data{
-    height: 530px;
+    height: 550px;
 }
 .tr-atv {
     background-color: rgb(92, 92, 92, 0.50);
@@ -245,12 +243,10 @@
 }
 .table-text {
     font-size: 14px;
-    width: 100%;
 }
     .table-text td {
         border: 1px solid #ddd;
         white-space: nowrap;
-        padding-left: 8px;
     }
     .table-text input {
         font-size: 12px;
