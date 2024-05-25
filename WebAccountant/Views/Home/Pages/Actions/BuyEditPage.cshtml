@@ -131,19 +131,19 @@
                             <span asp-validation-for="ktdmDTOs"></span>
                         }
                     </table>
-                    <table class="table-text">
-                        <tr class="height-30">
-                            <td class="t-s-13 weight-700">Tổng số lượng</td>
-                            <td class="t-s-13 width-200 text-end" id="etong-sl">0</td>
-                            <td class="t-s-13 weight-700">Tổng tiền chiết khấu</td>
-                            <td class="t-s-13 width-200 text-end" id="etong-ck">0</td>
-                            <td class="t-s-13 weight-700">Tổng tiền thuế</td>
-                            <td class="t-s-13 width-200 text-end" id="etong-thue">0</td>
-                            <td class="t-s-13 weight-700">Tổng tiền</td>
-                            <td class="t-s-13 width-200 text-end" id="etong-thanh-tien">0</td>
-                        </tr>
-                    </table>
                 </div>
+                <table class="table-text">
+                    <tr class="height-30">
+                        <td class="t-s-13 weight-700">Tổng số lượng</td>
+                        <td class="t-s-13 width-200 text-end" id="etong-sl" style="padding-right:10px">0</td>
+                        <td class="t-s-13 weight-700">Tổng tiền chiết khấu</td>
+                        <td class="t-s-13 width-200 text-end" id="etong-ck" style="padding-right:10px">0</td>
+                        <td class="t-s-13 weight-700">Tổng tiền thuế</td>
+                        <td class="t-s-13 width-200 text-end" id="etong-thue" style="padding-right:10px">0</td>
+                        <td class="t-s-13 weight-700">Tổng tiền</td>
+                        <td class="t-s-13 width-200 text-end" id="etong-thanh-tien" style="padding-right:10px">0</td>
+                    </tr>
+                </table>
                 <div class="e-footer buttons d-flex justify-content-between mar-15">
                     <button class="btn btn-success t-s-12 height-30" id="addDm" onclick="moreItem()" type="button">Thêm danh mục</button>
                     <button class="btn btn-primary t-s-12 height-30" id="saveEdit" type="submit">Lưu đơn mua</button>
@@ -353,30 +353,30 @@
                                                                     <td><div id="ed-donvi-${eecount}"></div>
                                                                     <input type="text" class="form-control" id="edit-donvi-${eecount}" name="ktdmDTOs[${eecount - 1}].Donvi" hidden readonly /></td>
                                                                     <td>
-                                                                        <input type="text" class="form-control" id="e-dongia-${eecount}" onchange="formatNumberEdit(this.id)"/>
+                                                                        <input type="text" class="form-control text-end" id="e-dongia-${eecount}" onchange="formatNumberEdit(this.id)"/>
                                                                         <input type="number" class="form-control" id="edit-dongia-${eecount}" name="ktdmDTOs[${eecount - 1}].Dgban" min="0" onchange="tienEdit(${eecount})" hidden/>
                                                                     </td>
                                                                     <td>
-                                                                        <input type="text" class="form-control" id="e-soluong-${eecount}" onchange="formatNumberEdit(this.id)" />
+                                                                        <input type="text" class="form-control text-end" id="e-soluong-${eecount}" onchange="formatNumberEdit(this.id)" />
                                                                         <input type="number" class="form-control" id="edit-soluong-${eecount}" name="ktdmDTOs[${eecount - 1}].Soluong" min="1" onchange="tienEdit(${eecount})" hidden />
                                                                     </td>
                                                                     <td>
-                                                                        <input type="text" class="form-control" id="e-ck-${eecount}" onchange="formatNumberEdit(this.id)" />
+                                                                        <input type="text" class="form-control text-end" id="e-ck-${eecount}" onchange="formatNumberEdit(this.id)" />
                                                                         <input type="number" class="form-control" id="edit-ck-${eecount}" name="ktdmDTOs[${eecount - 1}].PtChietKhau" min="0" max="100" onchange="tienEdit(${eecount})" hidden/>
                                                                     </td>
                                                                     <td>
-                                                                        <input type="text" class="form-control" id="e-ck-vnd-${eecount}" onchange="formatNumberEdit(this.id)"/>
+                                                                        <input type="text" class="form-control text-end" id="e-ck-vnd-${eecount}" onchange="formatNumberEdit(this.id)"/>
                                                                         <input type="number" class="form-control" id="edit-ck-vnd-${eecount}" min="0" onchange="lamTronEdit(${eecount-1})" hidden/>
                                                                     </td>
                                                                     <td>
-                                                                        <input type="text" class="form-control" id="e-thue-${eecount}" onchange="formatNumberEdit(this.id)"/>
+                                                                        <input type="text" class="form-control text-end" id="e-thue-${eecount}" onchange="formatNumberEdit(this.id)"/>
                                                                         <input type="number" class="form-control" id="edit-thue-${eecount}" name="ktdmDTOs[${eecount - 1}].PtThue" min="0" max="100" onchange="tienEdit(${eecount})" hidden/>
                                                                     </td>
                                                                     <td>
-                                                                        <input type="text" class="form-control" id="e-thue-vnd-${eecount}" onchange="formatNumberEdit(this.id)"/>
+                                                                        <input type="text" class="form-control text-end" id="e-thue-vnd-${eecount}" onchange="formatNumberEdit(this.id)"/>
                                                                         <input type="number" class="form-control" id="edit-thue-vnd-${eecount}" min="0" onchange="lamTronEdit(${eecount-1})" hidden/>
                                                                     </td>
-                                                                    <td><input type="text" class="form-control" id="edit-thanhtien-${eecount}" readonly/></td>
+                                                                    <td><input type="text" class="form-control text-end" id="edit-thanhtien-${eecount}" readonly/></td>
                                                                     <td class="t-center"><a onClick="lessItem('e-${eecount}')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
                                                                 </tr>
                             `);
