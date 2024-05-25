@@ -109,18 +109,21 @@
                             <div id="phieu-nhap" class="row">
                                 <div id="infor-phieu-nhap" class="col-9">
                                     <div class="row">
-                                        <div class="col-4 col-num-1 pb-3">
+                                        <div class="col-4 col-num-1">
                                             <div class=" text-start">
                                                 <label for="input-makh" class="col-form-label">Mã khách hàng:</label>
                                                 <div class="d-flex justify-content-between">
+                                                    <div class="width-pt-80">
                                                     <input type="text"
-                                                           class="form-control input-sugg width-pt-80"
+                                                           class="form-control input-sugg"
                                                            id="input-makh"
                                                            autofocus="autofocus"
                                                            autocomplete="off"
                                                            asp-for="Makh"
                                                            onkeyup="SearchNow('list-makh-sugg','input-makh','list-makh-sugg')" />
-                                                    <div class="height-30 width-30" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                    <span class="error-msg" asp-validation-for="Makh"></span>
+                                                    </div>
+                                                    <div class="width-20" style="height:100%" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                                         <svg class="add-kh" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="green" d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM200 344V280H136c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H248v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z" /></svg>
                                                     </div>
                                                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -230,7 +233,7 @@
                                                 <input type="text" class="form-control" id="tennvgh" readonly>
                                             </div>
                                         </div>
-                                        <div class="col-8 pb-3">
+                                        <div class="col-8">
                                             <div class=" text-start">
                                                 <label for="tenkh" class="col-form-label">Tên khách hàng:</label>
                                                 <input type="text" class="form-control" id="tenkh" readonly>
@@ -278,21 +281,27 @@
                             </div>
                         </div>
                         @*Tong tien*@
-                        <div class="col-4 bill d-flex flex-column">
-                            <div class="bill-title t-s-16">Hóa đơn</div>
-                            <div id="bill-list" class="bill-list d-flex flex-column">
-                                <div style="padding: 5px 0" class="bill-menu d-flex justify-content-between">
-                                    <div class="t-s-12">Tên danh mục</div>
-                                    <div class="t-s-12">Số lượng</div>
-                                </div>
-                                <div id="list-p" class="bill-content">
-                                </div>
+                        <div class="col-4 bill row">
+                            <div class="t-s-13">
+                                <table class="width-pt-100">
+                                    <tr>
+                                        <td class="weight-600">Tiền hàng</td>
+                                        <td class="text-end weight-600" id="tong-hang">0</td>
+                                    <tr />
+                                    <tr>
+                                        <td class="weight-600">Tiền thuế</td>
+                                        <td class="text-end weight-600" id="tong-thue">0</td>
+                                    <tr />
+                                    <tr style="border-bottom: 1px solid #ddd;">
+                                        <td class="weight-600">Tiền chiết khấu</td>
+                                        <td class="text-end weight-600" id="tong-ck">0</td>
+                                    <tr />
+                                    <tr>
+                                        <td class="weight-700 t-s-16">Tổng thanh toán</td>
+                                        <td class="text-end weight-700 t-s-18" id="tong-thanh-tien">0</td>
+                                    </tr>
+                                </table>
                             </div>
-                            <div class="so-tien d-flex justify-content-between mt-auto t-s-16">
-                                <div>Tổng tiền: </div>
-                                <div id="tongtien">0</div>
-                            </div>
-
                         </div>
                     </div>
                 </div>
@@ -359,7 +368,7 @@
                                 </td>
                                 <td>
                                     <input type="text" class="form-control text-end" id="ck-vnd-1" min="0" onchange="formatNumber(this.id)" />
-                                    <input type="number" class="form-control text-end" id="input-ck-vnd-1" asp-for="ktdmDTOs[0].ChietKhauThanhTien" min="0" onchange="lamTron(1)" hidden />
+                                    <input type="number" class="form-control text-end" id="input-ck-vnd-1" asp-for="ktdmDTOs[0].ChietKhauThanhTien" min="0" hidden />
                                 </td>
                                 <td>
                                     <input type="text" class="form-control text-end" id="thue-1" min="0" max="100" onchange="formatNumber(this.id)" />
@@ -367,7 +376,7 @@
                                 </td>
                                 <td>
                                     <input type="text" class="form-control text-end" id="thue-vnd-1" min="0" onchange="formatNumber(this.id)" />
-                                    <input type="number" class="form-control text-end" id="input-thue-vnd-1" asp-for="ktdmDTOs[0].ThueThanhTien" min="0" onchange="lamTron(1)" hidden />
+                                    <input type="number" class="form-control text-end" id="input-thue-vnd-1" asp-for="ktdmDTOs[0].ThueThanhTien" min="0" hidden />
                                 </td>
                                 <td>
                                     <input type="text" class="form-control" id="input-thanhtien-1" readonly />
@@ -377,18 +386,6 @@
                         
                     </table>
                     </div>
-                    <table class="table-text" id="tong-phieu">
-                        <tr class="height-30">
-                            <td class="t-s-13 weight-700">Tổng số lượng</td>
-                            <td class="t-s-13 width-200 text-end" id="tong-sl">0</td>
-                            <td class="t-s-13 weight-700">Tổng tiền chiết khấu</td>
-                            <td class="t-s-13 width-200 text-end" id="tong-ck">0</td>
-                            <td class="t-s-13 weight-700">Tổng tiền thuế</td>
-                            <td class="t-s-13 width-200 text-end" id="tong-thue">0</td>
-                            <td class="t-s-13 weight-700">Tổng tiền</td>
-                            <td class="t-s-13 width-200 text-end" id="tong-thanh-tien">0</td>
-                        </tr>
-                    </table>
                     <div class="footer-data2 buttons d-flex justify-content-between mar-5">
                         <div>
                             <button class="btn btn-success t-s-12 height-30" id="addDm" onclick="themDm()" type="button">Thêm mặt hàng</button>
@@ -606,30 +603,6 @@
                     countTotal();
                 }
                 function loadBill(){
-                    var listP = document.getElementById("list-p");
-                    var divs = listP.getElementsByClassName("pro");
-                    while (divs.length > 0) {
-                        divs[0].parentNode.removeChild(divs[0]);
-                    }
-                    var tongtien = 0;
-                    for (let i = 0; i < madmItems.length; i++) {
-                        var numId = exist[i];
-                        var name = madmItems[i].Tendm;
-                        if (madmItems[i].Soluong == 'NaN') madmItems[i].Soluong = 0;
-                        var num = madmItems[i].Soluong;
-                        listP.insertAdjacentHTML('beforeend', `
-                                             <div id="p${numId}" class="pro d-flex justify-content-between">
-                                                        <div id="name${numId}" class="bill-product-name">
-                                                        ${name}
-                                                        </div>
-                                                        <div id="nber${numId}" class="bill-product-number">
-                                                        ${num}
-                                                        </div>
-                                             </div>
-                        `);
-                        tongtien = tongtien + parseInt(convertNumToText(document.getElementById("input-thanhtien-" + numId).value));
-                    }
-                    document.getElementById("tongtien").textContent = formatFromNumber(tongtien);
                 }
                 var makh = [
                     {
@@ -1373,14 +1346,14 @@
                 }
 
                 function countTotal() {
-                    var tsl = 0, tck = 0, tthue = 0, tthanhtien = 0;
+                    var tth = 0, tck = 0, tthue = 0, tthanhtien = 0;
                     for (let i = 0; i < exist.length; i++) {
-                        tsl += parseInt(document.getElementById("input-soluong-" + exist[i]).value);
+                        tth += parseInt(document.getElementById("input-soluong-" + exist[i]).value) * parseInt(document.getElementById("input-dongia-" + exist[i]).value);
                         tck += parseInt(document.getElementById("input-ck-vnd-" + exist[i]).value);
                         tthue += parseInt(document.getElementById("input-thue-vnd-" + exist[i]).value);
                         tthanhtien += parseInt(convertNumToText(document.getElementById("input-thanhtien-" + exist[i]).value));
                     }
-                    document.getElementById("tong-sl").textContent = formatFromNumber(tsl);
+                    document.getElementById("tong-hang").textContent = formatFromNumber(tth);
                     document.getElementById("tong-ck").textContent = formatFromNumber(tck);
                     document.getElementById("tong-thue").textContent = formatFromNumber(tthue);
                     document.getElementById("tong-thanh-tien").textContent = formatFromNumber(tthanhtien);
