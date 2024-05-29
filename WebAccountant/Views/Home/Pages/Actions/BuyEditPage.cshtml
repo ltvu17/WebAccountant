@@ -399,7 +399,7 @@
         }
     }
     function chooseItem(id, item) {
-        hide_sugg("edit-sugg-" + id[2]);
+        hide_sugg("edit-sugg-" + id.substring(2, 10));
         var addItem = JSON.parse(decodeURIComponent(item));
         var madmDTO = {
             Matk: addItem.Matk,
@@ -411,9 +411,9 @@
             TonTDv1: addItem.TonTDv1,
             PtChietKhau: 0,
             PtThue: 0,
-            eId: id[2],
+            eId: id.substring(2, 10),
         }
-        var index = id[2];
+        var index = id.substring(2, 10);
         var isExist = false;
         for (let i = 0; i < editItems.length; i++) {
             if (editItems[i].eId == index) {
@@ -428,30 +428,29 @@
         else {
             editItems[index] = madmDTO;
         }
-        var numId = id[2];
+        var numId = id.substring(2, 10);
         // Lấy thẻ <tr> có id là "tr1"
         var tr = document.getElementById(id);
         // Gắn giá trị vào các thẻ <td>
-        tr.querySelector('#ed-tendm-' + id[2]).textContent = JSON.parse(decodeURIComponent(item)).Tendm;
-        console.log('#ed-donvi-' + id[2]);
-        tr.querySelector('#ed-donvi-' + id[2]).textContent = JSON.parse(decodeURIComponent(item)).Donvi;
-        tr.querySelector('#edit-matk-' + id[2]).value = JSON.parse(decodeURIComponent(item)).Matk;
-        tr.querySelector('#edit-madm-' + id[2]).value = JSON.parse(decodeURIComponent(item)).Madm;
-        tr.querySelector('#edit-tendm-' + id[2]).value = JSON.parse(decodeURIComponent(item)).Tendm;
-        tr.querySelector('#edit-donvi-' + id[2]).value = JSON.parse(decodeURIComponent(item)).Donvi;
-        tr.querySelector('#edit-dongia-' + id[2]).value = 0;
-        tr.querySelector('#edit-soluong-' + id[2]).value = 1;
-        tr.querySelector('#edit-thanhtien-' + id[2]).value = 0;
-        tr.querySelector('#edit-ck-' + id[2]).value = 0;
-        tr.querySelector('#edit-ck-vnd-' + id[2]).value = 0;
-        tr.querySelector('#edit-thue-' + id[2]).value = 0;
-        tr.querySelector('#edit-thue-vnd-' + id[2]).value = 0;
-        tr.querySelector('#e-dongia-' + id[2]).value = 0;
-        tr.querySelector('#e-soluong-' + id[2]).value = 1;
-        tr.querySelector('#e-ck-' + id[2]).value = 0;
-        tr.querySelector('#e-ck-vnd-' + id[2]).value = 0;
-        tr.querySelector('#e-thue-' + id[2]).value = 0;
-        tr.querySelector('#e-thue-vnd-' + id[2]).value = 0;
+        tr.querySelector('#ed-tendm-' + numId).textContent = JSON.parse(decodeURIComponent(item)).Tendm;
+        tr.querySelector('#ed-donvi-' + numId).textContent = JSON.parse(decodeURIComponent(item)).Donvi;
+        tr.querySelector('#edit-matk-' + numId).value = JSON.parse(decodeURIComponent(item)).Matk;
+        tr.querySelector('#edit-madm-' + numId).value = JSON.parse(decodeURIComponent(item)).Madm;
+        tr.querySelector('#edit-tendm-' + numId).value = JSON.parse(decodeURIComponent(item)).Tendm;
+        tr.querySelector('#edit-donvi-' + numId).value = JSON.parse(decodeURIComponent(item)).Donvi;
+        tr.querySelector('#edit-dongia-' + numId).value = 0;
+        tr.querySelector('#edit-soluong-' + numId).value = 1;
+        tr.querySelector('#edit-thanhtien-' + numId).value = 0;
+        tr.querySelector('#edit-ck-' + numId).value = 0;
+        tr.querySelector('#edit-ck-vnd-' + numId).value = 0;
+        tr.querySelector('#edit-thue-' + numId).value = 0;
+        tr.querySelector('#edit-thue-vnd-' + numId).value = 0;
+        tr.querySelector('#e-dongia-' + numId).value = 0;
+        tr.querySelector('#e-soluong-' + numId).value = 1;
+        tr.querySelector('#e-ck-' + numId).value = 0;
+        tr.querySelector('#e-ck-vnd-' + numId).value = 0;
+        tr.querySelector('#e-thue-' + numId).value = 0;
+        tr.querySelector('#e-thue-vnd-' + numId).value = 0;
         countTotalEdit();
         loadMoney();
     }
@@ -464,15 +463,15 @@
         //document.getElementById("tongtien").textContent = tongtien;
     }
     function lessItem(id) {
-        if (eeindex > @eindex){
+        if (eeindex > @eindex) {
             var tr = document.getElementById(id);
             for (let i = 0; i < eexist.length; i++) {
-                if (eexist[i] == id[2]) {
+                if (eexist[i] == id.substring(2, 10)) {
                     eexist.splice(i, 1);
                 }
             }
             for (let i = 0; i < editItems.length; i++) {
-                if (editItems[i].eId == id[2]) {
+                if (editItems[i].eId == id.substring(2, 10)) {
                     editItems.splice(i, 1);
                 }
             }
@@ -482,6 +481,7 @@
             for (let i = 1; i <= eeindex; i++) {
                 idList.push(i);
             }
+            console.log(idList);
             var tdList = document.getElementsByClassName("td-eindex");
             for (let i = 0; i < tdList.length; i++) {
                 tdList[i].textContent = idList[i];
@@ -491,7 +491,6 @@
         }
     }
 
-
     function formatNumberEdit(id) {
         var number = document.getElementById(id);
         var formattedNumber = new Intl.NumberFormat('en-US').format(number.value);
@@ -499,12 +498,13 @@
             number.value = 0;
             formattedNumber = Intl.NumberFormat('en-US').format(0);
         }
-        setTextToNumEdit(id[id.length - 1]);
-        tienEdit(id[id.length - 1]);
+        id = getLastNumber(id);
+        setTextToNumEdit(id);
+        tienEdit(id);
         var formattedNumber = new Intl.NumberFormat('en-US').format(number.value);
         if (formattedNumber == "NaN") formattedNumber = Intl.NumberFormat('en-US').format(0);
         number.value = formattedNumber;
-        setNumToTextEdit(id[id.length - 1]);
+        setNumToTextEdit(id);
     }
     function setTextToNumEdit(id) {
         document.getElementById("edit-dongia-" + id).value = convertNumToText(document.getElementById("e-dongia-" + id).value);

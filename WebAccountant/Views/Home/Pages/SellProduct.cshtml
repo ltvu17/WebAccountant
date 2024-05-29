@@ -109,7 +109,7 @@
                             <div id="phieu-nhap" class="row">
                                 <div id="infor-phieu-nhap" class="col-9">
                                     <div class="row">
-                                        <div class="col-4 col-num-1">
+                                        <div class="col-4 col-num-1" style="padding-bottom:5px">
                                             <div class=" text-start">
                                                 <label for="input-makh" class="col-form-label">Mã khách hàng:</label>
                                                 <div class="d-flex justify-content-between">
@@ -118,6 +118,7 @@
                                                            class="form-control input-sugg"
                                                            id="input-makh"
                                                            autofocus="autofocus"
+                                                           placeholder="Nhập khách hàng..."
                                                            autocomplete="off"
                                                            asp-for="Makh"
                                                            onkeyup="SearchNow('list-makh-sugg','input-makh','list-makh-sugg')" />
@@ -212,6 +213,7 @@
                                                 <input type="text"
                                                        class="form-control input-sugg"
                                                        id="input-manv"
+                                                       placeholder="Nhập nhân viên..."
                                                        autofocus="autofocus"
                                                        onkeyup="SearchNow('list-manv-sugg','input-manv','list-manv-sugg')" />
                                                 <div class="table-container">
@@ -309,26 +311,27 @@
                     <div class="table-data2">
                     @*List product *@
                     <table id="list-dm" class="table-text">
-                        <tr class="table-menu" id="tr-1">
-                                <td class="t-center width-20">#</td>
-                                <td class="width-200">Mã mặt hàng</td>
-                                <td class="width-300">Tên mặt hàng</td>
-                                <td class="width-150">Đơn vị</td>
-                                <td class="width-300">Đơn giá</td>
-                                <td class="width-200">Số lượng</td>
-                                <td class="width-90">Chiết khấu (%)</td>
-                                <td class="width-300">Chiết khấu (VND)</td>
-                                <td class="width-70">Thuế (%)</td>
-                                <td class="width-300">Thuế (VND)</td>
-                                <td class="width-300">Thành tiền</td>
-                                <td class="width-70">Hành động</td>
-                        </tr>
+                            <tr class="table-menu" id="tr-1">
+                                <td class="t-center">#</td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:150px;">Mã mặt hàng</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:200px;">Tên mặt hàng</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:70px; max-width:70px;">Đơn vị</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:150px;">Đơn giá</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:120px;">Số lượng</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:90px;">Chiết khấu (%)</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:150px;">Chiết khấu (VND)</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:90px;">Thuế (%)</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:150px;">Thuế (VND)</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:150px;">Thành tiền</div></td>
+                                <td class="nowr">Hành động</td>
+                            </tr>
                         <tr id="tr1">
                             <td class="t-center td-index">1</td>
                             <td>
                                 <input type="text"
                                        class="form-control input-sugg"
                                        id="input-madm-1"
+                                       style="width:100%"
                                        autofocus="autofocus"
                                        autocomplete="off"
                                        placeholder="Nhập mặt hàng..."
@@ -346,8 +349,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div id="ip-tendm-1"> </div>
-                                <input type="text" class="form-control" id="input-tendm-1" asp-for="ktdmDTOs[0].Tendm" hidden readonly />
+                                <input style="width:100%" type="text" class="form-control" id="input-tendm-1" asp-for="ktdmDTOs[0].Tendm" readonly />
                                 <input type="text" class="form-control" id="input-matk-1" asp-for="ktdmDTOs[0].Matk" hidden readonly />
                             </td>
                             <td>
@@ -355,35 +357,34 @@
                                 <input type="text" class="form-control" id="input-donvi-1" asp-for="ktdmDTOs[0].Donvi" hidden readonly />
                              </td>
                                 <td>
-                                    <input id="dongia-1" type="text" class="form-control text-end" onchange="formatNumber(this.id)" />
+                                    <input style="width:100%" id="dongia-1" type="text" class="form-control text-end" onchange="formatNumber(this.id)" />
                                     <input type="number" id="input-dongia-1" asp-for="ktdmDTOs[0].Dgban" min="0" hidden />
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control text-end" id="soluong-1" onchange="formatNumber(this.id)" />
+                                    <input style="width:100%" type="text" class="form-control text-end" id="soluong-1" onchange="formatNumber(this.id)" />
                                     <input type="number" class="form-control text-end" id="input-soluong-1" asp-for="ktdmDTOs[0].Soluong" min="1" hidden />
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control text-end" id="ck-1" min="0" max="100" onchange="formatNumber(this.id)" />
+                                    <input style="width:100%" type="text" class="form-control text-end" id="ck-1" min="0" max="100" onchange="formatNumber(this.id)" />
                                     <input type="number" class="form-control text-end" id="input-ck-1" asp-for="ktdmDTOs[0].PtChietKhau" min="0" max="100" hidden />
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control text-end" id="ck-vnd-1" min="0" onchange="formatNumber(this.id)" />
+                                    <input style="width:100%" type="text" class="form-control text-end" id="ck-vnd-1" min="0" onchange="formatNumber(this.id)" />
                                     <input type="number" class="form-control text-end" id="input-ck-vnd-1" asp-for="ktdmDTOs[0].ChietKhauThanhTien" min="0" hidden />
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control text-end" id="thue-1" min="0" max="100" onchange="formatNumber(this.id)" />
+                                    <input style="width:100%" type="text" class="form-control text-end" id="thue-1" min="0" max="100" onchange="formatNumber(this.id)" />
                                     <input type="number" class="form-control text-end" id="input-thue-1" asp-for="ktdmDTOs[0].PtThue" min="0" max="100" hidden />
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control text-end" id="thue-vnd-1" min="0" onchange="formatNumber(this.id)" />
+                                    <input style="width:100%" type="text" class="form-control text-end" id="thue-vnd-1" min="0" onchange="formatNumber(this.id)" />
                                     <input type="number" class="form-control text-end" id="input-thue-vnd-1" asp-for="ktdmDTOs[0].ThueThanhTien" min="0" hidden />
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" id="input-thanhtien-1" readonly />
+                                    <input style="width:100%" type="text" class="form-control" id="input-thanhtien-1" readonly />
                                 </td>
                             <td class="t-center"><a onClick="xoaDm('tr1')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
                         </tr>
-                        
                     </table>
                     </div>
                     <div class="footer-data2 buttons d-flex justify-content-between mar-5">
@@ -430,7 +431,6 @@
                 }
                 async function save() {
                     $("#grid-container div [role='button']")[0].click();
-                    // $("#saveButton").after(`<button type="button" onclick="Submit()">Mua sản phẩm</button>`)
                 }
                 function tinhTien(rowIndex) {
                     var sl = document.getElementById("input-soluong-" + rowIndex).value;
@@ -444,7 +444,6 @@
                             madmItems[i].Dgban = parseInt(dgia);
                             madmItems[i].PtChietkhau = parseInt(ck);
                             madmItems[i].PtThue = parseInt(thue);
-                            // Gắn giá trị vào các thẻ <td>
                             var ckVnd = madmItems[i].Soluong * madmItems[i].Dgban * madmItems[i].PtChietkhau / 100;
                             tr.querySelector('#input-ck-vnd-' + rowIndex).value = parseFloat(ckVnd).toFixed(0);
                             var thueVnd = madmItems[i].Soluong * (madmItems[i].Dgban * (1 - madmItems[i].PtChietkhau / 100)) * madmItems[i].PtThue / 100;
@@ -490,7 +489,6 @@
 
                 function SearchNow(idSugg, idInput, idUl) {
                     document.getElementById(idSugg).classList.remove("d-none");
-                    // Declare variables
                     var input, filter, ul, li, a, i;
                     input = document.getElementById(idInput);
                     filter = input.value.toUpperCase();
@@ -545,7 +543,7 @@
                 });
 
                 function madmChooseItem(id, item) {
-                    hide_sugg("list-madm-sugg-" + id[2]);
+                    hide_sugg("list-madm-sugg-" + id.substring(2, 10));
                     var chietkhau = 0;
                     if (isCkChung == true) chietkhau = ptCkChung;
                     var addItem = JSON.parse(decodeURIComponent(item));
@@ -561,10 +559,10 @@
                         PtThue: 0,
                         trId: id,
                     }
-                    var dmindex = id[2];
+                    var dmindex = id.substring(2, 10);
                     var isExist = false;
                     for (let i = 0; i < madmItems.length; i++) {
-                        if (madmItems[i].trId[2] == dmindex) {
+                        if (madmItems[i].trId.substring(2, 10) == dmindex) {
                             isExist = true;
                             dmindex = i;
                             break;
@@ -576,29 +574,26 @@
                     else {
                         madmItems[dmindex] = madmDTO;
                     }
-                    var numId = id[2];
-                    // Lấy thẻ <tr> có id là "tr1"
+                    var numId = id.substring(2, 10);
                     var tr = document.getElementById(id);
-                    // Gắn giá trị vào các thẻ <td>
-                    tr.querySelector('#ip-tendm-' + id[2]).textContent = JSON.parse(decodeURIComponent(item)).Tendm;
-                    tr.querySelector('#input-matk-' + id[2]).value = JSON.parse(decodeURIComponent(item)).Matk;
-                    tr.querySelector('#input-madm-' + id[2]).value = JSON.parse(decodeURIComponent(item)).Madm;
-                    tr.querySelector('#input-tendm-' + id[2]).value = JSON.parse(decodeURIComponent(item)).Tendm;
-                    tr.querySelector('#ip-donvi-' + id[2]).textContent = JSON.parse(decodeURIComponent(item)).Donvi;
-                    tr.querySelector('#input-donvi-' + id[2]).value = JSON.parse(decodeURIComponent(item)).Donvi;
-                    tr.querySelector('#input-dongia-' + id[2]).value = 0;
-                    tr.querySelector('#input-soluong-' + id[2]).value = 1;
-                    tr.querySelector('#input-thanhtien-' + id[2]).value = 0;
-                    tr.querySelector('#input-ck-' + id[2]).value = 0;
-                    tr.querySelector('#input-ck-vnd-' + id[2]).value = 0;
-                    tr.querySelector('#input-thue-' + id[2]).value = 0;
-                    tr.querySelector('#input-thue-vnd-' + id[2]).value = 0;
-                    tr.querySelector('#dongia-' + id[2]).value = 0;
-                    tr.querySelector('#soluong-' + id[2]).value = 1;
-                    tr.querySelector('#ck-' + id[2]).value = 0;
-                    tr.querySelector('#ck-vnd-' + id[2]).value = 0;
-                    tr.querySelector('#thue-' + id[2]).value = 0;
-                    tr.querySelector('#thue-vnd-' + id[2]).value = 0;
+                    tr.querySelector('#input-matk-' + numId).value = JSON.parse(decodeURIComponent(item)).Matk;
+                    tr.querySelector('#input-madm-' + numId).value = JSON.parse(decodeURIComponent(item)).Madm;
+                    tr.querySelector('#input-tendm-' + numId).value = JSON.parse(decodeURIComponent(item)).Tendm;
+                    tr.querySelector('#ip-donvi-' + numId).textContent = JSON.parse(decodeURIComponent(item)).Donvi;
+                    tr.querySelector('#input-donvi-' + numId).value = JSON.parse(decodeURIComponent(item)).Donvi;
+                    tr.querySelector('#input-dongia-' + numId).value = 0;
+                    tr.querySelector('#input-soluong-' + numId).value = 1;
+                    tr.querySelector('#input-thanhtien-' + numId).value = 0;
+                    tr.querySelector('#input-ck-' + numId).value = 0;
+                    tr.querySelector('#input-ck-vnd-' + numId).value = 0;
+                    tr.querySelector('#input-thue-' + numId).value = 0;
+                    tr.querySelector('#input-thue-vnd-' + numId).value = 0;
+                    tr.querySelector('#dongia-' + numId).value = 0;
+                    tr.querySelector('#soluong-' + numId).value = 1;
+                    tr.querySelector('#ck-' + numId).value = 0;
+                    tr.querySelector('#ck-vnd-' + numId).value = 0;
+                    tr.querySelector('#thue-' + numId).value = 0;
+                    tr.querySelector('#thue-vnd-' + numId).value = 0;
                     loadBill();
                     countTotal();
                 }
@@ -626,45 +621,47 @@
                         }
                     }
                 });
-                var makhItems = []
+                var makhItems = [];
                 function makhChooseItem(item) {
                     makhItems = JSON.parse(decodeURIComponent(item));
                     hide_sugg("list-makh-sugg");
-                    // Gắn giá trị vào các thẻ <td>
                     document.getElementById('input-makh').value = JSON.parse(decodeURIComponent(item)).Madtpn;
                     document.getElementById('tenkh').value = JSON.parse(decodeURIComponent(item)).Tendtpn;
                     document.getElementById('dc').value = JSON.parse(decodeURIComponent(item)).Diachi;
                     document.getElementById('masodn').value = JSON.parse(decodeURIComponent(item)).MsDn;
                 }
 
-                const manv = [
-                    'how to mak',
-                    'how to make',
-                    'html explore ',
-                    'css explore',
-                    'dom explore',
-                    'more items',
-                    'how to make a slidebar',
-                    'how to make this website',
-                    'html explore ',
-                    'css explore',
-                    'dom explore',
-                    'more items add hare that you want to suggest',
-                    'how to make a slidebar',
-                    'how to make this website',
-                    'html explore ',
-                    'css explore',
-                    'dom explore',
-                    'more items add hare that you want to suggest'
-                ]
-                for (var i = 0; i < manv.length; i++) {
-                    const list = document.getElementById("list-manv-sugg");
-                    list.insertAdjacentHTML('beforeend', `
-                                                      <tr><td>${manv[i]}</td><td>${manv[i + 1]}</td><td>${manv[i + 2]}</td></tr>
-                                                                                                         `);
+                var manv = [
+                    {
+                        Madtpn: "",
+                        Tendtpn: "",
+                        MsDn: ""
+                    }
+                ];
+                $.ajax({
+                    url: '@Url.Action("Get", "Ktdtpns")',
+                    type: 'GET',
+                    success: function (result) {
+                        if (result.data.length > 0) {
+                            manv = result.data;
+                            for (var i = 0; i < manv.length; i++) {
+                                const list = document.getElementById("list-manv-sugg");
+                                list.insertAdjacentHTML('beforeend', `
+                                                                       <tr class="tr-sugg" onclick="manvChooseItem('${encodeURIComponent(JSON.stringify(manv[i]))}')"><td>${manv[i].Madtpn}</td><td>${manv[i].Tendtpn}</td><td>${manv[i].MsDn}</td></tr>
+                                                                `);
+                            }
+                        }
+                    }
+                });
+                var manvItems = [];
+                function manvChooseItem(item) {
+                    manvItems = JSON.parse(decodeURIComponent(item));
+                    hide_sugg("list-manv-sugg");
+                    document.getElementById('input-manv').value = JSON.parse(decodeURIComponent(item)).Madtpn;
+                    document.getElementById('tennv').value = JSON.parse(decodeURIComponent(item)).Tendtpn;
                 }
 
-                //hide suggestions
+
                 function hide_sugg(idSugg) {
                     document.getElementById(idSugg).classList.add("d-none");
                 }
@@ -712,8 +709,8 @@
                                                                     </table>
                                                                 </div>
                                                             </td>
-                                                            <td><div id="ip-tendm-${count}"> </div>
-                                                            <input type="text" class="form-control" id="input-tendm-${count}" name="ktdmDTOs[${count - 1}].Tendm" hidden readonly />
+                                                            <td>
+                                                            <input type="text" class="form-control" id="input-tendm-${count}" name="ktdmDTOs[${count - 1}].Tendm" readonly />
                                                             <input type="text" class="form-control" id="input-matk-${count}" name="ktdmDTOs[${count - 1}].Matk" hidden readonly /></td>
                                                             <td><div id="ip-donvi-${count}"> </div>
                                                             <input type="text" class="form-control" id="input-donvi-${count}" name="ktdmDTOs[${count - 1}].Donvi" hidden readonly /></td>
@@ -770,7 +767,7 @@
                     if (madmItems.length != 0) {
                         var tr = document.getElementById(id);
                         for (let i = 0; i < exist.length; i++){
-                            if (exist[i] == id[2]) {
+                            if (exist[i] == id.substring(2, 10)) {
                                 exist.splice(i, 1);
                             }
                         }
@@ -806,7 +803,6 @@
                             type: 'POST',
                             data: JSON.stringify(madm),
                             success: function (result) {
-                                //window.location.replace("/Home/ExportBuyProduct")
                                 window.open("https://localhost:7278/InvoiceReport/HoaDon.pdf", "_blank");
                             }
                         });
@@ -882,28 +878,6 @@
                     muaData.classList.add("d-none")
                     form.classList.remove("d-none");
                 }
-                $(document).ready(function () {
-                    $.ajax({
-                        url: '@Url.Action("GetALLDSPhieuBanHang", "Ktscs")', // Thay 'ControllerName' bằng tên thực của controller
-                        type: 'GET',
-                        success: function (data) {
-                            var table = $('<table/>').addClass('dataTable');
-                            $.each(data, function (i, obj) {
-                                var row = $('<tr/>');
-                                $.each(obj, function (key, value) {
-                                    $('<td/>').text(value).appendTo(row);
-                                });
-                                table.append(row);
-                            });
-                            $('#mua-data').html(table);
-                        },
-                        error: function (error) {
-                            console.log(error);
-                        }
-                    });
-                });
-                function error(error) {
-                }
 
                 function onCkChung() {
                     isCkChung = true;
@@ -912,8 +886,8 @@
                         var id = madmItems[i].trId;
                         var tr = document.getElementById(id);
                         madmItems[i].PtChietkhau = ptCkChung;
-                        document.getElementById("input-ck-" + id[2]).value = ptCkChung;
-                        tinhTien(id[2]);
+                        document.getElementById("input-ck-" + id.substring(2, 10)).value = ptCkChung;
+                        tinhTien(id.substring(2, 10));
                     }
                 }
                 function edit() {
@@ -1009,12 +983,11 @@
                     }
                 }
 
-                //hàm giới hạn ngày
                 window.onload = function () {
                     maxWidthTb();
                     var today = new Date();
                     var dd = String(today.getDate()).padStart(2, '0');
-                    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                    var mm = String(today.getMonth() + 1).padStart(2, '0');
                     var yyyy = today.getFullYear();
 
                     today = yyyy + '-' + mm + '-' + dd;
@@ -1041,17 +1014,17 @@
                 function resetDate() {
                     
                     var date = new Date();
-                    date.setDate(date.getDate() - 30); // Trừ đi 30 ngày
+                    date.setDate(date.getDate() - 30);
                     var dd = String(date.getDate()).padStart(2, '0');
-                    var mm = String(date.getMonth() + 1).padStart(2, '0'); // Tháng trong JavaScript bắt đầu từ 0
+                    var mm = String(date.getMonth() + 1).padStart(2, '0'); 
                     var yyyy = date.getFullYear();
-                    var defaultDate = yyyy + '-' + mm + '-' + dd; // Định dạng YYYY-MM-DD
+                    var defaultDate = yyyy + '-' + mm + '-' + dd; 
 
                     date = new Date();
                     dd = String(date.getDate()).padStart(2, '0');
-                    mm = String(date.getMonth() + 1).padStart(2, '0'); // Tháng trong JavaScript bắt đầu từ 0
+                    mm = String(date.getMonth() + 1).padStart(2, '0');
                     yyyy = date.getFullYear();
-                    var currentDate = yyyy + '-' + mm + '-' + dd; // Định dạng YYYY-MM-DD
+                    var currentDate = yyyy + '-' + mm + '-' + dd;
                     var fromDate = defaultDate;
                     var toDate = currentDate;
                     document.getElementById("date-to").value = "";
@@ -1120,7 +1093,7 @@
                     });
                     var today = new Date();
                     var dd = String(today.getDate()).padStart(2, '0');
-                    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                    var mm = String(today.getMonth() + 1).padStart(2, '0');
                     var yyyy = today.getFullYear();
                     today = yyyy + '-' + mm + '-' + dd;
                     document.getElementById("date-from").setAttribute("max", today);
@@ -1133,26 +1106,23 @@
                     try {
                         toDate = new Date(toDate);
                         var monthDate = new Date();
-                        monthDate.setDate(toDate.getDate() - 30); // Trừ đi 30 ngày
+                        monthDate.setDate(toDate.getDate() - 30);
                         var dd = String(toDate.getDate()).padStart(2, '0');
-                        var mm = String(toDate.getMonth() + 1).padStart(2, '0'); // Tháng trong JavaScript bắt đầu từ 0
+                        var mm = String(toDate.getMonth() + 1).padStart(2, '0'); 
                         var yyyy = toDate.getFullYear();
-                        var currentDate = yyyy + '-' + mm + '-' + dd; // Định dạng YYYY-MM-DD
+                        var currentDate = yyyy + '-' + mm + '-' + dd; 
                         toDate = currentDate;
 
                         var dd = String(monthDate.getDate()).padStart(2, '0');
-                        var mm = String(monthDate.getMonth() + 1).padStart(2, '0'); // Tháng trong JavaScript bắt đầu từ 0
+                        var mm = String(monthDate.getMonth() + 1).padStart(2, '0');
                         var yyyy = monthDate.getFullYear();
-                        monthDate = yyyy + '-' + mm + '-' + dd; // Định dạng YYYY-MM-DD
+                        monthDate = yyyy + '-' + mm + '-' + dd; 
                     } catch (error) {
                         console.error("Error parsing date:", error);
-                        // Handle the parsing error gracefully (e.g., set to today's date or provide a default value)
-                        //toDate = new Date();
+                        
                     }
                     var fromDate = document.getElementById("date-from").value ? document.getElementById("date-from").value : monthDate;
-                    console.log(fromDate);
-                    console.log(toDate);
-                    // Gửi yêu cầu HTTP đến API với ngày "Từ" và "Đến" làm tham số
+                    
                     $.ajax({
                         url: '@Url.Action("GetALLDSPhieuBanHangByDate", "Ktscs")',
                         type: 'GET',
@@ -1219,22 +1189,19 @@
 
                 $(document).ready(function () {
                     $(document).on('contextmenu', 'table tr', function (e) {
-                        e.preventDefault(); // Ngăn trình đơn chuột phải mặc định
+                        e.preventDefault();
 
                         var id = $(this)[0].id;
-                        // Hiện menu tùy chỉnh
                         $('#rightMenu').css({
                             top: e.pageY,
                             left: e.pageX,
                         }).show();
-
-                        // Gán ID cho các nút "Sửa" và "Xóa"
                         $('#sua').data('tb', id);
                         $('#xoa').data('tb', id);
                     });
                     $(document).on('click', function (e) {
                         if (!$(e.target).is('table tr')) {
-                            $('#rightMenu').hide(); // Ẩn menu khi click ngoài bảng
+                            $('#rightMenu').hide();
                         }
                     });
                 });
@@ -1286,7 +1253,7 @@
                     var select = document.getElementById("sl-date");
                     var today = new Date();
                     var dd = String(today.getDate()).padStart(2, '0');
-                    var mm = String(today.getMonth() + 1).padStart(2, '0'); // Tháng trong JavaScript bắt đầu từ 0
+                    var mm = String(today.getMonth() + 1).padStart(2, '0'); 
                     var yyyy = today.getFullYear();
                     if (select.value == 1) {
                         document.getElementById("date-from").value = yyyy + '-' + mm + '-' + dd;
@@ -1301,7 +1268,14 @@
                     }
                     confirmDate();
                 }
-
+                function getLastNumber(str) {
+                    const match = str.match(/\d+$/);
+                    if (match) {
+                        return parseInt(match[0]);
+                    } else {
+                        return null;
+                    }
+                }
                 function formatNumber(id) {
                     var number = document.getElementById(id);
                     var formattedNumber = new Intl.NumberFormat('en-US').format(number.value);
@@ -1309,12 +1283,13 @@
                         number.value = 0;
                         formattedNumber = Intl.NumberFormat('en-US').format(0);
                     }
-                    setTextToNum(id[id.length - 1]);
-                    tinhTien(id[id.length - 1]);
+                    id = getLastNumber(id);
+                    setTextToNum(id);
+                    tinhTien(id);
                     var formattedNumber = new Intl.NumberFormat('en-US').format(number.value);
                     if (formattedNumber == "NaN") formattedNumber = Intl.NumberFormat('en-US').format(0);
                     number.value = formattedNumber;
-                    setNumToText(id[id.length - 1]);
+                    setNumToText(id);
                 }
                 function formatFromNumber(int) {
                     var formattedNumber = new Intl.NumberFormat('en-US').format(int);

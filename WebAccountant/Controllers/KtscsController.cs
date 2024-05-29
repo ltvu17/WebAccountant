@@ -104,7 +104,7 @@ namespace WebAccountant.Controllers
             {
                 if (totalEntity != items.ktdmDTOs.Count)
                 {
-                    for (int i = 0; i <= totalEntity; i++)
+                    for (int i = 0; i < items.ktdmDTOs.Count; i++)
                     {
                         var checkValue = ktdmDTOs.Where(s => s.Key.Contains("[" + i + "]")).FirstOrDefault().Value;
                         if (!string.IsNullOrEmpty(checkValue))
@@ -145,7 +145,7 @@ namespace WebAccountant.Controllers
             {
                 if (totalEntity != items.ktdmDTOs.Count)
                 {
-                    for (int i = 0; i <= totalEntity; i++)
+                    for (int i = 0; i < items.ktdmDTOs.Count; i++)
                     {
                         var checkValue = ktdmDTOs.Where(s => s.Key.Contains("[" + i + "]")).FirstOrDefault().Value;
                         if (!string.IsNullOrEmpty(checkValue))

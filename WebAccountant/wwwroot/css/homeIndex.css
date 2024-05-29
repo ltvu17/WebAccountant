@@ -198,7 +198,6 @@
         display: block;
         overflow-y: auto;
         max-height: 300px;
-        width: 100%;
     }
 
     .table-data2 td {
@@ -457,6 +456,9 @@
     text-decoration:none;
 }
 
+.nowr {
+    white-space: nowrap;
+}
 /*Suggest*/
 .tr-sugg:hover {
     background-color: rgb(128, 128, 128, 0.8);
@@ -517,9 +519,7 @@
 .kh-info input{
     font-size: 12px;
 }
-
-
-.resize-em{
+.resizable-1 {
     resize: horizontal;
     overflow: hidden;
 }
