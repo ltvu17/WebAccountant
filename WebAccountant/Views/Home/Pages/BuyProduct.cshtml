@@ -302,16 +302,16 @@
                         <table id="list-dm" class="table-text">
                             <tr class="table-menu" id="tr-1">
                                 <td class="t-center">#</td>
-                                <td class="nowr"><div class="resizable-1" style="min-width:150px;">Mã mặt hàng</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:120px;">Mã mặt hàng</div></td>
                                 <td class="nowr"><div class="resizable-1" style="min-width:200px;">Tên mặt hàng</div></td>
                                 <td class="nowr"><div class="resizable-1" style="min-width:70px; max-width:70px;">Đơn vị</div></td>
-                                <td class="nowr"><div class="resizable-1" style="min-width:150px;">Đơn giá</div></td>
-                                <td class="nowr"><div class="resizable-1" style="min-width:120px;">Số lượng</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:70px;">Đơn giá</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:70px;">Số lượng</div></td>
                                 <td class="nowr"><div class="resizable-1" style="min-width:90px;">Chiết khấu (%)</div></td>
-                                <td class="nowr"><div class="resizable-1" style="min-width:150px;">Chiết khấu (VND)</div></td>
-                                <td class="nowr"><div class="resizable-1" style="min-width:90px;">Thuế (%)</div></td>
-                                <td class="nowr"><div class="resizable-1" style="min-width:150px;">Thuế (VND)</div></td>
-                                <td class="nowr"><div class="resizable-1" style="min-width:150px;">Thành tiền</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:100px;">Chiết khấu (VND)</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:70px;">Thuế (%)</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:70px;">Thuế (VND)</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:100px;">Thành tiền</div></td>
                                 <td class="nowr">Hành động</td>
                             </tr>
                             <tr id="tr1">
@@ -358,7 +358,7 @@
                                     <input type="number" class="form-control text-end" id="input-ck-1" asp-for="ktdmDTOs[0].PtChietKhau" min="0" max="100" hidden />
                                 </td>
                                 <td>
-                                    <input style="width:100%" type="text" class="form-control text-end" id="ck-vnd-1" min="0" onchange="formatNumber(this.id)" />
+                                    <input style="width:100%" type="text" class="form-control text-end" id="ck-vnd-1" min="0" onchange="lamTron(1)" />
                                     <input type="number" class="form-control text-end" id="input-ck-vnd-1" asp-for="ktdmDTOs[0].ChietKhauThanhTien" min="0" hidden />
                                 </td>
                                 <td>
@@ -366,7 +366,7 @@
                                     <input type="number" class="form-control text-end" id="input-thue-1" asp-for="ktdmDTOs[0].PtThue" min="0" max="100" hidden />
                                 </td>
                                 <td>
-                                    <input style="width:100%" type="text" class="form-control text-end" id="thue-vnd-1" min="0" onchange="formatNumber(this.id)" />
+                                    <input style="width:100%" type="text" class="form-control text-end" id="thue-vnd-1" min="0" onchange="lamTron(1)" />
                                     <input type="number" class="form-control text-end" id="input-thue-vnd-1" asp-for="ktdmDTOs[0].ThueThanhTien" min="0" hidden />
                                 </td>
                                 <td>
@@ -383,7 +383,7 @@
                         </div>
                         <div>
                             <button class="btn btn-warning t-s-12 height-30" id="exportBill" onclick="exportPDF()" type="button">Xuất hóa đơn</button>
-                            <button class="btn btn-primary t-s-12 height-30" id="saveButton" type="submit">Lưu đơn bán</button>
+                            <button class="btn btn-primary t-s-12 height-30" id="saveButton" type="button" onclick="submitForm()">Lưu đơn bán</button>
                         </div>
                     </div>
                 </div>
@@ -413,7 +413,13 @@
                     document.getElementById("tong-data-thanhtien").textContent = formatFromNumber(tthanhtien);
                 }
 
-
+                function submitForm() {
+                    const myForm = document.getElementById('myForm');
+                    if(madmItems.length == 0) alert("Hãy chọn mặt hàng!");
+                    if(madmItems.length != 0 && makhItems.length == 0) alert("Hãy chọn khách hàng!");
+                    if (madmItems.length != 0 && makhItems.length != 0 && manvItems.length == 0) alert("Hãy chọn nhân viên!");
+                    if (madmItems.length != 0 && makhItems.length != 0 && manvItems.length != 0) myForm.submit();
+                }
 
                 function getDataGridInstance() {
                     let element = $("#grid-container");
@@ -444,6 +450,22 @@
                         }
                     }
                     setNumToText(rowIndex);
+                    countTotal();
+                    loadBill();
+                }
+                function lamTron(rowIndex) {
+                    var sl = document.getElementById("input-soluong-" + rowIndex).value;
+                    var dgia = $(`#input-dongia-${rowIndex}`)[0].value;
+                    var tr = document.getElementById("tr" + rowIndex);
+                    tr.querySelector('#input-ck-vnd-' + rowIndex).value = convertNumToText(document.getElementById('ck-vnd-' + rowIndex).value);
+                    console.log(convertNumToText(document.getElementById('ck-vnd-' + rowIndex).value) + "ck");
+                    var ckVnd = tr.querySelector('#input-ck-vnd-' + rowIndex).value;
+                    document.getElementById("input-ck-vnd")
+                    tr.querySelector('#input-thue-vnd-' + rowIndex).value = convertNumToText(document.getElementById('thue-vnd-' + rowIndex).value);
+                    var thueVnd = tr.querySelector('#input-thue-vnd-' + rowIndex).value;
+                    var thanhtien = parseFloat(sl).toFixed(0) * parseFloat(dgia).toFixed(0) - parseFloat(ckVnd).toFixed(0);
+                    thanhtien = parseFloat(parseFloat(thanhtien).toFixed(0)) + parseFloat(parseFloat(thueVnd).toFixed(0));
+                    tr.querySelector('#input-thanhtien-' + rowIndex).value = formatFromNumber(parseFloat(thanhtien).toFixed(0));
                     countTotal();
                     loadBill();
                 }
@@ -679,27 +701,27 @@
                                                             <input type="text" class="form-control" id="input-donvi-${count}" name="ktdmDTOs[${count - 1}].Donvi" hidden readonly /></td>
                                                            <td>
                                                                 <input id="dongia-${count}" type="text" class="form-control text-end" onchange="formatNumber(this.id)" />
-                                                                <input type="number" class="form-control" id="input-dongia-${count}" name="ktdmDTOs[${count - 1}].Dgban" min="0" onchange="tinhTien(${count})" hidden />
+                                                                <input type="number" class="form-control" id="input-dongia-${count}" name="ktdmDTOs[${count - 1}].Dgban" min="0"" hidden />
                                                             </td>
                                                             <td>
                                                                 <input type="text" class="form-control text-end" id="soluong-${count}" onchange="formatNumber(this.id)" />
-                                                                <input type="number" class="form-control" id="input-soluong-${count}" name="ktdmDTOs[${count - 1}].Soluong" min="1" onchange="tinhTien(${count})" hidden/>
+                                                                <input type="number" class="form-control" id="input-soluong-${count}" name="ktdmDTOs[${count - 1}].Soluong" min="1" hidden/>
                                                             </td>
                                                             <td>
                                                                 <input type="text" class="form-control text-end" id="ck-${count}" min="0" max="100"  onchange="formatNumber(this.id)"/>
-                                                                <input type="number" class="form-control" id="input-ck-${count}" name="ktdmDTOs[${count - 1}].PtChietKhau" min="0" max="100" onchange="tinhTien(${count})" hidden/>
+                                                                <input type="number" class="form-control" id="input-ck-${count}" name="ktdmDTOs[${count - 1}].PtChietKhau" min="0" max="100" hidden/>
                                                              </td>
                                                             <td>
-                                                                <input type="text" class="form-control text-end" id="ck-vnd-${count}" min="0" onchange="formatNumber(this.id)" />
-                                                                <input type="number" class="form-control" id="input-ck-vnd-${count}" name="ktdmDTOs[${count - 1}].ChietKhauThanhTien" min="0" onchange="lamTron(${count})" hidden/>
+                                                                <input type="text" class="form-control text-end" id="ck-vnd-${count}" min="0" onchange="lamTron(${count})" />
+                                                                <input type="number" class="form-control" id="input-ck-vnd-${count}" name="ktdmDTOs[${count - 1}].ChietKhauThanhTien" min="0" hidden/>
                                                             </td>
                                                             <td>
                                                                 <input type="text" class="form-control text-end" id="thue-${count}" min="0" max="100" onchange="formatNumber(this.id)" />  
-                                                                <input type="number" class="form-control" id="input-thue-${count}" name="ktdmDTOs[${count - 1}].PtThue" min="0" max="100" onchange="tinhTien(${count})" hidden/>
+                                                                <input type="number" class="form-control" id="input-thue-${count}" name="ktdmDTOs[${count - 1}].PtThue" min="0" max="100" hidden/>
                                                             </td>
                                                             <td>
-                                                                <input type="text" class="form-control text-end" id="thue-vnd-${count}" min="0" onchange="formatNumber(this.id)" />
-                                                                <input type="number" class="form-control" id="input-thue-vnd-${count}" name="ktdmDTOs[${count - 1}].ThueThanhTien" min="0" onchange="lamTron(${count})" hidden/>
+                                                                <input type="text" class="form-control text-end" id="thue-vnd-${count}" min="0" onchange="lamTron(${count})" />
+                                                                <input type="number" class="form-control" id="input-thue-vnd-${count}" name="ktdmDTOs[${count - 1}].ThueThanhTien" min="0" hidden/>
                                                             </td>
                                                             <td><input type="text" class="form-control" id="input-thanhtien-${count}" readonly/></td>
                                                             <td class="t-center"><a onClick="xoaDm('tr${count}')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
@@ -772,12 +794,7 @@
                     }, 1000)
                     save().then()
                 }
-                document.getElementById('myForm').onkeypress = function (e) {
-                    var key = e.charCode || e.keyCode || 0;
-                    if (key == 13) {
-                       e.preventDefault();
-                   }
-                }
+                
                 function exportPDF() {
                     var idKh = document.getElementById("input-makh").value ? document.getElementById("input-makh").value : alert("Hãy chọn khách hàng!");
                     var idHt = document.getElementById("ht").value;
@@ -1308,52 +1325,54 @@
                     }
                 });
 
+                document.getElementById('list-dm').onkeypress = function (e) {
+                    exist.forEach(num => {
+                        var input = document.getElementById("dongia-" + num);
+                        input.addEventListener('keydown', function (event) {
+                            if (event.key === 'Enter') {
+                                var inputTo = document.getElementById("soluong-" + num);
+                                inputTo.focus();
+                            }
+                        });
+                        input = document.getElementById("soluong-" + num);
+                        input.addEventListener('keydown', function (event) {
+                            if (event.key === 'Enter') {
+                                var inputTo = document.getElementById("ck-" + num);
+                                inputTo.focus();
+                            }
+                        });
+                        input = document.getElementById("ck-" + num);
+                        input.addEventListener('keydown', function (event) {
+                            if (event.key === 'Enter') {
+                                var inputTo = document.getElementById("ck-vnd-" + num);
+                                inputTo.focus();
+                            }
+                        });
+                        input = document.getElementById("ck-vnd-" + num);
+                        input.addEventListener('keydown', function (event) {
+                            if (event.key === 'Enter') {
+                                var inputTo = document.getElementById("thue-" + num);
+                                inputTo.focus();
+                            }
+                        });
+                        input = document.getElementById("thue-" + num);
+                        input.addEventListener('keydown', function (event) {
+                            if (event.key === 'Enter') {
+                                var inputTo = document.getElementById("thue-vnd" + num);
+                                inputTo.focus();
+                            }
+                        });
+                        input = document.getElementById("thue-vnd" + num);
+                        input.addEventListener('keydown', function (event) {
+                            if (event.key === 'Enter') {
+                                var inputTo = document.getElementById("input-thanhtien-" + num);
+                                inputTo.focus();
+                            }
+                        });
+                    });
+                }
+
             </script>
         </div>
     </div>
 </div>
-@*
-<div style="height: 800px; max-width:600px;overflow:auto">
-    <table style="border: solid red 1px; overflow:auto">
-        <tr style="border: solid red 1px">
-            <td style="border: solid red 1px"> mot</td>
-            <td style="border: solid red 1px; width:30px">mot</td>
-            <td style="border: solid red 1px">mot</td>
-            <td style="border: solid red 1px">mot</td>
-            <td style="border: solid red 1px">mot</td>
-        </tr>
-        <tr style="border: solid red 1px">
-            <td style="border: solid red 1px">ádlaksjdlajsdlkjasdlkjasldkjalsdkasdasdas</td>
-            <td style="border: solid red 1px; width:30px;  white-space:nowrap"><div style="resize:horizontal; overflow:hidden;"><input id="input" style="width:100%;" type="text" value="ádlaksjdlajsdlkjasdlkjasldkjalsdkasdasdasádlaksjdlajsdlkjasdlkjasldkjalsdkasdasdas" /></div></td>
-            <td style="border: solid red 1px; width:30px;  white-space:nowrap"><div style="resize:horizontal; overflow:hidden;"><input id="input" style="width:100%;" type="text" value="ádlaksjdlajsdlkjasdlkjasldkjalsdkasdasdasádlaksjdlajsdlkjasdlkjasldkjalsdkasdasdas" /></div></td>
-            <td style="border: solid red 1px; width:30px;  white-space:nowrap"><div style="resize:horizontal; overflow:hidden;"><input id="input" style="width:100%;" type="text" value="ádlaksjdlajsdlkjasdlkjasldkjalsdkasdasdasádlaksjdlajsdlkjasdlkjasldkjalsdkasdasdas" /></div></td>
-            <td style="border: solid red 1px">mot</td>
-        </tr>
-        <tr style="border: solid red 1px">
-            <td style="border: solid red 1px">mot</td>
-            <td style="border: solid red 1px">mot</td>
-            <td style="border: solid red 1px">mot</td>
-            <td style="border: solid red 1px">mot</td>
-            <td style="border: solid red 1px">mot</td>
-        </tr>
-    </table>
-    
-    <div style="display:flex; overflow:auto">
-        <div style="border: solid red 1px; min-width:300px; resize:horizontal; overflow:hidden; white-space:nowrap">
-            <input id="input" style="width:100%;" type="text" value="ạksldlksjdlasdsdasdasd" />
-        </div>
-        <div style="border: solid red 1px; resize:horizontal; overflow:hidden; white-space:nowrap">
-            <input id="input" style="width:100%;" type="text" value="lajsdl" />
-        </div>
-        <div style="border: solid red 1px; resize:horizontal; overflow:hidden; white-space:nowrap">
-            <input id="input" style="width:100%;" type="text" value="ádlaksjdlajsdlkjasdlkjasldkjalsdkasdasdasádlaksjdlajsdl" />
-        </div>
-        <div style="border: solid red 1px; resize:horizontal; overflow:hidden; white-space:nowrap">
-            <input id="input" style="width:100%;" type="text" value="ádlaksjdlajsdlkjasdlkjasldkjalsdkasdasdasádlaksjdlajsdl" />
-        </div>
-        <div style="border: solid red 1px; resize:horizontal; overflow:hidden; white-space:nowrap">
-            <input id="input" style="width:100%;" type="text" value="ádlaksjdlajsdlkjasdlkjasldkjalsdkasdasdasádlaksjdlajsdl" />
-        </div>
-    </div>
-</div>
-*@
