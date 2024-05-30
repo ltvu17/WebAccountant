@@ -1360,15 +1360,12 @@
                     }
                 });
 
-                
-
                 document.getElementById('list-dm').onkeypress = function (e) {
                     exist.forEach(num => {
                         var input = document.getElementById("dongia-" + num);
                         input.addEventListener('keydown', function (event) {
                             if (event.key === 'Enter') {
                                 var inputTo = document.getElementById("soluong-" + num);
-                                console.log("vo");
                                 inputTo.focus();
                             }
                         });
@@ -1376,14 +1373,34 @@
                         input.addEventListener('keydown', function (event) {
                             if (event.key === 'Enter') {
                                 var inputTo = document.getElementById("ck-" + num);
-                                console.log("vo");
                                 inputTo.focus();
                             }
                         });
                         input = document.getElementById("ck-" + num);
                         input.addEventListener('keydown', function (event) {
                             if (event.key === 'Enter') {
+                                var inputTo = document.getElementById("ck-vnd-" + num);
+                                inputTo.focus();
+                            }
+                        });
+                        input = document.getElementById("ck-vnd-" + num);
+                        input.addEventListener('keydown', function (event) {
+                            if (event.key === 'Enter') {
                                 var inputTo = document.getElementById("thue-" + num);
+                                inputTo.focus();
+                            }
+                        });
+                        input = document.getElementById("thue-" + num);
+                        input.addEventListener('keydown', function (event) {
+                            if (event.key === 'Enter') {
+                                var inputTo = document.getElementById("thue-vnd" + num);
+                                inputTo.focus();
+                            }
+                        });
+                        input = document.getElementById("thue-vnd" + num);
+                        input.addEventListener('keydown', function (event) {
+                            if (event.key === 'Enter') {
+                                var inputTo = document.getElementById("input-thanhtien-" + num);
                                 inputTo.focus();
                             }
                         });
