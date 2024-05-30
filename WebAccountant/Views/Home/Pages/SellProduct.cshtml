@@ -813,7 +813,7 @@
                             type: 'POST',
                             data: JSON.stringify(madm),
                             success: function (result) {
-                                window.open("https://nibotlehoangphai78wan1.ddnsguru.com/InvoiceReport/HoaDon.pdf", "_blank");
+                                window.open("http://nibotlehoangphai78wan1.ddnsguru.com/InvoiceReport/HoaDon.pdf", "_blank");
                             }
                         });
                     }, 1000)
@@ -850,7 +850,7 @@
                             type: 'POST',
                             data: myKeyVals,
                             success: function (result) {
-                                window.open("https://nibotlehoangphai78wan1.ddnsguru.com/InvoiceReport/HoaDon.pdf", "_blank");
+                                window.open("http://nibotlehoangphai78wan1.ddnsguru.com/InvoiceReport/HoaDon.pdf", "_blank");
                             }
                         });
                     } else {
@@ -977,14 +977,16 @@
                     if (fil.length == 0) {
                         alert("Hãy chọn mốc thời gian có thông tin!");
                     } else {
-                        $.ajax({
+                        var regex = new RegExp("&","g");
+                        const jsonString = JSON.stringify(fil).replace(regex, " and ")
+                            $.ajax({
                             url: '@Url.Action("SubmitCartToExportPhieuBanHang", "Ktdms")',
                             type: 'POST',
-                            data: JSON.stringify(fil),
+                            data: jsonString,
                             success: function () {
-                                window.open("https://nibotlehoangphai78wan1.ddnsguru.com/PhieuBanHangReport/PhieuBanHang.pdf", "_blank");
+                                window.open("http://nibotlehoangphai78wan1.ddnsguru.com/PhieuBanHangReport/PhieuBanHang.pdf", "_blank");
                             }
-                        });
+                            });
                     }
                 }
 
