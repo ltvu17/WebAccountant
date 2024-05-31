@@ -463,12 +463,15 @@
                     var sl = document.getElementById("input-soluong-" + rowIndex).value;
                     var dgia = $(`#input-dongia-${rowIndex}`)[0].value;
                     var tr = document.getElementById("tr" + rowIndex);
+
                     tr.querySelector('#input-ck-vnd-' + rowIndex).value = convertNumToText(document.getElementById('ck-vnd-' + rowIndex).value);
-                    console.log(convertNumToText(document.getElementById('ck-vnd-' + rowIndex).value) + "ck");
                     var ckVnd = tr.querySelector('#input-ck-vnd-' + rowIndex).value;
-                    document.getElementById("input-ck-vnd")
+                    tr.querySelector('#ck-vnd-' + rowIndex).value = formatFromNumber(parseFloat(ckVnd).toFixed(0));
+
                     tr.querySelector('#input-thue-vnd-' + rowIndex).value = convertNumToText(document.getElementById('thue-vnd-' + rowIndex).value);
                     var thueVnd = tr.querySelector('#input-thue-vnd-' + rowIndex).value;
+                    tr.querySelector('#thue-vnd-' + rowIndex).value = formatFromNumber(parseFloat(thueVnd).toFixed(0));
+
                     var thanhtien = parseFloat(sl).toFixed(0) * parseFloat(dgia).toFixed(0) - parseFloat(ckVnd).toFixed(0);
                     thanhtien = parseFloat(parseFloat(thanhtien).toFixed(0)) + parseFloat(parseFloat(thueVnd).toFixed(0));
                     tr.querySelector('#input-thanhtien-' + rowIndex).value = formatFromNumber(parseFloat(thanhtien).toFixed(0));
