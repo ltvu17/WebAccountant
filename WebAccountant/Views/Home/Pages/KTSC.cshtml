@@ -36,9 +36,6 @@
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="d-flex">
-                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm</button>
-                    </div>
                 </div>
             </nav>
 
@@ -271,17 +268,17 @@
 
                     columns.AddFor(m => m.Lctg).Fixed(true);
 
-                    columns.AddFor(m => m.SrHd);
+                    columns.AddFor(m => m.SrHd).Caption("Số seri hóa đơn");
 
-                    columns.AddFor(m => m.SoHd);
+                    columns.AddFor(m => m.SoHd).Caption("Số hóa đơn");
 
-                    columns.AddFor(m => m.NgayHd);
+                    columns.AddFor(m => m.NgayHd).Caption("Ngày hóa đơn");
 
-                    columns.AddFor(m => m.Soct);
+                    columns.AddFor(m => m.Soct).Caption("Số chứng từ");
 
                     columns.AddFor(m => m.SoPc);
 
-                    columns.AddFor(m => m.Ngayct);
+                    columns.AddFor(m => m.Ngayct).Caption("Ngày chứng từ");
 
                     columns.AddFor(m => m.Diengiai).Caption("Diễn giải");
 
@@ -309,7 +306,7 @@
 
                     columns.AddFor(m => m.Madtgt);
 
-                    columns.AddFor(m => m.Tendm).Fixed(true);
+                    columns.AddFor(m => m.Tendm).Caption("Tên mặt hàng").Fixed(true);
 
                     columns.AddFor(m => m.DonviCtu).Caption("Đơn vị chứng từ");
 
@@ -319,13 +316,13 @@
 
                     columns.AddFor(m => m.Luong);
 
-                    columns.AddFor(m => m.Dgvnd);
+                    columns.AddFor(m => m.Dgvnd).Caption("Đơn giá");
 
                     columns.AddFor(m => m.Ttvnd);
 
                     columns.AddFor(m => m.PtCk);
 
-                    columns.AddFor(m => m.Chietkhau);
+                    columns.AddFor(m => m.Chietkhau).Caption("Chiết khấu");
 
                     columns.AddFor(m => m.Hdvat);
 
@@ -333,7 +330,7 @@
 
                     columns.AddFor(m => m.TsGtgt);
 
-                    columns.AddFor(m => m.Thuevnd);
+                    columns.AddFor(m => m.Thuevnd).Caption("Thuế thành tiền");
 
                     columns.AddFor(m => m.TtvndTt);
 
@@ -573,9 +570,9 @@
 
                     columns.AddFor(m => m.SoctN);
 
-                    columns.AddFor(m => m.Mamausac);
+                    columns.AddFor(m => m.Mamausac).Caption("Mã màu sắc");
 
-                    columns.AddFor(m => m.Tenmausac);
+                    columns.AddFor(m => m.Tenmausac).Caption("Tên màu sác");
 
                     columns.AddFor(m => m.Dgmausac);
 
@@ -592,27 +589,58 @@
                     e.SelectTextOnEditStart(true);
                     e.StartEditAction(GridStartEditAction.DblClick);
                 })
-                .Paging(paging => paging.PageSize(10))
+                .Paging(paging => paging.PageSize(15))
                 .Pager(pager =>
                 {
                     pager.Visible(true);
                     pager.DisplayMode(GridPagerDisplayMode.Compact);
                     pager.ShowPageSizeSelector(true);
-                    pager.AllowedPageSizes(new JS("[10, 20, 30]"));
+                    pager.AllowedPageSizes(new JS("[10, 15, 25, 40]"));
                     pager.ShowInfo(true);
                     pager.ShowNavigationButtons(true);
                 })
                 .OnRowInserted("onRowInserted")
                 .OnContextMenuPreparing("OpenMenu").ID("grid")
                 )
+            <div class="footer-data d-flex justify-content-start">
+                <button class="btn btn-primary width-100" data-bs-toggle="modal" id="btnAdd" data-bs-target="#exampleModal">Thêm</button>
+                <button class="btn btn-primary width-100" type="button" onclick="onEdit()">Sửa</button>
+                <button class="btn btn-primary width-100" type="button" onclick="onDelete()">Xóa</button>
+            </div>
         </div>
     </div>
 </div>
+
 <script>
+    function onDelete() {
+        var grid = document.getElementById("grid");
+        var row = grid.getElementsByClassName("dx-row-focused")[0];
+        if (row == null) {
+            alert("Hãy chọn hàng cần xóa")
+        } else {
+            var deleteLink = row.getElementsByClassName("dx-link-delete")[0];
+            deleteLink.click();
+        }
+    }
+    function onEdit() {
+        var grid = document.getElementById("grid");
+        var row = grid.getElementsByClassName("dx-row-focused")[0];
+        if (row == null) {
+            alert("Hãy chọn hàng cần sửa")
+        } else {
+            $('#btnAdd').click();
+        }
+    }
     function OpenMenu(e) {
         if (e.rowIndex != -1) {
             if (!e.items) e.items = [];
             const contextMenuItem = [
+                {
+                    text: "Sửa",
+                    onItemClick: function (args) {
+                        $('#btnAdd').click();
+                    }
+                },
                 {
                     text: "Xóa",
                     onItemClick: function (args) {
