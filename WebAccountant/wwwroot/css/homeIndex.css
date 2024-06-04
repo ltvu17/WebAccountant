@@ -1,5 +1,5 @@
 ﻿html, body{
-    height:90vh;
+    height:110vh;
 }
 .nav-main {
     position: fixed;
@@ -20,7 +20,7 @@
         width: 100%;
     }
 .home-container {
-    height: 90vh;
+    height:100%;
     width:100%;
     display:flex;
     justify-content: space-between;
@@ -369,6 +369,12 @@
 }
 .width-fit {
     width: fit-content;
+}
+.width-500 {
+    width: 500px;
+}
+.width-400 {
+    width: 400px;
 }
 .width-300 {
     width: 300px;

@@ -39,9 +39,6 @@
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="d-flex">
-                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm</button>
-                    </div>
                 </div>
             </nav>
 
@@ -100,11 +97,11 @@
                 .Columns(columns =>
                 {
 
-                    columns.AddFor(m => m.Matk);
+                    columns.AddFor(m => m.Matk).Caption("Mã tài khoản");
 
-                    columns.AddFor(m => m.Madtpn).Fixed(true);
+                    columns.AddFor(m => m.Madtpn).Caption("Mã khách hàng").Fixed(true);
 
-                    columns.AddFor(m => m.Tendtpn).Fixed(true);
+                    columns.AddFor(m => m.Tendtpn).Caption("Tên khách hàng").Fixed(true);
 
                     columns.AddFor(m => m.Vndduno);
 
@@ -136,7 +133,7 @@
 
                     columns.AddFor(m => m.VndnoMax);
 
-                    columns.AddFor(m => m.Diachi);
+                    columns.AddFor(m => m.Diachi).Caption("Địa chỉ");
 
                     columns.AddFor(m => m.Dientich);
 
@@ -190,27 +187,58 @@
                     e.SelectTextOnEditStart(true);
                     e.StartEditAction(GridStartEditAction.DblClick);
                 })
-                .Paging(paging => paging.PageSize(10))
+                .Paging(paging => paging.PageSize(15))
                 .Pager(pager =>
                 {
                     pager.Visible(true);
                     pager.DisplayMode(GridPagerDisplayMode.Compact);
                     pager.ShowPageSizeSelector(true);
-                    pager.AllowedPageSizes(new JS("[10, 20, 30]"));
+                    pager.AllowedPageSizes(new JS("[10, 15, 25, 40]"));
                     pager.ShowInfo(true);
                     pager.ShowNavigationButtons(true);
                 })
                 .OnRowInserted("onRowInserted")
                 .OnContextMenuPreparing("OpenMenu").ID("grid")
                 )
+            <div class="footer-data d-flex justify-content-start">
+                <button class="btn btn-primary width-100" data-bs-toggle="modal" id="btnAdd" data-bs-target="#exampleModal">Thêm</button>
+                <button class="btn btn-primary width-100" type="button" onclick="onEdit()">Sửa</button>
+                <button class="btn btn-primary width-100" type="button" onclick="onDelete()">Xóa</button>
+            </div>
         </div>
-        </div>
+    </div>
 </div>
+
 <script>
+    function onDelete() {
+        var grid = document.getElementById("grid");
+        var row = grid.getElementsByClassName("dx-row-focused")[0];
+        if (row == null) {
+                alert("Hãy chọn hàng cần xóa")
+        } else {
+            var deleteLink = row.getElementsByClassName("dx-link-delete")[0];
+            deleteLink.click();
+        }
+    }
+    function onEdit() {
+        var grid = document.getElementById("grid");
+        var row = grid.getElementsByClassName("dx-row-focused")[0];
+        if (row == null) {
+                alert("Hãy chọn hàng cần sửa")
+        } else {
+            $('#btnAdd').click();
+        }
+    }
     function OpenMenu(e) {
         if (e.rowIndex != -1) {
             if (!e.items) e.items = [];
             const contextMenuItem = [
+                {
+                    text: "Sửa",
+                    onItemClick: function (args) {
+                        $('#btnAdd').click();
+                    }
+                },
                 {
                     text: "Xóa",
                     onItemClick: function (args) {
@@ -226,7 +254,6 @@
             })
         }
     }
-
     function onRowInserted(e) {
         e.component.navigateToRow(e.key);
         e.component.option("focusedRowKey", e.key);

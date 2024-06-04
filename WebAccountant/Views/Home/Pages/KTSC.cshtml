@@ -36,9 +36,6 @@
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="d-flex">
-                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm</button>
-                    </div>
                 </div>
             </nav>
 
@@ -271,17 +268,17 @@
 
                     columns.AddFor(m => m.Lctg).Fixed(true);
 
-                    columns.AddFor(m => m.SrHd);
+                    columns.AddFor(m => m.SrHd).Caption("Số seri hóa đơn");
 
-                    columns.AddFor(m => m.SoHd);
+                    columns.AddFor(m => m.SoHd).Caption("Số hóa đơn");
 
-                    columns.AddFor(m => m.NgayHd);
+                    columns.AddFor(m => m.NgayHd).Caption("Ngày hóa đơn");
 
-                    columns.AddFor(m => m.Soct);
+                    columns.AddFor(m => m.Soct).Caption("Số chứng từ");
 
                     columns.AddFor(m => m.SoPc);
 
-                    columns.AddFor(m => m.Ngayct);
+                    columns.AddFor(m => m.Ngayct).Caption("Ngày chứng từ");
 
                     columns.AddFor(m => m.Diengiai).Caption("Diễn giải");
 
@@ -309,7 +306,7 @@
 
                     columns.AddFor(m => m.Madtgt);
 
-                    columns.AddFor(m => m.Tendm).Fixed(true);
+                    columns.AddFor(m => m.Tendm).Caption("Tên mặt hàng").Fixed(true);
 
                     columns.AddFor(m => m.DonviCtu).Caption("Đơn vị chứng từ");
 
@@ -319,13 +316,13 @@
 
                     columns.AddFor(m => m.Luong);
 
-                    columns.AddFor(m => m.Dgvnd);
+                    columns.AddFor(m => m.Dgvnd).Caption("Đơn giá");
 
                     columns.AddFor(m => m.Ttvnd);
 
                     columns.AddFor(m => m.PtCk);
 
-                    columns.AddFor(m => m.Chietkhau);
+                    columns.AddFor(m => m.Chietkhau).Caption("Chiết khấu");
 
                     columns.AddFor(m => m.Hdvat);
 
@@ -333,7 +330,7 @@
 
                     columns.AddFor(m => m.TsGtgt);
 
-                    columns.AddFor(m => m.Thuevnd);
+                    columns.AddFor(m => m.Thuevnd).Caption("Thuế thành tiền");
 
                     columns.AddFor(m => m.TtvndTt);
 
@@ -363,12 +360,6 @@
 
                     columns.AddFor(m => m.Tygia);
 
-                    columns.AddFor(m => m.Ttusd);
-
-                    columns.AddFor(m => m.Thueusd);
-
-                    columns.AddFor(m => m.TtusdTt);
-
                     columns.AddFor(m => m.Soctgs);
 
                     columns.AddFor(m => m.Ngayctgs);
@@ -385,63 +376,15 @@
 
                     columns.AddFor(m => m.Mauser).Caption("Mã user");
 
-                    columns.AddFor(m => m.Matttu);
-
                     columns.AddFor(m => m.NgayDaoHan);
-
-                    columns.AddFor(m => m.Madvtt);
-
-                    columns.AddFor(m => m.Tendvtt);
-
-                    columns.AddFor(m => m.Tknhno);
-
-                    columns.AddFor(m => m.Tentknhno);
-
-                    columns.AddFor(m => m.Madvnt);
-
-                    columns.AddFor(m => m.Tendvnt);
-
-                    columns.AddFor(m => m.Tknhco);
-
-                    columns.AddFor(m => m.Tentknhco);
-
-                    columns.AddFor(m => m.Tenvung);
-
-                    columns.AddFor(m => m.Kyhieu);
-
-                    columns.AddFor(m => m.Mangd);
-
-                    columns.AddFor(m => m.Diengiai2);
-
-                    columns.AddFor(m => m.Dgusd);
 
                     columns.AddFor(m => m.Tienhang);
 
-                    columns.AddFor(m => m.TenhhIn);
-
-                    columns.AddFor(m => m.Httt);
-
-                    columns.AddFor(m => m.Invoi);
-
-                    columns.AddFor(m => m.Masanpham);
-
                     columns.AddFor(m => m.Dontrong);
-
-                    columns.AddFor(m => m.MaNvBan);
-
-                    columns.AddFor(m => m.SoctU);
-
-                    columns.AddFor(m => m.Col11);
-
-                    columns.AddFor(m => m.Col12);
-
-                    columns.AddFor(m => m.Col13);
 
                     columns.AddFor(m => m.Danhdau);
 
                     columns.AddFor(m => m.Trangthai);
-
-                    columns.AddFor(m => m.ChietkhauUsd);
 
                     columns.AddFor(m => m.DgGc);
 
@@ -451,59 +394,11 @@
 
                     columns.AddFor(m => m.IdChungtu);
 
-                    columns.AddFor(m => m.KhmHd);
-
-                    columns.AddFor(m => m.Kxldg);
-
-                    columns.AddFor(m => m.Lenhsx);
-
-                    columns.AddFor(m => m.MaHd);
-
-                    columns.AddFor(m => m.MaHhGc);
-
-                    columns.AddFor(m => m.MaTiepThi);
-
-                    columns.AddFor(m => m.MaTt);
-
-                    columns.AddFor(m => m.MaVung);
-
-                    columns.AddFor(m => m.Manhom);
-
-                    columns.AddFor(m => m.Manhom1);
-
-                    columns.AddFor(m => m.Manhom2);
-
                     columns.AddFor(m => m.Model);
-
-                    columns.AddFor(m => m.MsTm);
-
-                    columns.AddFor(m => m.NgayHopdongSc);
-
-                    columns.AddFor(m => m.NgayTt);
-
-                    columns.AddFor(m => m.Ngaylo);
 
                     columns.AddFor(m => m.Nhacungcap);
 
                     columns.AddFor(m => m.Nhasanxuat);
-
-                    columns.AddFor(m => m.Nhomkh);
-
-                    columns.AddFor(m => m.NoidungSc);
-
-                    columns.AddFor(m => m.SlGc);
-
-                    columns.AddFor(m => m.SoPt);
-
-                    columns.AddFor(m => m.Sokheuoc);
-
-                    columns.AddFor(m => m.SttTt);
-
-                    columns.AddFor(m => m.TenTiepThi);
-
-                    columns.AddFor(m => m.TenctSc);
-
-                    columns.AddFor(m => m.Tenytcpno);
 
                     columns.AddFor(m => m.ThangN);
 
@@ -513,51 +408,9 @@
 
                     columns.AddFor(m => m.TkXuatkho);
 
-                    columns.AddFor(m => m.TnkUsd);
-
-                    columns.AddFor(m => m.TnkVnd);
-
-                    columns.AddFor(m => m.TsNk);
-
-                    columns.AddFor(m => m.TtGc);
-
-                    columns.AddFor(m => m.TtVc);
-
-                    columns.AddFor(m => m.Tteur);
-
-                    columns.AddFor(m => m.Donvi1);
-
-                    columns.AddFor(m => m.Donvi2);
-
                     columns.AddFor(m => m.HsqdDvt);
 
-                    columns.AddFor(m => m.Luong1);
-
-                    columns.AddFor(m => m.Luong2);
-
-                    columns.AddFor(m => m.Mabpsx);
-
                     columns.AddFor(m => m.SttBt);
-
-                    columns.AddFor(m => m.Tendtgt);
-
-                    columns.AddFor(m => m.Imei);
-
-                    columns.AddFor(m => m.Madonhang);
-
-                    columns.AddFor(m => m.Barcode);
-
-                    columns.AddFor(m => m.MadonhangMua);
-
-                    columns.AddFor(m => m.Manhomdt1);
-
-                    columns.AddFor(m => m.Tennhomdt1);
-
-                    columns.AddFor(m => m.Chietkhau2);
-
-                    columns.AddFor(m => m.IdUpdate);
-
-                    columns.AddFor(m => m.PtCk2);
 
                     columns.AddFor(m => m.IdNghiepvu).Caption("ID Nghiệp vụ");
 
@@ -572,14 +425,6 @@
                     columns.AddFor(m => m.Kyduyet);
 
                     columns.AddFor(m => m.SoctN);
-
-                    columns.AddFor(m => m.Mamausac);
-
-                    columns.AddFor(m => m.Tenmausac);
-
-                    columns.AddFor(m => m.Dgmausac);
-
-                    columns.AddFor(m => m.Ttmausac);
                 })
                 .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
                 .ShowBorders(true)
@@ -592,27 +437,58 @@
                     e.SelectTextOnEditStart(true);
                     e.StartEditAction(GridStartEditAction.DblClick);
                 })
-                .Paging(paging => paging.PageSize(10))
+                .Paging(paging => paging.PageSize(15))
                 .Pager(pager =>
                 {
                     pager.Visible(true);
                     pager.DisplayMode(GridPagerDisplayMode.Compact);
                     pager.ShowPageSizeSelector(true);
-                    pager.AllowedPageSizes(new JS("[10, 20, 30]"));
+                    pager.AllowedPageSizes(new JS("[10, 15, 25, 40]"));
                     pager.ShowInfo(true);
                     pager.ShowNavigationButtons(true);
                 })
                 .OnRowInserted("onRowInserted")
                 .OnContextMenuPreparing("OpenMenu").ID("grid")
                 )
+            <div class="footer-data d-flex justify-content-start">
+                <button class="btn btn-primary width-100" data-bs-toggle="modal" id="btnAdd" data-bs-target="#exampleModal">Thêm</button>
+                <button class="btn btn-primary width-100" type="button" onclick="onEdit()">Sửa</button>
+                <button class="btn btn-primary width-100" type="button" onclick="onDelete()">Xóa</button>
+            </div>
         </div>
     </div>
 </div>
+
 <script>
+    function onDelete() {
+        var grid = document.getElementById("grid");
+        var row = grid.getElementsByClassName("dx-row-focused")[0];
+        if (row == null) {
+            alert("Hãy chọn hàng cần xóa")
+        } else {
+            var deleteLink = row.getElementsByClassName("dx-link-delete")[0];
+            deleteLink.click();
+        }
+    }
+    function onEdit() {
+        var grid = document.getElementById("grid");
+        var row = grid.getElementsByClassName("dx-row-focused")[0];
+        if (row == null) {
+            alert("Hãy chọn hàng cần sửa")
+        } else {
+            $('#btnAdd').click();
+        }
+    }
     function OpenMenu(e) {
         if (e.rowIndex != -1) {
             if (!e.items) e.items = [];
             const contextMenuItem = [
+                {
+                    text: "Sửa",
+                    onItemClick: function (args) {
+                        $('#btnAdd').click();
+                    }
+                },
                 {
                     text: "Xóa",
                     onItemClick: function (args) {
