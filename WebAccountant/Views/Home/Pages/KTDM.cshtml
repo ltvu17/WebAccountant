@@ -46,7 +46,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" style="color: #119583;" id="exampleModalLabel">Thêm Hàng Hóa</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="resetModal()" aria-label="Đóng"></button>
                         </div>
                         <div class="modal-body">
                             <form method="post" asp-controller="Ktdms" asp-action="Post">
@@ -58,65 +58,63 @@
                                                autofocus="autofocus"
                                                autocomplete="off"
                                                placeholder="Nhập mặt hàng(nếu có)..."
-                                               asp-for="Madm"
                                                onkeyup="SearchNow('list-madm-sugg','input-madm','list-madm-sugg')" />
+                                               <input id="edit-madm" type="text" hidden/>
                                         <div class="table-container">
                                             <table id="list-madm-sugg" class="sugg-container d-none">
                                                 <tr id="tr-1">
-                                                    <td class="width-120">Mã khách hàng</td>
-                                                    <td class="width-250">Tên khách hàng</td>
+                                                    <td class="width-150">Mã khách hàng</td>
+                                                    <td class="width-500">Tên khách hàng</td>
                                                 </tr>
                                             </table>
                                         </div>
-                                        <span asp-validation-for="Madm" class="text-danger"></span>
                                     </div>
                                     <div class="col-md-8 text-start">
                                         <label for="tendm" class="col-form-label">Tên hàng hóa:</label>
                                         <input type="text" class="form-control" asp-for="Tendm" id="tendm">
-                                        <span asp-validation-for="Tendm" class="text-danger"></span>
+                                        @* <span asp-validation-for="Tendm" class="text-danger"></span> *@
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4 text-start">
                                         <label for="mahh" class="col-form-label">Mã tài khoản:</label>
                                         <input type="text" class="form-control" asp-for="Matk" id="mahh">
-                                        <span asp-validation-for="Matk" class="text-danger"></span>
+                                        @* <span asp-validation-for="Matk" class="text-danger"></span> *@
                                     </div>
                                     <div class="col-md-4 text-start">
                                         <label for="dgb" class="col-form-label">Đơn giá bán:</label>
-                                        <input type="text" class="form-control" asp-for="Madm" id="dgb">
-                                        <span asp-validation-for="Madm" class="text-danger"></span>
+                                        <input type="number" min="0" class="form-control" asp-for="Madm" id="dgb">
+                                        @* <span asp-validation-for="Madm" class="text-danger"></span> *@
                                     </div>
                                     <div class="col-md-4 text-start">
                                         <label for="dgx" class="col-form-label">Đơn giá xuất:</label>
-                                        <input type="text" class="form-control" asp-for="Tendm" id="dgx">
-                                        <span asp-validation-for="Tendm" class="text-danger"></span>
+                                        <input type="number" min="0" class="form-control" asp-for="Tendm" id="dgx">
+                                        @* <span asp-validation-for="Tendm" class="text-danger"></span> *@
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4 text-start">
                                         <label for="dvt" class="col-form-label">Đơn vị tính:</label>
-                                        <input type="text" class="form-control" asp-for="Madm" id="dvt">
-                                        <span asp-validation-for="Madm" class="text-danger"></span>
+                                        <input type="text" class="form-control" asp-for="Donvi" id="dvt">
+                                        @* <span asp-validation-for="Donvi" class="text-danger"></span> *@
                                     </div>
                                     <div class="col-md-4 text-start">
-                                            <label for="tdk-gt" class="col-form-label">Tồn đầu kì - Giá trị:</label>
-                                            <input type="text" class="form-control" asp-for="Donvi" id="tdk-gt">
-                                            <span asp-validation-for="Donvi" class="text-danger"></span>
+                                        <label for="tdk-gt" class="col-form-label">Tồn đầu kì - Giá trị:</label>
+                                        <input type="number" min="0" class="form-control" asp-for="Donvi" id="tdk-gt">
+                                        @* <span asp-validation-for="Donvi" class="text-danger"></span> *@
                                         </div>
                                     <div class="col-md-4 text-start">
-                                            <label for="tdk-sl" class="col-form-label">Tồn đầu kỳ - Số lượng:</label>
-                                            <input type="text" class="form-control" asp-for="Tendm" id="tdk-sl">
-                                            <span asp-validation-for="Tendm" class="text-danger"></span>
+                                        <label for="tdk-sl" class="col-form-label">Tồn đầu kỳ - Số lượng:</label>
+                                        <input type="number" min="0" class="form-control" asp-for="Tendm" id="tdk-sl">
+                                        @* <span asp-validation-for="Tendm" class="text-danger"></span> *@
                                         </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                                    <button type="submit" class="btn btn-primary">Thêm</button>
+                                    <button type="button" class="btn btn-secondary" onclick="resetModal()" id="btnClose" data-bs-dismiss="modal">Đóng</button>
+                                    <button type="button" class="btn btn-primary" onclick="submitModal()">Nộp</button>
                                 </div>
                             </form>
                         </div>
-                        
                     </div>
                 </div>
             </div>
@@ -340,7 +338,7 @@
                 )
             <div class="footer-data d-flex justify-content-start">
                 <button class="btn btn-primary width-100" data-bs-toggle="modal" id="btnAdd" data-bs-target="#exampleModal">Thêm</button>
-                <button class="btn btn-primary width-100" type="button" onclick="onEdit()">Sửa</button>
+                <button class="btn btn-primary width-100" type="button" id="btnEdit" onclick="onEdit()">Sửa</button>
                 <button class="btn btn-primary width-100" type="button" onclick="onDelete()">Xóa</button>
             </div>
         </div>
@@ -350,12 +348,9 @@
 <script>
     function SearchNow(idSugg, idInput, idUl) {
         document.getElementById(idSugg).classList.remove("d-none");
-        var input, filter, ul, li, a, i, txtValue;
+        var input, filter, a, i, txtValue;
         input = document.getElementById(idInput);
         filter = input.value.toUpperCase();
-        ul = document.getElementById(idUl);
-        li = ul.getElementsByTagName('li');
-
         var table = document.getElementById(idSugg);
         var tr = table.getElementsByTagName('tr');
         for (i = 1; i < tr.length; i++) {
@@ -427,6 +422,8 @@
             deleteLink.click();
         }
     }
+
+
     function onEdit() {
         var grid = document.getElementById("grid");
         var row = grid.getElementsByClassName("dx-row-focused")[0];
@@ -434,8 +431,59 @@
                 alert("Hãy chọn hàng cần sửa")
         } else {
             $('#btnAdd').click();
+            document.getElementById('edit-madm').value = row.getElementsByTagName('td')[0].textContent;
+            document.getElementById('input-madm').setAttribute('readonly', true);
+            document.getElementById('input-madm').value = row.getElementsByTagName('td')[0].textContent;
+            document.getElementById('mahh').value = row.getElementsByTagName('td')[2].textContent;
+            document.getElementById('tendm').value = row.getElementsByTagName('td')[1].textContent;
+            document.getElementById('dgb').value = row.getElementsByTagName('td')[24].textContent;
+            document.getElementById('dgx').value = row.getElementsByTagName('td')[14].textContent;
+            document.getElementById('dvt').value = row.getElementsByTagName('td')[6].textContent;
+            document.getElementById('tdk-gt').value = 0;
+            document.getElementById('tdk-sl').value = 0;
+            console.log('sua2');
         }
     }
+    function submitModal() {
+        var eMadm = document.getElementById("edit-madm").value ? document.getElementById("edit-madm").value : null;
+        if (eMadm == null) { 
+            console.log("themdm");
+            var madmDTO = {
+                Madm: document.getElementById('input-madm').value,
+                Matk: document.getElementById('mahh').value,
+                Tendm: document.getElementById('tendm').value,
+                Donvi: document.getElementById('dvt').value,
+                Dgban: document.getElementById('dgb').value,
+                Dgxuat: document.getElementById('dgx').value,
+            }
+            $.ajax({
+                url: '@Url.Action("Post", "Ktdms")',
+                type: 'POST',
+                data: madmDTO,
+                success: function (result) {
+                    alert("Tạo thành công!");
+                    $('#btnClose').click();
+                    resetModal();
+                    //location.reload();
+                }
+            });
+        } else {
+            console.log("suadm");
+            var madmDTO = {
+                Madm: document.getElementById('edit-madm').value,
+                Matk: document.getElementById('mahh').value,
+                Tendm: document.getElementById('tendm').value,
+                Donvi: document.getElementById('dvt').value,
+                Dgban: document.getElementById('dgb').value,
+                Dgxuat: document.getElementById('dgx').value,
+            }
+            $('#btnClose').click();
+            resetModal();
+        }
+
+    }
+
+
     function OpenMenu(e) {
         if (e.rowIndex != -1) {
             if (!e.items) e.items = [];
@@ -443,7 +491,20 @@
                 {
                     text: "Sửa",
                     onItemClick: function (args) {
+                        var grid = document.getElementById("grid");
+                        var row = grid.getElementsByClassName("dx-row-focused")[0];
                         $('#btnAdd').click();
+                        document.getElementById('edit-madm').value = row.getElementsByTagName('td')[0].textContent;
+                        document.getElementById('input-madm').setAttribute('readonly', true);
+                        document.getElementById('input-madm').value = row.getElementsByTagName('td')[0].textContent;
+                        document.getElementById('mahh').value = row.getElementsByTagName('td')[2].textContent;
+                        document.getElementById('tendm').value = row.getElementsByTagName('td')[1].textContent;
+                        document.getElementById('dgb').value = row.getElementsByTagName('td')[24].textContent;
+                        document.getElementById('dgx').value = row.getElementsByTagName('td')[14].textContent;
+                        document.getElementById('dvt').value = row.getElementsByTagName('td')[6].textContent;
+                        document.getElementById('tdk-gt').value = 0;
+                        document.getElementById('tdk-sl').value = 0;
+                        console.log('sua');
                     }
                 },
                 {
@@ -461,10 +522,30 @@
             })
         }
     }
-    
-
+    document.addEventListener('click', function (event) {
+        if (!document.getElementById("list-madm-sugg").contains(event.target) && !document.getElementById("list-madm-sugg").classList.contains("d-none")) {
+            hide_sugg("list-madm-sugg");
+        }
+        if (!document.getElementById("btnAdd").contains(event.target) && !document.getElementById("exampleModal").contains(event.target) && (!document.getElementById("btnEdit").contains(event.target)) && (!document.getElementsByClassName("dx-menu-item-text")[0]?.contains(event.target))) {
+            resetModal();
+        }
+    });
     function onRowInserted(e) {
         e.component.navigateToRow(e.key);
         e.component.option("focusedRowKey", e.key);
+    }
+
+    function resetModal(){
+        document.getElementById('edit-madm').value = null;
+        document.getElementById('input-madm').value = null;
+        document.getElementById('input-madm').removeAttribute('readonly');
+        document.getElementById('mahh').value = null;
+        document.getElementById('tendm').value = null;
+        document.getElementById('dgb').value = null;
+        document.getElementById('dgx').value = null;
+        document.getElementById('dvt').value = null;
+        document.getElementById('tdk-gt').value = null;
+        document.getElementById('tdk-sl').value = null;
+        console.log('reset');
     }
 </script>
