@@ -10,7 +10,7 @@
         @Html.Partial("../Home/SideBar")
         <div class="right-bar-home content">
             @*Navbar Here*@
-            <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex">
+            @* <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex">
                 <div class="container-fluid">
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -20,25 +20,13 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Đơn mua hàng</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Mua hàng</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Nhận hóa đơn</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Nhận hóa đơn</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Trả lại hàng</a>
-                            </li>
                         </ul>
                     </div>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                 </div>
-            </nav>
+            </nav> *@
 
             @*Modal*@
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -82,13 +70,15 @@
                                         @* <span asp-validation-for="Matk" class="text-danger"></span> *@
                                     </div>
                                     <div class="col-md-4 text-start">
-                                        <label for="dgb" class="col-form-label">Đơn giá bán:</label>
-                                        <input type="number" min="0" class="form-control" asp-for="Madm" id="dgb">
+                                        <label for="t-dgb" class="col-form-label">Đơn giá bán:</label>
+                                        <input type="text" class="form-control" id="t-dgb" onchange="formatAll()" />
+                                        <input type="number" min="0" class="form-control" asp-for="Madm" id="dgb" hidden/>
                                         @* <span asp-validation-for="Madm" class="text-danger"></span> *@
                                     </div>
                                     <div class="col-md-4 text-start">
-                                        <label for="dgx" class="col-form-label">Đơn giá xuất:</label>
-                                        <input type="number" min="0" class="form-control" asp-for="Tendm" id="dgx">
+                                        <label for="t-dgx" class="col-form-label">Đơn giá xuất:</label>
+                                        <input type="text" class="form-control" id="t-dgx" onchange="formatAll()">
+                                        <input type="number" min="0" class="form-control" id="dgx" hidden/>
                                         @* <span asp-validation-for="Tendm" class="text-danger"></span> *@
                                     </div>
                                 </div>
@@ -99,13 +89,15 @@
                                         @* <span asp-validation-for="Donvi" class="text-danger"></span> *@
                                     </div>
                                     <div class="col-md-4 text-start">
-                                        <label for="tdk-gt" class="col-form-label">Tồn đầu kì - Giá trị:</label>
-                                        <input type="number" min="0" class="form-control" asp-for="Donvi" id="tdk-gt">
+                                        <label for="t-tdk-gt" class="col-form-label">Tồn đầu kì - Giá trị:</label>
+                                        <input type="text" class="form-control" id="t-tdk-gt" onchange="formatAll()">
+                                        <input type="number" min="0" class="form-control" id="tdk-gt" hidden>
                                         @* <span asp-validation-for="Donvi" class="text-danger"></span> *@
                                         </div>
                                     <div class="col-md-4 text-start">
-                                        <label for="tdk-sl" class="col-form-label">Tồn đầu kỳ - Số lượng:</label>
-                                        <input type="number" min="0" class="form-control" asp-for="Tendm" id="tdk-sl">
+                                        <label for="t-tdk-sl" class="col-form-label">Tồn đầu kỳ - Số lượng:</label>
+                                        <input type="text" class="form-control" id="t-tdk-sl" onchange="formatAll()">
+                                        <input type="number" min="0" class="form-control" id="tdk-sl" hidden>
                                         @* <span asp-validation-for="Tendm" class="text-danger"></span> *@
                                         </div>
                                 </div>
@@ -135,9 +127,9 @@
                 {
                     columns.AddFor(m => m.Matk);
 
-                    columns.AddFor(m => m.Madm).Caption("Mã danh mục").Fixed(true);
+                    columns.AddFor(m => m.Madm).Caption("Mã danh mục").Fixed(true).Format("0,###");
 
-                    columns.AddFor(m => m.Tendm).Caption("Tên danh mục").Fixed(true);
+                    columns.AddFor(m => m.Tendm).Caption("Tên danh mục").Fixed(true).Format("0,###");
 
                     columns.AddFor(m => m.Manhom);
 
@@ -161,7 +153,7 @@
 
                     columns.AddFor(m => m.Thuesuat);
 
-                    columns.AddFor(m => m.Dgxuat).Caption("Đơn giá xuất");
+                    columns.AddFor(m => m.Dgxuat).Caption("Đơn giá xuất").Format("0,###");
 
                     columns.AddFor(m => m.TonT);
 
@@ -181,15 +173,15 @@
 
                     columns.AddFor(m => m.Danhdau);
 
-                    columns.AddFor(m => m.Dgban).Caption("Đơn giá bán");
+                    columns.AddFor(m => m.Dgban).Caption("Đơn giá bán").Format("0,###");
 
-                    columns.AddFor(m => m.Dgban1).Caption("Đơn giá bán 1");
+                    columns.AddFor(m => m.Dgban1).Caption("Đơn giá bán 1").Format("0,###");
 
-                    columns.AddFor(m => m.Dgban2).Caption("Đơn giá bán 2");
+                    columns.AddFor(m => m.Dgban2).Caption("Đơn giá bán 2").Format("0,###");
 
-                    columns.AddFor(m => m.Dgban3).Caption("Đơn giá bán 3");
+                    columns.AddFor(m => m.Dgban3).Caption("Đơn giá bán 3").Format("0,###");
 
-                    columns.AddFor(m => m.Dgban4).Caption("Đơn giá bán 4");
+                    columns.AddFor(m => m.Dgban4).Caption("Đơn giá bán 4").Format("0,###");
 
                     columns.AddFor(m => m.Donvi1).Caption("Đơn vị 1");
 
@@ -203,25 +195,15 @@
 
                     columns.AddFor(m => m.Hsqd3);
 
-                    columns.AddFor(m => m.UsdtonT);
+                    columns.AddFor(m => m.Dgnhap1).Caption("Đơn giá nhập 1").Format("0,###");
 
-                    columns.AddFor(m => m.UsdnhapT);
+                    columns.AddFor(m => m.Dgnhap2).Caption("Đơn giá nhập 2").Format("0,###");
 
-                    columns.AddFor(m => m.UsdxuatT);
+                    columns.AddFor(m => m.Dgnhap3).Caption("Đơn giá nhập 3").Format("0,###");
 
-                    columns.AddFor(m => m.UsdtonCk);
+                    columns.AddFor(m => m.Dgnhap4).Caption("Đơn giá nhập 4").Format("0,###");
 
-                    columns.AddFor(m => m.Dgusd);
-
-                    columns.AddFor(m => m.Dgnhap1).Caption("Đơn giá nhập 1");
-
-                    columns.AddFor(m => m.Dgnhap2).Caption("Đơn giá nhập 2");
-
-                    columns.AddFor(m => m.Dgnhap3).Caption("Đơn giá nhập 3");
-
-                    columns.AddFor(m => m.Dgnhap4).Caption("Đơn giá nhập 4");
-
-                    columns.AddFor(m => m.Dgnhap5).Caption("Đơn giá nhập 5");
+                    columns.AddFor(m => m.Dgnhap5).Caption("Đơn giá nhập 5").Format("0,###");
 
                     columns.AddFor(m => m.Trangthai);
 
@@ -252,10 +234,6 @@
                     columns.AddFor(m => m.TenDdh);
 
                     columns.AddFor(m => m.TendmMe);
-
-                    columns.AddFor(m => m.Tennhom1);
-
-                    columns.AddFor(m => m.Tennhom2);
 
                     columns.AddFor(m => m.Tennhomtp);
 
@@ -406,9 +384,13 @@
         document.getElementById('input-madm').value = JSON.parse(decodeURIComponent(item)).Madm;
         document.getElementById('mahh').value = JSON.parse(decodeURIComponent(item)).Matk;
         document.getElementById('tendm').value = JSON.parse(decodeURIComponent(item)).Tendm;
+        document.getElementById('t-dgb').value = 0;
+        document.getElementById('t-dgx').value = 0;
         document.getElementById('dgb').value = 0;
         document.getElementById('dgx').value = 0;
         document.getElementById('dvt').value = JSON.parse(decodeURIComponent(item)).Donvi;
+        document.getElementById('t-tdk-gt').value = 0;
+        document.getElementById('t-tdk-sl').value = 0;
         document.getElementById('tdk-gt').value = 0;
         document.getElementById('tdk-sl').value = 0;
     }
@@ -437,11 +419,15 @@
             document.getElementById('mahh').value = row.getElementsByTagName('td')[2].textContent;
             document.getElementById('tendm').value = row.getElementsByTagName('td')[1].textContent;
             document.getElementById('dgb').value = row.getElementsByTagName('td')[24].textContent;
+            document.getElementById('t-dgx').value = row.getElementsByTagName('td')[14].textContent;
+            document.getElementById('t-dgb').value = row.getElementsByTagName('td')[24].textContent;
             document.getElementById('dgx').value = row.getElementsByTagName('td')[14].textContent;
             document.getElementById('dvt').value = row.getElementsByTagName('td')[6].textContent;
+            document.getElementById('t-tdk-gt').value = 0;
+            document.getElementById('t-tdk-sl').value = 0;
             document.getElementById('tdk-gt').value = 0;
             document.getElementById('tdk-sl').value = 0;
-            console.log('sua2');
+            formatAll();
         }
     }
     function submitModal() {
@@ -499,11 +485,16 @@
                         document.getElementById('input-madm').value = row.getElementsByTagName('td')[0].textContent;
                         document.getElementById('mahh').value = row.getElementsByTagName('td')[2].textContent;
                         document.getElementById('tendm').value = row.getElementsByTagName('td')[1].textContent;
+                        document.getElementById('t-dgb').value = row.getElementsByTagName('td')[24].textContent;
+                        document.getElementById('t-dgx').value = row.getElementsByTagName('td')[14].textContent;
                         document.getElementById('dgb').value = row.getElementsByTagName('td')[24].textContent;
                         document.getElementById('dgx').value = row.getElementsByTagName('td')[14].textContent;
                         document.getElementById('dvt').value = row.getElementsByTagName('td')[6].textContent;
+                        document.getElementById('t-tdk-gt').value = 0;
+                        document.getElementById('t-tdk-sl').value = 0;
                         document.getElementById('tdk-gt').value = 0;
                         document.getElementById('tdk-sl').value = 0;
+                        formatAll();
                         console.log('sua');
                     }
                 },
@@ -541,11 +532,81 @@
         document.getElementById('input-madm').removeAttribute('readonly');
         document.getElementById('mahh').value = null;
         document.getElementById('tendm').value = null;
+        document.getElementById('t-dgb').value = null;
+        document.getElementById('t-dgx').value = null;
         document.getElementById('dgb').value = null;
         document.getElementById('dgx').value = null;
         document.getElementById('dvt').value = null;
+        document.getElementById('t-tdk-gt').value = null;
+        document.getElementById('t-tdk-sl').value = null;
         document.getElementById('tdk-gt').value = null;
         document.getElementById('tdk-sl').value = null;
         console.log('reset');
+    }
+
+    function formatFromNumber(int) {
+        var formattedNumber = new Intl.NumberFormat('en-US').format(int);
+        if (formattedNumber == "NaN") formattedNumber = 0;
+        return formattedNumber;
+    }
+
+    function convertNumToText(numberString) {
+        var cleanedNumberString = numberString.replace(/,/g, '');
+        if (numberString == "NaN") cleanedNumberString = 0;
+        return cleanedNumberString;
+    }
+    function formatAll(){
+        document.getElementById('t-dgb').value = formatFromNumber(convertNumToText(document.getElementById('t-dgb').value));
+        document.getElementById('t-dgx').value = formatFromNumber(convertNumToText(document.getElementById('t-dgx').value));
+        document.getElementById('dgb').value = convertNumToText(document.getElementById('t-dgb').value);
+        document.getElementById('dgx').value = convertNumToText(document.getElementById('t-dgx').value);
+        document.getElementById('t-tdk-gt').value = formatFromNumber(convertNumToText(document.getElementById('t-tdk-gt').value));
+        document.getElementById('t-tdk-sl').value = formatFromNumber(convertNumToText(document.getElementById('t-tdk-sl').value));
+        document.getElementById('tdk-gt').value = convertNumToText(document.getElementById('t-tdk-gt').value);
+    }
+    document.getElementById('exampleModal').onkeypress = function (e) {
+        var inputTo;
+        var input = document.getElementById("tendm");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("mahh");
+                inputTo.focus();
+            }
+        });
+        input = document.getElementById("mahh");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("t-dgb");
+                inputTo.focus();
+            }
+        });
+        input = document.getElementById("t-dgb");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("t-dgx");
+                inputTo.focus();
+            }
+        });
+        input = document.getElementById("t-dgx");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("dvt");
+                inputTo.focus();
+            }
+        });
+        input = document.getElementById("dvt");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("t-tdk-gt");
+                inputTo.focus();
+            }
+        });
+        input = document.getElementById("t-tdk-gt");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("t-tdk-sl");
+                inputTo.focus();
+            }
+        });
     }
 </script>

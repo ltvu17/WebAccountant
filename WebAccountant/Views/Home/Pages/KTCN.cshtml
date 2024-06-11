@@ -12,27 +12,12 @@
         @Html.Partial("../Home/SideBar")
         <div class="right-bar-home content">
             @*Navbar Here*@
-            <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex">
+            @* <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex">
                 <div class="container-fluid">
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="#">Danh sách</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Đơn mua hàng</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Mua hàng</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Nhận hóa đơn</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Nhận hóa đơn</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Trả lại hàng</a>
                             </li>
                         </ul>
                     </div>
@@ -40,7 +25,7 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                 </div>
-            </nav>
+            </nav> *@
 
             @*Modal*@
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -103,79 +88,9 @@
 
                     columns.AddFor(m => m.Tendtpn).Caption("Tên khách hàng").Fixed(true);
 
-                    columns.AddFor(m => m.Vndduno);
+                    columns.AddFor(m => m.Vndduno).Caption("Số dư nợ").Format("0,###");
 
-                    columns.AddFor(m => m.Vndduco);
-
-                    columns.AddFor(m => m.Vndpsno);
-
-                    columns.AddFor(m => m.Vndpsco);
-
-                    columns.AddFor(m => m.Vndckno);
-
-                    columns.AddFor(m => m.Vndckco);
-
-                    columns.AddFor(m => m.Usdduno);
-
-                    columns.AddFor(m => m.Usdduco);
-
-                    columns.AddFor(m => m.Usdpsno);
-
-                    columns.AddFor(m => m.Usdpsco);
-
-                    columns.AddFor(m => m.Usdckno);
-
-                    columns.AddFor(m => m.Usdckco);
-
-                    columns.AddFor(m => m.Danhdau);
-
-                    columns.AddFor(m => m.Trangthai);
-
-                    columns.AddFor(m => m.VndnoMax);
-
-                    columns.AddFor(m => m.Diachi).Caption("Địa chỉ");
-
-                    columns.AddFor(m => m.Dientich);
-
-                    columns.AddFor(m => m.Dongia);
-
-                    columns.AddFor(m => m.Eurckco);
-
-                    columns.AddFor(m => m.Eurckno);
-
-                    columns.AddFor(m => m.Eurduco);
-
-                    columns.AddFor(m => m.Eurduno);
-
-                    columns.AddFor(m => m.Eurpsco);
-
-                    columns.AddFor(m => m.Eurpsno);
-
-                    columns.AddFor(m => m.GiatriHopdong);
-
-                    columns.AddFor(m => m.Manhom1);
-
-                    columns.AddFor(m => m.Manhom2);
-
-                    columns.AddFor(m => m.Manhom3);
-
-                    columns.AddFor(m => m.Matt);
-
-                    columns.AddFor(m => m.NgayHopdong);
-
-                    columns.AddFor(m => m.NgayThanhly);
-
-                    columns.AddFor(m => m.SoHopdong);
-
-                    columns.AddFor(m => m.Tennhom1);
-
-                    columns.AddFor(m => m.Tennhom2);
-
-                    columns.AddFor(m => m.Tennhom3);
-
-                    columns.AddFor(m => m.Tentt);
-
-                    columns.AddFor(m => m.IdUpdate);
+                    columns.AddFor(m => m.Vndduco).Format("0,###");
                 }).ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
                 .ShowBorders(true)
                 .RowAlternationEnabled(true)

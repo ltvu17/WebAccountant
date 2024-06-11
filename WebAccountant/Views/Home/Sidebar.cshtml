@@ -4,20 +4,40 @@
 @{
 }
 <div class="sidebar" id="main-sidebar">
-    <a id="10" asp-controller="Home" asp-action="SellProduct">Bán hàng</a>
-    <a id="9" asp-controller="Home" asp-action="BuyProduct">Mua hàng</a>
+    <div class="d-flex justify-content-between" id="btn-dm" onclick="opendm()">
+        <a class="width-pt-20">Danh mục</a>
+        <div id="arrow" style="width:30px; height:auto; text-align:center; align-content:center">></div>
+    </div>    <div class="d-none" id="dmList">
+        <a id="10" style="text-align:end" asp-controller="Home" asp-action="SellProduct">Bán hàng</a>
+        <a id="9" style="text-align:end" asp-controller="Home" asp-action="BuyProduct">Mua hàng</a>
+        <a id="6" style="text-align:end" asp-controller="Home" asp-action="KTDM">Hàng hóa</a>
+        <a id="5" style="text-align:end" asp-controller="Home" asp-action="KTDTPN">Khách hàng</a>
+        <a id="4" style="text-align:end" asp-controller="Home" asp-action="KTLCTG">Các loại chứng từ</a>
+    </div>
+    <a id="7" asp-controller="Home" asp-action="KTCN">Số dư công nợ</a>
     <a id="3" asp-controller="Home" asp-action="KTTK">Tồn kho</a>
-    <a id="4" asp-controller="Home" asp-action="KTLCTG">KTLCTG</a>
-    <a id="5" asp-controller="Home" asp-action="KTDTPN">KTDTPN</a>
-    <a id="6" asp-controller="Home" asp-action="KTDM">Danh mục</a>
-    <a id="7" asp-controller="Home" asp-action="KTCN">Công nợ</a>
     <a id="8" asp-controller="Home" asp-action="KTSC">KTSC</a>
     <a id="11" asp-controller="Home" asp-action="ImportProduct">Nhập hàng</a>
 </div>
 <script>
+    var isOpen = false;
     function active() {
         var activeId = @ViewData["activeId"]
         document.getElementById(activeId).classList.add("active");
     }
     active();
+    function opendm() {
+        if (!isOpen) {
+            document.getElementById('dmList').classList.remove('d-none');
+            document.getElementById('btn-dm').classList.add('drop-active');
+            document.getElementById('arrow').textContent = 'v';
+            isOpen = true;
+        }
+        else {
+            document.getElementById('dmList').classList.add('d-none');
+            document.getElementById('btn-dm').classList.remove('drop-active');
+            document.getElementById('arrow').textContent = '>';
+            isOpen = false;
+        }
+    }
 </script>
