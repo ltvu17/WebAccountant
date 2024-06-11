@@ -16,5 +16,7 @@ namespace WebAccountant.DAOs
         }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<DatabaseInfor> DatabaseInfors { get; set; }
+        public virtual DbSet<KTSCColumn> KTSCColumns { get; set; }
+        public virtual DbSet<UserKTSCColumn> UserKTSCColumns {  get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@model IEnumerable<WebAccountant.ModelsLogin.KTSCColumn>
 @{
     Html.RenderPartial("../Home/Header");
 }
@@ -21,6 +22,14 @@
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
+                    <div class="d-flex" style="margin: 10px">
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm</button>
+                    </div>
+                    <div class="d-flex" style="margin: 10px">
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#settingModal">
+                            <img src="~/img/setting.png" style="width: 25px; height: auto" />
+                        </button>
+                    </div>
                 </div>
             </nav> *@
 
@@ -237,9 +246,54 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="settingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl" style="max-width: 800px">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" style="color: #119583;" id="exampleModalLabel">Cài đặt cột hiển thị</h5>
+                            <div>
+                            <button type="button" class="btn btn-primary" style="right : 0" onclick="CheckedAll()">Chọn tất cả</button>
+                                <button type="button" class="btn btn-secondary" style="margin : 5px" onclick="UnCheckedAll()">Bỏ chọn tất cả</button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                            </div>
+                        </div>
+                        <div class="modal-body" style="text-align: center">
+                            <form style="display: inline-table" method="post" asp-controller="Ktscs" asp-action="SubmitKTSCColunm">
+                                @for(int i=0; i<32; i++)
+                                {
+                                    <div style="display : flex">
+                                    @foreach (var item in Model.Skip(i*5).Take(5))
+                                    {
+                                            var attribute = (List<WebAccountant.ModelsLogin.UserKTSCColumn>)ViewData["attribute"];
+
+                                            if(attribute.Any(s=>s.KTSCColumnId == item.Id))
+                                            {
+                                                <div style="display : inline-table; margin: 10px; align-content: flex-start">
+                                                    <input type="checkbox" class="myCheck" id="myCheck" value="@item.Id" name="ids[@Model.ToList().IndexOf(item)]" checked /> @item.Description
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div style="display : inline-table; margin: 10px; align-content: flex-start">
+                                                    <input type="checkbox" class="myCheck" id="myCheck" value="@item.Id" name="ids[@Model.ToList().IndexOf(item)]" /> @item.Description
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                }
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                    <button type="submit" class="btn btn-primary">Lưu</button>
+                                </div>
+                            </form>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
 
             @*Data Here*@
-            @(Html.DevExtreme().DataGrid<WebAccountant.ModelsBase.Ktsc>()
+           @*  @(Html.DevExtreme().DataGrid<WebAccountant.ModelsBase.Ktsc>()
                 .DataSource(ds => ds.Mvc()
                 .Controller("Ktscs")
                 .LoadAction("Get")
@@ -250,7 +304,7 @@
                 .RemoteOperations(true).FocusedRowEnabled(true)
                 .Columns(columns =>
                 {
-
+                    
                     columns.AddFor(m => m.Lctg).Fixed(true);
 
                     columns.AddFor(m => m.SrHd).Caption("Số seri hóa đơn");
@@ -434,6 +488,48 @@
                 })
                 .OnRowInserted("onRowInserted")
                 .OnContextMenuPreparing("OpenMenu").ID("grid")
+                ) *@
+            @(
+                Html.DevExtreme().DataGrid()
+                                        .ID("gridContainer")
+                                        .Columns(columns =>
+                                        {
+                                            var attribute = ViewData["attribute"];
+                                            foreach (var att in (List<WebAccountant.ModelsLogin.UserKTSCColumn>)attribute)
+                                            {
+                                                var atrii = att.KTSCColumn.Name.Substring(0, 1).ToUpper() + att.KTSCColumn.Name.Substring(1).ToLower();
+                                                var splits = atrii.Split("_");
+                                                if(splits.Length > 1)
+                                                {
+                                                    atrii = "";
+                                                    foreach(var split in splits)
+                                                    {
+                                                        atrii += split.Substring(0, 1).ToUpper() + split.Substring(1).ToLower();
+                                                    }
+                                                }
+                                                if (atrii == "NgayHd" || atrii == "Ngayct" || atrii == "Ngayctgs" || atrii == "NgayDaoHan" || atrii == "NgayTt")
+                                                {
+                                                    columns.Add().DataField(atrii).Caption(att.KTSCColumn.Description).DataType(GridColumnDataType.Date);
+                                                }
+                                                else
+                                                {
+                                                    columns.Add().DataField(atrii).Caption(att.KTSCColumn.Description).Format("0,###");
+                                                }
+                                            }
+                })
+                .DataSource(d => d.StaticJson().Url(@Url.Action("GetData", "Ktscs")).Key("SttSc"))
+                .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
+                .RowAlternationEnabled(true).WordWrapEnabled(true)
+                .ShowBorders(true).Paging(paging => paging.PageSize(10))
+                .Pager(pager =>
+                {
+                    pager.Visible(true);
+                    pager.DisplayMode(GridPagerDisplayMode.Compact);
+                    pager.ShowPageSizeSelector(true);
+                    pager.AllowedPageSizes(new JS("[10, 15, 25, 40]"));
+                    pager.ShowInfo(true);
+                    pager.ShowNavigationButtons(true);
+                })
                 )
             <div class="footer-data d-flex justify-content-start">
                 <button class="btn btn-primary width-100" data-bs-toggle="modal" id="btnAdd" data-bs-target="#exampleModal">Thêm</button>
@@ -445,25 +541,6 @@
 </div>
 
 <script>
-    function onDelete() {
-        var grid = document.getElementById("grid");
-        var row = grid.getElementsByClassName("dx-row-focused")[0];
-        if (row == null) {
-            alert("Hãy chọn hàng cần xóa")
-        } else {
-            var deleteLink = row.getElementsByClassName("dx-link-delete")[0];
-            deleteLink.click();
-        }
-    }
-    function onEdit() {
-        var grid = document.getElementById("grid");
-        var row = grid.getElementsByClassName("dx-row-focused")[0];
-        if (row == null) {
-            alert("Hãy chọn hàng cần sửa")
-        } else {
-            $('#btnAdd').click();
-        }
-    }
     function OpenMenu(e) {
         if (e.rowIndex != -1) {
             if (!e.items) e.items = [];
@@ -494,4 +571,22 @@
         e.component.navigateToRow(e.key);
         e.component.option("focusedRowKey", e.key);
     }
+    function CheckedAll(e) {
+        $(".myCheck").each(function () {        
+                this.checked = true
+        });
+    }
+    function UnCheckedAll(e) {
+        $(".myCheck").each(function () {
+            this.checked = false
+        });
+    }
+    $.ajax({
+        url: '@Url.Action("GetUserKTSCColumn", "Ktscs")',
+        type: 'GET',
+        success: function (result) {
+            attribute = result;
+            console.log(attribute)
+        }
+    });
 </script>

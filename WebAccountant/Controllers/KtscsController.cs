@@ -22,9 +22,11 @@ namespace WebAccountant.Controllers
     public class KtscsController : Controller
     {
         private readonly IKtscRepo _ktscRepo;
+        private readonly IUserKTSCColumnsRepo _userKTSCColumnsRepo;
 
-        public KtscsController(IKtscRepo ktscRepo) {
+        public KtscsController(IKtscRepo ktscRepo, IUserKTSCColumnsRepo userKTSCColumnsRepo) {
             _ktscRepo = ktscRepo;
+            _userKTSCColumnsRepo = userKTSCColumnsRepo;
         }
         [HttpGet]
         public async Task<IActionResult> GetALLDSPhieuBanHang(DataSourceLoadOptions loadOptions)
@@ -82,7 +84,12 @@ namespace WebAccountant.Controllers
             var ktscs = await _ktscRepo.GetAllAsync();
             return Json(DataSourceLoader.Load(ktscs, loadOptions));
         }
-
+        [HttpGet]
+        public async Task<IActionResult> GetData()
+        {
+            var ktscs = await _ktscRepo.GetAllAsync();
+            return Json(ktscs);
+        }
         [HttpPost]
         public async Task<IActionResult> Post(Ktsc values) {
             if (!ModelState.IsValid)
@@ -204,6 +211,30 @@ namespace WebAccountant.Controllers
             }
 
             return String.Join(" ", messages);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetKTSCColumn() 
+        {
+            var ktscColumns = await _userKTSCColumnsRepo.GetAllKTSCColumn();
+            return Json(ktscColumns);
+        }
+        [HttpPost]
+        public async Task<IActionResult> SubmitKTSCColunm()
+        {
+            List<int> ids = new();
+            var getId = this.Request.Form.SkipLast(1).ToList();
+            foreach(var id in getId)
+            {
+                ids.Add(Int32.Parse(id.Value[0]));
+            }
+            await _userKTSCColumnsRepo.AddAllColumnOfUser(4, ids);
+            return RedirectToAction("KTSC", "Home");
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetUserKTSCColumn()
+        {
+            var ktscColumns = await _userKTSCColumnsRepo.GetUserKTSCColumn(4);
+            return Json(ktscColumns);
         }
     }
 }
