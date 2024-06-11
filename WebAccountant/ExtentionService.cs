@@ -13,6 +13,10 @@ namespace WebAccountant
 {
     public static class ExtentionService
     {
+        public static System.Reflection.PropertyInfo GetAttribute(this Ktsc t, string name)
+        {
+            return typeof(Ktsc).GetProperty("Lctg");
+        }
         //public static string AppConnectionString = "No Connection";
         public static string AppConnectionString = "Data Source=(local);Initial Catalog=TIENHIEU2024; Integrated Security=True;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
         public static IServiceCollection AddDependencyInjection(this IServiceCollection services)
@@ -25,6 +29,7 @@ namespace WebAccountant
             services.AddScoped<IKtlctgRepo, KtlctgRepo>();
             services.AddScoped<IKtscRepo, KtscRepo>();
             services.AddScoped<IKttkRepo, KttkRepo>();
+            services.AddScoped<IUserKTSCColumnsRepo, UserKTSCColumnsRepo>();
             return services;
         }
         public static IServiceCollection AddDatabase(this IServiceCollection services)
