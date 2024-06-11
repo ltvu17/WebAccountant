@@ -19,6 +19,10 @@ namespace WebAccountant.DAOs
         {
             return await _dbSet.AddAsync(entity);
         }
+        public async Task AddRange(IEnumerable<T> entities)
+        {
+             await _dbSet.AddRangeAsync(entities);
+        }
 
         public async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> expression, int entry, int page, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
                         string includeProperties = "")
@@ -61,6 +65,15 @@ namespace WebAccountant.DAOs
             if (entity != null)
             {
                 _dbSet.Remove(entity);
+                return true;
+            }
+            else { return false; }
+        }
+        public async Task<bool> RemoveRange(IEnumerable<T> entities)
+        {
+            if (entities != null)
+            {
+                _dbSet.RemoveRange(entities);
                 return true;
             }
             else { return false; }

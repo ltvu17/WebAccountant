@@ -289,7 +289,8 @@ namespace WebAccountant.Repository.Implement
                 HthucThanhToan = ktscs.FirstOrDefault().Httt == "Nợ" ? "2" : "1",
                 NgayCtu = (DateTime)ktscs.FirstOrDefault().Ngayct,
                 NgayHToan = (DateTime)ktscs.FirstOrDefault().NgayHd,
-                id = id
+                id = id,
+                SoHoaDon = ktscs.FirstOrDefault().SoHd
             };
             return returnForm;
         }
@@ -325,7 +326,8 @@ namespace WebAccountant.Repository.Implement
                 HthucThanhToan = ktscs.FirstOrDefault().Httt == "Nợ" ? "2" : "1",
                 NgayCtu = (DateTime)ktscs.FirstOrDefault().Ngayct,
                 NgayHToan = (DateTime)ktscs.FirstOrDefault().NgayHd,
-                id = id
+                id = id,
+                SoCtu = ktscs.FirstOrDefault().SoHd
             };
             return returnForm;
         }

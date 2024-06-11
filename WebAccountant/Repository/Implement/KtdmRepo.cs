@@ -451,9 +451,9 @@ namespace WebAccountant.Repository.Implement
                         SoctN = IdChungtu,
                         Dgmausac = 0,
                         Ttmausac = 0,
+                        MaNvBan = item.MaNhanVien
                     };
                     await _unitOfWork.KTSCDAO.Add(insertPhieuHang);
-                    await _unitOfWork.SaveChangesAsync();
                     i++;
                 };
                 var insertChietKhauPhieuHang = new Ktsc()
@@ -536,6 +536,7 @@ namespace WebAccountant.Repository.Implement
                     SoctN = IdChungtu,
                     Dgmausac = 0,
                     Ttmausac = 0,
+                    MaNvBan = item.MaNhanVien
                 };
                 var insertThuePhieuHang = new Ktsc()
                 {
@@ -617,11 +618,12 @@ namespace WebAccountant.Repository.Implement
                     SoctN = IdChungtu,
                     Dgmausac = 0,
                     Ttmausac = 0,
+                    MaNvBan = item.MaNhanVien
                 };
                 await _unitOfWork.KTSCDAO.Add(insertChietKhauPhieuHang);
                 await _unitOfWork.KTSCDAO.Add(insertThuePhieuHang);
-                await _unitOfWork.SaveChangesAsync();
             }
+            await _unitOfWork.SaveChangesAsync();
             return models.Any();
         }
 
@@ -756,6 +758,7 @@ namespace WebAccountant.Repository.Implement
                         SoctN = IdChungtu,
                         Dgmausac = 0,
                         Ttmausac = 0,
+                        MaNvBan = item.MaNhanVien
                     };
                     var insertPhieuXuat = new Ktsc()
                     {
@@ -840,10 +843,10 @@ namespace WebAccountant.Repository.Implement
                         SoctN = IdChungtu,
                         Dgmausac = 0,
                         Ttmausac = 0,
+                        MaNvBan = item.MaNhanVien
                     };
                     await _unitOfWork.KTSCDAO.Add(insertPhieuHang);
                     await _unitOfWork.KTSCDAO.Add(insertPhieuXuat);
-                    await _unitOfWork.SaveChangesAsync();
                     i++;
                     i++;
                     t++;
@@ -931,6 +934,7 @@ namespace WebAccountant.Repository.Implement
                     SoctN = IdChungtu,
                     Dgmausac = 0,
                     Ttmausac = 0,
+                    MaNvBan = item.MaNhanVien
                 };
                 var insertThuePhieuHang = new Ktsc()
                 {
@@ -1015,11 +1019,12 @@ namespace WebAccountant.Repository.Implement
                     SoctN = IdChungtu,
                     Dgmausac = 0,
                     Ttmausac = 0,
+                    MaNvBan = item.MaNhanVien
                 };
                 await _unitOfWork.KTSCDAO.Add(insertChietKhauPhieuHang);
                 await _unitOfWork.KTSCDAO.Add(insertThuePhieuHang);
-                await _unitOfWork.SaveChangesAsync();
             }
+            await _unitOfWork.SaveChangesAsync();
             return models.Any();
         }
 

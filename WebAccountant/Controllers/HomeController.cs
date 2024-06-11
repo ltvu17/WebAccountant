@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebAccountant.Models;
+using WebAccountant.Repository;
 
 namespace WebAccountant.Controllers
 {
@@ -8,9 +9,11 @@ namespace WebAccountant.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IUserKTSCColumnsRepo _userKTSCColumnsRepo;
+        public HomeController(ILogger<HomeController> logger, IUserKTSCColumnsRepo userKTSCColumnsRepo)
         {
             _logger = logger;
+            _userKTSCColumnsRepo = userKTSCColumnsRepo;
         }
 		public IActionResult Index()
         {
@@ -41,10 +44,13 @@ namespace WebAccountant.Controllers
             ViewData["activeId"] = "4";
             return View("~/Views/Home/Pages/KTLCTG.cshtml");
         }
-        public IActionResult KTSC()
+        public async Task<IActionResult> KTSC()
         {
+            var KTSCColumns = await _userKTSCColumnsRepo.GetAllKTSCColumn();
+            var attribute = await _userKTSCColumnsRepo.GetUserKTSCColumn(4);
             ViewData["activeId"] = "8";
-            return View("~/Views/Home/Pages/KTSC.cshtml");
+            ViewData["attribute"] = attribute;
+            return View("~/Views/Home/Pages/KTSC.cshtml", KTSCColumns);
         }
         public IActionResult KTTK()
         {
