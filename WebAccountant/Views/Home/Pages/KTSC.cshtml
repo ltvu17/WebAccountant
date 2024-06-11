@@ -268,6 +268,7 @@
                             <h5 class="modal-title" style="color: #119583;" id="exampleModalLabel">Cài đặt cột hiển thị</h5>
                             <div>
                             <button type="button" class="btn btn-primary" style="right : 0" onclick="CheckedAll()">Chọn tất cả</button>
+                                <button type="button" class="btn btn-secondary" style="margin : 5px" onclick="UnCheckedAll()">Bỏ chọn tất cả</button>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                             </div>
                         </div>
@@ -586,13 +587,13 @@
         e.component.option("focusedRowKey", e.key);
     }
     function CheckedAll(e) {
-        document.getElementById("myCheck").checked = true;
-        $(".myCheck").each(function () {
-            if (this.checked == true) {
-                this.checked = false
-            }else{
+        $(".myCheck").each(function () {        
                 this.checked = true
-            }
+        });
+    }
+    function UnCheckedAll(e) {
+        $(".myCheck").each(function () {
+            this.checked = false
         });
     }
     $.ajax({
