@@ -31,7 +31,7 @@ namespace WebAccountant.Controllers
 			else
 			{
                 HttpContext.Session.SetString("user", JsonConvert.SerializeObject(userDTO));
-				return RedirectToAction("Index", "Home");
+				return RedirectToAction("SellProduct", "Home");
             }
 		}
 		[HttpPost]

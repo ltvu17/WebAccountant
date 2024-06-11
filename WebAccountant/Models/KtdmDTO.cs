@@ -13,7 +13,9 @@ namespace WebAccountant.Models
         public int Soluong { get; set; }
         public double Dgban { get; set; }
         public double PtChietKhau { get; set; }
+        public double ChietKhauThanhTien { get; set; }
         public double PtThue { get; set; }
+        public double ThueThanhTien { get; set; }
         public double TonTDv1 { get; set; }
         public int eId { get; set; }
     }

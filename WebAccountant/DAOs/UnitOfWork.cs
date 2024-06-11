@@ -108,8 +108,31 @@ namespace WebAccountant.DAOs
 				return databaseInforDAO;
 			}
 		}
-
-		public Task SaveChangesAsync()
+        private readonly GenericDAO<UserKTSCColumn, LoginContext> userKTSCColumnsDAO;
+        public GenericDAO<UserKTSCColumn, LoginContext> UserKTSCColumnsDAO
+        {
+            get
+            {
+                if (userKTSCColumnsDAO == null)
+                {
+                    return new GenericDAO<UserKTSCColumn, LoginContext>(_loginContext);
+                }
+                return userKTSCColumnsDAO;
+            }
+        }
+        private readonly GenericDAO<KTSCColumn, LoginContext> kTSCColumnsDAO;
+        public GenericDAO<KTSCColumn, LoginContext> KTSCColumnsDAO
+        {
+            get
+            {
+                if (kTSCColumnsDAO == null)
+                {
+                    return new GenericDAO<KTSCColumn, LoginContext>(_loginContext);
+                }
+                return kTSCColumnsDAO;
+            }
+        }
+        public Task SaveChangesAsync()
         {
              return _dbContext.SaveChangesAsync();
         }

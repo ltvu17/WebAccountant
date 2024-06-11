@@ -86,7 +86,20 @@ namespace WebAccountant.Controllers
         public async Task Delete(string key) {
            await _ktdmRepo.Delete(key);
         }
-
+        [HttpPost]
+        public async Task<IActionResult> SubmitCartToExportPhieuBanHang(IEnumerable<PhieuBanHangDTO> items)
+        {
+            items = JsonConvert.DeserializeObject<IEnumerable<PhieuBanHangDTO>>(Request.Form.Keys.FirstOrDefault().Replace("and", "&").ToString());
+            var pathValue = await _ktdmRepo.ExportPDFPhieuBanHang(items);
+            return Json(pathValue);
+        }
+        [HttpPost]
+        public async Task<IActionResult> SubmitCartToExportPhieuMuaHang(IEnumerable<PhieuMuaHangDTO> items)
+        {
+            items = JsonConvert.DeserializeObject<IEnumerable<PhieuMuaHangDTO>>(Request.Form.Keys.FirstOrDefault().Replace("and", "&").ToString());
+            var pathValue = await _ktdmRepo.ExportPDFPhieuMuaHang(items);
+            return Json(pathValue);
+        }
         [HttpPost]
         public async Task<IActionResult> SubmitCartToExport(AddToKTSCDTO items)
         {
@@ -105,7 +118,7 @@ namespace WebAccountant.Controllers
             {
                 if(totalEntity != items.ktdmDTOs.Count)
                 {
-                    for (int i = 0; i <= totalEntity; i++)
+                    for (int i = 0; i < items.ktdmDTOs.Count; i++)
                     {
                         var checkValue = ktdmDTOs.Where(s => s.Key.Contains("[" + i + "]")).FirstOrDefault().Value;
                         if (!string.IsNullOrEmpty(checkValue))
@@ -122,6 +135,8 @@ namespace WebAccountant.Controllers
                                 PtThue = double.Parse(ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].PtThue", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value),
                                 Soluong = int.Parse(ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].Soluong", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value),
                                 Tendm = ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].Tendm", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value,
+                                ThueThanhTien = double.Parse(ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].ThueThanhTien", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value),
+                                ChietKhauThanhTien = double.Parse(ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].ChietKhauThanhTien", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value),
                             });
                         }
                     }
@@ -146,7 +161,7 @@ namespace WebAccountant.Controllers
             {
                 if (totalEntity != items.ktdmDTOs.Count)
                 {
-                    for (int i = 0; i <= totalEntity; i++)
+                    for (int i = 0; i < items.ktdmDTOs.Count; i++)
                     {
                         var checkValue = ktdmDTOs.Where(s => s.Key.Contains("[" + i + "]")).FirstOrDefault().Value;
                         if (!string.IsNullOrEmpty(checkValue))
@@ -163,6 +178,8 @@ namespace WebAccountant.Controllers
                                 PtThue = double.Parse(ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].PtThue", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value),
                                 Soluong = int.Parse(ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].Soluong", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value),
                                 Tendm = ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].Tendm", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value,
+                                ThueThanhTien = double.Parse(ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].ThueThanhTien", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value),
+                                ChietKhauThanhTien = double.Parse(ktdmDTOs.Where(s => s.Key.Equals(typeof(KtdmDTO).Name.ToString() + "s[" + i + "].ChietKhauThanhTien", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value),
                             });
                         }
                     }

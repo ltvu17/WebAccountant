@@ -44,15 +44,113 @@ namespace WebAccountant.Repository.Implement
             await _unitOfWork.SaveChangesAsync();
         }
 
+
         public async Task<bool> DeletePhieuBanHang(int id)
         {
-            var item = (await GetAllDSPhieuBanHang()).Where(s => s.id == id).FirstOrDefault();
-            var ktscs = item.ktscs;
+            var list = new List<PhieuBanHangDTO>();
+            var items = (await _unitOfWork.KTSCDAO.GetAll()).Where(s => s.Lctg == "HDBR" || s.Lctg == "PXK").OrderByDescending(s => s.Ngayct).GroupBy(i => new
+            {
+                i.SoHd,
+                i.Tenkh,
+                i.Ngayct
+            }).ToList();
+            var t = 0;
+            foreach (var item in items)
+            {
+                var insertItem = new PhieuBanHangDTO();
+                double tongtien = 0;
+                double thanhTien = 0;
+                double chietKhau = 0;
+                double tongCk = 0;
+                double khTratien = 0;
+                var hthucthanhtoan = "Nợ";
+                foreach (var i in item)
+                {
+                    tongtien += i.TtvndTt;
+                    thanhTien += i.Ttvnd;
+                    chietKhau += i.PtCk;
+                    tongCk += i.Chietkhau;
+                    hthucthanhtoan = i.Httt;
+                    insertItem.ktscs.Add(i);
+                }
+                var key = item.FirstOrDefault();
+                insertItem.id = t;
+                insertItem.TongTien = tongtien.ToString();
+                insertItem.HTThanhToan = hthucthanhtoan;
+                insertItem.NgayCtu = (DateTime)key.Ngayct;
+                insertItem.Soctu = key.Soct;
+                insertItem.ThanhTien = thanhTien.ToString();
+                insertItem.ckPhanTram = key.PtCk.ToString();
+                insertItem.CkThanhTien = tongCk.ToString();
+                insertItem.KhTraTien = khTratien.ToString();
+                insertItem.MaKh = key.Makh;
+                insertItem.TenKh = key.Tenkh;
+                insertItem.Diachi = key.Diachi;
+                list.Add(insertItem);
+                t++;
+            }
+            var itemD = list.Where(s => s.id == id).FirstOrDefault();
+            var ktscs = itemD.ktscs;
             foreach(var ktsc in ktscs)
             {
                 await _unitOfWork.KTSCDAO.RemoveEntity(ktsc);
-                await _unitOfWork.SaveChangesAsync();
             }
+            await _unitOfWork.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> DeletePhieuMuaHang(int id)
+        {
+            var list = new List<PhieuMuaHangDTO>();
+            var items = (await _unitOfWork.KTSCDAO.GetAll()).Where(s => s.Lctg == "PNK").OrderByDescending(s => s.Ngayct).GroupBy(i => new
+            {
+                i.SoHd,
+                i.Tenkh,
+                i.Ngayct
+            }).ToList();
+            var t = 1;
+            foreach (var item in items)
+            {
+                var insertItem = new PhieuMuaHangDTO();
+                double tongtien = 0;
+                double thanhTien = 0;
+                double chietKhau = 0;
+                double tongCk = 0;
+                double khTratien = 0;
+                var hthucthanhtoan = "Nợ";
+                foreach (var i in item)
+                {
+                    tongtien += i.Ttvnd - i.Chietkhau + i.Thuevnd;
+                    thanhTien += i.Ttvnd;
+                    chietKhau += i.PtCk;
+                    tongCk += i.Chietkhau;
+                    hthucthanhtoan = i.Httt;
+                    insertItem.ktscs.Add(i);
+                }
+                var key = item.FirstOrDefault();
+                insertItem.id = t;
+                insertItem.TongTien = tongtien.ToString();
+                insertItem.NgayCtu = (DateTime)key.Ngayct;
+                insertItem.Soctu = key.Soct;
+                insertItem.HTThanhToan = hthucthanhtoan;
+                insertItem.ThanhTien = thanhTien.ToString();
+                insertItem.ckPhanTram = key.PtCk.ToString();
+                insertItem.CkThanhTien = tongCk.ToString();
+                insertItem.KhTraTien = khTratien.ToString();
+                insertItem.MaKh = key.Makh;
+                insertItem.TenKh = key.Tenkh;
+                insertItem.Diachi = key.Diachi;
+                list.Add(insertItem);
+                t++;
+            }
+
+            var itemD = list.Where(s => s.id == id).FirstOrDefault();
+            var ktscs = itemD.ktscs;
+            foreach (var ktsc in ktscs)
+            {
+                await _unitOfWork.KTSCDAO.RemoveEntity(ktsc);
+            }
+            await _unitOfWork.SaveChangesAsync();
             return true;
         }
 
@@ -98,7 +196,7 @@ namespace WebAccountant.Repository.Implement
                 insertItem.NgayCtu = (DateTime)key.Ngayct;
                 insertItem.Soctu = key.Soct;
                 insertItem.ThanhTien = thanhTien.ToString();
-                insertItem.ckPhanTram = chietKhau.ToString();
+                insertItem.ckPhanTram = key.PtCk.ToString();
                 insertItem.CkThanhTien = tongCk.ToString();
                 insertItem.KhTraTien = khTratien.ToString();
                 insertItem.MaKh = key.Makh;
@@ -147,7 +245,7 @@ namespace WebAccountant.Repository.Implement
                 insertItem.Soctu = key.Soct;
                 insertItem.HTThanhToan = hthucthanhtoan;
                 insertItem.ThanhTien = thanhTien.ToString();
-                insertItem.ckPhanTram = chietKhau.ToString();
+                insertItem.ckPhanTram = key.PtCk.ToString();
                 insertItem.CkThanhTien = tongCk.ToString();
                 insertItem.KhTraTien = khTratien.ToString();
                 insertItem.MaKh = key.Makh;
@@ -273,6 +371,15 @@ namespace WebAccountant.Repository.Implement
                         ktsc.DiachiNgd = khachHang.Diachi;
                         ktsc.Mangd = khachHang.Madtpn;
                         ktsc.Httt = ktscs.LastOrDefault().Httt;
+                        var phieuNhapKho = (await _unitOfWork.KTSCDAO.Find(s => s.Soct == ktscMau.Soct && s.Ngayct == ktscMau.Ngayct && s.IdNghiepvu == "GIAVON" && s.Madmco == ktsc.Madmco, 1, 1)).FirstOrDefault();
+                        phieuNhapKho.Makh = khachHang.Madtpn;
+                        phieuNhapKho.Madtpnno = khachHang.Madtpn;
+                        phieuNhapKho.Tenkh = khachHang.Tendtpn;
+                        phieuNhapKho.MsDn = khachHang.MsDn;
+                        phieuNhapKho.Diachi = khachHang.Diachi;
+                        phieuNhapKho.DiachiNgd = khachHang.Diachi;
+                        phieuNhapKho.Mangd = khachHang.Madtpn;
+                        phieuNhapKho.Httt = ktscs.LastOrDefault().Httt;
                         await _unitOfWork.KTSCDAO.Update(ktsc);
                         await _unitOfWork.SaveChangesAsync();
                     }

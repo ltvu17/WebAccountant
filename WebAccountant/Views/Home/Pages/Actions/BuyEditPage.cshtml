@@ -7,7 +7,7 @@
     var eindex = 0;
 }
 <div class="buy-edit">
-    <div class="header-buy-edit d-flex justify-content-between">
+    <div id="e-head" class="header-buy-edit d-flex justify-content-between">
         <div>Sửa đơn mua</div>
         <div>
             <button type="button" class="btn-close" onclick="closeEdit()"></button>
@@ -18,7 +18,7 @@
             <div class="row kh-info t-s-12">
                 <div class="col-2">
                     <div class="mb-3 text-start">
-                        <label for="makh" class="col-form-label">Mã khách hàng:</label>
+                        <label for="ip-makh" class="col-form-label">Mã khách hàng:</label>
                         <input type="text" class="form-control input-sugg height-30" id="ip-makh"
                                autofocus="autofocus"
                                autocomplete="off"
@@ -52,25 +52,29 @@
                     </div>
                 </div>
             </div>
-            <div class="list-dm">
-                @*List product *@
-                <table id="edit-dm" class="table-text">
-                    <tr class="table-menu" id="tr-1">
-                        <td class="t-center width-20">#</td>
-                        <td class="width-200">Mã Danh Mục</td>
-                        <td>Tên Danh Mục</td>
-                        <td class="width-50">Đơn vị</td>
-                        <td class="width-120">Đơn giá</td>
-                        <td class="width-70">Số lượng</td>
-                        <td class="width-90">Chiết khấu (%)</td>
-                        <td class="width-70">Thuế (%)</td>
-                        <td class="width-150">Thành tiền</td>
-                        <td class="width-70">Hành động</td>
-                    </tr>
-                    @foreach(var item in Model.ktdmDTOs)
-                    {
-                        ecount++;
-                        eindex++;
+            <div class="body-tb">
+                <div class="list-dm">
+                    @*List product *@
+                    <table id="edit-dm" class="table-text">
+                        <tr class="table-menu" id="tr-1">
+                            <td class="t-center">#</td>
+                            <td class="nowr"><div class="resizable-1" style="min-width:100px;">Mã mặt hàng</div></td>
+                            <td class="nowr"><div class="resizable-1" style="min-width:120px;">Tên mặt hàng</div></td>
+                            <td class="nowr"><div class="resizable-1" style="min-width:70px; max-width:70px;">Đơn vị</div></td>
+                            <td class="nowr"><div class="resizable-1" style="min-width:70px;">Số lượng</div></td>
+                            <td class="nowr"><div class="resizable-1" style="min-width:70px;">Đơn giá</div></td>
+                            <td class="nowr"><div class="resizable-1" style="min-width:70px;">Thành tiền</div></td>
+                            <td class="nowr"><div class="resizable-1" style="min-width:90px;">Chiết khấu (%)</div></td>
+                            <td class="nowr"><div class="resizable-1" style="min-width:100px;">Chiết khấu (VND)</div></td>
+                            <td class="nowr"><div class="resizable-1" style="min-width:70px;">Thuế (%)</div></td>
+                            <td class="nowr"><div class="resizable-1" style="min-width:70px;">Thuế (VND)</div></td>
+                            <td class="nowr"><div class="resizable-1" style="min-width:100px;">Tiền thanh toán</div></td>
+                            <td class="nowr">Hành động</td>
+                        </tr>
+                        @foreach (var item in Model.ktdmDTOs)
+                        {
+                            ecount++;
+                            eindex++;
                             var Ttvnd = item.Soluong * item.Dgban;
                             var Chietkhau = item.Soluong * item.Dgban * (item.PtChietKhau / 100);
                             var Thuevnd = (Ttvnd - Chietkhau) * (item.PtThue / 100);
@@ -79,39 +83,96 @@
                                 <td class="t-center td-eindex">@eindex</td>
                                 <td>
                                     <input type="text"
-                                    class="form-control input-sugg"
-                                       id="edit-madm-@ecount"
-                                    autofocus="autofocus"
-                                    autocomplete="off"
-                                    value="@item.Madm"
-                                    asp-for="ktdmDTOs[ecount-1].Madm"
-                                       onkeyup="findDm('edit-sugg-@ecount','edit-madm-@ecount','edit-sugg-@ecount')" readonly/>
+                                           class="form-control input-sugg"
+                                           id="edit-madm-@ecount"
+                                           autofocus="autofocus"
+                                           autocomplete="off"
+                                           asp-for="ktdmDTOs[ecount-1].Madm"
+                                           value="@item.Madm"
+                                           onkeyup="findDm('edit-sugg-@ecount','edit-madm-@ecount','edit-sugg-@ecount')" readonly />
+
                                 </td>
                                 <td>
-                                <input type="text" class="form-control" id="edit-tendm-@ecount" value="@item.Tendm" asp-for="ktdmDTOs[ecount-1].Tendm" readonly />
-                                <input type="text" class="form-control" id="edit-matk-@ecount" value="@item.Matk" asp-for="ktdmDTOs[ecount-1].Matk" hidden readonly />
-                            </td>
-                            <td><input type="text" class="form-control" id="edit-donvi-@ecount" readonly value="@item.Donvi" asp-for="ktdmDTOs[ecount-1].Donvi" /></td>
-                            <td><input type="number" class="form-control" id="edit-dongia-@ecount" min="0" onchange="tienEdit(@ecount)" asp-for="ktdmDTOs[ecount-1].Dgban" value="@item.Dgban" /></td>
-                            <td><input type="number" class="form-control" id="edit-soluong-@ecount" min="1" onchange="tienEdit(@ecount)" value="@item.Soluong" asp-for="ktdmDTOs[ecount-1].Soluong" /></td>
-                            <td><input type="number" class="form-control" id="edit-ck-@ecount" min="0" max="100" onchange="tienEdit(@ecount)" value="@item.PtChietKhau" asp-for="ktdmDTOs[ecount-1].PtChietKhau" /></td>
-                            <td><input type="number" class="form-control" id="edit-thue-@ecount" min="0" max="100" onchange="tienEdit(@ecount)" value="@item.PtThue" asp-for="ktdmDTOs[ecount-1].PtThue" /></td>
-                            <td><input type="number" class="form-control" id="edit-thanhtien-@ecount" readonly value="@tt" /></td>
-                            <td></td>
+                                    <div id="ed-tendm-@ecount">@item.Tendm</div>
+                                    <input type="text" class="form-control" id="edit-tendm-@ecount" value="@item.Tendm" asp-for="ktdmDTOs[ecount-1].Tendm" hidden readonly />
+                                    <input type="text" class="form-control" id="edit-matk-@ecount" value="@item.Matk" asp-for="ktdmDTOs[ecount-1].Matk" hidden readonly />
+                                </td>
+                                <td>
+                                    <div id="ed-donvi-@ecount">@item.Donvi</div>
+                                    <input type="text" class="form-control" id="edit-donvi-@ecount" readonly value="@item.Donvi" hidden asp-for="ktdmDTOs[ecount-1].Donvi" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control text-end" id="e-soluong-@ecount" value="@item.Soluong" onchange="formatNumberEdit(this.id)" />
+                                    <input type="number" class="form-control" id="edit-soluong-@ecount" min="1" onchange="tienEdit(@ecount)" value="@item.Soluong" asp-for="ktdmDTOs[ecount-1].Soluong" hidden />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control text-end" id="e-dongia-@ecount" value="@item.Dgban" onchange="formatNumberEdit(this.id)" />
+                                    <input type="number" class="form-control" id="edit-dongia-@ecount" min="0" onchange="tienEdit(@ecount)" asp-for="ktdmDTOs[ecount-1].Dgban" value="@item.Dgban" hidden />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control text-end" id="edit-tientong-@ecount" value="@Ttvnd" readonly />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control text-end" id="e-ck-@ecount" value="@item.PtChietKhau" onchange="formatNumberEdit(this.id)" />
+                                    <input type="number" class="form-control" id="edit-ck-@ecount" min="0" max="100" onchange="tienEdit(@ecount)" value="@item.PtChietKhau" asp-for="ktdmDTOs[ecount-1].PtChietKhau" hidden />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control text-end" id="e-ck-vnd-@ecount" value="@item.ChietKhauThanhTien" onchange="lamTronEdit(this.id)" />
+                                    <input type="number" class="form-control" id="edit-ck-vnd-@ecount" min="0" onchange="lamTronEdit(@ecount)" value="@item.ChietKhauThanhTien" hidden />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control text-end" id="e-thue-@ecount" value="@item.PtThue" onchange="formatNumberEdit(this.id)" />
+                                    <input type="number" class="form-control" id="edit-thue-@ecount" min="0" max="100" onchange="tienEdit(@ecount)" value="@item.PtThue" asp-for="ktdmDTOs[ecount-1].PtThue" hidden />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control text-end" id="e-thue-vnd-@ecount" value="@item.ThueThanhTien" onchange="lamTronEdit(this.id)" />
+                                    <input type="number" class="form-control" id="edit-thue-vnd-@ecount" min="0" value="@item.ThueThanhTien" hidden />
+                                </td>
+                                <td><input type="text" class="form-control text-end" id="edit-thanhtien-@ecount" readonly value="@tt" /></td>
+                                <td></td>
                                 @* <td class="t-center"><a class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td> *@
-                        </tr>
-                        
-                    }     
+                            </tr>
+                            <span asp-validation-for="ktdmDTOs"></span>
+                        }
+                    </table>
+                </div>
+                <table class="table-text">
+                    <tr class="height-30">
+                        <td class="t-s-13 weight-700">Tổng số lượng</td>
+                        <td class="t-s-13 width-200 text-end" id="etong-sl" style="padding-right:10px">0</td>
+                        <td class="t-s-13 weight-700">Tổng tiền chiết khấu</td>
+                        <td class="t-s-13 width-200 text-end" id="etong-ck" style="padding-right:10px">0</td>
+                        <td class="t-s-13 weight-700">Tổng tiền thuế</td>
+                        <td class="t-s-13 width-200 text-end" id="etong-thue" style="padding-right:10px">0</td>
+                        <td class="t-s-13 weight-700">Tổng tiền</td>
+                        <td class="t-s-13 width-200 text-end" id="etong-thanh-tien" style="padding-right:10px">0</td>
+                    </tr>
                 </table>
-                <div class="buttons d-flex justify-content-between mar-15">
+                <div class="e-footer buttons d-flex justify-content-between mar-15">
                     <button class="btn btn-success t-s-12 height-30" id="addDm" onclick="moreItem()" type="button">Thêm danh mục</button>
-                    <button class="btn btn-primary t-s-12 height-30" id="saveEdit" type="submit">Lưu đơn mua</button>
+                    <button class="btn btn-primary t-s-12 height-30" id="saveEdit" onclick="submitF()" type="button">Lưu đơn mua</button>
                 </div>
             </div>
         </div>
     </form>
 </div>
 <script>
+    function submitF() {
+        const myForm = document.getElementById('edit-form');
+        myForm.submit();
+    }
+
+    maxWidth();
+    window.addEventListener('resize', function () {
+        maxWidth();
+    });
+    function maxWidth() {
+        var title = document.getElementById("e-head");
+        if (title != null) {
+            $('#edit-dm').css('max-width', title.offsetWidth + 'px');
+        }
+    }
+
     var eecount = @ecount;
     var eeindex = @eindex;
     var eexist = [];
@@ -168,7 +229,6 @@
     var makhitem = []
     function makhChoose(item) {
         makhitem = JSON.parse(decodeURIComponent(item));
-        console.log(makhitem);
         hide_sugg("makh-sugg");
         // Gắn giá trị vào các thẻ <td>
         document.getElementById('ip-makh').value = JSON.parse(decodeURIComponent(item)).Madtpn;
@@ -210,12 +270,39 @@
         var start = @ecount;
         for (let i = start; i < eexist.length; i++) {
             var container = document.getElementById("edit-sugg-" + eexist[i]);
-            if (!container.contains(event.target) && !container.classList.contains("d-none")) {
-                hide_sugg("edit-sugg-" + eexist[i]);
-                break;
+            if (container != null) {
+                if (!container.contains(event.target) && !container.classList.contains("d-none")) {
+                    hide_sugg("edit-sugg-" + eexist[i]);
+                    break;
+                }
+            }
+        }
+        var khcon = document.getElementById("makh-sugg");
+        if (khcon != null) {
+            if (!khcon.contains(event.target) && !khcon.classList.contains("d-none")) {
+                hide_sugg("makh-sugg");
             }
         }
     });
+    function lamTronEdit(rowIndex) {
+        var sl = document.getElementById("edit-soluong-" + rowIndex).value;
+        var dgia = $(`#edit-dongia-${rowIndex}`)[0].value;
+        var tr = document.getElementById("e-" + rowIndex);
+
+        tr.querySelector('#edit-ck-vnd-' + rowIndex).value = convertNumToText(document.getElementById('e-ck-vnd-' + rowIndex).value);
+        var ckVnd = tr.querySelector('#edit-ck-vnd-' + rowIndex).value;
+        tr.querySelector('#e-ck-vnd-' + rowIndex).value = formatFromNumber(parseFloat(ckVnd).toFixed(0));
+
+        tr.querySelector('#edit-thue-vnd-' + rowIndex).value = convertNumToText(document.getElementById('e-thue-vnd-' + rowIndex).value);
+        var thueVnd = tr.querySelector('#edit-thue-vnd-' + rowIndex).value;
+        tr.querySelector('#e-thue-vnd-' + rowIndex).value = formatFromNumber(parseFloat(thueVnd).toFixed(0));
+
+        var thanhtien = parseFloat(sl).toFixed(0) * parseFloat(dgia).toFixed(0) - parseFloat(ckVnd).toFixed(0);
+        thanhtien = parseFloat(parseFloat(thanhtien).toFixed(0)) + parseFloat(parseFloat(thueVnd).toFixed(0));
+        tr.querySelector('#edit-thanhtien-' + rowIndex).value = formatFromNumber(parseFloat(thanhtien).toFixed(0));
+        countTotalEdit();
+        loadMoney();
+    }
     function tienEdit(rowIndex) {
         var sl = $(`#edit-soluong-${rowIndex}`)[0].value;
         var dgia = $(`#edit-dongia-${rowIndex}`)[0].value;
@@ -228,60 +315,85 @@
                 editItems[i].Dgban = parseInt(dgia);
                 editItems[i].PtChietKhau = parseInt(ck);
                 editItems[i].PtThue = parseInt(thue);
-
-                // Gắn giá trị vào các thẻ <td>
+                var tientong = parseFloat(sl) * parseFloat(dgia);
+                tr.querySelector('#edit-tientong-' + rowIndex).value = formatFromNumber(parseFloat(tientong).toFixed(0));
+                var ckVnd = sl * dgia * ck / 100;
+                tr.querySelector('#edit-ck-vnd-' + rowIndex).value = parseFloat(ckVnd).toFixed(0);
+                var thueVnd = sl * (dgia * (1 - ck / 100)) * thue / 100;
+                tr.querySelector('#edit-thue-vnd-' + rowIndex).value = parseFloat(thueVnd).toFixed(0);
                 var thanhtien = editItems[i].Soluong * (editItems[i].Dgban * (1 - editItems[i].PtChietKhau / 100)) * (1 + editItems[i].PtThue / 100);
-                tr.querySelector('#edit-thanhtien-' + rowIndex).value = parseFloat(thanhtien).toFixed(0);
+                tr.querySelector('#edit-thanhtien-' + rowIndex).value = formatFromNumber(parseFloat(thanhtien).toFixed(0));
                 break;
             }
         }
-        console.log(editItems);
+        setNumToTextEdit(rowIndex);
+        countTotalEdit();
         loadMoney();
     }
 
-    document.getElementById('edit-form').onkeypress = function (e) {
-        var key = e.charCode || e.keyCode || 0;
-        if (key == 13) {
-            e.preventDefault();
-        }
-    }
     function moreItem() {
         if (editItems.length == eexist.length) {
             eecount++;
             eeindex++;
             var table = document.getElementById("edit-dm");
             table.insertAdjacentHTML('beforeend', `
-                                                        <tr id="e-${eecount}">
-                                                                <td class="t-center td-eindex">${eeindex}</td>
-                                                                <td>
-                                                                    <input type="text"
-                                                                           class="form-control input-sugg"
-                                                                           id="edit-madm-${eecount}"
-                                                                           autofocus="autofocus"
+                                                            <tr id="e-${eecount}">
+                                                                    <td class="t-center td-eindex">${eeindex}</td>
+                                                                    <td>
+                                                                        <input type="text"
+                                                                               class="form-control input-sugg"
+                                                                               id="edit-madm-${eecount}"
+                                                                               autofocus="autofocus"
                                                                                name="ktdmDTOs[${eecount - 1}].Madm"
-                                                                           onkeyup="findDm('edit-sugg-${eecount}','edit-madm-${eecount}','edit-sugg-${eecount}')" />
-                                                                    <div class="table-container">
-                                                                        <table id="edit-sugg-${eecount}" class="sugg-container d-none">
-                                                                            <tr id="tr-1">
-                                                                                <td class="width-120">Mã danh mục</td>
-                                                                                <td class="width-250">Tên danh mục</td>
-                                                                                <td class="width-90">Số lượng tồn</td>
-                                                                            </tr>
-                                                                        </table>
-                                                                    </div>
+                                                                               onkeyup="findDm('edit-sugg-${eecount}','edit-madm-${eecount}','edit-sugg-${eecount}')" />
+                                                                        <div class="table-container">
+                                                                            <table id="edit-sugg-${eecount}" class="sugg-container d-none">
+                                                                                <tr id="tr-1">
+                                                                                    <td class="width-120">Mã danh mục</td>
+                                                                                    <td class="width-250">Tên danh mục</td>
+                                                                                    <td class="width-90">Số lượng tồn</td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div>
                                                                     </td>
 
-                                                                        <td><input type="text" class="form-control" id="edit-tendm-${eecount}" name="ktdmDTOs[${eecount - 1}].Tendm" readonly />
-                                                                        <input type="text" class="form-control" id="edit-matk-${eecount}" name="ktdmDTOs[${eecount - 1}].Matk" hidden readonly /></td>
-                                                                        <td><input type="text" class="form-control" id="edit-donvi-${eecount}" name="ktdmDTOs[${eecount - 1}].Donvi" readonly /></td>
-                                                                        <td><input type="number" class="form-control" id="edit-dongia-${eecount}" name="ktdmDTOs[${eecount - 1}].Dgban" min="0" onchange="tienEdit(${eecount})" /></td>
-                                                                        <td><input type="number" class="form-control" id="edit-soluong-${eecount}" name="ktdmDTOs[${eecount - 1}].Soluong" min="1" onchange="tienEdit(${eecount})" /></td>
-                                                                        <td><input type="number" class="form-control" id="edit-ck-${eecount}" name="ktdmDTOs[${eecount - 1}].PtChietKhau" min="0" max="100" onchange="tienEdit(${eecount})" /></td>
-                                                                        <td><input type="number" class="form-control" id="edit-thue-${eecount}" name="ktdmDTOs[${eecount - 1}].PtThue" min="0" max="100" onchange="tienEdit(${eecount})" /></td>
-                                                                        <td><input type="number" class="form-control" id="edit-thanhtien-${eecount}" readonly/></td>
-                                                                        <td class="t-center"><a onClick="lessItem('e-${eecount}')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
-                                                                    </tr>
-                        `);
+                                                                    <td>
+                                                                    <div id="ed-tendm-${eecount}"></div>
+                                                                    <input type="text" class="form-control" id="edit-tendm-${eecount}" name="ktdmDTOs[${eecount - 1}].Tendm" readonly hidden />
+                                                                    <input type="text" class="form-control" id="edit-matk-${eecount}" name="ktdmDTOs[${eecount - 1}].Matk" hidden readonly /></td>
+                                                                    <td><div id="ed-donvi-${eecount}"></div>
+                                                                    <input type="text" class="form-control" id="edit-donvi-${eecount}" name="ktdmDTOs[${eecount - 1}].Donvi" hidden readonly /></td>
+                                                                    <td>
+                                                                        <input type="text" class="form-control text-end" id="e-soluong-${eecount}" onchange="formatNumberEdit(this.id)" />
+                                                                        <input type="number" class="form-control" id="edit-soluong-${eecount}" name="ktdmDTOs[${eecount - 1}].Soluong" min="1" onchange="tienEdit(${eecount})" hidden />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" class="form-control text-end" id="e-dongia-${eecount}" onchange="formatNumberEdit(this.id)"/>
+                                                                        <input type="number" class="form-control" id="edit-dongia-${eecount}" name="ktdmDTOs[${eecount - 1}].Dgban" min="0" onchange="tienEdit(${eecount})" hidden/>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" class="form-control text-end" id="edit-tientong-${eecount}" readonly />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" class="form-control text-end" id="e-ck-${eecount}" onchange="formatNumberEdit(this.id)" />
+                                                                        <input type="number" class="form-control" id="edit-ck-${eecount}" name="ktdmDTOs[${eecount - 1}].PtChietKhau" min="0" max="100" onchange="tienEdit(${eecount})" hidden/>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" class="form-control text-end" id="e-ck-vnd-${eecount}" onchange="formatNumberEdit(this.id)"/>
+                                                                        <input type="number" class="form-control" id="edit-ck-vnd-${eecount}" min="0" onchange="lamTronEdit(${eecount-1})" hidden/>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" class="form-control text-end" id="e-thue-${eecount}" onchange="formatNumberEdit(this.id)"/>
+                                                                        <input type="number" class="form-control" id="edit-thue-${eecount}" name="ktdmDTOs[${eecount - 1}].PtThue" min="0" max="100" onchange="tienEdit(${eecount})" hidden/>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" class="form-control text-end" id="e-thue-vnd-${eecount}" onchange="formatNumberEdit(this.id)"/>
+                                                                        <input type="number" class="form-control" id="edit-thue-vnd-${eecount}" min="0" onchange="lamTronEdit(${eecount-1})" hidden/>
+                                                                    </td>
+                                                                    <td><input type="text" class="form-control text-end" id="edit-thanhtien-${eecount}" readonly/></td>
+                                                                    <td class="t-center"><a onClick="lessItem('e-${eecount}')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
+                                                                </tr>
+                            `);
             $.ajax({
                 url: '@Url.Action("Get", "Ktdms")',
                 type: 'GET',
@@ -289,10 +401,10 @@
                     if (result.data.length > 0) {
                         madm = result.data;
                         for (var i = 0; i < madm.length; i++) {
-                            const list = document.getElementById("edit-sugg-" +eecount);
+                            const list = document.getElementById("edit-sugg-" + eecount);
                             list.insertAdjacentHTML('beforeend', `
-                                                                        <tr class="tr-sugg" onclick="chooseItem(this.closest('table').closest('tr').id,'${encodeURIComponent(JSON.stringify(madm[i]))}')"><td>${madm[i].Madm}</td><td>${madm[i].Tendm}</td><td>${madm[i].TonT}</td></tr>
-                            `);
+                                                                            <tr class="tr-sugg" onclick="chooseItem(this.closest('table').closest('tr').id,'${encodeURIComponent(JSON.stringify(madm[i]))}')"><td>${madm[i].Madm}</td><td>${madm[i].Tendm}</td><td>${madm[i].TonT}</td></tr>
+                                `);
                         }
                     }
                 }
@@ -301,8 +413,7 @@
         }
     }
     function chooseItem(id, item) {
-        console.log("eidcho:" + id);
-        hide_sugg("edit-sugg-" + id[2]);
+        hide_sugg("edit-sugg-" + id.substring(2, 10));
         var addItem = JSON.parse(decodeURIComponent(item));
         var madmDTO = {
             Matk: addItem.Matk,
@@ -314,12 +425,12 @@
             TonTDv1: addItem.TonTDv1,
             PtChietKhau: 0,
             PtThue: 0,
-            eId: id[2],
+            eId: id.substring(2, 10),
         }
-        var index = id[2];
+        var index = id.substring(2, 10);
         var isExist = false;
-        for (let i = 0; i < editItems.length; i++){
-            if(editItems[i].eId == index){
+        for (let i = 0; i < editItems.length; i++) {
+            if (editItems[i].eId == index) {
                 isExist = true;
                 index = i;
                 break;
@@ -331,20 +442,31 @@
         else {
             editItems[index] = madmDTO;
         }
-        var numId = id[2];
-        console.log(editItems)
+        var numId = id.substring(2, 10);
         // Lấy thẻ <tr> có id là "tr1"
         var tr = document.getElementById(id);
         // Gắn giá trị vào các thẻ <td>
-        tr.querySelector('#edit-matk-' + id[2]).value = JSON.parse(decodeURIComponent(item)).Matk;
-        tr.querySelector('#edit-madm-' + id[2]).value = JSON.parse(decodeURIComponent(item)).Madm;
-        tr.querySelector('#edit-tendm-' + id[2]).value = JSON.parse(decodeURIComponent(item)).Tendm;
-        tr.querySelector('#edit-donvi-' + id[2]).value = JSON.parse(decodeURIComponent(item)).Donvi;
-        tr.querySelector('#edit-dongia-' + id[2]).value = 0;
-        tr.querySelector('#edit-soluong-' + id[2]).value = 1;
-        tr.querySelector('#edit-thanhtien-' + id[2]).value = 0;
-        tr.querySelector('#edit-ck-' + id[2]).value = 0;
-        tr.querySelector('#edit-thue-' + id[2]).value = 0;
+        tr.querySelector('#ed-tendm-' + numId).textContent = JSON.parse(decodeURIComponent(item)).Tendm;
+        tr.querySelector('#ed-donvi-' + numId).textContent = JSON.parse(decodeURIComponent(item)).Donvi;
+        tr.querySelector('#edit-matk-' + numId).value = JSON.parse(decodeURIComponent(item)).Matk;
+        tr.querySelector('#edit-madm-' + numId).value = JSON.parse(decodeURIComponent(item)).Madm;
+        tr.querySelector('#edit-tendm-' + numId).value = JSON.parse(decodeURIComponent(item)).Tendm;
+        tr.querySelector('#edit-donvi-' + numId).value = JSON.parse(decodeURIComponent(item)).Donvi;
+        tr.querySelector('#edit-dongia-' + numId).value = 0;
+        tr.querySelector('#edit-soluong-' + numId).value = 1;
+        tr.querySelector('#edit-tientong-' + numId).value = 0;
+        tr.querySelector('#edit-thanhtien-' + numId).value = 0;
+        tr.querySelector('#edit-ck-' + numId).value = 0;
+        tr.querySelector('#edit-ck-vnd-' + numId).value = 0;
+        tr.querySelector('#edit-thue-' + numId).value = 0;
+        tr.querySelector('#edit-thue-vnd-' + numId).value = 0;
+        tr.querySelector('#e-dongia-' + numId).value = 0;
+        tr.querySelector('#e-soluong-' + numId).value = 1;
+        tr.querySelector('#e-ck-' + numId).value = 0;
+        tr.querySelector('#e-ck-vnd-' + numId).value = 0;
+        tr.querySelector('#e-thue-' + numId).value = 0;
+        tr.querySelector('#e-thue-vnd-' + numId).value = 0;
+        countTotalEdit();
         loadMoney();
     }
     function loadMoney() {
@@ -353,21 +475,19 @@
             var numId = eexist[i];
             tongtien = tongtien + parseInt(document.getElementById("edit-thanhtien-" + numId).value);
         }
-        console.log("tongtienne:" + tongtien);
         //document.getElementById("tongtien").textContent = tongtien;
     }
     function lessItem(id) {
-        if (eeindex > @eindex){
+        if (eeindex > @eindex) {
             var tr = document.getElementById(id);
             for (let i = 0; i < eexist.length; i++) {
-                if (eexist[i] == id[2]) {
+                if (eexist[i] == id.substring(2, 10)) {
                     eexist.splice(i, 1);
                 }
             }
             for (let i = 0; i < editItems.length; i++) {
-                if (editItems[i].eId == id[2]) {
+                if (editItems[i].eId == id.substring(2, 10)) {
                     editItems.splice(i, 1);
-                    console.log("xoa:" + editItems);
                 }
             }
             tr.remove();
@@ -381,6 +501,120 @@
             for (let i = 0; i < tdList.length; i++) {
                 tdList[i].textContent = idList[i];
             }
+            countTotalEdit();
             loadMoney();
-        }}
+        }
+    }
+
+    function formatNumberEdit(id) {
+        var number = document.getElementById(id);
+        var formattedNumber = new Intl.NumberFormat('en-US').format(number.value);
+        if (formattedNumber == "NaN") {
+            number.value = 0;
+            formattedNumber = Intl.NumberFormat('en-US').format(0);
+        }
+        id = getLastNumber(id);
+        setTextToNumEdit(id);
+        tienEdit(id);
+        var formattedNumber = new Intl.NumberFormat('en-US').format(number.value);
+        if (formattedNumber == "NaN") formattedNumber = Intl.NumberFormat('en-US').format(0);
+        number.value = formattedNumber;
+        setNumToTextEdit(id);
+    }
+    function setTextToNumEdit(id) {
+        document.getElementById("edit-dongia-" + id).value = convertNumToText(document.getElementById("e-dongia-" + id).value);
+        document.getElementById("edit-soluong-" + id).value = convertNumToText(document.getElementById("e-soluong-" + id).value);
+        document.getElementById("edit-ck-" + id).value = convertNumToText(document.getElementById("e-ck-" + id).value);
+        document.getElementById("edit-ck-vnd-" + id).value = convertNumToText(document.getElementById("e-ck-vnd-" + id).value);
+        document.getElementById("edit-thue-" + id).value = convertNumToText(document.getElementById("e-thue-" + id).value);
+        document.getElementById("edit-thue-vnd-" + id).value = convertNumToText(document.getElementById("e-thue-vnd-" + id).value);
+    }
+    function setNumToTextEdit(id) {
+        document.getElementById("e-dongia-" + id).value = formatFromNumber(document.getElementById("edit-dongia-" + id).value);
+        document.getElementById("e-soluong-" + id).value = formatFromNumber(document.getElementById("edit-soluong-" + id).value);
+        document.getElementById("e-ck-" + id).value = formatFromNumber(document.getElementById("edit-ck-" + id).value);
+        document.getElementById("e-ck-vnd-" + id).value = formatFromNumber(document.getElementById("edit-ck-vnd-" + id).value);
+        document.getElementById("e-thue-" + id).value = formatFromNumber(document.getElementById("edit-thue-" + id).value);
+        document.getElementById("e-thue-vnd-" + id).value = formatFromNumber(document.getElementById("edit-thue-vnd-" + id).value);
+    }
+    countTotalEdit();
+    function countTotalEdit() {
+        var tsl = 0, tck = 0, tthue = 0, tthanhtien = 0;
+        for (let i = 0; i < eexist.length; i++) {
+            tsl += parseInt(document.getElementById("edit-soluong-" + eexist[i]).value);
+            tck += parseInt(document.getElementById("edit-ck-vnd-" + eexist[i]).value);
+            tthue += parseInt(document.getElementById("edit-thue-vnd-" + eexist[i]).value);
+            tthanhtien += parseInt(convertNumToText(document.getElementById("edit-thanhtien-" + eexist[i]).value));
+        }
+        document.getElementById("etong-sl").textContent = formatFromNumber(tsl);
+        document.getElementById("etong-ck").textContent = formatFromNumber(tck);
+        document.getElementById("etong-thue").textContent = formatFromNumber(tthue);
+        document.getElementById("etong-thanh-tien").textContent = formatFromNumber(tthanhtien);
+    }
+    formatFirst();
+    function formatFirst() {
+        for (let i = 0; i < eexist.length; i++) {
+            formatNumberEdit('e-dongia-' + eexist[i]);
+            formatNumberEdit('e-soluong-' + eexist[i]);
+            formatNumberEdit('edit-tientong-' + eexist[i]);
+            formatNumberEdit('e-ck-' + eexist[i]);
+            formatNumberEdit('e-ck-vnd-' + eexist[i]);
+            formatNumberEdit('e-thue-' + eexist[i]);
+            formatNumberEdit('e-thue-vnd-' + eexist[i]);
+        }
+    }
+
+    document.getElementById('edit-dm').onkeypress = function (e) {
+        exist.forEach(num => {
+            input = document.getElementById("e-soluong-" + num);
+            input.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    var inputTo = document.getElementById("e-dongia-" + num);
+                    inputTo.focus();
+                }
+            });
+            var input = document.getElementById("e-dongia-" + num);
+            input.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    var inputTo = document.getElementById("edit-tientong-" + num);
+                    inputTo.focus();
+                }
+            });
+            input = document.getElementById("edit-tientong-" + num);
+            input.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    var inputTo = document.getElementById("e-ck-" + num);
+                    inputTo.focus();
+                }
+            });
+            input = document.getElementById("e-ck-" + num);
+            input.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    var inputTo = document.getElementById("e-ck-vnd-" + num);
+                    inputTo.focus();
+                }
+            });
+            input = document.getElementById("e-ck-vnd-" + num);
+            input.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    var inputTo = document.getElementById("e-thue-" + num);
+                    inputTo.focus();
+                }
+            });
+            input = document.getElementById("e-thue-" + num);
+            input.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    var inputTo = document.getElementById("e-thue-vnd-" + num);
+                    inputTo.focus();
+                }
+            });
+            input = document.getElementById("e-thue-vnd-" + num);
+            input.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    var inputTo = document.getElementById("edit-thanhtien-" + num);
+                    inputTo.focus();
+                }
+            });
+        });
+    }
 </script>

@@ -22,9 +22,11 @@ namespace WebAccountant.Controllers
     public class KtscsController : Controller
     {
         private readonly IKtscRepo _ktscRepo;
+        private readonly IUserKTSCColumnsRepo _userKTSCColumnsRepo;
 
-        public KtscsController(IKtscRepo ktscRepo) {
+        public KtscsController(IKtscRepo ktscRepo, IUserKTSCColumnsRepo userKTSCColumnsRepo) {
             _ktscRepo = ktscRepo;
+            _userKTSCColumnsRepo = userKTSCColumnsRepo;
         }
         [HttpGet]
         public async Task<IActionResult> GetALLDSPhieuBanHang(DataSourceLoadOptions loadOptions)
@@ -32,11 +34,38 @@ namespace WebAccountant.Controllers
             var ktscBanHangs = await _ktscRepo.GetAllDSPhieuBanHang();
             return Json(DataSourceLoader.Load(ktscBanHangs, loadOptions));
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetALLDSPhieuBanHangByDate(DateTime fromDate, DateTime toDate)
+        {
+            toDate = toDate.AddHours(23).AddMinutes(59).AddSeconds(59);
+            var ktscBanHangs = await _ktscRepo.GetAllDSPhieuBanHang();
+            var filteredData = ktscBanHangs.Where(m => m.NgayCtu >= fromDate && m.NgayCtu <= toDate);
+            return Json(filteredData);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetSoHoaDon()
+        {
+            var ktsc = (await _ktscRepo.GetAllAsync()).OrderByDescending(s=>s.IdChungtu).FirstOrDefault().IdChungtu + 1;
+            return Json(ktsc);
+        }
         [HttpGet]
         public async Task<IActionResult> GetDetailPhieuBanHang(int id)
         {
             var phieuBanHang = await _ktscRepo.GetDetailPhieuBanHang(id);
             return PartialView("~/Views/Home/Pages/Actions/SellEditPage.cshtml", phieuBanHang);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetALLDSPhieuMuaHangByDate(DateTime fromDate, DateTime toDate)
+        {
+            Console.WriteLine(fromDate.ToString());
+            toDate = toDate.AddHours(23).AddMinutes(59).AddSeconds(59);
+            var ktscBanHangs = await _ktscRepo.GetAllDSPhieuMuaHang();
+            var filteredData = ktscBanHangs.Where(m => m.NgayCtu >= fromDate && m.NgayCtu <= toDate);
+            return Json(filteredData);
         }
         [HttpGet]
         public async Task<IActionResult> GetDetailPhieuMuaHang(int id)
@@ -55,7 +84,12 @@ namespace WebAccountant.Controllers
             var ktscs = await _ktscRepo.GetAllAsync();
             return Json(DataSourceLoader.Load(ktscs, loadOptions));
         }
-
+        [HttpGet]
+        public async Task<IActionResult> GetData()
+        {
+            var ktscs = await _ktscRepo.GetAllAsync();
+            return Json(ktscs);
+        }
         [HttpPost]
         public async Task<IActionResult> Post(Ktsc values) {
             if (!ModelState.IsValid)
@@ -77,7 +111,7 @@ namespace WebAccountant.Controllers
             {
                 if (totalEntity != items.ktdmDTOs.Count)
                 {
-                    for (int i = 0; i <= totalEntity; i++)
+                    for (int i = 0; i < items.ktdmDTOs.Count; i++)
                     {
                         var checkValue = ktdmDTOs.Where(s => s.Key.Contains("[" + i + "]")).FirstOrDefault().Value;
                         if (!string.IsNullOrEmpty(checkValue))
@@ -118,7 +152,7 @@ namespace WebAccountant.Controllers
             {
                 if (totalEntity != items.ktdmDTOs.Count)
                 {
-                    for (int i = 0; i <= totalEntity; i++)
+                    for (int i = 0; i < items.ktdmDTOs.Count; i++)
                     {
                         var checkValue = ktdmDTOs.Where(s => s.Key.Contains("[" + i + "]")).FirstOrDefault().Value;
                         if (!string.IsNullOrEmpty(checkValue))
@@ -162,6 +196,12 @@ namespace WebAccountant.Controllers
         {
             await _ktscRepo.DeletePhieuBanHang(id);
         }
+        [HttpDelete]
+        public async Task DeletePhieuMuaHang(int id)
+        {
+            await _ktscRepo.DeletePhieuMuaHang(id);
+        }
+
         private string GetFullErrorMessage(ModelStateDictionary modelState) {
             var messages = new List<string>();
 
@@ -171,6 +211,30 @@ namespace WebAccountant.Controllers
             }
 
             return String.Join(" ", messages);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetKTSCColumn() 
+        {
+            var ktscColumns = await _userKTSCColumnsRepo.GetAllKTSCColumn();
+            return Json(ktscColumns);
+        }
+        [HttpPost]
+        public async Task<IActionResult> SubmitKTSCColunm()
+        {
+            List<int> ids = new();
+            var getId = this.Request.Form.SkipLast(1).ToList();
+            foreach(var id in getId)
+            {
+                ids.Add(Int32.Parse(id.Value[0]));
+            }
+            await _userKTSCColumnsRepo.AddAllColumnOfUser(4, ids);
+            return RedirectToAction("KTSC", "Home");
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetUserKTSCColumn()
+        {
+            var ktscColumns = await _userKTSCColumnsRepo.GetUserKTSCColumn(4);
+            return Json(ktscColumns);
         }
     }
 }

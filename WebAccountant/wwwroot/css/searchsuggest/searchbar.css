@@ -1,6 +1,5 @@
 ﻿.input-sugg {
     width: 200px;
-    height: 30px;
     outline: none;
     font-size: 13px;
     transition: .2s ease-out;
@@ -11,21 +10,22 @@
         border: 2px solid dodgerblue;
     }
 
-.table-container table{
-    background-color: white;
-    max-height: 200px;
+.table-container table {
+    max-height: 300px;
     display: block;
     overflow-y: auto;
 }
 .sugg-container {
+    z-index:100;
     border-bottom: 2px solid gray;
     position: absolute;
     overflow: auto;
     transition: .2s ease-out;
+    background-color: rgb(235, 235, 235)
 }
     .sugg-container tr{
         height: 30px;
-        font-size: 10px;
+        font-size: 12px;
         border: 1px solid #ddd;
     }
 .sugg-container td{
