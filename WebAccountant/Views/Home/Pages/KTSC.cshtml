@@ -9,30 +9,7 @@
     <div class="home-container">
         @Html.Partial("../Home/SideBar")
         <div class="right-bar-home content">
-            @*Navbar Here*@
-            @* <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex">
-                <div class="container-fluid">
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Danh sách</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="d-flex" style="margin: 10px">
-                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm</button>
-                    </div>
-                    <div class="d-flex" style="margin: 10px">
-                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#settingModal">
-                            <img src="~/img/setting.png" style="width: 25px; height: auto" />
-                        </button>
-                    </div>
-                </div>
-            </nav> *@
-
+            @* Navbar Here*@
             @*Modal*@
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
@@ -535,6 +512,11 @@
                 <button class="btn btn-primary width-100" data-bs-toggle="modal" id="btnAdd" data-bs-target="#exampleModal">Thêm</button>
                 <button class="btn btn-primary width-100" type="button" onclick="onEdit()">Sửa</button>
                 <button class="btn btn-primary width-100" type="button" onclick="onDelete()">Xóa</button>
+                <div class="d-flex ms-auto" style="right : 0">
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#settingModal">
+                        <img src="~/img/setting.png" style="width: 20px; height: auto" />
+                    </button>
+                </div>
             </div>
         </div>
     </div>
