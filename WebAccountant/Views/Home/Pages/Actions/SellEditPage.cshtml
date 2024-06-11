@@ -52,8 +52,8 @@
                 </div>
                 <div class="col-2">
                     <div class="mb-3 text-start">
-                        <label for="msdn" class="col-form-label">Mã số doanh nghiệp:</label>
-                        <input type="text" class="form-control height-30" id="msdn" value="@Model.KhachHang.MsDn" readonly>
+                        <label for="ip-msdn" class="col-form-label">Mã số doanh nghiệp:</label>
+                        <input type="text" class="form-control height-30" id="ip-msdn" value="@Model.KhachHang.MsDn" readonly>
                     </div>
                 </div>
                 <div class="col-2">
@@ -154,7 +154,7 @@
                                 <td><input type="text" class="form-control text-end" id="edit-thanhtien-@ecount" readonly value="@tt" /></td>
                                 <td class="t-center"><a onClick="lessItem('e-@ecount')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
                             </tr>
-                            <span asp-validation-for="ktdmDTOs"></span>
+                            @* <span asp-validation-for="ktdmDTOs"></span> *@
                         }
                     </table>
                     
@@ -265,10 +265,10 @@
     function makhChoose(item) {
         makhitem = JSON.parse(decodeURIComponent(item));
         hide_sugg("makh-sugg");
-        // Gắn giá trị vào các thẻ <td>
         document.getElementById('ip-makh').value = JSON.parse(decodeURIComponent(item)).Madtpn;
         document.getElementById('ip-tenkh').value = JSON.parse(decodeURIComponent(item)).Tendtpn;
         document.getElementById('ip-dc').value = JSON.parse(decodeURIComponent(item)).Diachi;
+        document.getElementById('ip-msdn').value = JSON.parse(decodeURIComponent(item)).MsDn;
     }
     function findDm(idSugg, idInput, idUl) {
         document.getElementById(idSugg).classList.remove("d-none");
@@ -542,7 +542,7 @@
 
     function formatNumberEdit(id) {
         var number = document.getElementById(id);
-        var formattedNumber = new Intl.NumberFormat('en-US').format(number.value);
+        var formattedNumber = new Intl.NumberFormat('en-US').format(convertNumToText(number.value));
         if (formattedNumber == "NaN") {
             number.value = 0;
             formattedNumber = Intl.NumberFormat('en-US').format(0);
@@ -564,12 +564,12 @@
         document.getElementById("edit-thue-vnd-" + id).value = convertNumToText(document.getElementById("e-thue-vnd-" + id).value);
     }
     function setNumToTextEdit(id) {
-        document.getElementById("e-dongia-" + id).value = formatFromNumber(document.getElementById("edit-dongia-" + id).value);
-        document.getElementById("e-soluong-" + id).value = formatFromNumber(document.getElementById("edit-soluong-" + id).value);
-        document.getElementById("e-ck-" + id).value = formatFromNumber(document.getElementById("edit-ck-" + id).value);
-        document.getElementById("e-ck-vnd-" + id).value = formatFromNumber(document.getElementById("edit-ck-vnd-" + id).value);
-        document.getElementById("e-thue-" + id).value = formatFromNumber(document.getElementById("edit-thue-" + id).value);
-        document.getElementById("e-thue-vnd-" + id).value = formatFromNumber(document.getElementById("edit-thue-vnd-" + id).value);
+        document.getElementById("e-dongia-" + id).value = formatFromNumber(convertNumToText(document.getElementById("edit-dongia-" + id).value));
+        document.getElementById("e-soluong-" + id).value = formatFromNumber(convertNumToText(document.getElementById("edit-soluong-" + id).value));
+        document.getElementById("e-ck-" + id).value = formatFromNumber(convertNumToText(document.getElementById("edit-ck-" + id).value));
+        document.getElementById("e-ck-vnd-" + id).value = formatFromNumber(convertNumToText(document.getElementById("edit-ck-vnd-" + id).value));
+        document.getElementById("e-thue-" + id).value = formatFromNumber(convertNumToText(document.getElementById("edit-thue-" + id).value));
+        document.getElementById("e-thue-vnd-" + id).value = formatFromNumber(convertNumToText(document.getElementById("edit-thue-vnd-" + id).value));
     }
     countTotalEdit();
     function countTotalEdit() {
@@ -599,9 +599,7 @@
     }
 
     document.getElementById('edit-dm').onkeypress = function (e) {
-
-
-        exist.forEach(num => {
+        eexist.forEach(num => {
             var input = document.getElementById("e-soluong-" + num);
             input.addEventListener('keydown', function (event) {
                 if (event.key === 'Enter') {

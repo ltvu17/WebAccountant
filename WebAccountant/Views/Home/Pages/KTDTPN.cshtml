@@ -40,34 +40,34 @@
                                         <div class="mb-3 text-start">
                                             <label for="makh" class="col-form-label">Mã đối tượng pháp nhân:</label>
                                             <input type="text" class="form-control" asp-for="Madtpn" id="makh">
-                                            <span asp-validation-for="Madtpn" class="text-danger"></span>
-                                        </div>
+                                            @* <span asp-validation-for="Madtpn" class="text-danger"></span> *@
+                                        </div> 
                                         <div class="mb-3 text-start">
                                             <label for="msdn" class="col-form-label">Mã số doanh nghiệp:</label>
                                             <input type="text" class="form-control" asp-for="MsDn" id="msdn">
-                                            <span asp-validation-for="MsDn" class="text-danger"></span>
+                                            @* <span asp-validation-for="MsDn" class="text-danger"></span> *@
                                         </div>
                                         <div class="mb-3 text-start">
                                             <label for="dt" class="col-form-label">Điện thoại :</label>
                                             <input type="text" class="form-control" asp-for="MsDn" id="dt">
-                                            <span asp-validation-for="MsDn" class="text-danger"></span>
+                                            @* <span asp-validation-for="MsDn" class="text-danger"></span> *@
                                         </div>
                                     </div>
                                     <div class="col-7">
                                         <div class="mb-3 text-start">
                                             <label for="tenkh" class="col-form-label">Tên đối tượng pháp nhân:</label>
                                             <input type="text" class="form-control" asp-for="Tendtpn" id="tenkh">
-                                            <span asp-validation-for="Tendtpn" class="text-danger"></span>
+                                            @* <span asp-validation-for="Tendtpn" class="text-danger"></span> *@
                                         </div>
                                         <div class="mb-3 text-start">
                                             <label for="diachi" class="col-form-label">Địa chỉ:</label>
                                             <input type="text" class="form-control" asp-for="Diachi" id="diachi">
-                                            <span asp-validation-for="Diachi" class="text-danger"></span>
+                                            @* <span asp-validation-for="Diachi" class="text-danger"></span> *@
                                         </div>
                                         <div class="mb-3 text-start">
                                             <label for="diachigh" class="col-form-label">Địa chỉ giao hàng:</label>
                                             <input type="text" class="form-control" asp-for="Diachi" id="diachigh">
-                                            <span asp-validation-for="Diachi" class="text-danger"></span>
+                                            @* <span asp-validation-for="Diachi" class="text-danger"></span> *@
                                         </div>
                                     </div>
 
@@ -191,7 +191,7 @@
                 )
             <div class="footer-data d-flex justify-content-start">
                 <button class="btn btn-primary width-100" data-bs-toggle="modal" id="btnAdd" data-bs-target="#exampleModal">Thêm</button>
-                <button class="btn btn-primary width-100" type="button" onclick="onEdit()">Sửa</button>
+                @* <button class="btn btn-primary width-100" type="button" onclick="onEdit()">Sửa</button> *@
                 <button class="btn btn-primary width-100" type="button" onclick="onDelete()">Xóa</button>
             </div>
         </div>
@@ -203,7 +203,7 @@
         var grid = document.getElementById("grid");
         var row = grid.getElementsByClassName("dx-row-focused")[0];
         if (row == null) {
-                alert("Hãy chọn hàng cần xóa")
+            alert("Hãy chọn hàng cần xóa")
         } else {
             var deleteLink = row.getElementsByClassName("dx-link-delete")[0];
             deleteLink.click();
@@ -222,12 +222,12 @@
         if (e.rowIndex != -1) {
             if (!e.items) e.items = [];
             const contextMenuItem = [
-                {
-                    text: "Sửa",
-                    onItemClick: function (args) {
-                        $('#btnAdd').click();
-                    }
-                },
+                //{
+                //    text: "Sửa",
+                //    onItemClick: function (args) {
+                //        $('#btnAdd').click();
+                //    }
+                //},
                 {
                     text: "Xóa",
                     onItemClick: function (args) {
@@ -247,5 +247,42 @@
         e.component.navigateToRow(e.key);
         e.component.option("focusedRowKey", e.key);
     }
-    
+    document.getElementById('exampleModal').onkeypress = function (e) {
+        var inputTo;
+        var input = document.getElementById("makh");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("msdn");
+                inputTo.focus();
+            }
+        }); 
+        input = document.getElementById("msdn");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("dt");
+                inputTo.focus();
+            }
+        });
+        input = document.getElementById("dt");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("tenkh");
+                inputTo.focus();
+            }
+        });
+        input = document.getElementById("tenkh");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("diachi");
+                inputTo.focus();
+            }
+        });
+        input = document.getElementById("diachi");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("diachigh");
+                inputTo.focus();
+            }
+        });
+    }
 </script>
