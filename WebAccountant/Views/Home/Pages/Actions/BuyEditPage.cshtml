@@ -16,7 +16,7 @@
     <form id="edit-form" asp-controller="Ktscs" asp-action="UpdateDetailPhieuMuaHang">
         <div class="body-buy-edit">
             <div class="row kh-info t-s-12">
-                <div class="col-2">
+                <div class="col-1">
                     <div class="mb-3 text-start">
                         <label for="ip-makh" class="col-form-label">Mã khách hàng:</label>
                         <input type="text" class="form-control input-sugg height-30" id="ip-makh"
@@ -39,19 +39,38 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-5">
+                <div class="col-2">
                     <div class="mb-3 text-start">
                         <label for="ip-tenkh" class="col-form-label">Tên khách hàng:</label>
                         <input type="text" class="form-control height-30" id="ip-tenkh" value="@Model.KhachHang.Tendtpn" readonly>
                     </div>
                 </div>
-                <div class="col-5">
+                <div class="col-3">
                     <div class="mb-3 text-start">
                         <label for="ip-dc" class="col-form-label">Địa chỉ:</label>
                         <input type="text" class="form-control height-30" id="ip-dc" value="@Model.KhachHang.Diachi" readonly>
                     </div>
                 </div>
+                <div class="col-2">
+                    <div class="mb-3 text-start">
+                        <label for="msdn" class="col-form-label">Mã số doanh nghiệp:</label>
+                        <input type="text" class="form-control height-30" id="msdn" value="@Model.KhachHang.MsDn" readonly>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="mb-3 text-start">
+                        <label for="shd" class="col-form-label">Số hóa đơn:</label>
+                        <input type="text" class="form-control height-30" id="shd" value="@Model.SoCtu" readonly>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="mb-3 text-start">
+                        <label for="nhd" class="col-form-label">Ngày hóa đơn:</label>
+                        <input type="text" class="form-control height-30" id="nhd" value="@Model.NgayCtu" readonly>
+                    </div>
+                </div>
             </div>
+        </div>
             <div class="body-tb">
                 <div class="list-dm">
                     @*List product *@
@@ -90,7 +109,15 @@
                                            asp-for="ktdmDTOs[ecount-1].Madm"
                                            value="@item.Madm"
                                            onkeyup="findDm('edit-sugg-@ecount','edit-madm-@ecount','edit-sugg-@ecount')" readonly />
-
+                                    <div class="table-container">
+                                        <table id="edit-sugg-@ecount" class="sugg-container d-none">
+                                            <tr id="tr-1">
+                                                <td class="width-120">Mã danh mục</td>
+                                                <td class="width-250">Tên danh mục</td>
+                                                <td class="width-90">Số lượng tồn</td>
+                                            </tr>
+                                        </table>
+                                    </div>
                                 </td>
                                 <td>
                                     <div id="ed-tendm-@ecount">@item.Tendm</div>
@@ -129,8 +156,7 @@
                                     <input type="number" class="form-control" id="edit-thue-vnd-@ecount" min="0" value="@item.ThueThanhTien" hidden />
                                 </td>
                                 <td><input type="text" class="form-control text-end" id="edit-thanhtien-@ecount" readonly value="@tt" /></td>
-                                <td></td>
-                                @* <td class="t-center"><a class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td> *@
+                                <td class="t-center"><a onClick="lessItem('e-@ecount')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
                             </tr>
                             <span asp-validation-for="ktdmDTOs"></span>
                         }
@@ -153,10 +179,20 @@
                     <button class="btn btn-primary t-s-12 height-30" id="saveEdit" onclick="submitF()" type="button">Lưu đơn mua</button>
                 </div>
             </div>
-        </div>
     </form>
 </div>
 <script>
+    var nhdInput = document.getElementById('nhd');
+    var nhd = new Date(nhdInput.value);
+
+    function formatDate(date) {
+        var day = String(date.getDate()).padStart(2, '0');
+        var month = String(date.getMonth() + 1).padStart(2, '0');
+        var year = date.getFullYear();
+        return `${day}-${month}-${year}`;
+    }
+    nhdInput.value = formatDate(nhd);
+
     function submitF() {
         const myForm = document.getElementById('edit-form');
         myForm.submit();
@@ -478,7 +514,7 @@
         //document.getElementById("tongtien").textContent = tongtien;
     }
     function lessItem(id) {
-        if (eeindex > @eindex) {
+        if (editItems.length > 1) {
             var tr = document.getElementById(id);
             for (let i = 0; i < eexist.length; i++) {
                 if (eexist[i] == id.substring(2, 10)) {
@@ -566,7 +602,7 @@
 
     document.getElementById('edit-dm').onkeypress = function (e) {
         exist.forEach(num => {
-            input = document.getElementById("e-soluong-" + num);
+            var input = document.getElementById("e-soluong-" + num);
             input.addEventListener('keydown', function (event) {
                 if (event.key === 'Enter') {
                     var inputTo = document.getElementById("e-dongia-" + num);
