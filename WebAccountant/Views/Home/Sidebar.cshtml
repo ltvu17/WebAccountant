@@ -5,9 +5,14 @@
 }
 <div class="sidebar" id="main-sidebar">
     <div class="d-flex justify-content-between" id="btn-dm" onclick="opendm()">
-        <a class="width-pt-20">Danh mục</a>
-        <div id="arrow" style="width:30px; height:auto; text-align:center; align-content:center">></div>
-    </div>    <div class="d-none" id="dmList">
+        <a>Danh mục</a>
+        <div id="arrow" style="width:40px; height:auto; text-align:center; align-content:center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8" />
+            </svg>
+        </div>
+    </div>    
+    <div class="d-none" id="dmList">
         <a id="10" style="text-align:end" asp-controller="Home" asp-action="SellProduct">Bán hàng</a>
         <a id="9" style="text-align:end" asp-controller="Home" asp-action="BuyProduct">Mua hàng</a>
         <a id="6" style="text-align:end" asp-controller="Home" asp-action="KTDM">Hàng hóa</a>
@@ -17,26 +22,38 @@
     <a id="7" asp-controller="Home" asp-action="KTCN">Số dư công nợ</a>
     <a id="3" asp-controller="Home" asp-action="KTTK">Tồn kho</a>
     <a id="8" asp-controller="Home" asp-action="KTSC">KTSC</a>
-    <a id="11" asp-controller="Home" asp-action="ImportProduct">Nhập hàng</a>
+    @* <a id="11" asp-controller="Home" asp-action="ImportProduct">Nhập hàng</a> *@
 </div>
 <script>
     var isOpen = false;
     function active() {
         var activeId = @ViewData["activeId"]
         document.getElementById(activeId).classList.add("active");
+        if (activeId == "10" || activeId == "9" || activeId == "6" || activeId == "5" || activeId == "4") {
+            document.getElementById('dmList').classList.remove('d-none');
+            document.getElementById('btn-dm').classList.add('drop-active');
+            document.getElementById('arrow').innerHTML = `<svg width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1"/>
+                </svg>`;
+            isOpen = true;
+        }
     }
     active();
     function opendm() {
         if (!isOpen) {
             document.getElementById('dmList').classList.remove('d-none');
             document.getElementById('btn-dm').classList.add('drop-active');
-            document.getElementById('arrow').textContent = 'v';
+            document.getElementById('arrow').innerHTML = `<svg width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1"/>
+            </svg>`;
             isOpen = true;
         }
         else {
             document.getElementById('dmList').classList.add('d-none');
             document.getElementById('btn-dm').classList.remove('drop-active');
-            document.getElementById('arrow').textContent = '>';
+            document.getElementById('arrow').innerHTML = `<svg width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
+                </svg>`;
             isOpen = false;
         }
     }
