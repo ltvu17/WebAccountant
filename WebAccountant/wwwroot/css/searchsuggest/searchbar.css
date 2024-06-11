@@ -1,6 +1,5 @@
 ﻿.input-sugg {
     width: 200px;
-    height: 30px;
     outline: none;
     font-size: 13px;
     transition: .2s ease-out;
@@ -11,7 +10,7 @@
         border: 2px solid dodgerblue;
     }
 
-.table-container table{
+.table-container table {
     max-height: 300px;
     display: block;
     overflow-y: auto;
@@ -27,7 +26,6 @@
     .sugg-container tr{
         height: 30px;
         font-size: 12px;
-        white-space:nowrap;
         border: 1px solid #ddd;
     }
 .sugg-container td{

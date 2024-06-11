@@ -56,27 +56,26 @@
                 @*List product *@
                     <table id="edit-dm" class="table-text">
                         <tr class="table-menu" id="tr-1">
-                            <td class="t-center width-20">#</td>
-                            <td class="width-200">Mã mặt hàng</td>
-                            <td class="width-300">Tên mặt hàng</td>
-                            <td class="width-150">Đơn vị</td>
-                            <td class="width-300">Đơn giá</td>
-                            <td class="width-200">Số lượng</td>
-                            <td class="width-90">Chiết khấu (%)</td>
-                            <td class="width-300">Chiết khấu (VND)</td>
-                            <td class="width-70">Thuế (%)</td>
-                            <td class="width-300">Thuế (VND)</td>
-                            <td class="width-300">Thành tiền</td>
-                            <td class="width-70">Hành động</td>
+                            <td class="t-center">#</td>
+                            <td class="nowr"><div class="resizable-1" style="min-width:120px;">Mã mặt hàng</div></td>
+                            <td class="nowr"><div class="resizable-1" style="min-width:200px;">Tên mặt hàng</div></td>
+                            <td class="nowr"><div class="resizable-1" style="min-width:70px; max-width:70px;">Đơn vị</div></td>
+                            <td class="nowr"><div class="resizable-1" style="min-width:70px;">Số lượng</div></td>
+                            <td class="nowr"><div class="resizable-1" style="min-width:70px;">Đơn giá</div></td>
+                            <td class="nowr"><div class="resizable-1" style="min-width:70px;">Thành tiền</div></td>
+                            <td class="nowr"><div class="resizable-1" style="min-width:90px;">Chiết khấu (%)</div></td>
+                            <td class="nowr"><div class="resizable-1" style="min-width:100px;">Chiết khấu (VND)</div></td>
+                            <td class="nowr"><div class="resizable-1" style="min-width:70px;">Thuế (%)</div></td>
+                            <td class="nowr"><div class="resizable-1" style="min-width:70px;">Thuế (VND)</div></td>
+                            <td class="nowr"><div class="resizable-1" style="min-width:100px;">Tiền thanh toán</div></td>
+                            <td class="nowr">Hành động</td>
                         </tr>
                         @foreach (var item in Model.ktdmDTOs)
                         {
                             ecount++;
                             eindex++;
                             var Ttvnd = item.Soluong * item.Dgban;
-                            var Chietkhau = item.Soluong * item.Dgban * (item.PtChietKhau / 100);
-                            var Thuevnd = (Ttvnd - Chietkhau) * (item.PtThue / 100);
-                            var tt = Ttvnd - Chietkhau + Thuevnd;
+                            var tt = Ttvnd - item.ChietKhauThanhTien + item.ThueThanhTien;
                             <tr id='e-@ecount'>
                                 <td class="t-center td-eindex">@eindex</td>
                                 <td>
@@ -100,27 +99,31 @@
                                     <input type="text" class="form-control" id="edit-donvi-@ecount" readonly value="@item.Donvi" hidden asp-for="ktdmDTOs[ecount-1].Donvi" />
                                 </td>
                                 <td>
+                                    <input type="text" class="form-control text-end" id="e-soluong-@ecount" value="@item.Soluong" onchange="formatNumberEdit(this.id)" />
+                                    <input type="number" class="form-control" id="edit-soluong-@ecount" min="1" onchange="tienEdit(@ecount)" value="@item.Soluong" asp-for="ktdmDTOs[ecount-1].Soluong" hidden />
+                                </td>
+                                <td>
                                     <input type="text" class="form-control text-end" id="e-dongia-@ecount" value="@item.Dgban" onchange="formatNumberEdit(this.id)" />
                                     <input type="number" class="form-control" id="edit-dongia-@ecount" min="0" onchange="tienEdit(@ecount)" asp-for="ktdmDTOs[ecount-1].Dgban" value="@item.Dgban" hidden/>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control text-end" id="e-soluong-@ecount" value="@item.Soluong" onchange="formatNumberEdit(this.id)" />
-                                    <input type="number" class="form-control" id="edit-soluong-@ecount" min="1" onchange="tienEdit(@ecount)" value="@item.Soluong" asp-for="ktdmDTOs[ecount-1].Soluong" hidden />
+                                    <input type="text" class="form-control text-end" id="edit-tientong-@ecount" value="@Ttvnd" readonly />
                                 </td>
                                 <td>
                                     <input type="text" class="form-control text-end" id="e-ck-@ecount" value="@item.PtChietKhau" onchange="formatNumberEdit(this.id)" />
                                     <input type="number" class="form-control" id="edit-ck-@ecount" min="0" max="100" onchange="tienEdit(@ecount)" value="@item.PtChietKhau" asp-for="ktdmDTOs[ecount-1].PtChietKhau" hidden />
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control text-end" id="e-ck-vnd-@ecount" value="0" onchange="formatNumberEdit(this.id)" />
-                                    <input type="number" class="form-control" id="edit-ck-vnd-@ecount" min="0" onchange="lamTronEdit(@ecount)" value="0" hidden/>
+                                    <input type="text" class="form-control text-end" id="e-ck-vnd-@ecount" value="@item.ChietKhauThanhTien" onchange="lamTronEdit(this.id)" />
+                                    <input type="number" class="form-control" id="edit-ck-vnd-@ecount" min="0" onchange="lamTronEdit(@ecount)" value="@item.ChietKhauThanhTien" hidden/>
                                 </td>
                                 <td>
                                     <input type="text" class="form-control text-end" id="e-thue-@ecount" value="@item.PtThue" onchange="formatNumberEdit(this.id)" />
                                     <input type="number" class="form-control" id="edit-thue-@ecount" min="0" max="100" onchange="tienEdit(@ecount)" value="@item.PtThue" asp-for="ktdmDTOs[ecount-1].PtThue" hidden/></td>
                                 <td>
-                                    <input type="text" class="form-control text-end" id="e-thue-vnd-@ecount" value="0" onchange="formatNumberEdit(this.id)" />
-                                    <input type="number" class="form-control" id="edit-thue-vnd-@ecount" min="0" onchange="lamTronEdit(@ecount)" value="0" hidden/></td>
+                                    <input type="text" class="form-control text-end" id="e-thue-vnd-@ecount" value="@item.ThueThanhTien" onchange="lamTronEdit(this.id)" />
+                                    <input type="number" class="form-control" id="edit-thue-vnd-@ecount" min="0" value="@item.ThueThanhTien" hidden />
+                                </td>
                                 <td><input type="text" class="form-control text-end" id="edit-thanhtien-@ecount" readonly value="@tt" /></td>
                                 <td></td>
                                 @* <td class="t-center"><a class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td> *@
@@ -144,13 +147,19 @@
                 </table>
                 <div class="e-footer buttons d-flex justify-content-between mar-15">
                     <button class="btn btn-success t-s-12 height-30" id="addDm" onclick="moreItem()" type="button">Thêm danh mục</button>
-                    <button class="btn btn-primary t-s-12 height-30" id="saveEdit" type="submit">Lưu đơn mua</button>
+                    <button class="btn btn-primary t-s-12 height-30" id="saveEdit" onclick="submitF()" type="button">Lưu đơn mua</button>
                 </div>
             </div>
         </div>
     </form>
 </div>
 <script>
+    function submitF() {
+        const myForm = document.getElementById('edit-form');
+        myForm.submit();
+    }
+
+
     maxWidth();
     window.addEventListener('resize', function () {
         maxWidth();
@@ -277,11 +286,18 @@
         var sl = document.getElementById("edit-soluong-" + rowIndex).value;
         var dgia = $(`#edit-dongia-${rowIndex}`)[0].value;
         var tr = document.getElementById("e-" + rowIndex);
+
+        tr.querySelector('#edit-ck-vnd-' + rowIndex).value = convertNumToText(document.getElementById('e-ck-vnd-' + rowIndex).value);
         var ckVnd = tr.querySelector('#edit-ck-vnd-' + rowIndex).value;
+        tr.querySelector('#e-ck-vnd-' + rowIndex).value = formatFromNumber(parseFloat(ckVnd).toFixed(0));
+
+        tr.querySelector('#edit-thue-vnd-' + rowIndex).value = convertNumToText(document.getElementById('e-thue-vnd-' + rowIndex).value);
         var thueVnd = tr.querySelector('#edit-thue-vnd-' + rowIndex).value;
+        tr.querySelector('#e-thue-vnd-' + rowIndex).value = formatFromNumber(parseFloat(thueVnd).toFixed(0));
+
         var thanhtien = parseFloat(sl).toFixed(0) * parseFloat(dgia).toFixed(0) - parseFloat(ckVnd).toFixed(0);
         thanhtien = parseFloat(parseFloat(thanhtien).toFixed(0)) + parseFloat(parseFloat(thueVnd).toFixed(0));
-        tr.querySelector('#edit-thanhtien-' + rowIndex).value = parseFloat(thanhtien).toFixed(0);
+        tr.querySelector('#edit-thanhtien-' + rowIndex).value = formatFromNumber(parseFloat(thanhtien).toFixed(0));
         countTotalEdit();
         loadMoney();
     }
@@ -297,11 +313,12 @@
                 editItems[i].Dgban = parseInt(dgia);
                 editItems[i].PtChietKhau = parseInt(ck);
                 editItems[i].PtThue = parseInt(thue);
+                var tientong = parseFloat(sl) * parseFloat(dgia);
+                tr.querySelector('#edit-tientong-' + rowIndex).value = formatFromNumber(parseFloat(tientong).toFixed(0));
                 var ckVnd = sl * dgia * ck / 100;
                 tr.querySelector('#edit-ck-vnd-' + rowIndex).value = parseFloat(ckVnd).toFixed(0);
                 var thueVnd = sl * (dgia * (1 - ck / 100)) * thue / 100;
                 tr.querySelector('#edit-thue-vnd-' + rowIndex).value = parseFloat(thueVnd).toFixed(0);
-                // Gắn giá trị vào các thẻ <td>
                 var thanhtien = editItems[i].Soluong * (editItems[i].Dgban * (1 - editItems[i].PtChietKhau / 100)) * (1 + editItems[i].PtThue / 100);
                 tr.querySelector('#edit-thanhtien-' + rowIndex).value = formatFromNumber(parseFloat(thanhtien).toFixed(0));
                 break;
@@ -312,12 +329,6 @@
         loadMoney();
     }
 
-    document.getElementById('edit-form').onkeypress = function (e) {
-        var key = e.charCode || e.keyCode || 0;
-        if (key == 13) {
-            e.preventDefault();
-        }
-    }
     function moreItem() {
         if (editItems.length == eexist.length) {
             eecount++;
@@ -351,12 +362,15 @@
                                                                     <td><div id="ed-donvi-${eecount}"></div>
                                                                     <input type="text" class="form-control" id="edit-donvi-${eecount}" name="ktdmDTOs[${eecount - 1}].Donvi" hidden readonly /></td>
                                                                     <td>
+                                                                        <input type="text" class="form-control text-end" id="e-soluong-${eecount}" onchange="formatNumberEdit(this.id)" />
+                                                                        <input type="number" class="form-control" id="edit-soluong-${eecount}" name="ktdmDTOs[${eecount - 1}].Soluong" min="1" onchange="tienEdit(${eecount})" hidden />
+                                                                    </td>
+                                                                    <td>
                                                                         <input type="text" class="form-control text-end" id="e-dongia-${eecount}" onchange="formatNumberEdit(this.id)"/>
                                                                         <input type="number" class="form-control" id="edit-dongia-${eecount}" name="ktdmDTOs[${eecount - 1}].Dgban" min="0" onchange="tienEdit(${eecount})" hidden/>
                                                                     </td>
                                                                     <td>
-                                                                        <input type="text" class="form-control text-end" id="e-soluong-${eecount}" onchange="formatNumberEdit(this.id)" />
-                                                                        <input type="number" class="form-control" id="edit-soluong-${eecount}" name="ktdmDTOs[${eecount - 1}].Soluong" min="1" onchange="tienEdit(${eecount})" hidden />
+                                                                        <input type="text" class="form-control text-end" id="edit-tientong-${eecount}" readonly />
                                                                     </td>
                                                                     <td>
                                                                         <input type="text" class="form-control text-end" id="e-ck-${eecount}" onchange="formatNumberEdit(this.id)" />
@@ -438,6 +452,7 @@
         tr.querySelector('#edit-donvi-' + numId).value = JSON.parse(decodeURIComponent(item)).Donvi;
         tr.querySelector('#edit-dongia-' + numId).value = 0;
         tr.querySelector('#edit-soluong-' + numId).value = 1;
+        tr.querySelector('#edit-tientong-' + numId).value = 0;
         tr.querySelector('#edit-thanhtien-' + numId).value = 0;
         tr.querySelector('#edit-ck-' + numId).value = 0;
         tr.querySelector('#edit-ck-vnd-' + numId).value = 0;
@@ -538,10 +553,66 @@
         for (let i = 0; i < eexist.length; i++) { 
             formatNumberEdit('e-dongia-' + eexist[i]);
             formatNumberEdit('e-soluong-' + eexist[i]);
+            formatNumberEdit('edit-tientong-' + eexist[i]);
             formatNumberEdit('e-ck-' + eexist[i]);
             formatNumberEdit('e-ck-vnd-' + eexist[i]);
             formatNumberEdit('e-thue-' + eexist[i]);
             formatNumberEdit('e-thue-vnd-' + eexist[i]);
         }
     }
+
+    document.getElementById('edit-dm').onkeypress = function (e) {
+        exist.forEach(num => {
+            input = document.getElementById("e-soluong-" + num);
+            input.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    var inputTo = document.getElementById("e-dongia-" + num);
+                    inputTo.focus();
+                }
+            });
+            var input = document.getElementById("e-dongia-" + num);
+            input.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    var inputTo = document.getElementById("edit-tientong-" + num);
+                    inputTo.focus();
+                }
+            });
+            input = document.getElementById("edit-tientong-" + num);
+            input.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    var inputTo = document.getElementById("e-ck-" + num);
+                    inputTo.focus();
+                }
+            });
+            input = document.getElementById("e-ck-" + num);
+            input.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    var inputTo = document.getElementById("e-ck-vnd-" + num);
+                    inputTo.focus();
+                }
+            });
+            input = document.getElementById("e-ck-vnd-" + num);
+            input.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    var inputTo = document.getElementById("e-thue-" + num);
+                    inputTo.focus();
+                }
+            });
+            input = document.getElementById("e-thue-" + num);
+            input.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    var inputTo = document.getElementById("e-thue-vnd-" + num);
+                    inputTo.focus();
+                }
+            });
+            input = document.getElementById("e-thue-vnd-" + num);
+            input.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    var inputTo = document.getElementById("edit-thanhtien-" + num);
+                    inputTo.focus();
+                }
+            });
+        });
+    }
+
 </script>
