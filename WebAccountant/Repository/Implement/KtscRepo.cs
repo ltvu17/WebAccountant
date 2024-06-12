@@ -645,8 +645,8 @@ namespace WebAccountant.Repository.Implement
                     phieuThue.Ttvnd = tongThue;
                     await _unitOfWork.KTSCDAO.Update(phieuChietKhau);
                     await _unitOfWork.KTSCDAO.Update(phieuThue);
-                    await _unitOfWork.SaveChangesAsync();
                 }
+                await _unitOfWork.SaveChangesAsync();
             }
             return true;
         }
