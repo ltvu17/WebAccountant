@@ -128,9 +128,9 @@
                         {
                             columns.AddFor(m => m.Matk);
 
-                            columns.AddFor(m => m.Madm).Caption("Mã danh mục").Fixed(true).Format("0,###");
+                            columns.AddFor(m => m.Madm).Caption("Mã danh mục").Fixed(true);
 
-                            columns.AddFor(m => m.Tendm).Caption("Tên danh mục").Fixed(true).Format("0,###");
+                            columns.AddFor(m => m.Tendm).Caption("Tên danh mục").Fixed(true).Width(400);
 
                             columns.AddFor(m => m.Manhom);
 
@@ -139,10 +139,6 @@
                             columns.AddFor(m => m.Kyhieu).Caption("Ký hiệu");
 
                             columns.AddFor(m => m.Donvi).Caption("Đơn vị");
-
-                            columns.AddFor(m => m.Lo);
-
-                            columns.AddFor(m => m.Ngaylo);
 
                             columns.AddFor(m => m.Hansudung);
 
@@ -156,91 +152,19 @@
 
                             columns.AddFor(m => m.Dgxuat).Caption("Đơn giá xuất").Format("0,###");
 
-                            columns.AddFor(m => m.VndxuatT);
-
-                            columns.AddFor(m => m.TonCk);
-
-                            columns.AddFor(m => m.VndtonCk);
-
-                            columns.AddFor(m => m.Danhdau);
-
                             columns.AddFor(m => m.Dgban).Caption("Đơn giá bán").Format("0,###");
 
-                            columns.AddFor(m => m.Hsqd1);
-
-                            columns.AddFor(m => m.Dgnhap1).Caption("Đơn giá nhập 1").Format("0,###");
-
-                            columns.AddFor(m => m.Trangthai);
-
-                            columns.AddFor(m => m.Dgnhap);
-
-                            columns.AddFor(m => m.DgChuyenkho);
-
-                            columns.AddFor(m => m.DgCktm);
-
-                            columns.AddFor(m => m.DgVc);
-
-                            columns.AddFor(m => m.DmCktm);
-
-                            columns.AddFor(m => m.Gioihanton);
-                            
-                            columns.AddFor(m => m.SoDdh);
-
-                            columns.AddFor(m => m.TenDdh);
-
-                            columns.AddFor(m => m.TendmMe);
-
-                            columns.AddFor(m => m.Tennhomtp);
-
-                            columns.AddFor(m => m.TgCktm);
-
-                            columns.AddFor(m => m.TkChietkhau);
-
-                            columns.AddFor(m => m.TkDoanhthu);
+                            columns.AddFor(m => m.Dgnhap).Caption("Đơn giá nhập").Format("0,###");
 
                             columns.AddFor(m => m.TkGiavon);
 
                             columns.AddFor(m => m.TkTralai);
 
-                            columns.AddFor(m => m.TyleOfNhom);
-
-                            columns.AddFor(m => m.NhapTDv1);
-
-                            columns.AddFor(m => m.NhapTDv2);
-
-                            columns.AddFor(m => m.TonCkDv1);
-
-                            columns.AddFor(m => m.TonCkDv2);
-
-                            columns.AddFor(m => m.TonTDv1);
-
-                            columns.AddFor(m => m.TonTDv2);
-
-                            columns.AddFor(m => m.XuatTDv1);
-
-                            columns.AddFor(m => m.XuatTDv2);
-
-                            columns.AddFor(m => m.Nhomck);
-
-                            columns.AddFor(m => m.Makho);
-
-                            columns.AddFor(m => m.Mavach);
-
                             columns.AddFor(m => m.GioihantonMax);
 
                             columns.AddFor(m => m.IdUpdate);
 
-                            columns.AddFor(m => m.Tendm2);
-
-                            columns.AddFor(m => m.DgbanGanNhat);
-
-                            columns.AddFor(m => m.DgmuaGanNhat);
-
                             columns.AddFor(m => m.Ghichu);
-
-                            columns.AddFor(m => m.NgaybanGanNhat);
-
-                            columns.AddFor(m => m.NgaymuaGanNhat);
 
                             columns.AddFor(m => m.Quycach);
 
@@ -248,6 +172,7 @@
                         }).ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
                         .ShowBorders(true)
                         .RowAlternationEnabled(true)
+                        .WordWrapEnabled(true)
                         .Editing(e =>
                         {
                             e.Mode(GridEditMode.Batch)
@@ -273,8 +198,11 @@
                         .RecalculateWhileEditing(true))
                     .Summary(s => s
                         .RecalculateWhileEditing(true)
-                        .TotalItems(items =>
-                        {
+                        .TotalItems(items =>{
+                            items.AddFor(m => m.Dgnhap)
+                            .SummaryType(SummaryType.Sum)
+                            .ValueFormat("0,###");
+
                             items.AddFor(m => m.Dgban)
                             .SummaryType(SummaryType.Sum)
                             .ValueFormat("0,###");
@@ -282,8 +210,9 @@
                             items.AddFor(m => m.Dgxuat)
                             .SummaryType(SummaryType.Sum)
                             .ValueFormat("0,###");
+                            
                         }
-                    )
+                        )
                     )
                 )
             <div class="footer-data d-flex justify-content-start">

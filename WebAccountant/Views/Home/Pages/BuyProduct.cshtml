@@ -934,18 +934,22 @@
                     } else if (tr.length == 1) {
                         var idTr = tr[0].id;
                         var idXoa = document.getElementById("ip-id-" + idTr.substring(2, 10)).value;
+
                         if (idXoa != "") {
-                            $.ajax({
-                                url: '@Url.Action("DeletePhieuMuaHang", "Ktscs")',
-                                type: 'DELETE',
-                                data: {
-                                    id: idXoa.toString()
-                                },
-                                success: function () {
-                                    alert("Xóa thành công!");
-                                    resetDate();
-                                }
-                            });
+                            // Confirm deletion before proceeding
+                            if (confirm("Bạn có chắc chắn muốn xóa đơn hàng này?")) {
+                                $.ajax({
+                                    url: '@Url.Action("DeletePhieuMuaHang", "Ktscs")',
+                                    type: 'DELETE',
+                                    data: {
+                                        id: idXoa.toString()
+                                    },
+                                    success: function () {
+                                        alert("Xóa thành công!");
+                                        resetDate();
+                                    }
+                                });
+                            }
                         } else {
                             alert("Hãy chọn hàng có dữ liệu muốn xóa!");
                         }
@@ -1218,18 +1222,22 @@
                     e.preventDefault();
                     var id = $(this).data('tb');
                     var idXoa = document.getElementById("ip-id-" + id.substring(2, 10)).value;
+
                     if (idXoa != "") {
-                        $.ajax({
-                            url: '@Url.Action("DeletePhieuMuaHang", "Ktscs")',
-                            type: 'DELETE',
-                            data: {
-                                id: idXoa
-                            },
-                            success: function () {
-                                alert("Xóa thành công!");
-                                resetDate();
-                            }
-                        });
+                        // Confirm deletion before proceeding
+                        if (confirm("Bạn có chắc chắn muốn xóa đơn hàng này?")) {
+                            $.ajax({
+                                url: '@Url.Action("DeletePhieuMuaHang", "Ktscs")',
+                                type: 'DELETE',
+                                data: {
+                                    id: idXoa
+                                },
+                                success: function () {
+                                    alert("Xóa thành công!");
+                                    resetDate();
+                                }
+                            });
+                        }
                     } else {
                         alert("Hãy chọn hàng có dữ liệu muốn xóa!");
                     }

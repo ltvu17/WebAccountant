@@ -280,8 +280,7 @@
                 )
                 .RemoteOperations(true).FocusedRowEnabled(true)
                 .Columns(columns =>
-                {
-                    
+                { 
                     columns.AddFor(m => m.Lctg).Fixed(true);
 
                     columns.AddFor(m => m.SrHd).Caption("Số seri hóa đơn");
@@ -468,45 +467,71 @@
                 ) *@
             @(
                 Html.DevExtreme().DataGrid()
-                                        .ID("gridContainer")
-                                        .Columns(columns =>
-                                        {
-                                            var attribute = ViewData["attribute"];
-                                            foreach (var att in (List<WebAccountant.ModelsLogin.UserKTSCColumn>)attribute)
-                                            {
-                                                var atrii = att.KTSCColumn.Name.Substring(0, 1).ToUpper() + att.KTSCColumn.Name.Substring(1).ToLower();
-                                                var splits = atrii.Split("_");
-                                                if(splits.Length > 1)
+                                            .ID("gridContainer")
+                                                .Columns(columns =>
                                                 {
-                                                    atrii = "";
-                                                    foreach(var split in splits)
+                                                    var attribute = ViewData["attribute"];
+                                                    foreach (var att in (List<WebAccountant.ModelsLogin.UserKTSCColumn>)attribute)
                                                     {
-                                                        atrii += split.Substring(0, 1).ToUpper() + split.Substring(1).ToLower();
+                                                        var atrii = att.KTSCColumn.Name.Substring(0, 1).ToUpper() + att.KTSCColumn.Name.Substring(1).ToLower();
+                                                        var splits = atrii.Split("_");
+                                                        if(splits.Length > 1)
+                                                        {
+                                                            atrii = "";
+                                                            foreach(var split in splits)
+                                                            {
+                                                                atrii += split.Substring(0, 1).ToUpper() + split.Substring(1).ToLower();
+                                                            }
+                                                        }
+                                                        if (atrii == "NgayHd" || atrii == "Ngayct" || atrii == "Ngayctgs" || atrii == "NgayDaoHan" || atrii == "NgayTt")
+                                                        {
+                                                            columns.Add().DataField(atrii).Caption(att.KTSCColumn.Description).DataType(GridColumnDataType.Date);
+                                                        }
+                                                        else
+                                                        {
+                                                            columns.Add().DataField(atrii).Caption(att.KTSCColumn.Description).Format("0,###");
+                                                        }
                                                     }
-                                                }
-                                                if (atrii == "NgayHd" || atrii == "Ngayct" || atrii == "Ngayctgs" || atrii == "NgayDaoHan" || atrii == "NgayTt")
-                                                {
-                                                    columns.Add().DataField(atrii).Caption(att.KTSCColumn.Description).DataType(GridColumnDataType.Date);
-                                                }
-                                                else
-                                                {
-                                                    columns.Add().DataField(atrii).Caption(att.KTSCColumn.Description).Format("0,###");
-                                                }
-                                            }
-                })
-                .DataSource(d => d.StaticJson().Url(@Url.Action("GetData", "Ktscs")).Key("SttSc"))
-                .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
-                .RowAlternationEnabled(true).WordWrapEnabled(true)
-                .ShowBorders(true).Paging(paging => paging.PageSize(10))
-                .Pager(pager =>
-                {
-                    pager.Visible(true);
-                    pager.DisplayMode(GridPagerDisplayMode.Compact);
-                    pager.ShowPageSizeSelector(true);
-                    pager.AllowedPageSizes(new JS("[10, 15, 25, 40]"));
-                    pager.ShowInfo(true);
-                    pager.ShowNavigationButtons(true);
-                })
+                                                })
+                    .DataSource(d => d.StaticJson().Url(@Url.Action("GetData", "Ktscs")).Key("SttSc"))
+                    .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
+                    .RowAlternationEnabled(true).WordWrapEnabled(true)
+                    .ShowBorders(true).Paging(paging => paging.PageSize(10))
+                    .Pager(pager =>
+                    {
+                        pager.Visible(true);
+                        pager.DisplayMode(GridPagerDisplayMode.Compact);
+                        pager.ShowPageSizeSelector(true);
+                        pager.AllowedPageSizes(new JS("[10, 15, 25, 40]"));
+                        pager.ShowInfo(true);
+                        pager.ShowNavigationButtons(true);
+                    })
+                    .Summary(s => s
+                    .RecalculateWhileEditing(true)
+                    .TotalItems(items =>
+                    {
+                        // Loop through each field used in the columns
+                        var attribute = ViewData["attribute"];
+                        foreach (var col in (List<WebAccountant.ModelsLogin.UserKTSCColumn>)attribute)
+                        {
+                            string atrii = col.KTSCColumn.Name.Substring(0, 1).ToUpper() + col.KTSCColumn.Name.Substring(1).ToLower();
+                            var splits = atrii.Split("_");
+                            if (splits.Length > 1)
+                            {
+                                atrii = "";
+                                foreach (var split in splits)
+                                {
+                                    atrii += split.Substring(0, 1).ToUpper() + split.Substring(1).ToLower();
+                                }
+                            }
+                        if (atrii == "Luong" || atrii == "Dgvnd" || atrii == "Thuevnd" || atrii == "Ttvnd" || atrii == "Dgvon" || atrii == "Dgusd" || atrii == "TtvndTt" || atrii == "LaiGop" || atrii == "Gtvon" || atrii == "Ttusd" || atrii == "DgGc")
+                            {
+                                items.Add().Column(atrii)// Access property dynamically using bracket notation
+                                .SummaryType(SummaryType.Sum)
+                                .ValueFormat("0,###");
+                            }
+                        }
+                }))
                 )
             <div class="footer-data d-flex justify-content-start">
                 @* <button class="btn btn-primary width-100" data-bs-toggle="modal" id="btnAdd" data-bs-target="#exampleModal">Thêm</button>
