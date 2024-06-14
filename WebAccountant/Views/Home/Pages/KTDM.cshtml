@@ -37,17 +37,20 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="resetModal()" aria-label="Đóng"></button>
                         </div>
                         <div class="modal-body">
-                            <form method="post" asp-controller="Ktdms" asp-action="Post">
+                            <form id="form-dm" method="post" asp-controller="Ktdms" asp-action="Post">
                                 <div class="row">
                                     <div class="col-md-4 text-start">
                                         <label for="input-madm" class="col-form-label">Mã hàng hóa:</label>
                                         <input type="text" class="form-control input-sugg"
+                                               asp-for="Madm"
                                                id="input-madm"
                                                autofocus="autofocus"
                                                autocomplete="off"
                                                placeholder="Nhập mặt hàng(nếu có)..."
                                                onkeyup="SearchNow('list-madm-sugg','input-madm','list-madm-sugg')" />
+                                        <span asp-validation-for="Madm" class="text-danger"></span>
                                                <input id="edit-madm" type="text" hidden/>
+
                                         <div class="table-container">
                                             <table id="list-madm-sugg" class="sugg-container d-none">
                                                 <tr id="tr-1">
@@ -60,7 +63,7 @@
                                     <div class="col-md-8 text-start">
                                         <label for="tendm" class="col-form-label">Tên hàng hóa:</label>
                                         <input type="text" class="form-control" asp-for="Tendm" id="tendm">
-                                        @* <span asp-validation-for="Tendm" class="text-danger"></span> *@
+                                        @*<span asp-validation-for="Tendm" class="text-danger"></span> *@
                                     </div>
                                 </div>
                                 <div class="row">
@@ -72,13 +75,13 @@
                                     <div class="col-md-4 text-start">
                                         <label for="t-dgb" class="col-form-label">Đơn giá bán:</label>
                                         <input type="text" class="form-control" id="t-dgb" onchange="formatAll()" />
-                                        <input type="number" min="0" class="form-control" asp-for="Madm" id="dgb" hidden/>
+                                        <input type="number" min="0" class="form-control" asp-for="Dgban" id="dgb" hidden/>
                                         @* <span asp-validation-for="Madm" class="text-danger"></span> *@
                                     </div>
                                     <div class="col-md-4 text-start">
                                         <label for="t-dgx" class="col-form-label">Đơn giá xuất:</label>
                                         <input type="text" class="form-control" id="t-dgx" onchange="formatAll()">
-                                        <input type="number" min="0" class="form-control" id="dgx" hidden/>
+                                        <input type="number" min="0" class="form-control" asp-for="Dgxuat" id="dgx" hidden />
                                         @* <span asp-validation-for="Tendm" class="text-danger"></span> *@
                                     </div>
                                 </div>
@@ -91,11 +94,11 @@
                                     <div class="col-md-4 text-start">
                                         <label for="t-tdk-gt" class="col-form-label">Tồn đầu kì - Giá trị:</label>
                                         <input type="text" class="form-control" id="t-tdk-gt" onchange="formatAll()">
-                                        <input type="number" min="0" class="form-control" id="tdk-gt" hidden>
+                                        <input type="number" min="0" class="form-control" asp-for="VndtonT" id="tdk-gt" hidden>
                                         @* <span asp-validation-for="Donvi" class="text-danger"></span> *@
                                         </div>
                                     <div class="col-md-4 text-start">
-                                        <label for="t-tdk-sl" class="col-form-label">Tồn đầu kỳ - Số lượng:</label>
+                                        <label for="t-tdk-sl" class="col-form-label">Tồn đầu kì - Số lượng:</label>
                                         <input type="text" class="form-control" id="t-tdk-sl" onchange="formatAll()">
                                         <input type="number" min="0" class="form-control" id="tdk-sl" hidden>
                                         @* <span asp-validation-for="Tendm" class="text-danger"></span> *@
@@ -103,7 +106,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" onclick="resetModal()" id="btnClose" data-bs-dismiss="modal">Đóng</button>
-                                    <button type="button" class="btn btn-primary" onclick="submitModal()">Nộp</button>
+                                    <button type="button" class="btn btn-primary" onclick="submitModal()">Lưu</button>
                                 </div>
                             </form>
                         </div>
@@ -201,30 +204,40 @@
                         .TotalItems(items =>{
                             items.AddFor(m => m.Dgnhap)
                             .SummaryType(SummaryType.Sum)
+                            .DisplayFormat("{0}")
                             .ValueFormat("0,###");
 
                             items.AddFor(m => m.Dgban)
                             .SummaryType(SummaryType.Sum)
+                            .DisplayFormat("{0}")
                             .ValueFormat("0,###");
 
                             items.AddFor(m => m.Dgxuat)
                             .SummaryType(SummaryType.Sum)
+                            .DisplayFormat("{0}")
                             .ValueFormat("0,###");
                             
-                        }
-                        )
+                        })
                     )
                 )
             <div class="footer-data d-flex justify-content-start">
                 <button class="btn btn-primary width-100" data-bs-toggle="modal" id="btnAdd" data-bs-target="#exampleModal">Thêm</button>
                 @* <button class="btn btn-primary width-100" type="button" id="btnEdit" onclick="onEdit()">Sửa</button> *@
                 <button class="btn btn-primary width-100" type="button" onclick="onDelete()">Xóa</button>
+                <button class="btn btn-primary width-100" type="button" onclick="saveGrid()">Lưu</button>
+                <button class="btn btn-primary width-100" type="button" onclick="redoGrid()">Hoàn tác</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
+    function saveGrid() {
+        document.getElementsByClassName("dx-datagrid-save-button")[0].click();
+    }
+    function redoGrid() {
+        document.getElementsByClassName("dx-datagrid-cancel-button")[0].click();
+    }
     function SearchNow(idSugg, idInput, idUl) {
         document.getElementById(idSugg).classList.remove("d-none");
         var input, filter, a, i, txtValue;
@@ -332,7 +345,7 @@
         }
     }
     function submitModal() {
-        var eMadm = document.getElementById("edit-madm").value ? document.getElementById("edit-madm").value : null;
+        /*var eMadm = document.getElementById("edit-madm").value ? document.getElementById("edit-madm").value : null;
         if (eMadm == null) { 
             console.log("themdm");
             var madmDTO = {
@@ -354,19 +367,8 @@
                     //location.reload();
                 }
             });
-        } else {
-            console.log("suadm");
-            var madmDTO = {
-                Madm: document.getElementById('edit-madm').value,
-                Matk: document.getElementById('mahh').value,
-                Tendm: document.getElementById('tendm').value,
-                Donvi: document.getElementById('dvt').value,
-                Dgban: document.getElementById('dgb').value,
-                Dgxuat: document.getElementById('dgx').value,
-            }
-            $('#btnClose').click();
-            resetModal();
-        }
+        }*/
+        document.getElementById("form-dm").submit();
 
     }
 
@@ -375,7 +377,7 @@
         if (e.rowIndex != -1) {
             if (!e.items) e.items = [];
             const contextMenuItem = [
-                {
+             /*   {
                     text: "Sửa",
                     onItemClick: function (args) {
                         var grid = document.getElementById("grid");
@@ -398,7 +400,7 @@
                         formatAll();
                         console.log('sua');
                     }
-                },
+                }, */
                 {
                     text: "Xóa",
                     onItemClick: function (args) {
