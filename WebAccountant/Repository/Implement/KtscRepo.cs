@@ -331,6 +331,28 @@ namespace WebAccountant.Repository.Implement
             };
             return returnForm;
         }
+
+        public async Task<bool> RefundPackageSell(IEnumerable<int> sttSc)
+        {
+            foreach (var item in sttSc)
+            {
+                var ktsc = (await _unitOfWork.KTSCDAO.Find(s => s.SttSc == item, 1, 1)).FirstOrDefault();
+                if (ktsc == null) continue;
+                ktsc.Dgvnd = -ktsc.Dgvnd;
+                ktsc.Ttvnd = -ktsc.Ttvnd;
+                ktsc.Chietkhau = -ktsc.Chietkhau;
+                ktsc.Thuevnd = -ktsc.Thuevnd;
+                ktsc.TtvndTt = -ktsc.TtvndTt;
+                var phieuChietKhau = (await _unitOfWork.KTSCDAO.Find(s => s.IdChungtu == ktsc.IdChungtu && s.IdNghiepvu == "CHIETKHAU_HDBR", 1, 1)).FirstOrDefault();
+                var phieuThueSuat = (await _unitOfWork.KTSCDAO.Find(s => s.IdChungtu == ktsc.IdChungtu && s.IdNghiepvu == "VAT_RA", 1, 1)).FirstOrDefault();
+                phieuChietKhau.Ttvnd = phieuChietKhau.Ttvnd - ktsc.Chietkhau;
+                phieuThueSuat.Ttvnd = phieuThueSuat.Ttvnd + ktsc.Thuevnd;
+            }
+
+            await _unitOfWork.SaveChangesAsync();
+            return true;
+        }
+
         public async Task Update(string key, string values)
         {
             var keyParse = Double.TryParse(key, out var valueParse);

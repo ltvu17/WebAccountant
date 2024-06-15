@@ -68,7 +68,7 @@ namespace WebAccountant.Controllers
             {
                 return BadRequest(GetFullErrorMessage(ModelState));
             }
-            var result = await _ktdmRepo.AddNew(entity);
+          //  var result = await _ktdmRepo.AddNew(entity);
             return RedirectToAction("KTDM", "Home");
         }
 
