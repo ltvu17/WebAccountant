@@ -224,7 +224,7 @@
                 </div>
             </div>
             <div class="modal fade" id="settingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl" style="max-width: 800px">
+                <div class="modal-dialog modal-xl" style="max-width: 1100px">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" style="color: #119583;" id="exampleModalLabel">Cài đặt cột hiển thị</h5>
@@ -236,28 +236,33 @@
                         </div>
                         <div class="modal-body" style="text-align: center">
                             <form style="display: inline-table" method="post" asp-controller="Ktscs" asp-action="SubmitKTSCColunm">
+                                <table style="text-align : left">
                                 @for(int i=0; i<32; i++)
                                 {
-                                    <div style="display : flex">
+                                    <tr style="display : flex">
                                     @foreach (var item in Model.Skip(i*5).Take(5))
                                     {
                                             var attribute = (List<WebAccountant.ModelsLogin.UserKTSCColumn>)ViewData["attribute"];
 
                                             if(attribute.Any(s=>s.KTSCColumnId == item.Id))
                                             {
-                                                <div style="display : inline-table; margin: 10px; align-content: flex-start">
-                                                    <input type="checkbox" class="myCheck" id="myCheck" value="@item.Id" name="ids[@Model.ToList().IndexOf(item)]" checked /> @item.Description
-                                                </div>
+                                                var width = attribute.Where(s => s.KTSCColumnId == item.Id).FirstOrDefault().Width;
+                                                <td style="margin: 5px; padding: 20px; ">
+                                                    <input type="checkbox" class="myCheck" id="myCheck" value="@item.Id" name="ids[@Model.ToList().IndexOf(item)]" checked /> @item.Description || Độ rộng
+                                                    <input type="number" value="@width" name="width[@Model.ToList().IndexOf(item)]" style="width: 50px" />
+                                                </td>
                                             }
                                             else
                                             {
-                                                <div style="display : inline-table; margin: 10px; align-content: flex-start">
-                                                    <input type="checkbox" class="myCheck" id="myCheck" value="@item.Id" name="ids[@Model.ToList().IndexOf(item)]" /> @item.Description
-                                                </div>
+                                                <td style="margin: 5px;padding: 20px;">
+                                                    <input type="checkbox" class="myCheck" id="myCheck" value="@item.Id" name="ids[@Model.ToList().IndexOf(item)]" /> @item.Description || Độ rộng
+                                                    <input type="number" style="width: 50px" name="width[@Model.ToList().IndexOf(item)]" />
+                                                </td>
                                             }
                                         }
-                                    </div>
+                                    </tr>
                                 }
+                                </table>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                                     <button type="submit" class="btn btn-primary">Lưu</button>
@@ -467,36 +472,46 @@
                 ) *@
             @(
                 Html.DevExtreme().DataGrid()
-                                            .ID("gridContainer")
-                                                .Columns(columns =>
-                                                {
+                                                .ID("gridContainer")
+                                                    .Columns(columns =>
+                                                    {
                                                     var attribute = ViewData["attribute"];
                                                     foreach (var att in (List<WebAccountant.ModelsLogin.UserKTSCColumn>)attribute)
                                                     {
                                                         var atrii = att.KTSCColumn.Name.Substring(0, 1).ToUpper() + att.KTSCColumn.Name.Substring(1).ToLower();
                                                         var splits = atrii.Split("_");
-                                                        if(splits.Length > 1)
+                                                        if (splits.Length > 1)
                                                         {
                                                             atrii = "";
-                                                            foreach(var split in splits)
+                                                            foreach (var split in splits)
                                                             {
                                                                 atrii += split.Substring(0, 1).ToUpper() + split.Substring(1).ToLower();
                                                             }
                                                         }
-                                                        if (atrii == "NgayHd" || atrii == "Ngayct" || atrii == "Ngayctgs" || atrii == "NgayDaoHan" || atrii == "NgayTt")
+                                                        if (atrii == "Ngayctgs" || atrii == "NgayDaoHan" || atrii == "NgayTt")
                                                         {
-                                                            columns.Add().DataField(atrii).Caption(att.KTSCColumn.Description).DataType(GridColumnDataType.Date);
+                                                            columns.Add().DataField(atrii).Caption(att.KTSCColumn.Description).DataType(GridColumnDataType.Date).MinWidth(att.Width);
+                                                        }
+                                                        else if (atrii == "NgayHd" || atrii == "Ngayct")
+                                                        {
+                                                            columns.Add().DataField(atrii).Caption(att.KTSCColumn.Description).DataType(GridColumnDataType.Date).MinWidth(att.Width).Fixed(true);
+                                                        }
+                                                        else if (atrii == "Lctg" || atrii == "SrHd" || atrii == "SoHd" || atrii == "Soct")
+                                                        {
+                                                            columns.Add().DataField(atrii).Caption(att.KTSCColumn.Description).MinWidth(att.Width).Fixed(true);
                                                         }
                                                         else
                                                         {
-                                                            columns.Add().DataField(atrii).Caption(att.KTSCColumn.Description).Format("0,###");
+                                                            columns.Add().DataField(atrii).Caption(att.KTSCColumn.Description).MinWidth(att.Width).Format("0,###");
                                                         }
                                                     }
                                                 })
+                                                .ShowColumnHeaders(true)
                     .DataSource(d => d.StaticJson().Url(@Url.Action("GetData", "Ktscs")).Key("SttSc"))
                     .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
                     .RowAlternationEnabled(true).WordWrapEnabled(true)
                     .ShowBorders(true).Paging(paging => paging.PageSize(10))
+                    .Height(800)
                     .Pager(pager =>
                     {
                         pager.Visible(true);

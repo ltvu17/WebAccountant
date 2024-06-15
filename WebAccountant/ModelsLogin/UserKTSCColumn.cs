@@ -11,5 +11,6 @@ namespace WebAccountant.ModelsLogin
         [ForeignKey("KTSCColumn")]
         public int KTSCColumnId { get; set; }
         public KTSCColumn KTSCColumn { get; set; }
+        public int Width { get; set; } = 0;
     }
 }

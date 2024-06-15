@@ -46,6 +46,8 @@ namespace WebAccountant.Controllers
         }
         public async Task<IActionResult> KTSC()
         {
+/*            string height = HttpContext.Request.["clientScreenHeight"];
+            string width = HttpContext.Current.Request.Params["clientScreenWidth"];*/
             var KTSCColumns = await _userKTSCColumnsRepo.GetAllKTSCColumn();
             var attribute = await _userKTSCColumnsRepo.GetUserKTSCColumn(4);
             ViewData["activeId"] = "8";
