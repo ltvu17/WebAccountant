@@ -4,57 +4,113 @@
 @{
 }
 <div class="sidebar" id="main-sidebar">
-    <div class="d-flex justify-content-between" id="btn-dm" onclick="opendm()">
-        <a>Danh mục</a>
-        <div id="arrow" style="width:40px; height:auto; text-align:center; align-content:center">
+    
+    <div class="d-flex justify-content-between" id="btn-bh" onclick="opendm(this.id)">
+        <a>Bán hàng</a>
+        <div id="arrow-bh" style="width:40px; height:auto; text-align:center; align-content:center">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8" />
             </svg>
         </div>
-    </div>    
-    <div class="d-none" id="dmList">
+    </div>
+    <div class="d-none" id="list-bh">
         <a id="10" style="text-align:end" asp-controller="Home" asp-action="SellProduct">Bán hàng</a>
+        <a style="text-align:end">Nhập hóa đơn bán hàng</a>
+        <a style="text-align:end">Bán hàng bị trả lại</a>
+        <a style="text-align:end">Nhật kí bán hàng</a>
+        <a style="text-align:end">Báo cáo bán hàng</a>
+    </div>
+    <div class="d-flex justify-content-between" id="btn-mh" onclick="opendm(this.id)">
+        <a>Mua hàng</a>
+        <div id="arrow-mh" style="width:40px; height:auto; text-align:center; align-content:center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8" />
+            </svg>
+        </div>
+    </div>
+    <div class="d-none" id="list-mh">
         <a id="9" style="text-align:end" asp-controller="Home" asp-action="BuyProduct">Mua hàng</a>
+        <a style="text-align:end">Nhập hóa đơn mua hàng</a>
+        <a style="text-align:end">Mua hàng bị trả lại</a>
+        <a style="text-align:end">Nhật kí mua hàng</a>
+        <a style="text-align:end">Báo cáo mua hàng</a>
+    </div>
+    <div class="d-flex justify-content-between" id="btn-dm" onclick="opendm(this.id)">
+        <a>Danh mục</a>
+        <div id="arrow-dm" style="width:40px; height:auto; text-align:center; align-content:center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8" />
+            </svg>
+        </div>
+    </div>
+    <div class="d-none" id="list-dm">
         <a id="6" style="text-align:end" asp-controller="Home" asp-action="KTDM">Hàng hóa</a>
         <a id="5" style="text-align:end" asp-controller="Home" asp-action="KTDTPN">Khách hàng</a>
         <a id="4" style="text-align:end" asp-controller="Home" asp-action="KTLCTG">Các loại chứng từ</a>
+        <a id="7" style="text-align:end" asp-controller="Home" asp-action="KTCN">Số dư công nợ</a>
     </div>
-    <a id="7" asp-controller="Home" asp-action="KTCN">Số dư công nợ</a>
     <a id="3" asp-controller="Home" asp-action="KTTK">Tồn kho</a>
     <a id="8" asp-controller="Home" asp-action="KTSC">KTSC</a>
     @* <a id="11" asp-controller="Home" asp-action="ImportProduct">Nhập hàng</a> *@
 </div>
 <script>
-    var isOpen = false;
+    var dmOpen = false;
+    var bhOpen = false;
+    var mhOpen = false;
     function active() {
         var activeId = @ViewData["activeId"]
         document.getElementById(activeId).classList.add("active");
-        if (activeId == "10" || activeId == "9" || activeId == "6" || activeId == "5" || activeId == "4") {
-            document.getElementById('dmList').classList.remove('d-none');
+        if (activeId == "7" || activeId == "6" || activeId == "5" || activeId == "4") {
+            document.getElementById('list-dm').classList.remove('d-none');
             document.getElementById('btn-dm').classList.add('drop-active');
-            document.getElementById('arrow').innerHTML = `<svg width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+            document.getElementById('arrow-dm').innerHTML = `<svg width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1"/>
                 </svg>`;
-            isOpen = true;
+            dmOpen = true;
+        }
+        if (activeId == "10") {
+            document.getElementById('list-bh').classList.remove('d-none');
+            document.getElementById('btn-bh').classList.add('drop-active');
+            document.getElementById('arrow-bh').innerHTML = `<svg width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1"/>
+                    </svg>`;
+            bhOpen = true;
+        }
+        if (activeId == "9") {
+            document.getElementById('list-mh').classList.remove('d-none');
+            document.getElementById('btn-mh').classList.add('drop-active');
+            document.getElementById('arrow-mh').innerHTML = `<svg width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1"/>
+                        </svg>`;
+            bhOpen = true;
         }
     }
     active();
-    function opendm() {
-        if (!isOpen) {
-            document.getElementById('dmList').classList.remove('d-none');
-            document.getElementById('btn-dm').classList.add('drop-active');
-            document.getElementById('arrow').innerHTML = `<svg width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+    function opendm(id) {
+        var split = id.split('-');
+        var open = false;
+        if (split[1] == "bh") open = bhOpen;
+        else if (split[1] == "mh") open = mhOpen;
+        else if (split[1] == "dm") open = dmOpen;
+        if (!open) {
+            document.getElementById('list-'+split[1]).classList.remove('d-none');
+            document.getElementById('btn-'+split[1]).classList.add('drop-active');
+            document.getElementById('arrow-'+split[1]).innerHTML = `<svg width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1"/>
             </svg>`;
-            isOpen = true;
+            if (split[1] == "bh") bhOpen = true;
+            else if (split[1] == "mh") mhOpen = true;
+            else if (split[1] == "dm") dmOpen = true;
         }
         else {
-            document.getElementById('dmList').classList.add('d-none');
-            document.getElementById('btn-dm').classList.remove('drop-active');
-            document.getElementById('arrow').innerHTML = `<svg width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+            document.getElementById('list-'+split[1]).classList.add('d-none');
+            document.getElementById('btn-'+split[1]).classList.remove('drop-active');
+            document.getElementById('arrow-'+split[1]).innerHTML = `<svg width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
                 </svg>`;
-            isOpen = false;
+            if (split[1] == "bh") bhOpen = false;
+            else if (split[1] == "mh") mhOpen = false;
+            else if (split[1] == "dm") dmOpen = false;
         }
     }
 </script>
