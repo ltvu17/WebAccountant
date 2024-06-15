@@ -11,7 +11,7 @@ namespace WebAccountant.Repository.Implement
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<bool> AddAllColumnOfUser(int userId, IEnumerable<int> columnId)
+        public async Task<bool> AddAllColumnOfUser(int userId, IEnumerable<UserKTSCColumn> column)
         {
             try
             {
@@ -20,12 +20,13 @@ namespace WebAccountant.Repository.Implement
                     await RemoveAllColumnOfUser(userId);
                 }
                 List<UserKTSCColumn> userKTSCColumns = new List<UserKTSCColumn>();
-                foreach (int id in columnId)
+                foreach (var id in column)
                 {
                     userKTSCColumns.Add(new UserKTSCColumn()
                     {
                         UserId = userId,
-                        KTSCColumnId = id
+                        KTSCColumnId = id.KTSCColumnId,
+                        Width = id.Width,
                     });
                 }
                 await _unitOfWork.UserKTSCColumnsDAO.AddRange(userKTSCColumns);
