@@ -1,6 +1,9 @@
 ﻿html, body{
     height:110vh;
 }
+#search-row{
+    background-color: rgb(177, 191, 150, 0.20) !important;
+}
 .nav-main {
     position: fixed;
     top: 0;
