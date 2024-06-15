@@ -243,5 +243,11 @@ namespace WebAccountant.Controllers
             var ktscColumns = await _userKTSCColumnsRepo.GetUserKTSCColumn(4);
             return Json(ktscColumns);
         }
+        [HttpPost]
+        public async Task<IActionResult> RefundPackage(IEnumerable<int> sttSc)
+        {
+            var ktscColumns = await _ktscRepo.RefundPackageSell(sttSc);
+            return Ok();
+        }
     }
 }
