@@ -332,7 +332,7 @@ namespace WebAccountant.Repository.Implement
             return returnForm;
         }
 
-        public async Task<bool> RefundPackageSell(IEnumerable<int> sttSc)
+        public async Task<bool> RefundPackageSell(IEnumerable<double> sttSc)
         {
             foreach (var item in sttSc)
             {

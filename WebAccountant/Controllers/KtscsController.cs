@@ -42,7 +42,15 @@ namespace WebAccountant.Controllers
         {
             toDate = toDate.AddHours(23).AddMinutes(59).AddSeconds(59);
             var ktscBanHangs = await _ktscRepo.GetAllDSPhieuBanHang();
-            var filteredData = ktscBanHangs.Where(m => m.NgayCtu >= fromDate && m.NgayCtu <= toDate);
+            var filteredData = ktscBanHangs.Where(m => m.NgayCtu >= fromDate && m.NgayCtu <= toDate && !m.ThanhTien.Contains('-'));
+            return Json(filteredData);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetALLDSPhieuBanHangTra()
+        {
+            var ktscBanHangs = await _ktscRepo.GetAllDSPhieuBanHang();
+            var filteredData = ktscBanHangs.Where(m => m.ThanhTien.Contains('-'));
             return Json(filteredData);
         }
 
@@ -244,7 +252,7 @@ namespace WebAccountant.Controllers
             return Json(ktscColumns);
         }
         [HttpPost]
-        public async Task<IActionResult> RefundPackage(IEnumerable<int> sttSc)
+        public async Task<IActionResult> RefundPackage([FromBody]IEnumerable<double> sttSc)
         {
             var ktscColumns = await _ktscRepo.RefundPackageSell(sttSc);
             return Ok();

@@ -490,7 +490,7 @@
                                                         }
                                                         if (atrii == "Ngayctgs" || atrii == "NgayDaoHan" || atrii == "NgayTt")
                                                         {
-                                                            columns.Add().DataField(atrii).Caption(att.KTSCColumn.Description).DataType(GridColumnDataType.Date).MinWidth(att.Width);
+                                                        columns.Add().DataField(atrii).Caption(att.KTSCColumn.Description).DataType(GridColumnDataType.Date).Format("dd/MM/yyyy").MinWidth(att.Width);
                                                         }
                                                         else if (atrii == "NgayHd" || atrii == "Ngayct")
                                                         {

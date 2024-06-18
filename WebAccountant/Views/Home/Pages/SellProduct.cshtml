@@ -106,7 +106,7 @@
                     <button class="btn btn-primary width-100" type="button" onclick="edit()">Sửa</button>
                     <button class="btn btn-primary width-100" type="button" onclick="xoaOrder()">Xóa</button>
                     <button class="btn btn-primary width-100" type="button" onclick="inOrder()">In</button>
-                    <button class="btn btn-primary width-100" type="button" onclick="">Trả hàng</button>
+                    <button class="btn btn-primary width-100" type="button" onclick="traHang()">Trả hàng</button>
                 </div>
                 <div id="rightMenu" style="display: none; position: absolute; z-index:30;">
                     <ul>
@@ -1572,7 +1572,47 @@
                         });
                     });
                 }
-
+                function traHang() {
+                    var tr = document.getElementsByClassName("tr-atv");
+                    if (tr.length == 0) {
+                        alert("Hãy ấn vào đơn bạn muốn trả!");
+                    } else if (tr.length == 1) {
+                        var idTr = tr[0].id;
+                        var donTra;
+                        var idTra = document.getElementById("ip-id-" + idTr.substring(2, 10)).value;
+                        for (let i = 0; i < fil.length; i++) {
+                            if (fil[i].id == idTra) {
+                                donTra = fil[i];
+                            }
+                        }
+                        var sttSc = [];
+                        if (donTra != null) {
+                            for (let i = 0; i < donTra.ktscs.length; i++) {
+                                sttSc.push(donTra.ktscs[i].SttSc)
+                            }
+                        }
+                        console.log(sttSc);
+                        if (idTra != "") {
+                            // Confirm deletion before proceeding
+                            if (confirm("Bạn có chắc chắn muốn trả đơn hàng này?")) {
+                                $.ajax({
+                                    url: '@Url.Action("RefundPackage", "Ktscs")',
+                                    type: 'POST',
+                                    contentType: 'application/json',
+                                    data: JSON.stringify(sttSc),
+                                    success: function () {
+                                        alert("Trả thành công!");
+                                        resetDate();
+                                    }
+                                });
+                            }
+                        } else {
+                            alert("Hãy chọn hàng có dữ liệu muốn trả!");
+                        }
+                    } else {
+                        alert("Chỉ ấn vào 1 đơn bạn muốn trả!");
+                    }
+                }
             </script>
         </div>
     </div>
