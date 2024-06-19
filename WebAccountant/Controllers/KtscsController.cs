@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebAccountant.Models;
 using WebAccountant.ModelsBase;
+using WebAccountant.ModelsLogin;
 using WebAccountant.Repository;
 using WebAccountant.Repository.Implement;
 
@@ -41,7 +42,15 @@ namespace WebAccountant.Controllers
         {
             toDate = toDate.AddHours(23).AddMinutes(59).AddSeconds(59);
             var ktscBanHangs = await _ktscRepo.GetAllDSPhieuBanHang();
-            var filteredData = ktscBanHangs.Where(m => m.NgayCtu >= fromDate && m.NgayCtu <= toDate);
+            var filteredData = ktscBanHangs.Where(m => m.NgayCtu >= fromDate && m.NgayCtu <= toDate && !m.ThanhTien.Contains('-'));
+            return Json(filteredData);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetALLDSPhieuBanHangTra()
+        {
+            var ktscBanHangs = await _ktscRepo.GetAllDSPhieuBanHang();
+            var filteredData = ktscBanHangs.Where(m => m.ThanhTien.Contains('-'));
             return Json(filteredData);
         }
 
@@ -221,11 +230,17 @@ namespace WebAccountant.Controllers
         [HttpPost]
         public async Task<IActionResult> SubmitKTSCColunm()
         {
-            List<int> ids = new();
-            var getId = this.Request.Form.SkipLast(1).ToList();
-            foreach(var id in getId)
+            List<UserKTSCColumn> ids = new();
+            var getId = this.Request.Form.SkipLast(1).Where(s => s.Key.Contains("ids")).ToList();
+            var getWidth = this.Request.Form.SkipLast(1).Where(s => s.Key.Contains("width")).ToList();
+            foreach (var id in getId)
             {
-                ids.Add(Int32.Parse(id.Value[0]));
+                var index = id.Key.Substring(id.Key.IndexOf("[") + 1, id.Key.IndexOf("]") - id.Key.IndexOf("[") - 1);
+                ids.Add(new UserKTSCColumn
+                {
+                    KTSCColumnId = Int32.Parse(id.Value[0]),
+                    Width = int.Parse(getWidth.Where(s => s.Key == $"width[{index}]").FirstOrDefault().Value[0]),
+                });
             }
             await _userKTSCColumnsRepo.AddAllColumnOfUser(4, ids);
             return RedirectToAction("KTSC", "Home");
@@ -235,6 +250,12 @@ namespace WebAccountant.Controllers
         {
             var ktscColumns = await _userKTSCColumnsRepo.GetUserKTSCColumn(4);
             return Json(ktscColumns);
+        }
+        [HttpPost]
+        public async Task<IActionResult> RefundPackage([FromBody]IEnumerable<double> sttSc)
+        {
+            var ktscColumns = await _ktscRepo.RefundPackageSell(sttSc);
+            return Ok();
         }
     }
 }

@@ -30,6 +30,7 @@ namespace WebAccountant
             services.AddScoped<IKtscRepo, KtscRepo>();
             services.AddScoped<IKttkRepo, KttkRepo>();
             services.AddScoped<IUserKTSCColumnsRepo, UserKTSCColumnsRepo>();
+            services.AddScoped<IUserKTDMColumnRepo , UserKTDMColumnRepo>();
             return services;
         }
         public static IServiceCollection AddDatabase(this IServiceCollection services)

@@ -289,7 +289,8 @@ namespace WebAccountant.Repository.Implement
                 HthucThanhToan = ktscs.FirstOrDefault().Httt == "Nợ" ? "2" : "1",
                 NgayCtu = (DateTime)ktscs.FirstOrDefault().Ngayct,
                 NgayHToan = (DateTime)ktscs.FirstOrDefault().NgayHd,
-                id = id
+                id = id,
+                SoHoaDon = ktscs.FirstOrDefault().SoHd
             };
             return returnForm;
         }
@@ -325,10 +326,33 @@ namespace WebAccountant.Repository.Implement
                 HthucThanhToan = ktscs.FirstOrDefault().Httt == "Nợ" ? "2" : "1",
                 NgayCtu = (DateTime)ktscs.FirstOrDefault().Ngayct,
                 NgayHToan = (DateTime)ktscs.FirstOrDefault().NgayHd,
-                id = id
+                id = id,
+                SoCtu = ktscs.FirstOrDefault().SoHd
             };
             return returnForm;
         }
+
+        public async Task<bool> RefundPackageSell(IEnumerable<double> sttSc)
+        {
+            foreach (var item in sttSc)
+            {
+                var ktsc = (await _unitOfWork.KTSCDAO.Find(s => s.SttSc == item, 1, 1)).FirstOrDefault();
+                if (ktsc == null) continue;
+                ktsc.Dgvnd = -ktsc.Dgvnd;
+                ktsc.Ttvnd = -ktsc.Ttvnd;
+                ktsc.Chietkhau = -ktsc.Chietkhau;
+                ktsc.Thuevnd = -ktsc.Thuevnd;
+                ktsc.TtvndTt = -ktsc.TtvndTt;
+                var phieuChietKhau = (await _unitOfWork.KTSCDAO.Find(s => s.IdChungtu == ktsc.IdChungtu && s.IdNghiepvu == "CHIETKHAU_HDBR", 1, 1)).FirstOrDefault();
+                var phieuThueSuat = (await _unitOfWork.KTSCDAO.Find(s => s.IdChungtu == ktsc.IdChungtu && s.IdNghiepvu == "VAT_RA", 1, 1)).FirstOrDefault();
+                phieuChietKhau.Ttvnd = phieuChietKhau.Ttvnd - ktsc.Chietkhau;
+                phieuThueSuat.Ttvnd = phieuThueSuat.Ttvnd + ktsc.Thuevnd;
+            }
+
+            await _unitOfWork.SaveChangesAsync();
+            return true;
+        }
+
         public async Task Update(string key, string values)
         {
             var keyParse = Double.TryParse(key, out var valueParse);
@@ -353,7 +377,8 @@ namespace WebAccountant.Repository.Implement
         {
             var phieu = (await GetAllDSPhieuBanHang()).Where(s => s.id == item.id).FirstOrDefault();
             var ktscs = phieu.ktscs;
-            var ktscMau = ktscs.LastOrDefault();
+            var ktscMau = ktscs.FirstOrDefault();
+            var pxk = (await _unitOfWork.KTSCDAO.Find(s => s.Lctg == "PXK" && s.SoHd == ktscMau.SoHd, int.MaxValue, 1));
             if (item.Makh != ktscs.FirstOrDefault().Makh)
             {
                 var khachHang = (await _unitOfWork.KTDTPNDAO.Find(s=>s.Madtpn == item.Makh,1,1)).FirstOrDefault();
@@ -361,28 +386,28 @@ namespace WebAccountant.Repository.Implement
                 var phieuThue = (await _unitOfWork.KTSCDAO.Find(s => s.Soct == ktscMau.Soct && s.Ngayct == ktscMau.Ngayct && s.IdNghiepvu == "VAT_RA", 1, 1)).FirstOrDefault();
                 if (khachHang != null)
                 {
-                    foreach(var ktsc in ktscs)
-                    {
-                        ktsc.Makh = khachHang.Madtpn;
-                        ktsc.Madtpnno = khachHang.Madtpn;
-                        ktsc.Tenkh = khachHang.Tendtpn;
-                        ktsc.MsDn = khachHang.MsDn;
-                        ktsc.Diachi = khachHang.Diachi;
-                        ktsc.DiachiNgd = khachHang.Diachi;
-                        ktsc.Mangd = khachHang.Madtpn;
-                        ktsc.Httt = ktscs.LastOrDefault().Httt;
-                        var phieuNhapKho = (await _unitOfWork.KTSCDAO.Find(s => s.Soct == ktscMau.Soct && s.Ngayct == ktscMau.Ngayct && s.IdNghiepvu == "GIAVON" && s.Madmco == ktsc.Madmco, 1, 1)).FirstOrDefault();
-                        phieuNhapKho.Makh = khachHang.Madtpn;
-                        phieuNhapKho.Madtpnno = khachHang.Madtpn;
-                        phieuNhapKho.Tenkh = khachHang.Tendtpn;
-                        phieuNhapKho.MsDn = khachHang.MsDn;
-                        phieuNhapKho.Diachi = khachHang.Diachi;
-                        phieuNhapKho.DiachiNgd = khachHang.Diachi;
-                        phieuNhapKho.Mangd = khachHang.Madtpn;
-                        phieuNhapKho.Httt = ktscs.LastOrDefault().Httt;
-                        await _unitOfWork.KTSCDAO.Update(ktsc);
-                        await _unitOfWork.SaveChangesAsync();
-                    }
+                /*                    foreach(var ktsc in ktscs)
+                                    {
+                                       *//* ktsc.Makh = khachHang.Madtpn;
+                                        ktsc.Madtpnno = khachHang.Madtpn;
+                                        ktsc.Tenkh = khachHang.Tendtpn;
+                                        ktsc.MsDn = khachHang.MsDn;
+                                        ktsc.Diachi = khachHang.Diachi;
+                                        ktsc.DiachiNgd = khachHang.Diachi;
+                                        ktsc.Mangd = khachHang.Madtpn;
+                                        ktsc.Httt = ktscs.LastOrDefault().Httt;
+                                        var phieuNhapKho = (await _unitOfWork.KTSCDAO.Find(s => s.Soct == ktscMau.Soct && s.Ngayct == ktscMau.Ngayct && s.IdNghiepvu == "GIAVON" && s.Madmco == ktsc.Madmco, 1, 1)).FirstOrDefault();
+                                        phieuNhapKho.Makh = khachHang.Madtpn;
+                                        phieuNhapKho.Madtpnno = khachHang.Madtpn;
+                                        phieuNhapKho.Tenkh = khachHang.Tendtpn;
+                                        phieuNhapKho.MsDn = khachHang.MsDn;
+                                        phieuNhapKho.Diachi = khachHang.Diachi;
+                                        phieuNhapKho.DiachiNgd = khachHang.Diachi;
+                                        phieuNhapKho.Mangd = khachHang.Madtpn;
+                                        phieuNhapKho.Httt = ktscs.LastOrDefault().Httt;
+                                        await _unitOfWork.KTSCDAO.Update(ktsc);
+                                        await _unitOfWork.SaveChangesAsync();*//*
+                                    }*/
                     phieuChietKhau.Makh = khachHang.Madtpn;
                     phieuChietKhau.Madtpnno = khachHang.Madtpn;
                     phieuChietKhau.Tenkh = khachHang.Tendtpn;
@@ -405,15 +430,17 @@ namespace WebAccountant.Repository.Implement
                     return false;
                 }
             }
-            if(item.ktdmDTOs.Count > 0)
+            await _unitOfWork.KTSCDAO.RemoveRange(ktscs);
+            await _unitOfWork.KTSCDAO.RemoveRange(pxk);
+            if (item.ktdmDTOs.Count > 0)
             {
                 double tongCK = 0;
                 double tongThue = 0;
-                double i = 0.001;
-                double t = 0.001;
+                double i = 0.0001;
+                double t = 0.0001;
                 foreach (var ktdmDTO in item.ktdmDTOs)
                 {
-                    if (ktscs.Any(s=>s.Madmco == ktdmDTO.Madm))
+                    /*if (ktscs.Any(s=>s.Madmco == ktdmDTO.Madm))
                     {
                         var ktsc = ktscs.Where(s => s.Madmco == ktdmDTO.Madm).FirstOrDefault();
                         var ktscGiavon = (await _unitOfWork.KTSCDAO.Find(s => s.SttSc == (ktsc.SttSc + 1) && s.IdChungtu == ktsc.IdChungtu && s.IdNghiepvu == "GIAVON", 1, 1)).FirstOrDefault();
@@ -439,7 +466,7 @@ namespace WebAccountant.Repository.Implement
                             await _unitOfWork.SaveChangesAsync();
                         }
                     }
-                    else
+                    else*/
                     {
                         var khachHang = (await _unitOfWork.KTDTPNDAO.Find(s => s.Madtpn == item.Makh, 1, 1)).FirstOrDefault();
                         var model = (await _unitOfWork.KTDMDao.GetAll()).FirstOrDefault(
@@ -453,9 +480,9 @@ namespace WebAccountant.Repository.Implement
                         double stt = 0;
                         if (ktscMau != null && model != null && khachHang != null)
                         {
-                            SttSapXep = ktscMau.SttSapxep + 1 + t + t;
+                            SttSapXep = ktscMau.SttSapxep + t + t;
                             var Giavon = ktdmDTO.Soluong * model.Dgban;
-                            stt = ktscMau.SttSc + 1 + i;
+                            stt = ktscMau.SttSc + i;
                             var insertPhieuHang = new Ktsc()
                             {
                                 Lctg = "HDBR",
@@ -626,9 +653,8 @@ namespace WebAccountant.Repository.Implement
                             };
                             await _unitOfWork.KTSCDAO.Add(insertPhieuHang);
                             await _unitOfWork.KTSCDAO.Add(insertPhieuXuat);
-                            await _unitOfWork.SaveChangesAsync();
-                            i += 0.002;
-                            t += 0.001;
+                            i += 0.0002;
+                            t += 0.0001;
                         }
 
                     }
@@ -641,8 +667,8 @@ namespace WebAccountant.Repository.Implement
                     phieuThue.Ttvnd = tongThue;
                     await _unitOfWork.KTSCDAO.Update(phieuChietKhau);
                     await _unitOfWork.KTSCDAO.Update(phieuThue);
-                    await _unitOfWork.SaveChangesAsync();
                 }
+                await _unitOfWork.SaveChangesAsync();
             }
             return true;
         }
@@ -650,7 +676,7 @@ namespace WebAccountant.Repository.Implement
         {
             var phieu = (await GetAllDSPhieuMuaHang()).Where(s => s.id == item.id).FirstOrDefault();
             var ktscs = phieu.ktscs;
-            var ktscMau = ktscs.LastOrDefault();
+            var ktscMau = ktscs.FirstOrDefault();
             if (item.Makh != ktscs.FirstOrDefault().Makh)
             {
                 var khachHang = (await _unitOfWork.KTDTPNDAO.Find(s => s.Madtpn == item.Makh, 1, 1)).FirstOrDefault();
@@ -658,7 +684,7 @@ namespace WebAccountant.Repository.Implement
                 var phieuThue = (await _unitOfWork.KTSCDAO.Find(s => s.Soct == ktscMau.Soct && s.Ngayct == ktscMau.Ngayct && s.IdNghiepvu == "VAT_PNK_PC", 1, 1)).FirstOrDefault();
                 if (khachHang != null)
                 {
-                    foreach (var ktsc in ktscs)
+/*                    foreach (var ktsc in ktscs)
                     {
                         ktsc.Khachhang = khachHang.Tendtpn;
                         ktsc.Makh = khachHang.Madtpn;
@@ -669,7 +695,7 @@ namespace WebAccountant.Repository.Implement
                         ktsc.Mangd = khachHang.Madtpn;
                         ktsc.Httt = ktscs.LastOrDefault().Httt;
                         await _unitOfWork.KTSCDAO.Update(ktsc);
-                    }
+                    }*/
                     phieuChietKhau.Khachhang = khachHang.Tendtpn;
                     phieuChietKhau.Makh = khachHang.Madtpn;
                     phieuChietKhau.Tenkh = khachHang.Tendtpn;
@@ -692,15 +718,16 @@ namespace WebAccountant.Repository.Implement
                     return false;
                 }
             }
+            await _unitOfWork.KTSCDAO.RemoveRange(ktscs);
             if (item.ktdmDTOs.Count > 0)
             {
                 double tongCK = 0;
                 double tongThue = 0;
-                double i = 0.001;
-                double t = 0.001;
+                double i = 0.0001;
+                double t = 0.0001;
                 foreach (var ktdmDTO in item.ktdmDTOs)
                 {
-                    if (ktscs.Any(s => s.Madmno == ktdmDTO.Madm))
+                   /* if (ktscs.Any(s => s.Madmno == ktdmDTO.Madm))
                     {
                         var ktsc = ktscs.Where(s => s.Madmno == ktdmDTO.Madm).FirstOrDefault();
                         if (ktsc != null)
@@ -721,7 +748,7 @@ namespace WebAccountant.Repository.Implement
                             await _unitOfWork.KTSCDAO.Update(ktsc);
                         }
                     }
-                    else
+                    else*/
                     {
                         var khachHang = (await _unitOfWork.KTDTPNDAO.Find(s => s.Madtpn == item.Makh, 1, 1)).FirstOrDefault();
                         var model = (await _unitOfWork.KTDMDao.GetAll()).FirstOrDefault(
@@ -824,8 +851,8 @@ namespace WebAccountant.Repository.Implement
                                 Ttmausac = 0,
                             };
                             await _unitOfWork.KTSCDAO.Add(insertPhieuHang);
-                            i += 0.001;
-                            t += 0.001;
+                            i += 0.0001;
+                            t += 0.0001;
                         }
 
                     }

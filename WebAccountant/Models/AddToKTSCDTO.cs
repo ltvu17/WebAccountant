@@ -16,5 +16,6 @@ namespace WebAccountant.Models
         public double? PtChietKhau { get; set; }
         public string HthucThanhToan { get; set; }
         public List<KtdmDTO> ktdmDTOs { get; set; } = new List<KtdmDTO>();
+        public string? MaNhanVien { get; set; }
     }
 }

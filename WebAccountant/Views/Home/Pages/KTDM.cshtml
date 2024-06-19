@@ -4,13 +4,14 @@
 @model WebAccountant.ModelsBase.Ktdm
 @{
     Html.RenderPartial("../Home/Header");
+    var ktdmColumn = (List<WebAccountant.ModelsLogin.KTDMColumn>)ViewData["KTDMColumn"];
 }
 <div class="text-center">
     <div class="home-container">
         @Html.Partial("../Home/SideBar")
         <div class="right-bar-home content">
             @*Navbar Here*@
-            <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex">
+            @* <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex">
                 <div class="container-fluid">
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -20,46 +21,37 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Đơn mua hàng</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Mua hàng</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Nhận hóa đơn</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Nhận hóa đơn</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Trả lại hàng</a>
-                            </li>
                         </ul>
                     </div>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                 </div>
-            </nav>
+            </nav> *@
 
             @*Modal*@
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" style="color: #119583;" id="exampleModalLabel">Thêm Hàng Hóa</h5>
+                            <h5 class="modal-title" style="color: #119583;" id="exampleModalLabel">Thêm Danh Mục Hàng Hóa</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="resetModal()" aria-label="Đóng"></button>
                         </div>
                         <div class="modal-body">
-                            <form method="post" asp-controller="Ktdms" asp-action="Post">
+                            <form id="form-dm" method="post" asp-controller="Ktdms" asp-action="Post">
                                 <div class="row">
                                     <div class="col-md-4 text-start">
                                         <label for="input-madm" class="col-form-label">Mã hàng hóa:</label>
                                         <input type="text" class="form-control input-sugg"
+                                               asp-for="Madm"
                                                id="input-madm"
                                                autofocus="autofocus"
                                                autocomplete="off"
                                                placeholder="Nhập mặt hàng(nếu có)..."
                                                onkeyup="SearchNow('list-madm-sugg','input-madm','list-madm-sugg')" />
+                                        <span asp-validation-for="Madm" class="text-danger"></span>
                                                <input id="edit-madm" type="text" hidden/>
+
                                         <div class="table-container">
                                             <table id="list-madm-sugg" class="sugg-container d-none">
                                                 <tr id="tr-1">
@@ -72,7 +64,7 @@
                                     <div class="col-md-8 text-start">
                                         <label for="tendm" class="col-form-label">Tên hàng hóa:</label>
                                         <input type="text" class="form-control" asp-for="Tendm" id="tendm">
-                                        @* <span asp-validation-for="Tendm" class="text-danger"></span> *@
+                                        @*<span asp-validation-for="Tendm" class="text-danger"></span> *@
                                     </div>
                                 </div>
                                 <div class="row">
@@ -82,13 +74,15 @@
                                         @* <span asp-validation-for="Matk" class="text-danger"></span> *@
                                     </div>
                                     <div class="col-md-4 text-start">
-                                        <label for="dgb" class="col-form-label">Đơn giá bán:</label>
-                                        <input type="number" min="0" class="form-control" asp-for="Madm" id="dgb">
+                                        <label for="t-dgb" class="col-form-label">Đơn giá bán:</label>
+                                        <input type="text" class="form-control" id="t-dgb" onchange="formatAll()" />
+                                        <input type="number" min="0" class="form-control" asp-for="Dgban" id="dgb" hidden/>
                                         @* <span asp-validation-for="Madm" class="text-danger"></span> *@
                                     </div>
                                     <div class="col-md-4 text-start">
-                                        <label for="dgx" class="col-form-label">Đơn giá xuất:</label>
-                                        <input type="number" min="0" class="form-control" asp-for="Tendm" id="dgx">
+                                        <label for="t-dgx" class="col-form-label">Đơn giá xuất:</label>
+                                        <input type="text" class="form-control" id="t-dgx" onchange="formatAll()">
+                                        <input type="number" min="0" class="form-control" asp-for="Dgxuat" id="dgx" hidden />
                                         @* <span asp-validation-for="Tendm" class="text-danger"></span> *@
                                     </div>
                                 </div>
@@ -99,253 +93,327 @@
                                         @* <span asp-validation-for="Donvi" class="text-danger"></span> *@
                                     </div>
                                     <div class="col-md-4 text-start">
-                                        <label for="tdk-gt" class="col-form-label">Tồn đầu kì - Giá trị:</label>
-                                        <input type="number" min="0" class="form-control" asp-for="Donvi" id="tdk-gt">
+                                        <label for="t-tdk-gt" class="col-form-label">Tồn đầu kì - Giá trị:</label>
+                                        <input type="text" class="form-control" id="t-tdk-gt" onchange="formatAll()">
+                                        <input type="number" min="0" class="form-control" asp-for="VndtonT" id="tdk-gt" hidden>
                                         @* <span asp-validation-for="Donvi" class="text-danger"></span> *@
                                         </div>
                                     <div class="col-md-4 text-start">
-                                        <label for="tdk-sl" class="col-form-label">Tồn đầu kỳ - Số lượng:</label>
-                                        <input type="number" min="0" class="form-control" asp-for="Tendm" id="tdk-sl">
+                                        <label for="t-tdk-sl" class="col-form-label">Tồn đầu kì - Số lượng:</label>
+                                        <input type="text" class="form-control" id="t-tdk-sl" onchange="formatAll()">
+                                        <input type="number" min="0" class="form-control" id="tdk-sl" hidden>
                                         @* <span asp-validation-for="Tendm" class="text-danger"></span> *@
                                         </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" onclick="resetModal()" id="btnClose" data-bs-dismiss="modal">Đóng</button>
-                                    <button type="button" class="btn btn-primary" onclick="submitModal()">Nộp</button>
+                                    <button type="button" class="btn btn-primary" onclick="submitModal()">Lưu</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="settingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl" style="max-width: 1100px">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" style="color: #119583;" id="exampleModalLabel">Cài đặt cột hiển thị</h5>
+                            <div>
+                                <button type="button" class="btn btn-primary" style="right : 0" onclick="CheckedAll()">Chọn tất cả</button>
+                                <button type="button" class="btn btn-secondary" style="margin : 5px" onclick="UnCheckedAll()">Bỏ chọn tất cả</button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                            </div>
+                        </div>
+                        <div class="modal-body" style="text-align: center">
+                            <form style="display: inline-table" method="post" asp-controller="Ktdms" asp-action="SubmitKTDMColunm">
+                                <table style="text-align : left">
+                                    @for (int i = 0; i < 32; i++)
+                                    {
+                                        <tr style="display : flex">
+                                            @foreach (var item in ktdmColumn.Skip(i * 5).Take(5))
+                                            {
+                                                var attribute = (List<WebAccountant.ModelsLogin.UserKTDMColumn>)ViewData["attribute"];
 
+                                                if (attribute.Any(s => s.KTDMColumnId == item.Id))
+                                                {
+                                                    var width = attribute.Where(s => s.KTDMColumnId == item.Id).FirstOrDefault().Width;
+                                                    <td style="margin: 5px; padding: 20px; ">
+                                                        <input type="checkbox" class="myCheck" id="myCheck" value="@item.Id" name="ids[@ktdmColumn.IndexOf(item)]" checked /> @item.Description || Độ rộng
+                                                        <input type="number" value="@width" min="0" name="width[@ktdmColumn.IndexOf(item)]" style="width: 50px" />
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="margin: 5px;padding: 20px;">
+                                                        <input type="checkbox" class="myCheck" id="myCheck" value="@item.Id" name="ids[@ktdmColumn.IndexOf(item)]" />@item.Description || Độ rộng
+                                                        <input type="number" style="width: 50px" value="0" min="0" name="width[@ktdmColumn.IndexOf(item)]" />
+                                                    </td>
+                                                }
+                                            
+                                            }
+                                        </tr>
+                                    }
+                                </table>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                    <button type="submit" class="btn btn-primary">Lưu</button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
             @*Data Here*@
-            @(
+           @*  @(
                 Html.DevExtreme().DataGrid<WebAccountant.ModelsBase.Ktdm>()
-                .DataSource(ds => ds.Mvc()
-                .Controller("Ktdms")
-                .LoadAction("Get")
-                .UpdateAction("Put")
-                .DeleteAction("Delete")
-                .Key("Madm", "Matk")
-                )
-                .RemoteOperations(true)
-                .FocusedRowEnabled(true)
+                        .DataSource(ds => ds.Mvc()
+                        .Controller("Ktdms")
+                        .LoadAction("Get")
+                        .UpdateAction("Put")
+                        .DeleteAction("Delete")
+                        .Key("Madm", "Matk")
+
+                        )
+                        .RemoteOperations(true)
+                        .FocusedRowEnabled(true)
+                        .Columns(columns =>
+                        {
+                            columns.AddFor(m => m.Matk);
+
+                            columns.AddFor(m => m.Madm).Caption("Mã danh mục").Fixed(true);
+
+                            columns.AddFor(m => m.Tendm).Caption("Tên danh mục").Fixed(true).Width(400);
+
+                            columns.AddFor(m => m.Manhom);
+
+                            columns.AddFor(m => m.Tennhom);
+
+                            columns.AddFor(m => m.Kyhieu).Caption("Ký hiệu");
+
+                            columns.AddFor(m => m.Donvi).Caption("Đơn vị");
+
+                            columns.AddFor(m => m.Hansudung);
+
+                            columns.AddFor(m => m.Nhacungcap);
+
+                            columns.AddFor(m => m.Nhasanxuat);
+
+                            columns.AddFor(m => m.Ptchietkhau).Caption("Phần trăm chiết khấu");
+
+                            columns.AddFor(m => m.Thuesuat);
+
+                            columns.AddFor(m => m.Dgxuat).Caption("Đơn giá xuất").Format("0,###");
+
+                            columns.AddFor(m => m.Dgban).Caption("Đơn giá bán").Format("0,###");
+
+                            columns.AddFor(m => m.Dgnhap).Caption("Đơn giá nhập").Format("0,###");
+
+                            columns.AddFor(m => m.TkGiavon);
+
+                            columns.AddFor(m => m.TkTralai);
+
+                            columns.AddFor(m => m.GioihantonMax);
+
+                            columns.AddFor(m => m.IdUpdate);
+
+                            columns.AddFor(m => m.Ghichu);
+
+                            columns.AddFor(m => m.Quycach);
+
+                            columns.AddFor(m => m.Songaysudung);
+                        }).ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
+                        .ShowBorders(true)
+                        .RowAlternationEnabled(true)
+                        .WordWrapEnabled(true)
+                        .Editing(e =>
+                        {
+                            e.Mode(GridEditMode.Batch)
+                            .AllowUpdating(true).UseIcons(true)
+                            .AllowDeleting(true);
+                            e.SelectTextOnEditStart(true);
+                            e.StartEditAction(GridStartEditAction.DblClick);
+                        })
+                        .Paging(paging => paging.PageSize(15))
+                        .Pager(pager =>
+                        {
+                            pager.Visible(true);
+                            pager.DisplayMode(GridPagerDisplayMode.Compact);
+                            pager.ShowPageSizeSelector(true);
+                            pager.AllowedPageSizes(new JS("[10, 15, 25, 40]"));
+                            pager.ShowInfo(true);
+                            pager.ShowNavigationButtons(true);
+                        })
+
+                        .OnRowInserted("onRowInserted")
+                        .OnContextMenuPreparing("OpenMenu").ID("grid")
+                        .Summary(s => s
+                        .RecalculateWhileEditing(true))
+                    .Summary(s => s
+                        .RecalculateWhileEditing(true)
+                        .TotalItems(items =>{
+                            items.AddFor(m => m.Dgnhap)
+                            .SummaryType(SummaryType.Sum)
+                            .DisplayFormat("{0}")
+                            .ValueFormat("0,###");
+
+                            items.AddFor(m => m.Dgban)
+                            .SummaryType(SummaryType.Sum)
+                            .DisplayFormat("{0}")
+                            .ValueFormat("0,###");
+
+                            items.AddFor(m => m.Dgxuat)
+                            .SummaryType(SummaryType.Sum)
+                            .DisplayFormat("{0}")
+                            .ValueFormat("0,###");
+                            
+                        })
+                    )
+                ) *@
+            @(
+                Html.DevExtreme().DataGrid()
+                .ID("gridContainer")
                 .Columns(columns =>
                 {
-                    columns.AddFor(m => m.Matk);
-
-                    columns.AddFor(m => m.Madm).Caption("Mã danh mục").Fixed(true);
-
-                    columns.AddFor(m => m.Tendm).Caption("Tên danh mục").Fixed(true);
-
-                    columns.AddFor(m => m.Manhom);
-
-                    columns.AddFor(m => m.Tennhom);
-
-                    columns.AddFor(m => m.Kyhieu).Caption("Ký hiệu");
-
-                    columns.AddFor(m => m.Donvi).Caption("Đơn vị");
-
-                    columns.AddFor(m => m.Lo);
-
-                    columns.AddFor(m => m.Ngaylo);
-
-                    columns.AddFor(m => m.Hansudung);
-
-                    columns.AddFor(m => m.Nhacungcap);
-
-                    columns.AddFor(m => m.Nhasanxuat);
-
-                    columns.AddFor(m => m.Ptchietkhau).Caption("Phần trăm chiết khấu");
-
-                    columns.AddFor(m => m.Thuesuat);
-
-                    columns.AddFor(m => m.Dgxuat).Caption("Đơn giá xuất");
-
-                    columns.AddFor(m => m.TonT);
-
-                    columns.AddFor(m => m.VndtonT);
-
-                    columns.AddFor(m => m.NhapT);
-
-                    columns.AddFor(m => m.VndnhapT);
-
-                    columns.AddFor(m => m.XuatT);
-
-                    columns.AddFor(m => m.VndxuatT);
-
-                    columns.AddFor(m => m.TonCk);
-
-                    columns.AddFor(m => m.VndtonCk);
-
-                    columns.AddFor(m => m.Danhdau);
-
-                    columns.AddFor(m => m.Dgban).Caption("Đơn giá bán");
-
-                    columns.AddFor(m => m.Dgban1).Caption("Đơn giá bán 1");
-
-                    columns.AddFor(m => m.Dgban2).Caption("Đơn giá bán 2");
-
-                    columns.AddFor(m => m.Dgban3).Caption("Đơn giá bán 3");
-
-                    columns.AddFor(m => m.Dgban4).Caption("Đơn giá bán 4");
-
-                    columns.AddFor(m => m.Donvi1).Caption("Đơn vị 1");
-
-                    columns.AddFor(m => m.Donvi2).Caption("Đơn vị 2");
-
-                    columns.AddFor(m => m.Donvi3).Caption("Đơn vị 3");
-
-                    columns.AddFor(m => m.Hsqd1);
-
-                    columns.AddFor(m => m.Hsqd2);
-
-                    columns.AddFor(m => m.Hsqd3);
-
-                    columns.AddFor(m => m.UsdtonT);
-
-                    columns.AddFor(m => m.UsdnhapT);
-
-                    columns.AddFor(m => m.UsdxuatT);
-
-                    columns.AddFor(m => m.UsdtonCk);
-
-                    columns.AddFor(m => m.Dgusd);
-
-                    columns.AddFor(m => m.Dgnhap1).Caption("Đơn giá nhập 1");
-
-                    columns.AddFor(m => m.Dgnhap2).Caption("Đơn giá nhập 2");
-
-                    columns.AddFor(m => m.Dgnhap3).Caption("Đơn giá nhập 3");
-
-                    columns.AddFor(m => m.Dgnhap4).Caption("Đơn giá nhập 4");
-
-                    columns.AddFor(m => m.Dgnhap5).Caption("Đơn giá nhập 5");
-
-                    columns.AddFor(m => m.Trangthai);
-
-                    columns.AddFor(m => m.Dgnhap);
-
-                    columns.AddFor(m => m.DgChuyenkho);
-
-                    columns.AddFor(m => m.DgCktm);
-
-                    columns.AddFor(m => m.DgVc);
-
-                    columns.AddFor(m => m.DmCktm);
-
-                    columns.AddFor(m => m.Gioihanton);
-
-                    columns.AddFor(m => m.MadmMe);
-
-                    columns.AddFor(m => m.Manhom1);
-
-                    columns.AddFor(m => m.Manhom2);
-
-                    columns.AddFor(m => m.Manhomtp);
-
-                    columns.AddFor(m => m.Model);
-
-                    columns.AddFor(m => m.SoDdh);
-
-                    columns.AddFor(m => m.TenDdh);
-
-                    columns.AddFor(m => m.TendmMe);
-
-                    columns.AddFor(m => m.Tennhom1);
-
-                    columns.AddFor(m => m.Tennhom2);
-
-                    columns.AddFor(m => m.Tennhomtp);
-
-                    columns.AddFor(m => m.TgCktm);
-
-                    columns.AddFor(m => m.TkChietkhau);
-
-                    columns.AddFor(m => m.TkDoanhthu);
-
-                    columns.AddFor(m => m.TkGiavon);
-
-                    columns.AddFor(m => m.TkTralai);
-
-                    columns.AddFor(m => m.TyleOfNhom);
-
-                    columns.AddFor(m => m.NhapTDv1);
-
-                    columns.AddFor(m => m.NhapTDv2);
-
-                    columns.AddFor(m => m.TonCkDv1);
-
-                    columns.AddFor(m => m.TonCkDv2);
-
-                    columns.AddFor(m => m.TonTDv1);
-
-                    columns.AddFor(m => m.TonTDv2);
-
-                    columns.AddFor(m => m.XuatTDv1);
-
-                    columns.AddFor(m => m.XuatTDv2);
-
-                    columns.AddFor(m => m.Nhomck);
-
-                    columns.AddFor(m => m.Makho);
-
-                    columns.AddFor(m => m.Mavach);
-
-                    columns.AddFor(m => m.GioihantonMax);
-
-                    columns.AddFor(m => m.IdUpdate);
-
-                    columns.AddFor(m => m.Tendm2);
-
-                    columns.AddFor(m => m.DgbanGanNhat);
-
-                    columns.AddFor(m => m.DgmuaGanNhat);
-
-                    columns.AddFor(m => m.Ghichu);
-
-                    columns.AddFor(m => m.NgaybanGanNhat);
-
-                    columns.AddFor(m => m.NgaymuaGanNhat);
-
-                    columns.AddFor(m => m.Quycach);
-
-                    columns.AddFor(m => m.Songaysudung);
-                }).ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
-                .ShowBorders(true)
-                .RowAlternationEnabled(true)
-                .Editing(e =>
+                    var attribute = ViewData["attribute"];
+                    foreach (var att in (List<WebAccountant.ModelsLogin.UserKTDMColumn>)attribute)
+                    {
+                        var atrii = att.KTDMColumn.Name.Substring(0, 1).ToUpper() + att.KTDMColumn.Name.Substring(1).ToLower();
+                        var splits = atrii.Split("_");
+                        if (splits.Length > 1)
+                        {
+                            atrii = "";
+                            foreach (var split in splits)
+                            {
+                                atrii += split.Substring(0, 1).ToUpper() + split.Substring(1).ToLower();
+                            }
+                        }
+                        if (atrii == "Ngaylo" || atrii == "Hansudung" || atrii == "NgaybanGanNhat" || atrii == "NgaymuaGanNhat")
+                        {
+                            columns.Add().DataField(atrii).Caption(att.KTDMColumn.Description).DataType(GridColumnDataType.Date).Format("dd/MM/yyyy").MinWidth(att.Width);
+                        }
+                  @*       else if (atrii == "Matk" || atrii == "Madm" || atrii == "Tendm" || atrii == "Donvi")
+                        {
+                            columns.Add().DataField(atrii).Caption(att.KTSCColumn.Description).DataType(GridColumnDataType.Date).MinWidth(att.Width).Fixed(true);
+                        } *@
+                            else if (atrii == "Matk" || atrii == "Madm" || atrii == "Tendm" || atrii == "Donvi")
+                            {
+                                columns.Add().DataField(atrii).Caption(att.KTDMColumn.Description).MinWidth(att.Width).Fixed(true);
+                            }
+                            else
+                            {
+                                columns.Add().DataField(atrii).Caption(att.KTDMColumn.Description).MinWidth(att.Width).Format("0,###");
+                            }
+                        }
+                    })
+                    .ShowColumnHeaders(true)
+                    .DataSource(d => d.StaticJson().Url(@Url.Action("GetData", "Ktdms")).Key("Madm"))
+                    .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
+                    .RowAlternationEnabled(true).WordWrapEnabled(true)
+                    .ShowBorders(true).Paging(paging => paging.PageSize(10))
+                    .Height(800)
+                    .Pager(pager =>
+                    {
+                        pager.Visible(true);
+                        pager.DisplayMode(GridPagerDisplayMode.Compact);
+                        pager.ShowPageSizeSelector(true);
+                        pager.AllowedPageSizes(new JS("[10, 15, 25, 40]"));
+                        pager.ShowInfo(true);
+                        pager.ShowNavigationButtons(true);
+                    })
+                    .Editing(e => 
                 {
-                    e.Mode(GridEditMode.Batch)
-                    .AllowUpdating(true).UseIcons(true)
-                    .AllowDeleting(true);
-                    e.SelectTextOnEditStart(true);
-                    e.StartEditAction(GridStartEditAction.DblClick);
-                })
-                .Paging(paging => paging.PageSize(15))
-                .Pager(pager =>
+                e.Mode(GridEditMode.Batch)
+                .AllowUpdating(true).UseIcons(true)
+                .AllowDeleting(true);
+                e.SelectTextOnEditStart(true);
+                e.StartEditAction(GridStartEditAction.DblClick);
+            }
+                ).OnSaving("onSaving")
+                .FocusedRowEnabled(true)
+                .Summary(s => s
+                .RecalculateWhileEditing(true)
+                .TotalItems(items =>
                 {
-                    pager.Visible(true);
-                    pager.DisplayMode(GridPagerDisplayMode.Compact);
-                    pager.ShowPageSizeSelector(true);
-                    pager.AllowedPageSizes(new JS("[10, 15, 25, 40]"));
-                    pager.ShowInfo(true);
-                    pager.ShowNavigationButtons(true);
-                })
-                .OnRowInserted("onRowInserted")
-                .OnContextMenuPreparing("OpenMenu").ID("grid")
+                    // Loop through each field used in the columns
+                    var attribute = ViewData["attribute"];
+                    foreach (var col in (List<WebAccountant.ModelsLogin.UserKTDMColumn>)attribute)
+                    {
+                        string atrii = col.KTDMColumn.Name.Substring(0, 1).ToUpper() + col.KTDMColumn.Name.Substring(1).ToLower();
+                        var splits = atrii.Split("_");
+                        if (splits.Length > 1)
+                        {
+                            atrii = "";
+                            foreach (var split in splits)
+                            {
+                                atrii += split.Substring(0, 1).ToUpper() + split.Substring(1).ToLower();
+                            }
+                        }
+                        if (atrii == "Ptchietkhau" || atrii == "Thuesuat" || atrii == "Dgxuat" || atrii == "TonT" || atrii == "VndtonT" 
+                        || atrii == "NhapT" || atrii == "VndnhapT" || atrii == "XuatT" || atrii == "VndxuatT" || atrii == "TonCk"
+                        || atrii == "VndtonCk" || atrii == "Dgban" || atrii == "Dgban1" || atrii == "Dgban2" || atrii == "Dgban3" || atrii == "Dgban4"
+                        || atrii == "Dgnhap1" || atrii == "Dgnhap2" || atrii == "Dgnhap3" || atrii == "Dgnhap4" || atrii == "Dgnhap5" || atrii == "Dgnhap")
+                        {
+                            items.Add().Column(atrii)// Access property dynamically using bracket notation
+                            .SummaryType(SummaryType.Sum)
+                            .DisplayFormat("{0}")
+                            .ValueFormat("0,###");
+                        }
+                    }
+                }))
                 )
+
             <div class="footer-data d-flex justify-content-start">
                 <button class="btn btn-primary width-100" data-bs-toggle="modal" id="btnAdd" data-bs-target="#exampleModal">Thêm</button>
-                <button class="btn btn-primary width-100" type="button" id="btnEdit" onclick="onEdit()">Sửa</button>
+                @* <button class="btn btn-primary width-100" type="button" id="btnEdit" onclick="onEdit()">Sửa</button> *@
                 <button class="btn btn-primary width-100" type="button" onclick="onDelete()">Xóa</button>
+                <button class="btn btn-primary width-100" type="button" onclick="saveGrid()">Lưu</button>
+                <button class="btn btn-primary width-100" type="button" onclick="redoGrid()">Hoàn tác</button>
+                <div class="d-flex ms-auto" style="right : 0">
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#settingModal">
+                        <img src="~/img/setting.png" style="width: 20px; height: auto" />
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
+    function onSaving(e) {
+        e.cancel = true;
+
+        if (e.changes.length) {
+            e.promise = sendBatchRequest('@Url.RouteUrl(new { controller = "Ktdms", action = "Batch" })', e.changes).done(() => {
+                e.component.refresh(true).done(() => {
+                    e.component.cancelEditData();
+                });
+            });
+        }
+    }
+
+    function sendBatchRequest(url, changes) {
+        var d = $.Deferred();
+
+        $.ajax(url, {
+            method: "POST",
+            data: JSON.stringify(changes),
+            cache: false,
+            contentType: 'application/json',
+            xhrFields: { withCredentials: true }
+        }).done(d.resolve).fail(function (xhr) {
+            d.reject(xhr.responseJSON ? xhr.responseJSON.Message : xhr.statusText);
+        });
+
+        return d.promise();
+    }
+    function saveGrid() {
+        document.getElementsByClassName("dx-datagrid-save-button")[0].click();
+    }
+    function redoGrid() {
+        document.getElementsByClassName("dx-datagrid-cancel-button")[0].click();
+    }
     function SearchNow(idSugg, idInput, idUl) {
         document.getElementById(idSugg).classList.remove("d-none");
         var input, filter, a, i, txtValue;
@@ -406,9 +474,13 @@
         document.getElementById('input-madm').value = JSON.parse(decodeURIComponent(item)).Madm;
         document.getElementById('mahh').value = JSON.parse(decodeURIComponent(item)).Matk;
         document.getElementById('tendm').value = JSON.parse(decodeURIComponent(item)).Tendm;
+        document.getElementById('t-dgb').value = 0;
+        document.getElementById('t-dgx').value = 0;
         document.getElementById('dgb').value = 0;
         document.getElementById('dgx').value = 0;
         document.getElementById('dvt').value = JSON.parse(decodeURIComponent(item)).Donvi;
+        document.getElementById('t-tdk-gt').value = 0;
+        document.getElementById('t-tdk-sl').value = 0;
         document.getElementById('tdk-gt').value = 0;
         document.getElementById('tdk-sl').value = 0;
     }
@@ -437,15 +509,19 @@
             document.getElementById('mahh').value = row.getElementsByTagName('td')[2].textContent;
             document.getElementById('tendm').value = row.getElementsByTagName('td')[1].textContent;
             document.getElementById('dgb').value = row.getElementsByTagName('td')[24].textContent;
+            document.getElementById('t-dgx').value = row.getElementsByTagName('td')[14].textContent;
+            document.getElementById('t-dgb').value = row.getElementsByTagName('td')[24].textContent;
             document.getElementById('dgx').value = row.getElementsByTagName('td')[14].textContent;
             document.getElementById('dvt').value = row.getElementsByTagName('td')[6].textContent;
+            document.getElementById('t-tdk-gt').value = 0;
+            document.getElementById('t-tdk-sl').value = 0;
             document.getElementById('tdk-gt').value = 0;
             document.getElementById('tdk-sl').value = 0;
-            console.log('sua2');
+            formatAll();
         }
     }
     function submitModal() {
-        var eMadm = document.getElementById("edit-madm").value ? document.getElementById("edit-madm").value : null;
+        /*var eMadm = document.getElementById("edit-madm").value ? document.getElementById("edit-madm").value : null;
         if (eMadm == null) { 
             console.log("themdm");
             var madmDTO = {
@@ -467,19 +543,8 @@
                     //location.reload();
                 }
             });
-        } else {
-            console.log("suadm");
-            var madmDTO = {
-                Madm: document.getElementById('edit-madm').value,
-                Matk: document.getElementById('mahh').value,
-                Tendm: document.getElementById('tendm').value,
-                Donvi: document.getElementById('dvt').value,
-                Dgban: document.getElementById('dgb').value,
-                Dgxuat: document.getElementById('dgx').value,
-            }
-            $('#btnClose').click();
-            resetModal();
-        }
+        }*/
+        document.getElementById("form-dm").submit();
 
     }
 
@@ -488,7 +553,7 @@
         if (e.rowIndex != -1) {
             if (!e.items) e.items = [];
             const contextMenuItem = [
-                {
+             /*   {
                     text: "Sửa",
                     onItemClick: function (args) {
                         var grid = document.getElementById("grid");
@@ -499,14 +564,19 @@
                         document.getElementById('input-madm').value = row.getElementsByTagName('td')[0].textContent;
                         document.getElementById('mahh').value = row.getElementsByTagName('td')[2].textContent;
                         document.getElementById('tendm').value = row.getElementsByTagName('td')[1].textContent;
+                        document.getElementById('t-dgb').value = row.getElementsByTagName('td')[24].textContent;
+                        document.getElementById('t-dgx').value = row.getElementsByTagName('td')[14].textContent;
                         document.getElementById('dgb').value = row.getElementsByTagName('td')[24].textContent;
                         document.getElementById('dgx').value = row.getElementsByTagName('td')[14].textContent;
                         document.getElementById('dvt').value = row.getElementsByTagName('td')[6].textContent;
+                        document.getElementById('t-tdk-gt').value = 0;
+                        document.getElementById('t-tdk-sl').value = 0;
                         document.getElementById('tdk-gt').value = 0;
                         document.getElementById('tdk-sl').value = 0;
+                        formatAll();
                         console.log('sua');
                     }
-                },
+                }, */
                 {
                     text: "Xóa",
                     onItemClick: function (args) {
@@ -541,11 +611,88 @@
         document.getElementById('input-madm').removeAttribute('readonly');
         document.getElementById('mahh').value = null;
         document.getElementById('tendm').value = null;
+        document.getElementById('t-dgb').value = null;
+        document.getElementById('t-dgx').value = null;
         document.getElementById('dgb').value = null;
         document.getElementById('dgx').value = null;
         document.getElementById('dvt').value = null;
+        document.getElementById('t-tdk-gt').value = null;
+        document.getElementById('t-tdk-sl').value = null;
         document.getElementById('tdk-gt').value = null;
         document.getElementById('tdk-sl').value = null;
         console.log('reset');
+    }
+
+    function formatFromNumber(int) {
+        var formattedNumber = new Intl.NumberFormat('en-US').format(int);
+        if (formattedNumber == "NaN") formattedNumber = 0;
+        return formattedNumber;
+    }
+
+    function convertNumToText(numberString) {
+        var cleanedNumberString = numberString.replace(/,/g, '');
+        if (numberString == "NaN") cleanedNumberString = 0;
+        return cleanedNumberString;
+    }
+    function formatAll(){
+        document.getElementById('t-dgb').value = formatFromNumber(convertNumToText(document.getElementById('t-dgb').value));
+        document.getElementById('t-dgx').value = formatFromNumber(convertNumToText(document.getElementById('t-dgx').value));
+        document.getElementById('dgb').value = convertNumToText(document.getElementById('t-dgb').value);
+        document.getElementById('dgx').value = convertNumToText(document.getElementById('t-dgx').value);
+        document.getElementById('t-tdk-gt').value = formatFromNumber(convertNumToText(document.getElementById('t-tdk-gt').value));
+        document.getElementById('t-tdk-sl').value = formatFromNumber(convertNumToText(document.getElementById('t-tdk-sl').value));
+        document.getElementById('tdk-gt').value = convertNumToText(document.getElementById('t-tdk-gt').value);
+    }
+    document.getElementById('exampleModal').onkeypress = function (e) {
+        var inputTo; 
+        var input = document.getElementById("input-madm");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("tendm");
+                inputTo.focus();
+            }
+        });
+        input = document.getElementById("tendm");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("mahh");
+                inputTo.focus();
+            }
+        });
+        input = document.getElementById("mahh");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("t-dgb");
+                inputTo.focus();
+            }
+        });
+        input = document.getElementById("t-dgb");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("t-dgx");
+                inputTo.focus();
+            }
+        });
+        input = document.getElementById("t-dgx");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("dvt");
+                inputTo.focus();
+            }
+        });
+        input = document.getElementById("dvt");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("t-tdk-gt");
+                inputTo.focus();
+            }
+        });
+        input = document.getElementById("t-tdk-gt");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("t-tdk-sl");
+                inputTo.focus();
+            }
+        });
     }
 </script>

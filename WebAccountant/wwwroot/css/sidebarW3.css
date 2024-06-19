@@ -18,12 +18,18 @@
         padding: 16px;
         text-decoration: none;
     }
-
-        /* Active/current link */
-        .sidebar a.active {
-            background-color: #04AA6D;
-            color: white;
-        }
+.drop-active {
+    background-color: rgb(186, 206, 165, 0.80);
+}
+#btn-dm:hover:not(.active) {
+    background-color: #555;
+    color: white;
+}
+/* Active/current link */
+.sidebar a.active {
+    background-color: #04AA6D;
+    color: white;
+}
 
         /* Links on mouse-over */
         .sidebar a:hover:not(.active) {

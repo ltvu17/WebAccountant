@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAccountant.DAOs;
 
@@ -10,9 +11,10 @@ using WebAccountant.DAOs;
 namespace WebAccountant.Migrations
 {
     [DbContext(typeof(LoginContext))]
-    partial class LoginContextModelSnapshot : ModelSnapshot
+    [Migration("20240614064408_newColumn")]
+    partial class newColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,27 +47,6 @@ namespace WebAccountant.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("DatabaseInfors");
-                });
-
-            modelBuilder.Entity("WebAccountant.ModelsLogin.KTDMColumn", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("KTDMColumns");
                 });
 
             modelBuilder.Entity("WebAccountant.ModelsLogin.KTSCColumn", b =>
@@ -121,32 +102,6 @@ namespace WebAccountant.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("WebAccountant.ModelsLogin.UserKTDMColumn", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("KTDMColumnId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Width")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("KTDMColumnId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserKTDMColumns");
-                });
-
             modelBuilder.Entity("WebAccountant.ModelsLogin.UserKTSCColumn", b =>
                 {
                     b.Property<int>("Id")
@@ -180,25 +135,6 @@ namespace WebAccountant.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("WebAccountant.ModelsLogin.UserKTDMColumn", b =>
-                {
-                    b.HasOne("WebAccountant.ModelsLogin.KTDMColumn", "KTDMColumn")
-                        .WithMany()
-                        .HasForeignKey("KTDMColumnId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebAccountant.ModelsLogin.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("KTDMColumn");
 
                     b.Navigation("User");
                 });

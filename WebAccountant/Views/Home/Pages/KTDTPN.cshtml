@@ -10,35 +10,20 @@
         @Html.Partial("../Home/SideBar")
         <div class="right-bar-home content">
             @*Navbar Here*@
-            <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex">
+            @* <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex">
                 <div class="container-fluid">
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="#">Danh sách</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Đơn mua hàng</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Mua hàng</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Nhận hóa đơn</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Nhận hóa đơn</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Trả lại hàng</a>
-                                </li>
-                            </ul>
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Danh sách</a>
+                            </li>
+                        </ul>
                         </div>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                 </div>
-            </nav>
+            </nav> *@
 
             @*Modal*@
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -49,47 +34,47 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                         </div>
                         <div class="modal-body">
-                            <form method="post" asp-controller="Ktdtpns" asp-action="Post">
+                            <form id="add-dtpn" method="post" asp-controller="Ktdtpns" asp-action="Post">
                                 <div class="row">
                                     <div class="col-5">
                                         <div class="mb-3 text-start">
                                             <label for="makh" class="col-form-label">Mã đối tượng pháp nhân:</label>
                                             <input type="text" class="form-control" asp-for="Madtpn" id="makh">
                                             <span asp-validation-for="Madtpn" class="text-danger"></span>
-                                        </div>
+                                        </div> 
                                         <div class="mb-3 text-start">
                                             <label for="msdn" class="col-form-label">Mã số doanh nghiệp:</label>
                                             <input type="text" class="form-control" asp-for="MsDn" id="msdn">
-                                            <span asp-validation-for="MsDn" class="text-danger"></span>
+                                            @* <span asp-validation-for="MsDn" class="text-danger"></span> *@
                                         </div>
                                         <div class="mb-3 text-start">
                                             <label for="dt" class="col-form-label">Điện thoại :</label>
-                                            <input type="text" class="form-control" asp-for="MsDn" id="dt">
-                                            <span asp-validation-for="MsDn" class="text-danger"></span>
+                                            <input type="text" class="form-control" asp-for="Dienthoai" id="dt">
+                                            @* <span asp-validation-for="MsDn" class="text-danger"></span> *@
                                         </div>
                                     </div>
                                     <div class="col-7">
                                         <div class="mb-3 text-start">
                                             <label for="tenkh" class="col-form-label">Tên đối tượng pháp nhân:</label>
                                             <input type="text" class="form-control" asp-for="Tendtpn" id="tenkh">
-                                            <span asp-validation-for="Tendtpn" class="text-danger"></span>
+                                            @* <span asp-validation-for="Tendtpn" class="text-danger"></span> *@
                                         </div>
                                         <div class="mb-3 text-start">
                                             <label for="diachi" class="col-form-label">Địa chỉ:</label>
                                             <input type="text" class="form-control" asp-for="Diachi" id="diachi">
-                                            <span asp-validation-for="Diachi" class="text-danger"></span>
+                                            @* <span asp-validation-for="Diachi" class="text-danger"></span> *@
                                         </div>
                                         <div class="mb-3 text-start">
                                             <label for="diachigh" class="col-form-label">Địa chỉ giao hàng:</label>
-                                            <input type="text" class="form-control" asp-for="Diachi" id="diachigh">
-                                            <span asp-validation-for="Diachi" class="text-danger"></span>
+                                            <input type="text" class="form-control" asp-for="DiachiGh" id="diachigh">
+                                            @* <span asp-validation-for="Diachi" class="text-danger"></span> *@
                                         </div>
                                     </div>
 
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                                    <button type="submit" class="btn btn-primary">Thêm</button>
+                                    <button type="button" class="btn btn-primary" onclick="submit('add-dtpn')">Thêm</button>
                                 </div>
                             </form>
                         </div>
@@ -116,7 +101,7 @@
 
                     columns.AddFor(m => m.Diachi).Caption("Địa chỉ");
 
-                    columns.AddFor(m => m.DiachiGh);
+                    columns.AddFor(m => m.DiachiGh).Caption("Địa chỉ giao hàng");
 
                     columns.AddFor(m => m.MsDn).Caption("Mã số doanh nghiệp");
 
@@ -155,12 +140,6 @@
                     columns.AddFor(m => m.Email);
 
                     columns.AddFor(m => m.Kieudoituong);
-
-                    columns.AddFor(m => m.Nhomck);
-
-                    columns.AddFor(m => m.Manhomdt1);
-
-                    columns.AddFor(m => m.Tennhomdt1);
 
                     columns.AddFor(m => m.NoMax).Caption("Số Max"); ;
 
@@ -212,19 +191,31 @@
                 )
             <div class="footer-data d-flex justify-content-start">
                 <button class="btn btn-primary width-100" data-bs-toggle="modal" id="btnAdd" data-bs-target="#exampleModal">Thêm</button>
-                <button class="btn btn-primary width-100" type="button" onclick="onEdit()">Sửa</button>
+                @* <button class="btn btn-primary width-100" type="button" onclick="onEdit()">Sửa</button> *@
                 <button class="btn btn-primary width-100" type="button" onclick="onDelete()">Xóa</button>
+                <button class="btn btn-primary width-100" type="button" onclick="saveGrid()">Lưu</button>
+                <button class="btn btn-primary width-100" type="button" onclick="redoGrid()">Hoàn tác</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
+    function saveGrid() {
+        document.getElementsByClassName("dx-datagrid-save-button")[0].click();
+    }
+    function redoGrid() {
+        document.getElementsByClassName("dx-datagrid-cancel-button")[0].click();
+    }
+    function submit(id) {
+        document.getElementById(id).submit();
+    }
+
     function onDelete() {
         var grid = document.getElementById("grid");
         var row = grid.getElementsByClassName("dx-row-focused")[0];
         if (row == null) {
-                alert("Hãy chọn hàng cần xóa")
+            alert("Hãy chọn hàng cần xóa")
         } else {
             var deleteLink = row.getElementsByClassName("dx-link-delete")[0];
             deleteLink.click();
@@ -243,12 +234,12 @@
         if (e.rowIndex != -1) {
             if (!e.items) e.items = [];
             const contextMenuItem = [
-                {
-                    text: "Sửa",
-                    onItemClick: function (args) {
-                        $('#btnAdd').click();
-                    }
-                },
+                //{
+                //    text: "Sửa",
+                //    onItemClick: function (args) {
+                //        $('#btnAdd').click();
+                //    }
+                //},
                 {
                     text: "Xóa",
                     onItemClick: function (args) {
@@ -268,5 +259,42 @@
         e.component.navigateToRow(e.key);
         e.component.option("focusedRowKey", e.key);
     }
-    
+    document.getElementById('exampleModal').onkeypress = function (e) {
+        var inputTo;
+        var input = document.getElementById("makh");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("msdn");
+                inputTo.focus();
+            }
+        }); 
+        input = document.getElementById("msdn");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("dt");
+                inputTo.focus();
+            }
+        });
+        input = document.getElementById("dt");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("tenkh");
+                inputTo.focus();
+            }
+        });
+        input = document.getElementById("tenkh");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("diachi");
+                inputTo.focus();
+            }
+        });
+        input = document.getElementById("diachi");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("diachigh");
+                inputTo.focus();
+            }
+        });
+    }
 </script>

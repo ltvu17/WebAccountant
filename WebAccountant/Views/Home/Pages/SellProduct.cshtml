@@ -69,8 +69,24 @@
                             <td>Ghi chú</td>
                             <td>Nhân viên bán</td>
                         </tr>
+                        <tr id="search-row">
+                            <td></td>
+                            <td><input class="form-control" type="text" onchange="search(this.id)" id="search-soct" placeholder="Nhập..."></td>
+                            <td><input class="form-control" type="text" onchange="search(this.id)" id="search-httt" placeholder="Nhập..."></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><input class="form-control" type="text" onchange="search(this.id)" id="search-makh" placeholder="Nhập..."></td>
+                            <td><input class="form-control" type="text" onchange="search(this.id)" id="search-tenkh" placeholder="Nhập..."></td>
+                            <td><input class="form-control" type="text" onchange="search(this.id)" id="search-msthue" placeholder="Nhập..."></td>
+                            <td><input class="form-control" type="text" onchange="search(this.id)" id="search-diachi" placeholder="Nhập..."></td>
+                            <td><input class="form-control" type="text" onchange="search(this.id)" id="search-ghichu" placeholder="Nhập..."></td>
+                            <td><input class="form-control" type="text" onchange="search(this.id)" id="search-tennv" placeholder="Nhập..."></td>
+                        </tr>
                         <tr>
-                            <td colspan="14" class="text-center" style="height:200px">Data đang được tải lên...</td>
+                            <td colspan="14" class="text-center" style="height:300px">Data đang được tải lên...</td>
                         </tr>
                     </table>
                     
@@ -90,6 +106,7 @@
                     <button class="btn btn-primary width-100" type="button" onclick="edit()">Sửa</button>
                     <button class="btn btn-primary width-100" type="button" onclick="xoaOrder()">Xóa</button>
                     <button class="btn btn-primary width-100" type="button" onclick="inOrder()">In</button>
+                    <button class="btn btn-primary width-100" type="button" onclick="traHang()">Trả hàng</button>
                 </div>
                 <div id="rightMenu" style="display: none; position: absolute; z-index:30;">
                     <ul>
@@ -215,6 +232,7 @@
                                                        id="input-manv"
                                                        placeholder="Nhập nhân viên..."
                                                        autofocus="autofocus"
+                                                       asp-for="MaNhanVien"
                                                        onkeyup="SearchNow('list-manv-sugg','input-manv','list-manv-sugg')" />
                                                 <div class="table-container">
                                                     <table id="list-manv-sugg" class="sugg-container d-none">
@@ -229,10 +247,6 @@
                                             <div class="text-start">
                                                 <label for="tennv" class="col-form-label">Tên nhân viên:</label>
                                                 <input type="text" class="form-control" id="tennv" readonly>
-                                            </div>
-                                            <div class="text-start">
-                                                <label for="tennvgh" class="col-form-label">Tên nhân viên giao:</label>
-                                                <input type="text" class="form-control" id="tennvgh" readonly>
                                             </div>
                                         </div>
                                         <div class="col-8">
@@ -416,7 +430,170 @@
                 let ptCkChung = 0;
                 let isCkChung = false;
 
+                var searchFil = []
                 ////FUNCTION/////////////////////////////////////////
+                function tongDataSearch() {
+                    var tst = 0, tck = 0, tthanhtien = 0;
+                    for (let i = 0; i < searchFil.length; i++) {
+                        tst += parseInt(searchFil[i].TongTien);
+                        tck += parseInt(searchFil[i].CkThanhTien);
+                        tthanhtien += parseInt(searchFil[i].ThanhTien);
+                    }
+                    document.getElementById("tong-data-st").textContent = formatFromNumber(tst);
+                    document.getElementById("tong-data-ck").textContent = formatFromNumber(tck);
+                    document.getElementById("tong-data-thanhtien").textContent = formatFromNumber(tthanhtien);
+                }
+                function resetSearch(){
+                    document.getElementById("search-soct").value = "";
+                    document.getElementById("search-httt").value = "";
+                    document.getElementById("search-makh").value = "";
+                    document.getElementById("search-tenkh").value = "";
+                    document.getElementById("search-msthue").value = "";
+                    document.getElementById("search-diachi").value = "";
+                    document.getElementById("search-ghichu").value = "";
+                    document.getElementById("search-tennv").value = "";
+                }
+                function search(id) {
+                    searchFil = []
+                    const table = document.getElementById("data-tb");
+                    const searchRow = document.getElementById("search-row");
+                    const key = document.getElementById(id).value;
+                    var isChange = false;
+                    var split = id.split('-')[1];
+                    
+                    if (key != '') { 
+                        resetSearch();
+                        document.getElementById(id).value = key;
+                        if (split == "soct") {
+                            for (let i = 0; i < fil.length; i++) {
+                                if (fil[i].Soctu.trim().toLowerCase().includes(key.trim().toLowerCase())) {
+                                    console.log(fil[i].Soctu + "ddd");
+                                    console.log(key + "key");
+                                    searchFil.push(fil[i]);
+                                }
+                            }
+                        }
+                        else if (split == "httt"){
+                            for (let i = 0; i < fil.length; i++) {
+                                if (fil[i].HTThanhToan.trim().toLowerCase().includes(key.trim().toLowerCase())) {
+                                    console.log(fil[i].Soctu + "ddd");
+                                    console.log(key + "key");
+                                    searchFil.push(fil[i]);
+                                }
+                            }
+                        }
+                        else if (split == "makh") {
+                            for (let i = 0; i < fil.length; i++) {
+                                if (fil[i].MaKh.trim().toLowerCase().includes(key.trim().toLowerCase())) {
+                                    console.log(fil[i].Soctu + "ddd");
+                                    console.log(key + "key");
+                                    searchFil.push(fil[i]);
+                                }
+                            }
+                        }
+                        else if (split == "tenkh") {
+                            for (let i = 0; i < fil.length; i++) {
+                                if (fil[i].TenKh.trim().toLowerCase().includes(key.trim().toLowerCase())) {
+                                    console.log(fil[i].Soctu + "ddd");
+                                    console.log(key + "key");
+                                    searchFil.push(fil[i]);
+                                }
+                            }
+                        }
+                        else if (split == "msthue") {
+                            for (let i = 0; i < fil.length; i++) {
+                                if (fil[i].MsThue.trim().toLowerCase().includes(key.trim().toLowerCase())) {
+                                    console.log(fil[i].Soctu + "ddd");
+                                    console.log(key + "key");
+                                    searchFil.push(fil[i]);
+                                }
+                            }
+                        }
+                        else if (split == "diachi") {
+                            for (let i = 0; i < fil.length; i++) {
+                                if (fil[i].Diachi.trim().toLowerCase().includes(key.trim().toLowerCase())) {
+                                    console.log(fil[i].Soctu + "ddd");
+                                    console.log(key + "key");
+                                    searchFil.push(fil[i]);
+                                }
+                            }
+                        }
+                        else if (split == "ghichu") {
+                            for (let i = 0; i < fil.length; i++) {
+                                if (fil[i].GhiChu.trim().toLowerCase().includes(key.trim().toLowerCase())) {
+                                    console.log(fil[i].Soctu + "ddd");
+                                    console.log(key + "key");
+                                    searchFil.push(fil[i]);
+                                }
+                            }
+                        }
+                        else if (split == "tennv") {
+                            for (let i = 0; i < fil.length; i++) {
+                                if (fil[i].NhanVienBan.trim().toLowerCase().includes(key.trim().toLowerCase())) {
+                                    console.log(fil[i].Soctu + "ddd");
+                                    console.log(key + "key");
+                                    searchFil.push(fil[i]);
+                                }
+                            }
+                        }
+                    } else if (key == '') {
+                        searchFil = fil;
+                    }
+                    removeList();
+                        var size = searchFil.length >= 15 ? searchFil.length : 15;
+                        tongDataSearch();
+                        for (let i = 1; i <= size; i++) {
+                            table.insertAdjacentHTML('beforeend', `
+                                                                        <tr id="t-${i}"  onclick="tractive(this.id)">
+                                                                            <td>
+                                                                                <input id="ip-id-${i}" hidden type="number"/>
+                                                                                <div id="ngayct-${i}"></div>
+                                                                            </td>
+                                                                            <td id="soct-${i}"></td>
+                                                                            <td id="httt-${i}"></td>
+                                                                            <td id="thanhtien-${i}" on="formatNumber(this.id)" class="text-end"></td>
+                                                                            <td id="ckpt-${i}" class="text-end"></td>
+                                                                            <td id="ckVnd-${i}" class="text-end"></td>
+                                                                            <td id="tongVnd-${i}" class="text-end"></td>
+                                                                            <td id="khtt-${i}" class="text-end"></td>
+                                                                            <td id="makh-${i}"></td>
+                                                                            <td id="tenkh-${i}"></td>
+                                                                            <td id="msthue-${i}"></td>
+                                                                            <td id="dc-${i}"></td>
+                                                                            <td id="gc-${i}"></td>
+                                                                            <td id="nvban-${i}"></td>
+                                                                        </tr>
+                                                                   `);
+                        }
+                        for (let i = 0; i < size; i++) {
+                            let ii = i + 1;
+                            if (i < searchFil.length) {
+                                var date = new Date(searchFil[i].NgayCtu);
+                                var dateString = date.toISOString().split('T')[0];
+                                var formatDate = dateString.split('-')[2] + '-' + dateString.split('-')[1] + '-' + dateString.split('-')[0];
+                                if (searchFil[i].id != null) {
+                                    document.getElementById("ip-id-" + ii).value = searchFil[i].id;
+                                } else document.getElementById("ip-id-" + ii).value = "";
+                                document.getElementById("ngayct-" + ii).textContent = searchFil[i].NgayCtu ? formatDate : "";
+                                document.getElementById("soct-" + ii).textContent = searchFil[i].Soctu ? searchFil[i].Soctu : "";
+                                document.getElementById("httt-" + ii).textContent = searchFil[i].HTThanhToan ? searchFil[i].HTThanhToan : "";
+                                document.getElementById("thanhtien-" + ii).textContent = searchFil[i].ThanhTien ? formatFromNumber(searchFil[i].ThanhTien) : "";
+                                document.getElementById("ckpt-" + ii).textContent = searchFil[i].ckPhanTram ? searchFil[i].ckPhanTram : "";
+                                document.getElementById("ckVnd-" + ii).textContent = searchFil[i].CkThanhTien ? formatFromNumber(searchFil[i].CkThanhTien) : "";
+                                document.getElementById("tongVnd-" + ii).textContent = searchFil[i].TongTien ? formatFromNumber(searchFil[i].TongTien) : "";
+                                document.getElementById("khtt-" + ii).textContent = searchFil[i].KhTraTien ? formatFromNumber(searchFil[i].KhTraTien) : "";
+                                document.getElementById("makh-" + ii).textContent = searchFil[i].MaKh ? searchFil[i].MaKh : "";
+                                document.getElementById("tenkh-" + ii).textContent = searchFil[i].TenKh ? searchFil[i].TenKh : "";
+                                document.getElementById("msthue-" + ii).textContent = searchFil[i].MsThue ? searchFil[i].MsThue : "";
+                                document.getElementById("dc-" + ii).textContent = searchFil[i].Diachi ? searchFil[i].Diachi : "";
+                                document.getElementById("gc-" + ii).textContent = searchFil[i].GhiChu ? searchFil[i].GhiChu : "";
+                                document.getElementById("nvban-" + ii).textContent = searchFil[i].NhanVienBan ? searchFil[i].NhanVienBan : "";
+                            }
+                        }
+                   
+
+                }
+
                 function submitForm() {
                     const myForm = document.getElementById('myForm');
                     if (madmItems.length == 0) alert("Hãy chọn mặt hàng!");
@@ -967,18 +1144,22 @@
                     } else if (tr.length == 1) {
                         var idTr = tr[0].id;
                         var idXoa = document.getElementById("ip-id-" + idTr.substring(2, 10)).value;
+
                         if (idXoa != "") {
-                            $.ajax({
-                                url: '@Url.Action("DeletePhieuBanHang", "Ktscs")',
-                                type: 'DELETE',
-                                data: {
-                                    id: idXoa.toString()
-                                },
-                                success: function () {
-                                    alert("Xóa thành công!");
-                                    resetDate();
-                                }
-                            });
+                            // Confirm deletion before proceeding
+                            if (confirm("Bạn có chắc chắn muốn xóa đơn hàng này?")) {
+                                $.ajax({
+                                    url: '@Url.Action("DeletePhieuBanHang", "Ktscs")',
+                                    type: 'DELETE',
+                                    data: {
+                                        id: idXoa.toString()
+                                    },
+                                    success: function () {
+                                        alert("Xóa thành công!");
+                                        resetDate();
+                                    }
+                                });
+                            }
                         } else {
                             alert("Hãy chọn hàng có dữ liệu muốn xóa!");
                         }
@@ -1054,61 +1235,8 @@
                         type: 'GET',
                         data: { fromDate: fromDate, toDate: toDate },
                         success: function (response) {
-                            const table = document.getElementById("data-tb");
-                            while (table.rows.length > 1) {
-                                table.deleteRow(1);
-                            }
                             fil = response;
-                            var size = fil.length >= 15 ? fil.length : 15;
-                            tongData();
-                            for (let i = 1; i <= size; i++) {
-                                table.insertAdjacentHTML('beforeend', `
-                                                    <tr id="t-${i}"  onclick="tractive(this.id)">
-                                                        <td>
-                                                            <input id="ip-id-${i}" hidden type="number"/> 
-                                                            <div id="ngayct-${i}"></div>
-                                                        </td>
-                                                        <td id="soct-${i}"></td>
-                                                        <td id="httt-${i}"></td>
-                                                        <td id="thanhtien-${i}" class="text-end"></td>
-                                                        <td id="ckpt-${i}" class="text-end"></td>
-                                                        <td id="ckVnd-${i}" class="text-end"></td>
-                                                        <td id="tongVnd-${i}" class="text-end"></td>
-                                                        <td id="khtt-${i}" class="text-end"></td>
-                                                        <td id="makh-${i}"></td>
-                                                        <td id="tenkh-${i}"></td>
-                                                        <td id="msthue-${i}"></td>
-                                                        <td id="dc-${i}"></td>
-                                                        <td id="gc-${i}"></td>
-                                                        <td id="nvban-${i}"></td>
-                                                    </tr>
-                                               `);
-                            }
-                            for (let i = 0; i < size; i++) {
-                                let ii = i + 1;
-                                if (i < fil.length) { 
-                                    var date = new Date(fil[i].NgayCtu);
-                                    var dateString = date.toISOString().split('T')[0];
-                                    var formatDate = dateString.split('-')[2] + '-' + dateString.split('-')[1] + '-' + dateString.split('-')[0];
-                                    if (fil[i].id != null) {
-                                        document.getElementById("ip-id-" + ii).value = fil[i].id;
-                                    } else document.getElementById("ip-id-" + ii).value = "";
-                                    document.getElementById("ngayct-" + ii).textContent = fil[i].NgayCtu ? formatDate : "";
-                                    document.getElementById("soct-" + ii).textContent = fil[i].Soctu ? fil[i].Soctu : "";
-                                    document.getElementById("httt-" + ii).textContent = fil[i].HTThanhToan ? fil[i].HTThanhToan : "";
-                                    document.getElementById("thanhtien-" + ii).textContent = fil[i].ThanhTien ? formatFromNumber(fil[i].ThanhTien) : "";
-                                    document.getElementById("ckpt-" + ii).textContent = fil[i].ckPhanTram ? fil[i].ckPhanTram : "";
-                                    document.getElementById("ckVnd-" + ii).textContent = fil[i].CkThanhTien ? formatFromNumber(fil[i].CkThanhTien) : "";
-                                    document.getElementById("tongVnd-" + ii).textContent = fil[i].TongTien ? formatFromNumber(fil[i].TongTien) : "";
-                                    document.getElementById("khtt-" + ii).textContent = fil[i].KhTraTien ? formatFromNumber(fil[i].KhTraTien) : "";
-                                    document.getElementById("makh-" + ii).textContent = fil[i].MaKh ? fil[i].MaKh : "";
-                                    document.getElementById("tenkh-" + ii).textContent = fil[i].TenKh ? fil[i].TenKh : "";
-                                    document.getElementById("msthue-" + ii).textContent = fil[i].MsThue ? fil[i].MsThue : "";
-                                    document.getElementById("dc-" + ii).textContent = fil[i].Diachi ? fil[i].Diachi : "";
-                                    document.getElementById("gc-" + ii).textContent = fil[i].GhiChu ? fil[i].GhiChu : "";
-                                    document.getElementById("nvban-" + ii).textContent = fil[i].NhanVienBan ? fil[i].NhanVienBan : "";
-                                }
-                            }
+                            addToList();
                         }
                     });
                     var today = new Date();
@@ -1148,63 +1276,78 @@
                         type: 'GET',
                         data: { fromDate: fromDate, toDate: toDate },
                         success: function (response) {
-                            const table = document.getElementById("data-tb");
-                            while (table.rows.length > 1) {
-                                table.deleteRow(1);
-                            }
                             fil = response;
-                            var size = fil.length >= 15 ? fil.length : 15;
-                            tongData();
-                            for (let i = 1; i <= size; i++) {
-                                table.insertAdjacentHTML('beforeend', `
-                                                    <tr id="t-${i}"  onclick="tractive(this.id)">
-                                                        <td>
-                                                            <input id="ip-id-${i}" hidden type="number"/>
-                                                            <div id="ngayct-${i}"></div>
-                                                        </td>
-                                                        <td id="soct-${i}"></td>
-                                                        <td id="httt-${i}"></td>
-                                                        <td id="thanhtien-${i}" on="formatNumber(this.id)" class="text-end"></td>
-                                                        <td id="ckpt-${i}" class="text-end"></td>
-                                                        <td id="ckVnd-${i}" class="text-end"></td>
-                                                        <td id="tongVnd-${i}" class="text-end"></td>
-                                                        <td id="khtt-${i}" class="text-end"></td>
-                                                        <td id="makh-${i}"></td>
-                                                        <td id="tenkh-${i}"></td>
-                                                        <td id="msthue-${i}"></td>
-                                                        <td id="dc-${i}"></td>
-                                                        <td id="gc-${i}"></td>
-                                                        <td id="nvban-${i}"></td>
-                                                    </tr>
-                                               `);
-                            }
-                            for (let i = 0; i < size; i++) {
-                                let ii = i + 1;
-                                if (i < fil.length) {
-                                    var date = new Date(fil[i].NgayCtu);
-                                    var dateString = date.toISOString().split('T')[0];
-                                    var formatDate = dateString.split('-')[2] + '-' + dateString.split('-')[1] + '-' + dateString.split('-')[0];
-                                    if (fil[i].id != null) {
-                                        document.getElementById("ip-id-" + ii).value = fil[i].id;
-                                    } else document.getElementById("ip-id-" + ii).value = "";
-                                    document.getElementById("ngayct-" + ii).textContent = fil[i].NgayCtu ? formatDate : "";
-                                    document.getElementById("soct-" + ii).textContent = fil[i].Soctu ? fil[i].Soctu : "";
-                                    document.getElementById("httt-" + ii).textContent = fil[i].HTThanhToan ? fil[i].HTThanhToan : "";
-                                    document.getElementById("thanhtien-" + ii).textContent = fil[i].ThanhTien ? formatFromNumber(fil[i].ThanhTien) : "";
-                                    document.getElementById("ckpt-" + ii).textContent = fil[i].ckPhanTram ? fil[i].ckPhanTram : "";
-                                    document.getElementById("ckVnd-" + ii).textContent = fil[i].CkThanhTien ? formatFromNumber(fil[i].CkThanhTien) : "";
-                                    document.getElementById("tongVnd-" + ii).textContent = fil[i].TongTien ? formatFromNumber(fil[i].TongTien) : "";
-                                    document.getElementById("khtt-" + ii).textContent = fil[i].KhTraTien ? formatFromNumber(fil[i].KhTraTien) : "";
-                                    document.getElementById("makh-" + ii).textContent = fil[i].MaKh ? fil[i].MaKh : "";
-                                    document.getElementById("tenkh-" + ii).textContent = fil[i].TenKh ? fil[i].TenKh : "";
-                                    document.getElementById("msthue-" + ii).textContent = fil[i].MsThue ? fil[i].MsThue : "";
-                                    document.getElementById("dc-" + ii).textContent = fil[i].Diachi ? fil[i].Diachi : "";
-                                    document.getElementById("gc-" + ii).textContent = fil[i].GhiChu ? fil[i].GhiChu : "";
-                                    document.getElementById("nvban-" + ii).textContent = fil[i].NhanVienBan ? fil[i].NhanVienBan : "";
-                                }
-                            }
+                            addToList();
                         }
                     });
+                    var today = new Date();
+                    var dd = String(today.getDate()).padStart(2, '0');
+                    var mm = String(today.getMonth() + 1).padStart(2, '0');
+                    var yyyy = today.getFullYear();
+                    today = yyyy + '-' + mm + '-' + dd;
+                    document.getElementById("date-from").setAttribute("max", today);
+                    document.getElementById("date-to").setAttribute("max", today);
+                    document.getElementById("date-to").setAttribute("min", "");
+                }
+                function removeList(){
+                    const table = document.getElementById("data-tb");
+                    while (table.rows.length > 2) {
+                        table.deleteRow(2);
+                    }
+                }
+                function addToList(){
+                    removeList();
+                    const table = document.getElementById("data-tb");
+                    var size = fil.length >= 15 ? fil.length : 15;
+                    tongData();
+                    for (let i = 1; i <= size; i++) {
+                        table.insertAdjacentHTML('beforeend', `
+                                                                    <tr id="t-${i}"  onclick="tractive(this.id)">
+                                                                        <td>
+                                                                            <input id="ip-id-${i}" hidden type="number"/>
+                                                                            <div id="ngayct-${i}"></div>
+                                                                        </td>
+                                                                        <td id="soct-${i}"></td>
+                                                                        <td id="httt-${i}"></td>
+                                                                        <td id="thanhtien-${i}" on="formatNumber(this.id)" class="text-end"></td>
+                                                                        <td id="ckpt-${i}" class="text-end"></td>
+                                                                        <td id="ckVnd-${i}" class="text-end"></td>
+                                                                        <td id="tongVnd-${i}" class="text-end"></td>
+                                                                        <td id="khtt-${i}" class="text-end"></td>
+                                                                        <td id="makh-${i}"></td>
+                                                                        <td id="tenkh-${i}"></td>
+                                                                        <td id="msthue-${i}"></td>
+                                                                        <td id="dc-${i}"></td>
+                                                                        <td id="gc-${i}"></td>
+                                                                        <td id="nvban-${i}"></td>
+                                                                    </tr>
+                                                               `);
+                    }
+                    for (let i = 0; i < size; i++) {
+                        let ii = i + 1;
+                        if (i < fil.length) {
+                            var date = new Date(fil[i].NgayCtu);
+                            var dateString = date.toISOString().split('T')[0];
+                            var formatDate = dateString.split('-')[2] + '-' + dateString.split('-')[1] + '-' + dateString.split('-')[0];
+                            if (fil[i].id != null) {
+                                document.getElementById("ip-id-" + ii).value = fil[i].id;
+                            } else document.getElementById("ip-id-" + ii).value = "";
+                            document.getElementById("ngayct-" + ii).textContent = fil[i].NgayCtu ? formatDate : "";
+                            document.getElementById("soct-" + ii).textContent = fil[i].Soctu ? fil[i].Soctu : "";
+                            document.getElementById("httt-" + ii).textContent = fil[i].HTThanhToan ? fil[i].HTThanhToan : "";
+                            document.getElementById("thanhtien-" + ii).textContent = fil[i].ThanhTien ? formatFromNumber(fil[i].ThanhTien) : "";
+                            document.getElementById("ckpt-" + ii).textContent = fil[i].ckPhanTram ? fil[i].ckPhanTram : "";
+                            document.getElementById("ckVnd-" + ii).textContent = fil[i].CkThanhTien ? formatFromNumber(fil[i].CkThanhTien) : "";
+                            document.getElementById("tongVnd-" + ii).textContent = fil[i].TongTien ? formatFromNumber(fil[i].TongTien) : "";
+                            document.getElementById("khtt-" + ii).textContent = fil[i].KhTraTien ? formatFromNumber(fil[i].KhTraTien) : "";
+                            document.getElementById("makh-" + ii).textContent = fil[i].MaKh ? fil[i].MaKh : "";
+                            document.getElementById("tenkh-" + ii).textContent = fil[i].TenKh ? fil[i].TenKh : "";
+                            document.getElementById("msthue-" + ii).textContent = fil[i].MsThue ? fil[i].MsThue : "";
+                            document.getElementById("dc-" + ii).textContent = fil[i].Diachi ? fil[i].Diachi : "";
+                            document.getElementById("gc-" + ii).textContent = fil[i].GhiChu ? fil[i].GhiChu : "";
+                            document.getElementById("nvban-" + ii).textContent = fil[i].NhanVienBan ? fil[i].NhanVienBan : "";
+                        }
+                    }
                 }
 
                 $(document).ready(function () {
@@ -1252,18 +1395,22 @@
                     e.preventDefault();
                     var id = $(this).data('tb');
                     var idXoa = document.getElementById("ip-id-" + id.substring(2, 10)).value;
+
                     if (idXoa != "") {
-                        $.ajax({
-                            url: '@Url.Action("DeletePhieuBanHang", "Ktscs")',
-                            type: 'DELETE',
-                            data: {
-                                id: idXoa
-                            },
-                            success: function () {
-                                alert("Xóa thành công!");
-                                resetDate();
-                            }
-                        });
+                        // Confirm deletion before proceeding
+                        if (confirm("Bạn có chắc chắn muốn xóa đơn hàng này?")) {
+                            $.ajax({
+                                url: '@Url.Action("DeletePhieuBanHang", "Ktscs")',
+                                type: 'DELETE',
+                                data: {
+                                    id: idXoa
+                                },
+                                success: function () {
+                                    alert("Xóa thành công!");
+                                    resetDate();
+                                }
+                            });
+                        }
                     } else {
                         alert("Hãy chọn hàng có dữ liệu muốn xóa!");
                     }
@@ -1425,7 +1572,47 @@
                         });
                     });
                 }
-
+                function traHang() {
+                    var tr = document.getElementsByClassName("tr-atv");
+                    if (tr.length == 0) {
+                        alert("Hãy ấn vào đơn bạn muốn trả!");
+                    } else if (tr.length == 1) {
+                        var idTr = tr[0].id;
+                        var donTra;
+                        var idTra = document.getElementById("ip-id-" + idTr.substring(2, 10)).value;
+                        for (let i = 0; i < fil.length; i++) {
+                            if (fil[i].id == idTra) {
+                                donTra = fil[i];
+                            }
+                        }
+                        var sttSc = [];
+                        if (donTra != null) {
+                            for (let i = 0; i < donTra.ktscs.length; i++) {
+                                sttSc.push(donTra.ktscs[i].SttSc)
+                            }
+                        }
+                        console.log(sttSc);
+                        if (idTra != "") {
+                            // Confirm deletion before proceeding
+                            if (confirm("Bạn có chắc chắn muốn trả đơn hàng này?")) {
+                                $.ajax({
+                                    url: '@Url.Action("RefundPackage", "Ktscs")',
+                                    type: 'POST',
+                                    contentType: 'application/json',
+                                    data: JSON.stringify(sttSc),
+                                    success: function () {
+                                        alert("Trả thành công!");
+                                        resetDate();
+                                    }
+                                });
+                            }
+                        } else {
+                            alert("Hãy chọn hàng có dữ liệu muốn trả!");
+                        }
+                    } else {
+                        alert("Chỉ ấn vào 1 đơn bạn muốn trả!");
+                    }
+                }
             </script>
         </div>
     </div>
