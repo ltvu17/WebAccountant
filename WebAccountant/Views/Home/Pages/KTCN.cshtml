@@ -90,10 +90,11 @@
 
                     columns.AddFor(m => m.Vndduno).Caption("Số dư nợ").Format("0,###");
 
-                    columns.AddFor(m => m.Vndduco).Format("0,###");
+                    columns.AddFor(m => m.Vndduco).Caption("Số dư có").Format("0,###");
                 }).ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
                 .ShowBorders(true)
                 .RowAlternationEnabled(true)
+                .Height(800)
                 .Editing(e =>
                 {
                     e.Mode(GridEditMode.Batch)
