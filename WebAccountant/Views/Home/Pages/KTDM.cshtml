@@ -297,35 +297,39 @@
                         {
                             columns.Add().DataField(atrii).Caption(att.KTSCColumn.Description).DataType(GridColumnDataType.Date).MinWidth(att.Width).Fixed(true);
                         } *@
-                        else if (atrii == "Matk" || atrii == "Madm" || atrii == "Tendm" || atrii == "Donvi")
-                        {
-                            columns.Add().DataField(atrii).Caption(att.KTDMColumn.Description).MinWidth(att.Width).Fixed(true);
+                            else if (atrii == "Matk" || atrii == "Madm" || atrii == "Tendm" || atrii == "Donvi")
+                            {
+                                columns.Add().DataField(atrii).Caption(att.KTDMColumn.Description).MinWidth(att.Width).Fixed(true);
+                            }
+                            else
+                            {
+                                columns.Add().DataField(atrii).Caption(att.KTDMColumn.Description).MinWidth(att.Width).Format("0,###");
+                            }
                         }
-                        else
-                        {
-                            columns.Add().DataField(atrii).Caption(att.KTDMColumn.Description).MinWidth(att.Width).Format("0,###");
-                        }
-                    }
-                })
-                .ShowColumnHeaders(true)
-                .DataSource(d => d.StaticJson().Url(@Url.Action("GetData", "Ktdms")).Key("Madm"))
-                .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
-                .RowAlternationEnabled(true).WordWrapEnabled(true)
-                .ShowBorders(true).Paging(paging => paging.PageSize(10))
-                .Height(800)
-                .Pager(pager =>
+                    })
+                    .ShowColumnHeaders(true)
+                    .DataSource(d => d.StaticJson().Url(@Url.Action("GetData", "Ktdms")).Key("Madm"))
+                    .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
+                    .RowAlternationEnabled(true).WordWrapEnabled(true)
+                    .ShowBorders(true).Paging(paging => paging.PageSize(10))
+                    .Height(800)
+                    .Pager(pager =>
+                    {
+                        pager.Visible(true);
+                        pager.DisplayMode(GridPagerDisplayMode.Compact);
+                        pager.ShowPageSizeSelector(true);
+                        pager.AllowedPageSizes(new JS("[10, 15, 25, 40]"));
+                        pager.ShowInfo(true);
+                        pager.ShowNavigationButtons(true);
+                    })
+                    .Editing(e => 
                 {
-                    pager.Visible(true);
-                    pager.DisplayMode(GridPagerDisplayMode.Compact);
-                    pager.ShowPageSizeSelector(true);
-                    pager.AllowedPageSizes(new JS("[10, 15, 25, 40]"));
-                    pager.ShowInfo(true);
-                    pager.ShowNavigationButtons(true);
-                })
-                .Editing(e => e
-                .Mode(GridEditMode.Batch)
-                .AllowDeleting(true)
-                .AllowUpdating(true)
+                e.Mode(GridEditMode.Batch)
+                .AllowUpdating(true).UseIcons(true)
+                .AllowDeleting(true);
+                e.SelectTextOnEditStart(true);
+                e.StartEditAction(GridStartEditAction.DblClick);
+            }
                 ).OnSaving("onSaving")
                 .FocusedRowEnabled(true)
                 .Summary(s => s
