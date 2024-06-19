@@ -52,6 +52,49 @@ namespace WebAccountant.Controllers
             return Json(ktscs);
         }
         [HttpPost]
+        public async Task<object> Batch([FromBody] List<DataChange> changes)
+        {
+            foreach (var change in changes)
+            {
+                Ktdm ktdm;
+
+                if (change.Type == "update" || change.Type == "remove")
+                {
+                    var key = change.Key.ToString();
+                    ktdm = await _ktdmRepo.GetKTDMByKey(key);
+                }
+                else
+                {
+                    ktdm = new Ktdm();
+                }
+
+                if (change.Type == "insert" || change.Type == "update")
+                {
+                    JsonConvert.PopulateObject(change.Data.ToString(), ktdm);
+
+                    if (!TryValidateModel(ktdm))
+                        return BadRequest();
+
+                 /*   if (change.Type == "insert")
+                    {
+                        _nwind.Orders.Add(order);
+                    }*/
+                    if(change.Type == "update")
+                    {
+                        await _ktdmRepo.UpdateKTDM(ktdm);
+                    }
+                    change.Data = ktdm;
+                }
+                else if (change.Type == "remove")
+                {
+                    await _ktdmRepo.Delete(change.Key.ToString());
+                }
+            }
+
+
+            return Ok(changes);
+        }
+        [HttpPost]
         public async Task<IActionResult> SubmitKTDMColunm()
         {
             List<UserKTDMColumn> ids = new();

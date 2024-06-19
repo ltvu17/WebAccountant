@@ -322,6 +322,12 @@
                     pager.ShowInfo(true);
                     pager.ShowNavigationButtons(true);
                 })
+                .Editing(e => e
+                .Mode(GridEditMode.Batch)
+                .AllowDeleting(true)
+                .AllowUpdating(true)
+                ).OnSaving("onSaving")
+                .FocusedRowEnabled(true)
                 .Summary(s => s
                 .RecalculateWhileEditing(true)
                 .TotalItems(items =>
@@ -371,6 +377,33 @@
 </div>
 
 <script>
+    function onSaving(e) {
+        e.cancel = true;
+
+        if (e.changes.length) {
+            e.promise = sendBatchRequest('@Url.RouteUrl(new { controller = "Ktdms", action = "Batch" })', e.changes).done(() => {
+                e.component.refresh(true).done(() => {
+                    e.component.cancelEditData();
+                });
+            });
+        }
+    }
+
+    function sendBatchRequest(url, changes) {
+        var d = $.Deferred();
+
+        $.ajax(url, {
+            method: "POST",
+            data: JSON.stringify(changes),
+            cache: false,
+            contentType: 'application/json',
+            xhrFields: { withCredentials: true }
+        }).done(d.resolve).fail(function (xhr) {
+            d.reject(xhr.responseJSON ? xhr.responseJSON.Message : xhr.statusText);
+        });
+
+        return d.promise();
+    }
     function saveGrid() {
         document.getElementsByClassName("dx-datagrid-save-button")[0].click();
     }
