@@ -32,12 +32,13 @@ namespace WebAccountant.Repository.Implement
 
         public async Task Delete(string key)
         {
-            var keys = JsonConvert.DeserializeObject<IDictionary>(key);
-            var keyMadm = Convert.ToString(keys["Madm"]);
-            var keyMatk = Convert.ToString(keys["Matk"]);
+            /*var keys = JsonConvert.DeserializeObject<IDictionary>(key);
+            var keyMadm = Convert.ToString(keys["Madm"]);*/
+           // var keyMatk = Convert.ToString(keys["Matk"]);
             var model = (await _unitOfWork.KTDMDao.GetAll()).FirstOrDefault(item =>
-                            item.Madm == keyMadm &&
-                            item.Matk == keyMatk);
+                            item.Madm == key
+                            // && item.Matk == keyMatk
+                            );
 
             await _unitOfWork.KTDMDao.RemoveEntity(model);
             await _unitOfWork.SaveChangesAsync();
@@ -324,6 +325,12 @@ namespace WebAccountant.Repository.Implement
         {   
             return (await _unitOfWork.KTDMDao.GetAll()).Select(s => s.KTDMMapper());
         }
+
+        public async Task<Ktdm> GetKTDMByKey(string madm)
+        {
+            return (await _unitOfWork.KTDMDao.Find(s => s.Madm == madm, 1, 1)).FirstOrDefault();
+        }
+
         public async Task<bool> SaveBuyingCartToDB(AddToKTSCDTO item)
         {
             var items = item.ktdmDTOs.ToList();
@@ -1042,6 +1049,13 @@ namespace WebAccountant.Repository.Implement
             var valuesDict = JsonConvert.DeserializeObject<IDictionary>(values);
             PopulateModel(model, valuesDict);
             await _unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task<bool> UpdateKTDM(Ktdm ktdm)
+        {
+            await _unitOfWork.KTDMDao.Update(ktdm);
+            await _unitOfWork.SaveChangesAsync();
+            return true;
         }
 
         public async Task<IEnumerable<KtdmDTO>> UpdateKtdmDTO(string key, string values , List<KtdmDTO> oldCart)

@@ -120,6 +120,18 @@ namespace WebAccountant.DAOs
                 return userKTSCColumnsDAO;
             }
         }
+        private readonly GenericDAO<UserKTDMColumn, LoginContext> userKTDMColumnDAO;
+        public GenericDAO<UserKTDMColumn, LoginContext> UserKTDMColumnDAO
+        {
+            get
+            {
+                if (userKTDMColumnDAO == null)
+                {
+                    return new GenericDAO<UserKTDMColumn, LoginContext>(_loginContext);
+                }
+                return userKTDMColumnDAO;
+            }
+        }
         private readonly GenericDAO<KTSCColumn, LoginContext> kTSCColumnsDAO;
         public GenericDAO<KTSCColumn, LoginContext> KTSCColumnsDAO
         {
@@ -130,6 +142,18 @@ namespace WebAccountant.DAOs
                     return new GenericDAO<KTSCColumn, LoginContext>(_loginContext);
                 }
                 return kTSCColumnsDAO;
+            }
+        }
+        private readonly GenericDAO<KTDMColumn, LoginContext> kTDMColumnsDAO;
+        public GenericDAO<KTDMColumn, LoginContext> KTDMColumnsDAO
+        {
+            get
+            {
+                if (kTDMColumnsDAO == null)
+                {
+                    return new GenericDAO<KTDMColumn, LoginContext>(_loginContext);
+                }
+                return kTDMColumnsDAO;
             }
         }
         public Task SaveChangesAsync()

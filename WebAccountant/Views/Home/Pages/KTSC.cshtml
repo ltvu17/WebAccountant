@@ -249,14 +249,14 @@
                                                 var width = attribute.Where(s => s.KTSCColumnId == item.Id).FirstOrDefault().Width;
                                                 <td style="margin: 5px; padding: 20px; ">
                                                     <input type="checkbox" class="myCheck" id="myCheck" value="@item.Id" name="ids[@Model.ToList().IndexOf(item)]" checked /> @item.Description || Độ rộng
-                                                    <input type="number" value="@width" name="width[@Model.ToList().IndexOf(item)]" style="width: 50px" />
+                                                        <input type="number" value="@width" min="0" name="width[@Model.ToList().IndexOf(item)]" style="width: 50px" />
                                                 </td>
                                             }
                                             else
                                             {
                                                 <td style="margin: 5px;padding: 20px;">
                                                     <input type="checkbox" class="myCheck" id="myCheck" value="@item.Id" name="ids[@Model.ToList().IndexOf(item)]" /> @item.Description || Độ rộng
-                                                    <input type="number" style="width: 50px" name="width[@Model.ToList().IndexOf(item)]" />
+                                                    <input type="number" style="width: 50px" value="0" min="0" name="width[@Model.ToList().IndexOf(item)]" />
                                                 </td>
                                             }
                                         }

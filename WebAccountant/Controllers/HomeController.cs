@@ -10,10 +10,13 @@ namespace WebAccountant.Controllers
         private readonly ILogger<HomeController> _logger;
 
         private readonly IUserKTSCColumnsRepo _userKTSCColumnsRepo;
-        public HomeController(ILogger<HomeController> logger, IUserKTSCColumnsRepo userKTSCColumnsRepo)
+        private readonly IUserKTDMColumnRepo _userKTDMColumnRepo;
+
+        public HomeController(ILogger<HomeController> logger, IUserKTSCColumnsRepo userKTSCColumnsRepo, IUserKTDMColumnRepo userKTDMColumnRepo)
         {
             _logger = logger;
             _userKTSCColumnsRepo = userKTSCColumnsRepo;
+            _userKTDMColumnRepo = userKTDMColumnRepo;
         }
 		public IActionResult Index()
         {
@@ -29,8 +32,12 @@ namespace WebAccountant.Controllers
             ViewData["activeId"] = "7";
             return View("~/Views/Home/Pages/KTCN.cshtml");
         }
-        public IActionResult KTDM()
+        public async Task<IActionResult> KTDM()
         {
+            var KTDMColumns = await _userKTDMColumnRepo.GetAllKTDMColumn();
+            var attribute = await _userKTDMColumnRepo.GetUserKTDMColumn(4);
+            ViewData["KTDMColumn"] = KTDMColumns;
+            ViewData["attribute"] = attribute;
             ViewData["activeId"] = "6";
             return View("~/Views/Home/Pages/KTDM.cshtml");
         }
@@ -46,7 +53,7 @@ namespace WebAccountant.Controllers
         }
         public async Task<IActionResult> KTSC()
         {
-/*            string height = HttpContext.Request.["clientScreenHeight"];
+/*          string height = HttpContext.Request.["clientScreenHeight"];
             string width = HttpContext.Current.Request.Params["clientScreenWidth"];*/
             var KTSCColumns = await _userKTSCColumnsRepo.GetAllKTSCColumn();
             var attribute = await _userKTSCColumnsRepo.GetUserKTSCColumn(4);
