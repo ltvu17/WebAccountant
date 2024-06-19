@@ -12,7 +12,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebAccountant.Models;
 using WebAccountant.ModelsBase;
+using WebAccountant.ModelsLogin;
 using WebAccountant.Repository;
+using WebAccountant.Repository.Implement;
 
 namespace WebAccountant.Controllers
 {
@@ -20,10 +22,12 @@ namespace WebAccountant.Controllers
     public class KtdmsController : Controller
     {
         private readonly IKtdmRepo _ktdmRepo;
+        private readonly IUserKTDMColumnRepo _userKTDMColumnRepo;
         public static List<KtdmDTO> ktdmsDTO = new List<KtdmDTO>();
 
-        public KtdmsController(IKtdmRepo ktdmRepo) {
+        public KtdmsController(IKtdmRepo ktdmRepo, IUserKTDMColumnRepo userKTDMColumnRepo) {
             _ktdmRepo = ktdmRepo;
+            _userKTDMColumnRepo = userKTDMColumnRepo;
         }
         [HttpGet]
         public async Task<IActionResult> GetDto(DataSourceLoadOptions loadOptions)
@@ -40,6 +44,30 @@ namespace WebAccountant.Controllers
                 HttpContext.Session.SetString("cart", data);
             }
             return Json(DataSourceLoader.Load(ktdmsDTO, loadOptions));
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetData()
+        {
+            var ktscs = await _ktdmRepo.GetAllAsync();
+            return Json(ktscs);
+        }
+        [HttpPost]
+        public async Task<IActionResult> SubmitKTDMColunm()
+        {
+            List<UserKTDMColumn> ids = new();
+            var getId = this.Request.Form.SkipLast(1).Where(s => s.Key.Contains("ids")).ToList();
+            var getWidth = this.Request.Form.SkipLast(1).Where(s => s.Key.Contains("width")).ToList();
+            foreach (var id in getId)
+            {
+                var index = id.Key.Substring(id.Key.IndexOf("[") + 1, id.Key.IndexOf("]") - id.Key.IndexOf("[") - 1);
+                ids.Add(new UserKTDMColumn
+                {
+                    KTDMColumnId = Int32.Parse(id.Value[0]),
+                    Width = int.Parse(getWidth.Where(s => s.Key == $"width[{index}]").FirstOrDefault().Value[0]),
+                });
+            }
+            await _userKTDMColumnRepo.AddAllColumnOfUser(4, ids);
+            return RedirectToAction("KTDM", "Home");
         }
         [HttpPut]
         [DisableRequestSizeLimit]

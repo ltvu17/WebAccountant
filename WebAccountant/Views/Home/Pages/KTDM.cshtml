@@ -4,6 +4,7 @@
 @model WebAccountant.ModelsBase.Ktdm
 @{
     Html.RenderPartial("../Home/Header");
+    var ktdmColumn = (List<WebAccountant.ModelsLogin.KTDMColumn>)ViewData["KTDMColumn"];
 }
 <div class="text-center">
     <div class="home-container">
@@ -113,9 +114,59 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="settingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl" style="max-width: 1100px">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" style="color: #119583;" id="exampleModalLabel">Cài đặt cột hiển thị</h5>
+                            <div>
+                                <button type="button" class="btn btn-primary" style="right : 0" onclick="CheckedAll()">Chọn tất cả</button>
+                                <button type="button" class="btn btn-secondary" style="margin : 5px" onclick="UnCheckedAll()">Bỏ chọn tất cả</button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                            </div>
+                        </div>
+                        <div class="modal-body" style="text-align: center">
+                            <form style="display: inline-table" method="post" asp-controller="Ktdms" asp-action="SubmitKTDMColunm">
+                                <table style="text-align : left">
+                                    @for (int i = 0; i < 32; i++)
+                                    {
+                                        <tr style="display : flex">
+                                            @foreach (var item in ktdmColumn.Skip(i * 5).Take(5))
+                                            {
+                                                var attribute = (List<WebAccountant.ModelsLogin.UserKTDMColumn>)ViewData["attribute"];
 
+                                                if (attribute.Any(s => s.KTDMColumnId == item.Id))
+                                                {
+                                                    var width = attribute.Where(s => s.KTDMColumnId == item.Id).FirstOrDefault().Width;
+                                                    <td style="margin: 5px; padding: 20px; ">
+                                                        <input type="checkbox" class="myCheck" id="myCheck" value="@item.Id" name="ids[@ktdmColumn.IndexOf(item)]" checked /> @item.Description || Độ rộng
+                                                        <input type="number" value="@width" min="0" name="width[@ktdmColumn.IndexOf(item)]" style="width: 50px" />
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="margin: 5px;padding: 20px;">
+                                                        <input type="checkbox" class="myCheck" id="myCheck" value="@item.Id" name="ids[@ktdmColumn.IndexOf(item)]" />@item.Description || Độ rộng
+                                                        <input type="number" style="width: 50px" value="0" min="0" name="width[@ktdmColumn.IndexOf(item)]" />
+                                                    </td>
+                                                }
+                                            
+                                            }
+                                        </tr>
+                                    }
+                                </table>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                    <button type="submit" class="btn btn-primary">Lưu</button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
             @*Data Here*@
-            @(
+           @*  @(
                 Html.DevExtreme().DataGrid<WebAccountant.ModelsBase.Ktdm>()
                         .DataSource(ds => ds.Mvc()
                         .Controller("Ktdms")
@@ -219,13 +270,101 @@
                             
                         })
                     )
+                ) *@
+            @(
+                Html.DevExtreme().DataGrid()
+                .ID("gridContainer")
+                .Columns(columns =>
+                {
+                    var attribute = ViewData["attribute"];
+                    foreach (var att in (List<WebAccountant.ModelsLogin.UserKTDMColumn>)attribute)
+                    {
+                        var atrii = att.KTDMColumn.Name.Substring(0, 1).ToUpper() + att.KTDMColumn.Name.Substring(1).ToLower();
+                        var splits = atrii.Split("_");
+                        if (splits.Length > 1)
+                        {
+                            atrii = "";
+                            foreach (var split in splits)
+                            {
+                                atrii += split.Substring(0, 1).ToUpper() + split.Substring(1).ToLower();
+                            }
+                        }
+                        if (atrii == "Ngaylo" || atrii == "Hansudung" || atrii == "NgaybanGanNhat" || atrii == "NgaymuaGanNhat")
+                        {
+                            columns.Add().DataField(atrii).Caption(att.KTDMColumn.Description).DataType(GridColumnDataType.Date).Format("dd/MM/yyyy").MinWidth(att.Width);
+                        }
+                  @*       else if (atrii == "Matk" || atrii == "Madm" || atrii == "Tendm" || atrii == "Donvi")
+                        {
+                            columns.Add().DataField(atrii).Caption(att.KTSCColumn.Description).DataType(GridColumnDataType.Date).MinWidth(att.Width).Fixed(true);
+                        } *@
+                        else if (atrii == "Matk" || atrii == "Madm" || atrii == "Tendm" || atrii == "Donvi")
+                        {
+                            columns.Add().DataField(atrii).Caption(att.KTDMColumn.Description).MinWidth(att.Width).Fixed(true);
+                        }
+                        else
+                        {
+                            columns.Add().DataField(atrii).Caption(att.KTDMColumn.Description).MinWidth(att.Width).Format("0,###");
+                        }
+                    }
+                })
+                .ShowColumnHeaders(true)
+                .DataSource(d => d.StaticJson().Url(@Url.Action("GetData", "Ktdms")).Key("Madm"))
+                .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
+                .RowAlternationEnabled(true).WordWrapEnabled(true)
+                .ShowBorders(true).Paging(paging => paging.PageSize(10))
+                .Height(800)
+                .Pager(pager =>
+                {
+                    pager.Visible(true);
+                    pager.DisplayMode(GridPagerDisplayMode.Compact);
+                    pager.ShowPageSizeSelector(true);
+                    pager.AllowedPageSizes(new JS("[10, 15, 25, 40]"));
+                    pager.ShowInfo(true);
+                    pager.ShowNavigationButtons(true);
+                })
+                .Summary(s => s
+                .RecalculateWhileEditing(true)
+                .TotalItems(items =>
+                {
+                    // Loop through each field used in the columns
+                    var attribute = ViewData["attribute"];
+                    foreach (var col in (List<WebAccountant.ModelsLogin.UserKTDMColumn>)attribute)
+                    {
+                        string atrii = col.KTDMColumn.Name.Substring(0, 1).ToUpper() + col.KTDMColumn.Name.Substring(1).ToLower();
+                        var splits = atrii.Split("_");
+                        if (splits.Length > 1)
+                        {
+                            atrii = "";
+                            foreach (var split in splits)
+                            {
+                                atrii += split.Substring(0, 1).ToUpper() + split.Substring(1).ToLower();
+                            }
+                        }
+                        if (atrii == "Ptchietkhau" || atrii == "Thuesuat" || atrii == "Dgxuat" || atrii == "TonT" || atrii == "VndtonT" 
+                        || atrii == "NhapT" || atrii == "VndnhapT" || atrii == "XuatT" || atrii == "VndxuatT" || atrii == "TonCk"
+                        || atrii == "VndtonCk" || atrii == "Dgban" || atrii == "Dgban1" || atrii == "Dgban2" || atrii == "Dgban3" || atrii == "Dgban4"
+                        || atrii == "Dgnhap1" || atrii == "Dgnhap2" || atrii == "Dgnhap3" || atrii == "Dgnhap4" || atrii == "Dgnhap5" || atrii == "Dgnhap")
+                        {
+                            items.Add().Column(atrii)// Access property dynamically using bracket notation
+                            .SummaryType(SummaryType.Sum)
+                            .DisplayFormat("{0}")
+                            .ValueFormat("0,###");
+                        }
+                    }
+                }))
                 )
+
             <div class="footer-data d-flex justify-content-start">
                 <button class="btn btn-primary width-100" data-bs-toggle="modal" id="btnAdd" data-bs-target="#exampleModal">Thêm</button>
                 @* <button class="btn btn-primary width-100" type="button" id="btnEdit" onclick="onEdit()">Sửa</button> *@
                 <button class="btn btn-primary width-100" type="button" onclick="onDelete()">Xóa</button>
                 <button class="btn btn-primary width-100" type="button" onclick="saveGrid()">Lưu</button>
                 <button class="btn btn-primary width-100" type="button" onclick="redoGrid()">Hoàn tác</button>
+                <div class="d-flex ms-auto" style="right : 0">
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#settingModal">
+                        <img src="~/img/setting.png" style="width: 20px; height: auto" />
+                    </button>
+                </div>
             </div>
         </div>
     </div>
