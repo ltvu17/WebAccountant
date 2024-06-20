@@ -308,11 +308,11 @@
                         }
                     })
                     .ShowColumnHeaders(true)
-                    .DataSource(d => d.StaticJson().Url(@Url.Action("GetData", "Ktdms")).Key("Madm"))
+                .DataSource(d => d.StaticJson().Url(@Url.Action("GetData", "Ktdms")).Key("Madm"))
                     .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
                     .RowAlternationEnabled(true).WordWrapEnabled(true)
                     .ShowBorders(true).Paging(paging => paging.PageSize(10))
-                    .Height(800)
+                    .Height(750)
                     .Pager(pager =>
                     {
                         pager.Visible(true);
@@ -383,7 +383,6 @@
 <script>
     function onSaving(e) {
         e.cancel = true;
-
         if (e.changes.length) {
             e.promise = sendBatchRequest('@Url.RouteUrl(new { controller = "Ktdms", action = "Batch" })', e.changes).done(() => {
                 e.component.refresh(true).done(() => {

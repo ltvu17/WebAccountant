@@ -540,7 +540,7 @@
                         searchFil = fil;
                     }
                     removeList();
-                        var size = searchFil.length >= 15 ? searchFil.length : 15;
+                        var size = searchFil.length >= 18 ? searchFil.length : 18;
                         tongDataSearch();
                         for (let i = 1; i <= size; i++) {
                             table.insertAdjacentHTML('beforeend', `
@@ -1298,7 +1298,7 @@
                 function addToList(){
                     removeList();
                     const table = document.getElementById("data-tb");
-                    var size = fil.length >= 15 ? fil.length : 15;
+                    var size = fil.length >= 18 ? fil.length : 18;
                     tongData();
                     for (let i = 1; i <= size; i++) {
                         table.insertAdjacentHTML('beforeend', `
