@@ -40,41 +40,41 @@
                                         <div class="mb-3 text-start">
                                             <label for="makh" class="col-form-label">Mã đối tượng pháp nhân:</label>
                                             <input type="text" class="form-control" asp-for="Madtpn" id="makh">
-                                            <span asp-validation-for="Madtpn" class="text-danger"></span>
+                                            <span id="valid-makh" class="text-danger"></span>
                                         </div> 
                                         <div class="mb-3 text-start">
                                             <label for="msdn" class="col-form-label">Mã số doanh nghiệp:</label>
                                             <input type="text" class="form-control" asp-for="MsDn" id="msdn">
-                                            @* <span asp-validation-for="MsDn" class="text-danger"></span> *@
+                                            <span id="valid-msdn" class="text-danger"></span>
                                         </div>
                                         <div class="mb-3 text-start">
                                             <label for="dt" class="col-form-label">Điện thoại :</label>
                                             <input type="text" class="form-control" asp-for="Dienthoai" id="dt">
-                                            @* <span asp-validation-for="MsDn" class="text-danger"></span> *@
+                                            <span id="valid-dt" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-7">
                                         <div class="mb-3 text-start">
                                             <label for="tenkh" class="col-form-label">Tên đối tượng pháp nhân:</label>
                                             <input type="text" class="form-control" asp-for="Tendtpn" id="tenkh">
-                                            @* <span asp-validation-for="Tendtpn" class="text-danger"></span> *@
+                                            <span id="valid-tenkh" class="text-danger"></span>
                                         </div>
                                         <div class="mb-3 text-start">
                                             <label for="diachi" class="col-form-label">Địa chỉ:</label>
                                             <input type="text" class="form-control" asp-for="Diachi" id="diachi">
-                                            @* <span asp-validation-for="Diachi" class="text-danger"></span> *@
+                                            <span id="valid-diachi" class="text-danger"></span>
                                         </div>
                                         <div class="mb-3 text-start">
                                             <label for="diachigh" class="col-form-label">Địa chỉ giao hàng:</label>
                                             <input type="text" class="form-control" asp-for="DiachiGh" id="diachigh">
-                                            @* <span asp-validation-for="Diachi" class="text-danger"></span> *@
+                                            <span id="valid-diachigh" class="text-danger"></span>
                                         </div>
                                     </div>
 
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                                    <button type="button" class="btn btn-primary" onclick="submit('add-dtpn')">Thêm</button>
+                                    <button type="button" class="btn btn-primary" onclick="submitModal()">Thêm</button>
                                 </div>
                             </form>
                         </div>
@@ -208,8 +208,52 @@
     function redoGrid() {
         document.getElementsByClassName("dx-datagrid-cancel-button")[0].click();
     }
-    function submit(id) {
-        document.getElementById(id).submit();
+    var kh = [];
+    $.ajax({
+        url: '@Url.Action("Get", "Ktdtpns")',
+        type: 'GET',
+        success: function (result) {
+            if (result.data.length > 0) {
+                kh = result.data;
+            }
+        }
+    });
+    function submitModal() {
+        var makhSubmit = document.getElementById('makh').value;
+        var msdnSubmit = document.getElementById('msdn').value;
+        var dtSubmit = document.getElementById('dt').value;
+        var tenkhSubmit = document.getElementById('tenkh').value;
+        var dcSubmit = document.getElementById('diachi').value;
+        var dcghSubmit = document.getElementById('diachigh').value;
+
+        if (makhSubmit == "") {
+            document.getElementById('valid-makh').textContent = "Không được trống!";
+            return;
+        } else document.getElementById('valid-makh').textContent = "";
+        if (msdnSubmit == "") {
+            document.getElementById('valid-msdn').textContent = "Không được trống!";
+            return;
+        } else document.getElementById('valid-msdn').textContent = "";
+        if (dtSubmit == "") {
+            document.getElementById('valid-dt').textContent = "Không được trống!";
+            return;
+        } else document.getElementById('valid-msdn').textContent = "";
+        if (tenkhSubmit == "") {
+            document.getElementById('valid-tenkh').textContent = "Không được trống!";
+            return;
+        } else document.getElementById('valid-tenkh').textContent = "";
+        if (dcSubmit == "") {
+            document.getElementById('valid-diachi').textContent = "Không được trống!";
+            return;
+        } else document.getElementById('valid-diachi').textContent = "";
+        for (let i = 0; i < kh.length; i++) {
+            if (kh[i].Madtpn == makhSubmit) {
+                document.getElementById('valid-makh').textContent = "Bị trùng!";
+                return;
+            }
+        }
+        alert("Tạo đối tượng pháp nhân thành công!")
+        document.getElementById('add-dtpn').submit();
     }
 
     function onDelete() {

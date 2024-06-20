@@ -49,7 +49,7 @@
                                                autocomplete="off"
                                                placeholder="Nhập mặt hàng(nếu có)..."
                                                onkeyup="SearchNow('list-madm-sugg','input-madm','list-madm-sugg')" />
-                                        <span asp-validation-for="Madm" class="text-danger"></span>
+                                        <span id="valid-madm" class="text-danger"></span>
                                                <input id="edit-madm" type="text" hidden/>
 
                                         <div class="table-container">
@@ -64,46 +64,46 @@
                                     <div class="col-md-8 text-start">
                                         <label for="tendm" class="col-form-label">Tên hàng hóa:</label>
                                         <input type="text" class="form-control" asp-for="Tendm" id="tendm">
-                                        @*<span asp-validation-for="Tendm" class="text-danger"></span> *@
+                                        <span id="valid-tendm" class="text-danger"></span> 
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4 text-start">
                                         <label for="mahh" class="col-form-label">Mã tài khoản:</label>
                                         <input type="text" class="form-control" asp-for="Matk" id="mahh">
-                                        @* <span asp-validation-for="Matk" class="text-danger"></span> *@
+                                        <span id="valid-mahh" class="text-danger"></span>
                                     </div>
                                     <div class="col-md-4 text-start">
                                         <label for="t-dgb" class="col-form-label">Đơn giá bán:</label>
                                         <input type="text" class="form-control" id="t-dgb" onchange="formatAll()" />
                                         <input type="number" min="0" class="form-control" asp-for="Dgban" id="dgb" hidden/>
-                                        @* <span asp-validation-for="Madm" class="text-danger"></span> *@
+                                        <span id="valid-dgb" class="text-danger"></span>
                                     </div>
                                     <div class="col-md-4 text-start">
                                         <label for="t-dgx" class="col-form-label">Đơn giá xuất:</label>
                                         <input type="text" class="form-control" id="t-dgx" onchange="formatAll()">
                                         <input type="number" min="0" class="form-control" asp-for="Dgxuat" id="dgx" hidden />
-                                        @* <span asp-validation-for="Tendm" class="text-danger"></span> *@
+                                        <span id="valid-dgx" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4 text-start">
                                         <label for="dvt" class="col-form-label">Đơn vị tính:</label>
                                         <input type="text" class="form-control" asp-for="Donvi" id="dvt">
-                                        @* <span asp-validation-for="Donvi" class="text-danger"></span> *@
+                                        <span id="valid-dvt" class="text-danger"></span>
                                     </div>
                                     <div class="col-md-4 text-start">
                                         <label for="t-tdk-gt" class="col-form-label">Tồn đầu kì - Giá trị:</label>
                                         <input type="text" class="form-control" id="t-tdk-gt" onchange="formatAll()">
                                         <input type="number" min="0" class="form-control" asp-for="VndtonT" id="tdk-gt" hidden>
-                                        @* <span asp-validation-for="Donvi" class="text-danger"></span> *@
+                                        <span id="valid-tdk-gt" class="text-danger"></span>
                                         </div>
                                     <div class="col-md-4 text-start">
                                         <label for="t-tdk-sl" class="col-form-label">Tồn đầu kì - Số lượng:</label>
                                         <input type="text" class="form-control" id="t-tdk-sl" onchange="formatAll()">
                                         <input type="number" min="0" class="form-control" id="tdk-sl" hidden>
-                                        @* <span asp-validation-for="Tendm" class="text-danger"></span> *@
-                                        </div>
+                                        <span id="valid-tdk-sl" class="text-danger"></span>
+                                     </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" onclick="resetModal()" id="btnClose" data-bs-dismiss="modal">Đóng</button>
@@ -520,29 +520,54 @@
         }
     }
     function submitModal() {
-        /*var eMadm = document.getElementById("edit-madm").value ? document.getElementById("edit-madm").value : null;
-        if (eMadm == null) { 
-            console.log("themdm");
-            var madmDTO = {
-                Madm: document.getElementById('input-madm').value,
-                Matk: document.getElementById('mahh').value,
-                Tendm: document.getElementById('tendm').value,
-                Donvi: document.getElementById('dvt').value,
-                Dgban: document.getElementById('dgb').value,
-                Dgxuat: document.getElementById('dgx').value,
+        var madmSubmit = document.getElementById('input-madm').value;
+        var maktSubmit = document.getElementById('mahh').value;
+        var tendmSubmit = document.getElementById('tendm').value;
+        var dvtSubmit = document.getElementById('dvt').value;
+        var dgbSubmit = document.getElementById('dgb').value;
+        var dgxSubmit = document.getElementById('dgx').value;
+        var tdkgtSubmit = document.getElementById('tdk-gt').value;
+        var tdkslSubmit = document.getElementById('tdk-sl').value;
+        
+        if (madmSubmit == "") {
+            document.getElementById('valid-madm').textContent = "Không được trống!";
+            return;
+        } else document.getElementById('valid-madm').textContent = "";
+        if (tendmSubmit == "") {
+            document.getElementById('valid-tendm').textContent = "Không được trống!";
+            return;
+        } else document.getElementById('valid-tendm').textContent = "";
+        if (maktSubmit == "") {
+            document.getElementById('valid-mahh').textContent = "Không được trống!";
+            return;
+        } else document.getElementById('valid-mahh').textContent = "";
+        if (dvtSubmit == "") {
+            document.getElementById('valid-dvt').textContent = "Không được trống!";
+            return;
+        } else document.getElementById('valid-dvt').textContent = "";
+        if (dgbSubmit < 0) {
+            document.getElementById('valid-dgb').textContent = "Số nhập cần lớn hơn 0!";
+            return;
+        } else document.getElementById('valid-dgb').textContent = "";
+        if (dgxSubmit < 0) {
+            document.getElementById('valid-dgx').textContent = "Số nhập cần lớn hơn 0!";
+            return;
+        } else document.getElementById('valid-dgx').textContent = "";
+        if (tdkgtSubmit < 0) {
+            document.getElementById('valid-tdk-gt').textContent = "Số nhập cần lớn hơn 0!";
+            return;
+        } else document.getElementById('valid-tdk-gt').textContent = "";
+        if (tdkslSubmit < 0) {
+            document.getElementById('valid-tdk-sl').textContent = "Số nhập cần lớn hơn 0!";
+            return;
+        } else document.getElementById('valid-tdk-sl').textContent = "";
+        for (let i = 0; i < madm.length; i++){
+            if(madm[i].Madm == madmSubmit){
+                document.getElementById('valid-madm').textContent = "Bị trùng!";
+                return;
             }
-            $.ajax({
-                url: '@Url.Action("Post", "Ktdms")',
-                type: 'POST',
-                data: madmDTO,
-                success: function (result) {
-                    alert("Tạo thành công!");
-                    $('#btnClose').click();
-                    resetModal();
-                    //location.reload();
-                }
-            });
-        }*/
+        }
+        alert("Tạo danh mục thành công!")
         document.getElementById("form-dm").submit();
 
     }
