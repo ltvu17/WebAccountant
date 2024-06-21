@@ -53,7 +53,13 @@ namespace WebAccountant.Controllers
             var filteredData = ktscBanHangs.Where(m => m.ThanhTien.Contains('-'));
             return Json(filteredData);
         }
-
+        [HttpGet]
+        public async Task<IActionResult> GetNhatKiBanHang()
+        {
+            var ktscBanHangs = await _ktscRepo.GetAllAsync();
+            var filteredData = ktscBanHangs.Where(m => m.Lctg == "HDBR" && m.Tkco == "5111");
+            return Json(filteredData);
+        }
         [HttpGet]
         public async Task<IActionResult> GetSoHoaDon()
         {

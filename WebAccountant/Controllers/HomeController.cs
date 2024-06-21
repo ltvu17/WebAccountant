@@ -86,10 +86,15 @@ namespace WebAccountant.Controllers
         {
             return View("~/Views/Home/Pages/ExportBuyProduct.cshtml");
         }
-        public IActionResult ReturnProduct()
+        public IActionResult ReturnSellProduct()
         {
             ViewData["activeId"] = "12";
             return View("~/Views/Home/Pages/SellProduct/ReturnProduct.cshtml");
+        }
+        public IActionResult DiarySellProduct()
+        {
+            ViewData["activeId"] = "13";
+            return View("~/Views/Home/Pages/SellProduct/DiaryProduct.cshtml");
         }
         public IActionResult Privacy()
         {
