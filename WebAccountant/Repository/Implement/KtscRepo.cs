@@ -162,7 +162,7 @@ namespace WebAccountant.Repository.Implement
         public async Task<IEnumerable<PhieuBanHangDTO>> GetAllDSPhieuBanHang()
         {
             var list = new List<PhieuBanHangDTO>();
-            var items = (await _unitOfWork.KTSCDAO.GetAll()).Where(s => s.Lctg == "HDBR").OrderByDescending(s => s.Ngayct).GroupBy(i => new
+            var items = (await _unitOfWork.KTSCDAO.GetAll()).Where(s => s.Lctg == "HDBR" && !s.IdNghiepvu.Contains("GIAVON") && !s.IdNghiepvu.Contains("CHIETKHAU_HDBR") && !s.IdNghiepvu.Contains("VAT_RA")).OrderByDescending(s => s.Ngayct).GroupBy(i => new
             {
                 i.SoHd,
                 i.Tenkh,
@@ -172,6 +172,55 @@ namespace WebAccountant.Repository.Implement
             foreach (var item in items)
             {
                 var groupItem = item.Where(s => s.Lctg == "HDBR" && !s.Diengiai.Contains("Thuế GTGT đầu ra HĐ") && !s.IdNghiepvu.Contains("GIAVON") && !s.IdNghiepvu.Contains("CHIETKHAU_HDBR") && !s.IdNghiepvu.Contains("VAT_RA")
+                                            && !s.Diengiai.Contains("Chiết khấu theo chứng từ")).ToList();
+                var insertItem = new PhieuBanHangDTO();
+                double tongtien = 0;
+                double thanhTien = 0;
+                double chietKhau = 0;
+                double tongCk = 0;
+                double khTratien = 0;
+                var hthucthanhtoan = "Nợ";
+                foreach (var i in groupItem)
+                {
+                    tongtien += i.TtvndTt;
+                    thanhTien += i.Ttvnd;
+                    chietKhau += i.PtCk;
+                    tongCk += i.Chietkhau;
+                    hthucthanhtoan = i.Httt;
+                    insertItem.ktscs.Add(i);
+                }
+                var key = item.FirstOrDefault();
+                insertItem.id = t;
+                insertItem.TongTien = tongtien.ToString();
+                insertItem.HTThanhToan = hthucthanhtoan;
+                insertItem.NgayCtu = (DateTime)key.Ngayct;
+                insertItem.Soctu = key.Soct;
+                insertItem.ThanhTien = thanhTien.ToString();
+                insertItem.ckPhanTram = key.PtCk.ToString();
+                insertItem.CkThanhTien = tongCk.ToString();
+                insertItem.KhTraTien = khTratien.ToString();
+                insertItem.MaKh = key.Makh;
+                insertItem.TenKh = key.Tenkh;
+                insertItem.Diachi = key.Diachi;
+                list.Add(insertItem);
+                t++;
+            }
+            return list;
+        }
+
+        public async Task<IEnumerable<PhieuBanHangDTO>> GetAllDSPhieuBanHangTraLai()
+        {
+            var list = new List<PhieuBanHangDTO>();
+            var items = (await _unitOfWork.KTSCDAO.GetAll()).Where(s => s.Lctg == "HTL").OrderByDescending(s => s.Ngayct).GroupBy(i => new
+            {
+                i.SoHd,
+                i.Tenkh,
+                i.Ngayct
+            }).ToList();
+            var t = 0;
+            foreach (var item in items)
+            {
+                var groupItem = item.Where(s => s.Lctg == "HTL" && !s.Diengiai.Contains("Thuế GTGT đầu ra HĐ") && !s.IdNghiepvu.Contains("GIAVON") && !s.IdNghiepvu.Contains("CHIETKHAU_HDBR") && !s.IdNghiepvu.Contains("VAT_RA")
                                             && !s.Diengiai.Contains("Chiết khấu theo chứng từ")).ToList();
                 var insertItem = new PhieuBanHangDTO();
                 double tongtien = 0;
@@ -338,19 +387,423 @@ namespace WebAccountant.Repository.Implement
             {
                 var ktsc = (await _unitOfWork.KTSCDAO.Find(s => s.SttSc == item, 1, 1)).FirstOrDefault();
                 if (ktsc == null) continue;
+                ktsc.Lctg = "HTL";
                 ktsc.Dgvnd = -ktsc.Dgvnd;
                 ktsc.Ttvnd = -ktsc.Ttvnd;
                 ktsc.Chietkhau = -ktsc.Chietkhau;
                 ktsc.Thuevnd = -ktsc.Thuevnd;
                 ktsc.TtvndTt = -ktsc.TtvndTt;
+                var phieuXK = (await _unitOfWork.KTSCDAO.Find(s=>s.Lctg == "PNK" && s.Soct == ktsc.Soct && s.Madmco == ktsc.Madmco,1 ,1)).FirstOrDefault();
                 var phieuChietKhau = (await _unitOfWork.KTSCDAO.Find(s => s.IdChungtu == ktsc.IdChungtu && s.IdNghiepvu == "CHIETKHAU_HDBR", 1, 1)).FirstOrDefault();
                 var phieuThueSuat = (await _unitOfWork.KTSCDAO.Find(s => s.IdChungtu == ktsc.IdChungtu && s.IdNghiepvu == "VAT_RA", 1, 1)).FirstOrDefault();
+                phieuXK.Lctg = "PNK_TL";
                 phieuChietKhau.Ttvnd = phieuChietKhau.Ttvnd - ktsc.Chietkhau;
                 phieuThueSuat.Ttvnd = phieuThueSuat.Ttvnd + ktsc.Thuevnd;
             }
 
             await _unitOfWork.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<bool> SavePhieuTraHangToDB(FormBanHangDTO item)
+        {
+            var items = item.ktdmDTOs.ToList();
+            var newGuid = Guid.NewGuid();
+            var customer = (await _unitOfWork.KTDTPNDAO.Find(s => s.Madtpn == item.Makh, 1, 1)).FirstOrDefault();
+            var models = (await _unitOfWork.KTDMDao.GetAll()).IntersectBy(items
+                .Select(x => new { madm = x.Madm, matk = x.Matk }), y => new { madm = y.Madm, matk = y.Matk });
+            if (customer != null && models.Count() > 0)
+            {
+                var modelForId = (await _unitOfWork.KTSCDAO.GetAll()).OrderBy(s => s.SttSapxep).LastOrDefault();
+                var modelForSTT = (await _unitOfWork.KTSCDAO.GetAll()).OrderBy(x => x.SttSc).LastOrDefault();
+                double IdChungtu = 1;
+                double SttSapXep = 0;
+                double stt = 0;
+                if (modelForId != null)
+                {
+                    IdChungtu = modelForId.IdChungtu + 1;
+                }
+                var i = 1;
+                var t = 1;
+                double tongCK = 0;
+                double tongThue = 0;
+                foreach (var model in models)
+                {
+                    var modelDTO = items.FirstOrDefault(
+                            x => x.Madm == model.Madm && x.Matk == x.Matk);
+                    var Ttvnd = -(modelDTO.Soluong * modelDTO.Dgban);
+                    var Giavon = -(modelDTO.Soluong * model.Dgban);
+                    var Chietkhau = -(modelDTO.ChietKhauThanhTien);
+                    var Thuevnd = -(modelDTO.ThueThanhTien);
+                    tongCK += Chietkhau;
+                    tongThue += Thuevnd;
+                    if (modelForId != null)
+                    {
+                        SttSapXep = modelForId.SttSapxep + t;
+                    }
+                    else
+                    {
+                        SttSapXep = 1 + t;
+                    }
+                    if (modelForSTT != null)
+                    {
+                        stt = modelForSTT.SttSc + i;
+                    }
+                    else
+                    {
+                        stt = 1 + i;
+                    }
+                    var insertPhieuHang = new Ktsc()
+                    {
+                        Lctg = "HTL",
+                        SrHd = DateTime.UtcNow.Year.ToString(),
+                        SoHd = "0000" + IdChungtu,
+                        Soct = "00000" + IdChungtu,
+                        NgayHd = item.NgayHToan,
+                        Ngayct = item.NgayCtu,
+                        Diengiai = "DOANH THU",
+                        Tkno = "131",
+                        Madtpnno = customer.Madtpn,
+                        Madtpnco = "",
+                        Tkco = "5111",
+                        MaCt = "",
+                        Madmco = model.Madm,
+                        Tendm = model.Tendm,
+                        Donvi = model.Donvi,
+                        LuongCtu = 0,
+                        Luong = modelDTO.Soluong,
+                        Dgvnd = modelDTO.Dgban,
+                        Ttvnd = Ttvnd,
+                        PtCk = modelDTO.PtChietKhau,
+                        Chietkhau = Chietkhau,
+                        Hdvat = "R",
+                        Tkthue = "33311",
+                        TsGtgt = modelDTO.PtThue.ToString(),
+                        Thuevnd = Thuevnd,
+                        TtvndTt = Ttvnd - Chietkhau + Thuevnd,
+                        Makh = customer.Madtpn,
+                        Tenkh = customer.Tendtpn,
+                        MsDn = customer.MsDn,
+                        Diachi = customer.Diachi,
+                        DiachiNgd = customer.Diachi,
+                        Dgvon = 0,
+                        Gtvon = 0,
+                        LaiGop = modelDTO.Soluong * modelDTO.Dgban,
+                        Tygia = 0,
+                        Ttusd = 0,
+                        Thueusd = 0,
+                        TtusdTt = 0,
+                        Ngayctgs = DateTime.UtcNow,
+                        SttSc = stt,
+                        Thang = DateTime.UtcNow.Month,
+                        Mauser = "QUANLY",
+                        Dgusd = 0,
+                        Tienhang = 0,
+                        Dontrong = 0,
+                        Col11 = 0,
+                        Col12 = 0,
+                        Col13 = 0,
+                        Trangthai = 0,
+                        ChietkhauUsd = 0,
+                        DgGc = modelDTO.Soluong * modelDTO.Dgban,
+                        DgVc = 0,
+                        IdChungtu = IdChungtu,
+                        Model = "T",
+                        SlGc = 0,
+                        SttTt = 0,
+                        ThangN = DateTime.UtcNow.Month,
+                        Thueeur = 0,
+                        TkChietkhau = "5211",
+                        TkXuatkho = "1561",
+                        TnkUsd = 0,
+                        TnkVnd = 0,
+                        TsNk = 0,
+                        TtGc = 0,
+                        TtVc = 0,
+                        Tteur = 0,
+                        Mangd = customer.Madtpn,
+                        HsqdDvt = modelDTO.Soluong,
+                        Luong1 = 0,
+                        Luong2 = 0,
+                        SttBt = t,
+                        Httt = item.HthucThanhToan == 1.ToString() ? "Thanh Toán Trực Tiếp" : "Nợ",
+                        Chietkhau2 = 0,
+                        Thoigiannhap = DateTime.UtcNow.AddHours(7).ToString(),
+                        PtCk2 = 0,
+                        IdNghiepvu = "TIENHANG",
+                        SttSapxep = stt,
+                        Guid = newGuid.ToString(),
+                        SoctN = IdChungtu,
+                        Dgmausac = 0,
+                        Ttmausac = 0,
+                        MaNvBan = item.MaNhanVien
+                    };
+                    var insertPhieuXuat = new Ktsc()
+                    {
+                        Lctg = "PXK_TL",
+                        SrHd = DateTime.UtcNow.Year.ToString(),
+                        SoHd = "0000" + IdChungtu,
+                        Soct = "00000" + IdChungtu,
+                        NgayHd = item.NgayHToan,
+                        Ngayct = item.NgayCtu,
+                        Diengiai = "GIÁ VỐN",
+                        Tkno = "632",
+                        Madtpnno = customer.Madtpn,
+                        Madtpnco = "",
+                        Tkco = "1561",
+                        MaCt = "",
+                        Madmco = model.Madm,
+                        Tendm = model.Tendm,
+                        Donvi = model.Donvi,
+                        LuongCtu = 0,
+                        Luong = modelDTO.Soluong,
+                        Dgvnd = model.Dgban,
+                        Ttvnd = Giavon,
+                        PtCk = 0,
+                        Chietkhau = 0,
+                        Hdvat = "",
+                        Tkthue = "",
+                        TsGtgt = "",
+                        Thuevnd = 0,
+                        TtvndTt = 0,
+                        Makh = customer.Madtpn,
+                        Tenkh = customer.Tendtpn,
+                        MsDn = customer.MsDn,
+                        Diachi = customer.Diachi,
+                        DiachiNgd = customer.Diachi,
+                        Dgvon = 0,
+                        Gtvon = 0,
+                        LaiGop = modelDTO.Soluong * modelDTO.Dgban,
+                        Tygia = 0,
+                        Ttusd = 0,
+                        Thueusd = 0,
+                        TtusdTt = 0,
+                        Ngayctgs = DateTime.UtcNow,
+                        SttSc = stt + 1,
+                        Thang = DateTime.UtcNow.Month,
+                        Mauser = "QUANLY",
+                        Dgusd = 0,
+                        Tienhang = 0,
+                        Dontrong = 0,
+                        Col11 = 0,
+                        Col12 = 0,
+                        Col13 = 0,
+                        Trangthai = 0,
+                        ChietkhauUsd = 0,
+                        DgGc = modelDTO.Soluong * modelDTO.Dgban,
+                        DgVc = 0,
+                        IdChungtu = IdChungtu,
+                        Model = "T",
+                        SlGc = 0,
+                        SttTt = 0,
+                        ThangN = DateTime.UtcNow.Month,
+                        Thueeur = 0,
+                        Mangd = customer.Madtpn,
+                        TkChietkhau = "521",
+                        TkXuatkho = "1561",
+                        TnkUsd = 0,
+                        TnkVnd = 0,
+                        TsNk = 0,
+                        TtGc = 0,
+                        TtVc = 0,
+                        Tteur = 0,
+                        HsqdDvt = modelDTO.Soluong,
+                        Luong1 = 0,
+                        Luong2 = 0,
+                        SttBt = t,
+                        Httt = item.HthucThanhToan == 1.ToString() ? "Thanh Toán Trực Tiếp" : "Nợ",
+                        Chietkhau2 = 0,
+                        Thoigiannhap = DateTime.UtcNow.AddHours(7).ToString(),
+                        PtCk2 = 0,
+                        IdNghiepvu = "GIAVON",
+                        SttSapxep = stt + 1,
+                        Guid = newGuid.ToString(),
+                        SoctN = IdChungtu,
+                        Dgmausac = 0,
+                        Ttmausac = 0,
+                        MaNvBan = item.MaNhanVien
+                    };
+                    await _unitOfWork.KTSCDAO.Add(insertPhieuHang);
+                    await _unitOfWork.KTSCDAO.Add(insertPhieuXuat);
+                    i++;
+                    i++;
+                    t++;
+                };
+                var insertChietKhauPhieuHang = new Ktsc()
+                {
+                    Lctg = "HDBR",
+                    SrHd = DateTime.UtcNow.Year.ToString(),
+                    SoHd = "0000" + IdChungtu,
+                    Soct = "00000" + IdChungtu,
+                    NgayHd = item.NgayHToan,
+                    Ngayct = item.NgayCtu,
+                    Diengiai = "CHIẾT KHẤU",
+                    Tkno = "131",
+                    Madtpnno = customer.Madtpn,
+                    Madtpnco = "",
+                    Tkco = "5111",
+                    MaCt = "",
+                    Madmco = "",
+                    Tendm = "",
+                    Donvi = "",
+                    LuongCtu = 0,
+                    Luong = 0,
+                    Dgvnd = 0,
+                    Ttvnd = -tongCK,
+                    PtCk = 0,
+                    Chietkhau = 0,
+                    Hdvat = "",
+                    Tkthue = "",
+                    TsGtgt = "",
+                    Thuevnd = 0,
+                    TtvndTt = 0,
+                    Makh = customer.Madtpn,
+                    Tenkh = customer.Tendtpn,
+                    MsDn = customer.MsDn,
+                    Diachi = customer.Diachi,
+                    DiachiNgd = customer.Diachi,
+                    Dgvon = 0,
+                    Gtvon = 0,
+                    LaiGop = 0,
+                    Tygia = 0,
+                    Ttusd = 0,
+                    Thueusd = 0,
+                    TtusdTt = 0,
+                    Ngayctgs = DateTime.UtcNow,
+                    SttSc = stt + 2,
+                    Thang = DateTime.UtcNow.Month,
+                    Mauser = "QUANLY",
+                    Dgusd = 0,
+                    Tienhang = 0,
+                    Dontrong = 0,
+                    Col11 = 0,
+                    Col12 = 0,
+                    Col13 = 0,
+                    Trangthai = 0,
+                    ChietkhauUsd = 0,
+                    DgGc = 0,
+                    DgVc = 0,
+                    IdChungtu = IdChungtu,
+                    Model = "T",
+                    SlGc = 0,
+                    SttTt = 0,
+                    ThangN = DateTime.UtcNow.Month,
+                    Thueeur = 0,
+                    TkChietkhau = "5211",
+                    TkXuatkho = "1561",
+                    TnkUsd = 0,
+                    TnkVnd = 0,
+                    TsNk = 0,
+                    TtGc = 0,
+                    TtVc = 0,
+                    Tteur = 0,
+                    Mangd = customer.Madtpn,
+                    HsqdDvt = 0,
+                    Luong1 = 0,
+                    Luong2 = 0,
+                    SttBt = t,
+                    Httt = item.HthucThanhToan == 1.ToString() ? "Thanh Toán Trực Tiếp" : "Nợ",
+                    Chietkhau2 = 0,
+                    Thoigiannhap = DateTime.UtcNow.AddHours(7).ToString(),
+                    PtCk2 = 0,
+                    IdNghiepvu = "CHIETKHAU_HDBR",
+                    SttSapxep = stt + 2,
+                    Guid = newGuid.ToString(),
+                    SoctN = IdChungtu,
+                    Dgmausac = 0,
+                    Ttmausac = 0,
+                    MaNvBan = item.MaNhanVien
+                };
+                var insertThuePhieuHang = new Ktsc()
+                {
+                    Lctg = "HDBR",
+                    SrHd = DateTime.UtcNow.Year.ToString(),
+                    SoHd = "0000" + IdChungtu,
+                    Soct = "00000" + IdChungtu,
+                    NgayHd = item.NgayHToan,
+                    Ngayct = item.NgayCtu,
+                    Diengiai = "Thuế GTGT đầu ra HĐ: 00000" + IdChungtu + "," + item.NgayCtu.ToShortDateString(),
+                    Tkno = "131",
+                    Madtpnno = customer.Madtpn,
+                    Madtpnco = "",
+                    Tkco = "5111",
+                    MaCt = "",
+                    Madmco = "",
+                    Tendm = "",
+                    Donvi = "",
+                    LuongCtu = 0,
+                    Luong = 0,
+                    Dgvnd = 0,
+                    Ttvnd = tongThue,
+                    PtCk = 0,
+                    Chietkhau = 0,
+                    Hdvat = "",
+                    Tkthue = "",
+                    TsGtgt = "",
+                    Thuevnd = 0,
+                    TtvndTt = 0,
+                    Makh = customer.Madtpn,
+                    Tenkh = customer.Tendtpn,
+                    MsDn = customer.MsDn,
+                    Diachi = customer.Diachi,
+                    DiachiNgd = customer.Diachi,
+                    Dgvon = 0,
+                    Gtvon = 0,
+                    LaiGop = 0,
+                    Tygia = 0,
+                    Ttusd = 0,
+                    Thueusd = 0,
+                    TtusdTt = 0,
+                    Ngayctgs = DateTime.UtcNow,
+                    SttSc = stt + 3,
+                    Thang = DateTime.UtcNow.Month,
+                    Mauser = "QUANLY",
+                    Dgusd = 0,
+                    Tienhang = 0,
+                    Dontrong = 0,
+                    Col11 = 0,
+                    Col12 = 0,
+                    Col13 = 0,
+                    Trangthai = 0,
+                    ChietkhauUsd = 0,
+                    DgGc = 0,
+                    DgVc = 0,
+                    IdChungtu = IdChungtu,
+                    Model = "T",
+                    SlGc = 0,
+                    SttTt = 0,
+                    ThangN = DateTime.UtcNow.Month,
+                    Thueeur = 0,
+                    TkChietkhau = "5211",
+                    TkXuatkho = "1561",
+                    TnkUsd = 0,
+                    TnkVnd = 0,
+                    TsNk = 0,
+                    TtGc = 0,
+                    TtVc = 0,
+                    Tteur = 0,
+                    Mangd = customer.Madtpn,
+                    HsqdDvt = 0,
+                    Luong1 = 0,
+                    Luong2 = 0,
+                    SttBt = t + 1,
+                    Httt = item.HthucThanhToan == 1.ToString() ? "Thanh Toán Trực Tiếp" : "Nợ",
+                    Chietkhau2 = 0,
+                    Thoigiannhap = DateTime.UtcNow.AddHours(7).ToString(),
+                    PtCk2 = 0,
+                    IdNghiepvu = "VAT_RA",
+                    SttSapxep = stt + 3,
+                    Guid = newGuid.ToString(),
+                    SoctN = IdChungtu,
+                    Dgmausac = 0,
+                    Ttmausac = 0,
+                    MaNvBan = item.MaNhanVien
+                };
+                await _unitOfWork.KTSCDAO.Add(insertChietKhauPhieuHang);
+                await _unitOfWork.KTSCDAO.Add(insertThuePhieuHang);
+            }
+            await _unitOfWork.SaveChangesAsync();
+            return models.Any();
         }
 
         public async Task Update(string key, string values)
