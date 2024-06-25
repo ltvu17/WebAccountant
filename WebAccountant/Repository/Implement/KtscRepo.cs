@@ -26,6 +26,14 @@ namespace WebAccountant.Repository.Implement
             return result;
         }
 
+        public async Task<EntityEntry<Ktsc>> AddPhieuThuTien(Ktsc entity)
+        {
+            entity.Lctg = "PTT";
+            var result = await _unitOfWork.KTSCDAO.Add(entity);
+            await _unitOfWork.SaveChangesAsync();
+            return result;
+        }
+
         public async Task Delete(string key)
         {
             var keyParse = Double.TryParse(key, out var valueParse);

@@ -1,4 +1,5 @@
-﻿using WebAccountant.Models;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using WebAccountant.Models;
 using WebAccountant.ModelsBase;
 
 namespace WebAccountant.Repository
@@ -16,5 +17,6 @@ namespace WebAccountant.Repository
         public Task<bool> RefundPackageSell(IEnumerable<double> sttSc);
         public Task<bool> DeletePhieuBanHang(int id);
         public Task<bool> DeletePhieuMuaHang(int id);
+        public Task<EntityEntry<Ktsc>> AddPhieuThuTien(Ktsc entity);
     }
 }

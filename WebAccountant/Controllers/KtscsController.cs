@@ -272,8 +272,14 @@ namespace WebAccountant.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPhieuThuTien(Ktsc phieuThuTien)
         {
-            //var ktscColumns = await _ktscRepo.SavePhieuTraHangToDB(phieuBanHangDTOs);
+            var ktscColumns = await _ktscRepo.AddPhieuThuTien(phieuThuTien);
             return Ok();
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetPhieuThuTien(DataSourceLoadOptions loadOptions)
+        {
+            var ktscs = (await _ktscRepo.GetAllAsync()).Where(s=>s.Lctg == "PTT");
+            return Json(DataSourceLoader.Load(ktscs, loadOptions));
         }
     }
 }
