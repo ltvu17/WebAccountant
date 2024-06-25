@@ -289,7 +289,7 @@
                                     <div class=" text-start">
                                         <label for="httt" class="col-form-label">Hình thức thanh toán</label>
                                         <select class="form-select b-radius-3 height-30 width-pt-100 t-s-12" asp-for="HthucThanhToan">
-                                            <option value="1">Thanh toán trực tiếp</option>
+                                            <option value="1">Tiền mặt</option>
                                             <option value="2">Nợ</option>
                                         </select>
                                     </div>
@@ -1521,14 +1521,14 @@
 
                 document.getElementById('list-dm').onkeypress = function (e) {
                     exist.forEach(num => {
-                        input = document.getElementById("soluong-" + num);
+                        var input = document.getElementById("soluong-" + num);
                         input.addEventListener('keydown', function (event) {
                             if (event.key === 'Enter') {
                                 var inputTo = document.getElementById("dongia-" + num);
                                 inputTo.focus();
                             }
                         });
-                        var input = document.getElementById("dongia-" + num);
+                        input = document.getElementById("dongia-" + num);
                         input.addEventListener('keydown', function (event) {
                             if (event.key === 'Enter') {
                                 var inputTo = document.getElementById("input-tientong-" + num);

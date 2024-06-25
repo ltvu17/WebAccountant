@@ -54,11 +54,11 @@ namespace WebAccountant.Controllers
             return Json(filteredData);
         }
         [HttpGet]
-        public async Task<IActionResult> GetNhatKiBanHang()
+        public async Task<IActionResult> GetNhatKiBanHang(DataSourceLoadOptions loadOptions)
         {
             var ktscBanHangs = await _ktscRepo.GetAllAsync();
             var filteredData = ktscBanHangs.Where(m => m.Lctg == "HDBR" && m.Tkco == "5111");
-            return Json(filteredData);
+            return Json(DataSourceLoader.Load(filteredData, loadOptions));
         }
         [HttpGet]
         public async Task<IActionResult> GetSoHoaDon()

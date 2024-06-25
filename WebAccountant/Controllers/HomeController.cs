@@ -96,6 +96,11 @@ namespace WebAccountant.Controllers
             ViewData["activeId"] = "13";
             return View("~/Views/Home/Pages/SellProduct/DiaryProduct.cshtml");
         }
+        public IActionResult CollectMoneySellProduct()
+        {
+            ViewData["activeId"] = "14";
+            return View("~/Views/Home/Pages/SellProduct/CollectMoney.cshtml");
+        }
         public IActionResult Privacy()
         {
             return View();
