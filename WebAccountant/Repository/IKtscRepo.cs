@@ -6,6 +6,8 @@ namespace WebAccountant.Repository
     public interface IKtscRepo : IBaseRepo<Ktsc>
     {
         public Task<IEnumerable<PhieuBanHangDTO>> GetAllDSPhieuBanHang();
+        public Task<IEnumerable<PhieuBanHangDTO>> GetAllDSPhieuBanHangTraLai();
+        public Task<bool> SavePhieuTraHangToDB(FormBanHangDTO item);
         public Task<IEnumerable<PhieuMuaHangDTO>> GetAllDSPhieuMuaHang();
         public Task<FormBanHangDTO> GetDetailPhieuBanHang(int id);
         public Task<AddToKTSCDTO> GetDetailPhieuMuaHang(int id);
