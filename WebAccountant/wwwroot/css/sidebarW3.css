@@ -21,7 +21,15 @@
 .drop-active {
     background-color: rgb(186, 206, 165, 0.80);
 }
-#btn-dm:hover:not(.active) {
+#btn-danhmuc:hover:not(.active) {
+    background-color: #555;
+    color: white;
+}
+#btn-bh:hover:not(.active) {
+    background-color: #555;
+    color: white;
+}
+#btn-mh:hover:not(.active) {
     background-color: #555;
     color: white;
 }

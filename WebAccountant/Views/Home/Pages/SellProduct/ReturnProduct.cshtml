@@ -1,7 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@model WebAccountant.Models.FormBanHangDTO
+﻿@model WebAccountant.Models.FormBanHangDTO
 @{
     Html.RenderPartial("../Home/Header");
 }
@@ -92,11 +89,11 @@
 
                 })
             ))*@
-            <div class="footer-data d-flex justify-content-start">
-                <button class="btn btn-primary width-100" type="button" onclick="openPhieu()" id="btnAdd">Phiếu trả hàng</button>
-             @*    <button class="btn btn-primary width-100" type="button" onclick="onEdit()">Sửa</button>
-                <button class="btn btn-primary width-100" type="button" onclick="onDelete()">Xóa</button> *@
-            </div>
+                <div class="footer-data d-flex justify-content-start">
+                    <button class="btn btn-primary width-100" type="button" onclick="openPhieu()" id="btnAdd">Phiếu trả hàng</button>
+                 @*    <button class="btn btn-primary width-100" type="button" onclick="onEdit()">Sửa</button>
+                    <button class="btn btn-primary width-100" type="button" onclick="onDelete()">Xóa</button> *@
+                </div>
             </div>
             <form id="myForm" class="d-none" asp-controller="Ktdms" asp-action="SubmitCartToSave">
                 <div class="top-content">
@@ -418,15 +415,7 @@
     var fil = [];
     function loadBill() {
     }
-    window.addEventListener('resize', function () {
-        maxWidthTb();
-    });
-    function maxWidthTb() {
-        var nav = document.getElementById("navne");
-        $('#data-tb').css('max-width', nav.offsetWidth + 'px');
-        $('#table-tong').css('max-width', nav.offsetWidth + 'px');
-        $('#tong-phieu').css('max-width', nav.offsetWidth + 'px');
-    }
+    
     function getLastNumber(str) {
         const match = str.match(/\d+$/);
         if (match) {
@@ -613,8 +602,6 @@
         tr.querySelector('#thue-vnd-' + numId).value = 0;
         loadBill();
         countTotal();
-    }
-    function loadBill() {
     }
     var makh = [
         {
@@ -874,57 +861,58 @@
         loadBill();
     }
     document.getElementById('list-dm').onkeypress = function (e) {
-        exist.forEach(num => {
-            var input = document.getElementById("soluong-" + num);
-            input.addEventListener('keydown', function (event) {
-                console.log("híadhiahdsihaid");
-                if (event.key === 'Enter') {
-                    var inputTo = document.getElementById("dongia-" + num);
-                    inputTo.focus();
-                }
+            exist.forEach(num => {
+                var input = document.getElementById("soluong-" + num);
+                input.addEventListener('keydown', function (event) {
+
+                    if (event.key === 'Enter') {
+                        var inputTo = document.getElementById("dongia-" + num);
+                        inputTo.focus();
+                    }
+                });
+                input = document.getElementById("dongia-" + num);
+                input.addEventListener('keydown', function (event) {
+                    if (event.key === 'Enter') {
+                        var inputTo = document.getElementById("input-tientong-" + num);
+                        inputTo.focus();
+                    }
+                });
+                input = document.getElementById("input-tientong-" + num);
+                input.addEventListener('keydown', function (event) {
+                    if (event.key === 'Enter') {
+                        var inputTo = document.getElementById("ck-" + num);
+                        inputTo.focus();
+                    }
+                });
+                input = document.getElementById("ck-" + num);
+                input.addEventListener('keydown', function (event) {
+                    if (event.key === 'Enter') {
+                        var inputTo = document.getElementById("ck-vnd-" + num);
+                        inputTo.focus();
+                    }
+                });
+                input = document.getElementById("ck-vnd-" + num);
+                input.addEventListener('keydown', function (event) {
+                    if (event.key === 'Enter') {
+                        var inputTo = document.getElementById("thue-" + num);
+                        inputTo.focus();
+                    }
+                });
+                input = document.getElementById("thue-" + num);
+                input.addEventListener('keydown', function (event) {
+                    if (event.key === 'Enter') {
+                        var inputTo = document.getElementById("thue-vnd-" + num);
+                        inputTo.focus();
+                    }
+                });
+                input = document.getElementById("thue-vnd-" + num);
+                input.addEventListener('keydown', function (event) {
+                    if (event.key === 'Enter') {
+                        var inputTo = document.getElementById("input-thanhtien-" + num);
+                        inputTo.focus();
+                    }
+                });
             });
-            input = document.getElementById("dongia-" + num);
-            input.addEventListener('keydown', function (event) {
-                if (event.key === 'Enter') {
-                    var inputTo = document.getElementById("input-tientong-" + num);
-                    inputTo.focus();
-                }
-            });
-            input = document.getElementById("input-tientong-" + num);
-            input.addEventListener('keydown', function (event) {
-                if (event.key === 'Enter') {
-                    var inputTo = document.getElementById("ck-" + num);
-                    inputTo.focus();
-                }
-            });
-            input = document.getElementById("ck-" + num);
-            input.addEventListener('keydown', function (event) {
-                if (event.key === 'Enter') {
-                    var inputTo = document.getElementById("ck-vnd-" + num);
-                    inputTo.focus();
-                }
-            });
-            input = document.getElementById("ck-vnd-" + num);
-            input.addEventListener('keydown', function (event) {
-                if (event.key === 'Enter') {
-                    var inputTo = document.getElementById("thue-" + num);
-                    inputTo.focus();
-                }
-            });
-            input = document.getElementById("thue-" + num);
-            input.addEventListener('keydown', function (event) {
-                if (event.key === 'Enter') {
-                    var inputTo = document.getElementById("thue-vnd-" + num);
-                    inputTo.focus();
-                }
-            });
-            input = document.getElementById("thue-vnd-" + num);
-            input.addEventListener('keydown', function (event) {
-                if (event.key === 'Enter') {
-                    var inputTo = document.getElementById("input-thanhtien-" + num);
-                    inputTo.focus();
-                }
-            });
-        });
+        
     }
 </script>
