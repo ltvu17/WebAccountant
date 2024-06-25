@@ -36,15 +36,15 @@
         <a style="text-align:end">Nhật kí mua hàng</a>
         <a style="text-align:end">Báo cáo mua hàng</a> *@
     </div>
-    <div class="d-flex justify-content-between" id="btn-dm" onclick="opendm(this.id)">
+    <div class="d-flex justify-content-between" id="btn-danhmuc" onclick="opendm(this.id)">
         <a>Danh mục</a>
-        <div id="arrow-dm" style="width:40px; height:auto; text-align:center; align-content:center">
+        <div id="arrow-danhmuc" style="width:40px; height:auto; text-align:center; align-content:center">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8" />
             </svg>
         </div>
     </div>
-    <div class="d-none" id="list-dm">
+    <div class="d-none" id="list-danhmuc">
         <a id="6" style="text-align:end" asp-controller="Home" asp-action="KTDM">Hàng hóa</a>
         <a id="5" style="text-align:end" asp-controller="Home" asp-action="KTDTPN">Khách hàng</a>
         <a id="4" style="text-align:end" asp-controller="Home" asp-action="KTLCTG">Các loại chứng từ</a>
@@ -62,9 +62,9 @@
         var activeId = @ViewData["activeId"]
             document.getElementById(activeId).classList.add("active");
         if (activeId == "7" || activeId == "6" || activeId == "5" || activeId == "4") {
-            document.getElementById('list-dm').classList.remove('d-none');
-            document.getElementById('btn-dm').classList.add('drop-active');
-            document.getElementById('arrow-dm').innerHTML = `<svg width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+            document.getElementById('list-danhmuc').classList.remove('d-none');
+            document.getElementById('btn-danhmuc').classList.add('drop-active');
+            document.getElementById('arrow-danhmuc').innerHTML = `<svg width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1"/>
                     </svg>`;
             dmOpen = true;
@@ -92,7 +92,7 @@
         var open = false;
         if (split[1] == "bh") open = bhOpen;
         else if (split[1] == "mh") open = mhOpen;
-        else if (split[1] == "dm") open = dmOpen;
+        else if (split[1] == "danhmuc") open = dmOpen;
         if (!open) {
             document.getElementById('list-'+split[1]).classList.remove('d-none');
             document.getElementById('btn-'+split[1]).classList.add('drop-active');
@@ -101,7 +101,7 @@
             </svg>`;
             if (split[1] == "bh") bhOpen = true;
             else if (split[1] == "mh") mhOpen = true;
-            else if (split[1] == "dm") dmOpen = true;
+            else if (split[1] == "danhmuc") dmOpen = true;
         }
         else {
             document.getElementById('list-'+split[1]).classList.add('d-none');
@@ -111,7 +111,7 @@
                 </svg>`;
             if (split[1] == "bh") bhOpen = false;
             else if (split[1] == "mh") mhOpen = false;
-            else if (split[1] == "dm") dmOpen = false;
+            else if (split[1] == "danhmuc") dmOpen = false;
         }
     }
 </script>
