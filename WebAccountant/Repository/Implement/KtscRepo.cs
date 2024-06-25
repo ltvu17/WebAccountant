@@ -393,7 +393,7 @@ namespace WebAccountant.Repository.Implement
                 ktsc.Chietkhau = -ktsc.Chietkhau;
                 ktsc.Thuevnd = -ktsc.Thuevnd;
                 ktsc.TtvndTt = -ktsc.TtvndTt;
-                var phieuXK = (await _unitOfWork.KTSCDAO.Find(s=>s.Lctg == "PNK" && s.Soct == ktsc.Soct && s.Madmco == ktsc.Madmco,1 ,1)).FirstOrDefault();
+                var phieuXK = (await _unitOfWork.KTSCDAO.Find(s=>s.Lctg == "PXK" && s.Soct == ktsc.Soct && s.Madmco == ktsc.Madmco,1 ,1)).FirstOrDefault();
                 var phieuChietKhau = (await _unitOfWork.KTSCDAO.Find(s => s.IdChungtu == ktsc.IdChungtu && s.IdNghiepvu == "CHIETKHAU_HDBR", 1, 1)).FirstOrDefault();
                 var phieuThueSuat = (await _unitOfWork.KTSCDAO.Find(s => s.IdChungtu == ktsc.IdChungtu && s.IdNghiepvu == "VAT_RA", 1, 1)).FirstOrDefault();
                 phieuXK.Lctg = "PNK_TL";
