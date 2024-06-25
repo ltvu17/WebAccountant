@@ -269,5 +269,11 @@ namespace WebAccountant.Controllers
             var ktscColumns = await _ktscRepo.SavePhieuTraHangToDB(phieuBanHangDTOs);
             return Ok();
         }
+        [HttpPost]
+        public async Task<IActionResult> AddPhieuThuTien(Ktsc phieuThuTien)
+        {
+            //var ktscColumns = await _ktscRepo.SavePhieuTraHangToDB(phieuBanHangDTOs);
+            return Ok();
+        }
     }
 }
