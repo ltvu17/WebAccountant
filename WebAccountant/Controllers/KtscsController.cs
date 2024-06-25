@@ -267,7 +267,7 @@ namespace WebAccountant.Controllers
         public async Task<IActionResult> AddPhieuTraHang(FormBanHangDTO phieuBanHangDTOs)
         {
             var ktscColumns = await _ktscRepo.SavePhieuTraHangToDB(phieuBanHangDTOs);
-            return Ok();
+            return RedirectToAction("ReturnSellProduct", "Home"); ;
         }
         [HttpPost]
         public async Task<IActionResult> AddPhieuThuTien(Ktsc phieuThuTien)

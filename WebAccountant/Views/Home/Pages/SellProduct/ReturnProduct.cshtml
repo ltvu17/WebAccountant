@@ -95,7 +95,7 @@
                     <button class="btn btn-primary width-100" type="button" onclick="onDelete()">Xóa</button> *@
                 </div>
             </div>
-            <form id="myForm" class="d-none" asp-controller="Ktdms" asp-action="SubmitCartToSave">
+            <form id="myForm" class="d-none" asp-controller="Ktscs" asp-action="AddPhieuTraHang">
                 <div class="top-content">
                     @*Content*@
                     <div class="row">
@@ -391,6 +391,7 @@
                         </div>
                         <div>
                             @* <button class="btn btn-warning t-s-12 height-30" id="exportBill" onclick="exportPDF()" type="button">Xuất hóa đơn</button> *@
+                            <button class="btn btn-danger t-s-12 height-30" type="button" onclick="closePhieu()">Quay lại</button>
                             <button class="btn btn-primary t-s-12 height-30" id="saveButton" type="button" onclick="submitForm()">Lưu hàng trả</button>
                         </div>
                     </div>
@@ -413,9 +414,19 @@
 
     var searchFil = [];
     var fil = [];
+    $.ajax({
+        url: '@Url.Action("GetSoHoaDon", "Ktscs")',
+        type: 'GET',
+        success: function (result) {
+            $("#sohd").val(`0000${result}`);
+        }
+    });
     function loadBill() {
     }
-    
+    function closePhieu() { 
+        document.getElementById("myForm").classList.add("d-none");
+        document.getElementById("traData").classList.remove("d-none");
+    }
     function getLastNumber(str) {
         const match = str.match(/\d+$/);
         if (match) {
