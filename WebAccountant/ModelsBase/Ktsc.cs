@@ -28,12 +28,12 @@ namespace WebAccountant.ModelsBase
         public string? Tendm { get; set; }
         public string? DonviCtu { get; set; }
         public string? Donvi { get; set; }
-        public double LuongCtu { get; set; }
-        public double Luong { get; set; }
-        public double Dgvnd { get; set; }
-        public double Ttvnd { get; set; }
-        public double PtCk { get; set; }
-        public double Chietkhau { get; set; }
+        public double LuongCtu { get; set; } = 0;
+        public double Luong { get; set; }= 0;
+        public double Dgvnd { get; set; } = 0;
+        public double Ttvnd { get; set; } = 0;
+        public double PtCk { get; set; } = 0;
+        public double Chietkhau { get; set; } = 0;
         public string? Hdvat { get; set; }
         public string? Tkthue { get; set; }
         public string? TsGtgt { get; set; }
@@ -48,19 +48,19 @@ namespace WebAccountant.ModelsBase
         public string? Khachhang { get; set; }
         public string? Ghichu { get; set; }
         public string? NvBan { get; set; }
-        public double Dgvon { get; set; }
-        public double Gtvon { get; set; }
-        public double LaiGop { get; set; }
-        public double Tygia { get; set; }
-        public double Ttusd { get; set; }
-        public double Thueusd { get; set; }
-        public double TtusdTt { get; set; }
-        public string? Soctgs { get; set; }
+        public double Dgvon { get; set; } = 0;
+        public double Gtvon { get; set; } = 0;
+        public double LaiGop { get; set; } = 0;
+        public double Tygia { get; set; } = 0;
+        public double Ttusd { get; set; } = 0;
+        public double Thueusd { get; set; } = 0;
+        public double TtusdTt { get; set; } = 0;
+        public string? Soctgs { get; set; } 
         public DateTime? Ngayctgs { get; set; }
-        public double SttSc { get; set; }
+        public double SttSc { get; set; } = 0;
         public string? DtNhan { get; set; }
         public string? DtXuat { get; set; }
-        public double Thang { get; set; }
+        public double Thang { get; set; } = 0;
         public string? SoHopdong { get; set; }
         public string? Mauser { get; set; }
         public string? Matttu { get; set; }
@@ -77,25 +77,25 @@ namespace WebAccountant.ModelsBase
         public string? Kyhieu { get; set; }
         public string? Mangd { get; set; }
         public string? Diengiai2 { get; set; }
-        public double Dgusd { get; set; }
-        public double Tienhang { get; set; }
+        public double Dgusd { get; set; } = 0;
+        public double Tienhang { get; set; } = 0;
         public string? TenhhIn { get; set; }
         public string? Httt { get; set; }
         public string? Invoi { get; set; }
         public string? Masanpham { get; set; }
-        public double Dontrong { get; set; }
+        public double Dontrong { get; set; } = 0;
         public string? MaNvBan { get; set; }
         public string? SoctU { get; set; }
-        public double Col11 { get; set; }
-        public double Col12 { get; set; }
-        public double Col13 { get; set; }
+        public double Col11 { get; set; } = 0;
+        public double Col12 { get; set; } = 0;
+        public double Col13 { get; set; } = 0;
         public string? Danhdau { get; set; }
         public double? Trangthai { get; set; }
-        public double ChietkhauUsd { get; set; }
-        public double DgGc { get; set; }
-        public double DgVc { get; set; }
+        public double ChietkhauUsd { get; set; } = 0;
+        public double DgGc { get; set; } = 0;
+        public double DgVc { get; set; } = 0;
         public DateTime? Hansudung { get; set; }
-        public double IdChungtu { get; set; }
+        public double IdChungtu { get; set; } = 0;
         public string? KhmHd { get; set; }
         public string? Kxldg { get; set; }
         public string? Lenhsx { get; set; }
@@ -116,30 +116,30 @@ namespace WebAccountant.ModelsBase
         public string? Nhasanxuat { get; set; }
         public string? Nhomkh { get; set; }
         public string? NoidungSc { get; set; }
-        public double SlGc { get; set; }
+        public double SlGc { get; set; } = 0;
         public string? SoPt { get; set; }
         public string? Sokheuoc { get; set; }
-        public double SttTt { get; set; }
+        public double SttTt { get; set; } = 0;
         public string? TenTiepThi { get; set; }
         public string? TenctSc { get; set; }
         public string? Tenytcpno { get; set; }
-        public double ThangN { get; set; }
-        public double Thueeur { get; set; }
+        public double ThangN { get; set; } = 0;
+        public double Thueeur { get; set; } = 0;
         public string? TkChietkhau { get; set; }
         public string? TkXuatkho { get; set; }
-        public double TnkUsd { get; set; }
-        public double TnkVnd { get; set; }
-        public double TsNk { get; set; }
-        public double TtGc { get; set; }
-        public double TtVc { get; set; }
-        public double Tteur { get; set; }
+        public double TnkUsd { get; set; } = 0;
+        public double TnkVnd { get; set; } = 0;
+        public double TsNk { get; set; } = 0;
+        public double TtGc { get; set; } = 0;
+        public double TtVc { get; set; } = 0;
+        public double Tteur { get; set; }= 0;
         public string? Donvi1 { get; set; }
         public string? Donvi2 { get; set; }
-        public double HsqdDvt { get; set; }
-        public double Luong1 { get; set; }
-        public double Luong2 { get; set; }
+        public double HsqdDvt { get; set; } = 0;
+        public double Luong1 { get; set; } = 0;
+        public double Luong2 { get; set; } = 0;
         public string? Mabpsx { get; set; }
-        public double SttBt { get; set; }
+        public double SttBt { get; set; } = 0;
         public string? Tendtgt { get; set; }
         public string? Imei { get; set; }
         public string? Madonhang { get; set; }
@@ -147,19 +147,19 @@ namespace WebAccountant.ModelsBase
         public string? MadonhangMua { get; set; }
         public string? Manhomdt1 { get; set; }
         public string? Tennhomdt1 { get; set; }
-        public double Chietkhau2 { get; set; }
+        public double Chietkhau2 { get; set; } = 0;
         public string? IdUpdate { get; set; }
-        public double PtCk2 { get; set; }
+        public double PtCk2 { get; set; } = 0;
         public string? IdNghiepvu { get; set; }
         public string? Machinhanh { get; set; }
-        public double SttSapxep { get; set; }
+        public double SttSapxep { get; set; } = 0;
         public string? Guid { get; set; }
         public string? Thoigiannhap { get; set; }
         public string? Kyduyet { get; set; }
-        public double SoctN { get; set; }
+        public double SoctN { get; set; } = 0;
         public string? Mamausac { get; set; }
         public string? Tenmausac { get; set; }
-        public double Dgmausac { get; set; }
-        public double Ttmausac { get; set; }
+        public double Dgmausac { get; set; } = 0;
+        public double Ttmausac { get; set; } = 0;
     }
 }

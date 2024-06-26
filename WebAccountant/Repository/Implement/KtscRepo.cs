@@ -28,8 +28,95 @@ namespace WebAccountant.Repository.Implement
 
         public async Task<EntityEntry<Ktsc>> AddPhieuThuTien(Ktsc entity)
         {
+            var idChungTu = (await _unitOfWork.KTSCDAO.GetAll()).OrderBy(s => s.SttSapxep).LastOrDefault().IdChungtu + 1;
             entity.Lctg = "PTT";
+            entity.SttSc = (await _unitOfWork.KTSCDAO.GetAll()).LastOrDefault().SttSc + 1;
+            entity.SttBt = (await _unitOfWork.KTSCDAO.GetAll()).LastOrDefault().SttBt + 1;
+            entity.IdChungtu = idChungTu;
+            entity.SttSapxep = (await _unitOfWork.KTSCDAO.GetAll()).OrderBy(s => s.SttSapxep).LastOrDefault().SttSapxep + 1;
+            entity.SoctN = idChungTu;
+            entity.SoHd = "0000" + idChungTu;
+            entity.Soct = "0000" + idChungTu;
             var result = await _unitOfWork.KTSCDAO.Add(entity);
+            await _unitOfWork.SaveChangesAsync();
+            return result;
+        }
+
+        public async Task<EntityEntry<Ktsc>> AddPhieuThuTienChoPhieuBan(int idPhieuBan)
+        {
+            var phieuBan = (await GetAllDSPhieuBanHang()).Where(s=>s.id == idPhieuBan).FirstOrDefault();
+            var ktsc = new Ktsc
+            {
+                Lctg = "PTT",
+                SrHd = DateTime.UtcNow.Year.ToString(),
+                SoHd = phieuBan.Soctu,
+                Soct = phieuBan.Soctu,
+                NgayHd = phieuBan.NgayCtu,
+                Ngayct = phieuBan.NgayCtu,
+                Diengiai = "Thu Tiền Khách Hàng",
+                Tkno = "131",
+                Madtpnno = phieuBan.MaKh,
+                Madtpnco = "",
+                Tkco = "5111",
+                MaCt = "",
+                LuongCtu = 0,
+                Ttvnd = Double.Parse(phieuBan.ThanhTien),
+                Hdvat = "R",
+                Tkthue = "33311",
+                Makh = phieuBan.MaKh,
+                Tenkh = phieuBan.TenKh,
+                MsDn = phieuBan.MsThue,
+                Diachi = phieuBan.Diachi,
+                DiachiNgd = phieuBan.Diachi,
+                Dgvon = 0,
+                Gtvon = 0,
+                Tygia = 0,
+                Ttusd = 0,
+                Thueusd = 0,
+                TtusdTt = 0,
+                Ngayctgs = DateTime.UtcNow,
+                SttSc = phieuBan.ktscs.LastOrDefault().SttSc+ 0.0001,
+                Thang = DateTime.UtcNow.Month,
+                Mauser = "QUANLY",
+                Dgusd = 0,
+                Tienhang = 0,
+                Dontrong = 0,
+                Col11 = 0,
+                Col12 = 0,
+                Col13 = 0,
+                Trangthai = 0,
+                ChietkhauUsd = 0,
+                DgVc = 0,
+                Model = "T",
+                SlGc = 0,
+                SttTt = 0,
+                ThangN = DateTime.UtcNow.Month,
+                Thueeur = 0,
+                TkChietkhau = "5211",
+                TkXuatkho = "1561",
+                TnkUsd = 0,
+                TnkVnd = 0,
+                TsNk = 0,
+                TtGc = 0,
+                TtVc = 0,
+                Tteur = 0,
+                Mangd = phieuBan.MaKh,
+                Luong1 = 0,
+                Luong2 = 0,
+                SttBt = phieuBan.ktscs.LastOrDefault().SttBt + 0.0001,
+                Httt = phieuBan.ktscs.LastOrDefault().Httt,
+                Chietkhau2 = 0,
+                Thoigiannhap = DateTime.UtcNow.AddHours(7).ToString(),
+                PtCk2 = 0,
+                IdNghiepvu = "TIENHANG",
+                SttSapxep = phieuBan.ktscs.LastOrDefault().SttBt + 0.0001,
+                Guid = Guid.NewGuid().ToString(),
+                SoctN = phieuBan.ktscs.LastOrDefault().IdChungtu,
+                Dgmausac = 0,
+                Ttmausac = 0,
+                MaNvBan = phieuBan.NhanVienBan,
+            };
+            var result = await _unitOfWork.KTSCDAO.Add(ktsc);
             await _unitOfWork.SaveChangesAsync();
             return result;
         }

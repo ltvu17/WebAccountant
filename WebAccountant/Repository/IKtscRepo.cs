@@ -18,5 +18,6 @@ namespace WebAccountant.Repository
         public Task<bool> DeletePhieuBanHang(int id);
         public Task<bool> DeletePhieuMuaHang(int id);
         public Task<EntityEntry<Ktsc>> AddPhieuThuTien(Ktsc entity);
+        public Task<EntityEntry<Ktsc>> AddPhieuThuTienChoPhieuBan(int idPhieuBan);
     }
 }
