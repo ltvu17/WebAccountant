@@ -281,5 +281,11 @@ namespace WebAccountant.Controllers
             var ktscs = (await _ktscRepo.GetAllAsync()).Where(s=>s.Lctg == "PTT");
             return Json(DataSourceLoader.Load(ktscs, loadOptions));
         }
+        [HttpPost]
+        public async Task<IActionResult> AddPhieuThuTienChoPhieuBan(int idPhieuBan)
+        {
+            var ktscColumns = await _ktscRepo.AddPhieuThuTienChoPhieuBan(idPhieuBan);
+            return Ok();
+        }
     }
 }
