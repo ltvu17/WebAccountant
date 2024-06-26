@@ -107,6 +107,7 @@
                     <button class="btn btn-primary width-100" type="button" onclick="xoaOrder()">Xóa</button>
                     <button class="btn btn-primary width-100" type="button" onclick="inOrder()">In</button>
                     <button class="btn btn-primary width-100" type="button" onclick="traHang()">Trả hàng</button>
+                    <button class="btn btn-primary width-100" type="button" onclick="thuTien()">Thu tiền hàng</button>
                 </div>
                 <div id="rightMenu" style="display: none; position: absolute; z-index:30;">
                     <ul>
@@ -1180,7 +1181,7 @@
                             success: function () {
                                 window.open("http://nibotlehoangphai78wan1.ddnsguru.com/PhieuBanHangReport/PhieuBanHang.pdf", "_blank");
                             }
-                            });
+                        });
                     }
                 }
 
@@ -1611,6 +1612,39 @@
                         }
                     } else {
                         alert("Chỉ ấn vào 1 đơn bạn muốn trả!");
+                    }
+                }
+                function thuTien(){
+                    var tr = document.getElementsByClassName("tr-atv");
+                    if (tr.length == 0) {
+                        alert("Hãy ấn vào đơn bạn muốn thu!");
+                    } else if (tr.length == 1) {
+                        var idTr = tr[0].id;
+                        var idThu = document.getElementById("ip-id-" + idTr.substring(2, 10)).value;
+                        if (idThu != "") {
+                            console.log(idThu);
+                            if (confirm("Bạn có chắc chắn muốn thu tiền đơn hàng này?")) {
+                                $.ajax({
+                                    url: '@Url.Action("AddPhieuThuTienChoPhieuBan", "Ktscs")',
+                                    type: 'POST',
+                                    data: {
+                                        id: idThu
+                                    },
+                                    success: function () {
+                                        alert("Thu thành công!");
+                                        resetDate();
+                                    },
+                                    error: function (xhr, status) {
+                                        if (xhr.status === 500) alert("Thu thất bại!");
+                                        resetDate();
+                                    },
+                                });
+                            }
+                        } else {
+                            alert("Hãy chọn hàng có dữ liệu muốn thu!");
+                        }
+                    } else {
+                        alert("Chỉ ấn vào 1 đơn bạn muốn thu!");
                     }
                 }
             </script>
