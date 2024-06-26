@@ -267,13 +267,13 @@ namespace WebAccountant.Controllers
         public async Task<IActionResult> AddPhieuTraHang(FormBanHangDTO phieuBanHangDTOs)
         {
             var ktscColumns = await _ktscRepo.SavePhieuTraHangToDB(phieuBanHangDTOs);
-            return RedirectToAction("ReturnSellProduct", "Home"); ;
+            return RedirectToAction("ReturnSellProduct", "Home");
         }
         [HttpPost]
         public async Task<IActionResult> AddPhieuThuTien(Ktsc phieuThuTien)
         {
             var ktscColumns = await _ktscRepo.AddPhieuThuTien(phieuThuTien);
-            return Ok();
+            return RedirectToAction("CollectMoneySellProduct", "Home");
         }
         [HttpGet]
         public async Task<IActionResult> GetPhieuThuTien(DataSourceLoadOptions loadOptions)
@@ -282,9 +282,9 @@ namespace WebAccountant.Controllers
             return Json(DataSourceLoader.Load(ktscs, loadOptions));
         }
         [HttpPost]
-        public async Task<IActionResult> AddPhieuThuTienChoPhieuBan(int idPhieuBan)
+        public async Task<IActionResult> AddPhieuThuTienChoPhieuBan(int id)
         {
-            var ktscColumns = await _ktscRepo.AddPhieuThuTienChoPhieuBan(idPhieuBan);
+            var ktscColumns = await _ktscRepo.AddPhieuThuTienChoPhieuBan(id);
             return Ok();
         }
     }
