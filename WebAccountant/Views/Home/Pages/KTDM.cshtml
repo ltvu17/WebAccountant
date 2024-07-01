@@ -29,9 +29,9 @@
                 </div>
             </nav> *@
 
-            @*Modal*@
+            @*Modal add*@
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
+                <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" style="color: #119583;" id="exampleModalLabel">Thêm Danh Mục Hàng Hóa</h5>
@@ -40,7 +40,7 @@
                         <div class="modal-body">
                             <form id="form-dm" method="post" asp-controller="Ktdms" asp-action="Post">
                                 <div class="row">
-                                    <div class="col-md-4 text-start">
+                                    <div class="col-md-3 text-start">
                                         <label for="input-madm" class="col-form-label">Mã hàng hóa:</label>
                                         <input type="text" class="form-control input-sugg"
                                                asp-for="Madm"
@@ -50,8 +50,6 @@
                                                placeholder="Nhập mặt hàng(nếu có)..."
                                                onkeyup="SearchNow('list-madm-sugg','input-madm','list-madm-sugg')" />
                                         <span id="valid-madm" class="text-danger"></span>
-                                               <input id="edit-madm" type="text" hidden/>
-
                                         <div class="table-container">
                                             <table id="list-madm-sugg" class="sugg-container d-none">
                                                 <tr id="tr-1">
@@ -61,53 +59,162 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="col-md-8 text-start">
+                                    <div class="col-md-3 text-start">
+                                        <label for="mahh" class="col-form-label">Mã tài khoản:</label>
+                                        <input type="text" class="form-control" asp-for="Matk" id="mahh">
+                                        <span id="valid-mahh" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-6 text-start">
                                         <label for="tendm" class="col-form-label">Tên hàng hóa:</label>
                                         <input type="text" class="form-control" asp-for="Tendm" id="tendm">
                                         <span id="valid-tendm" class="text-danger"></span> 
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-4 text-start">
-                                        <label for="mahh" class="col-form-label">Mã tài khoản:</label>
-                                        <input type="text" class="form-control" asp-for="Matk" id="mahh">
-                                        <span id="valid-mahh" class="text-danger"></span>
-                                    </div>
-                                    <div class="col-md-4 text-start">
+                                    <div class="col-md-3 text-start">
                                         <label for="t-dgb" class="col-form-label">Đơn giá bán:</label>
                                         <input type="text" class="form-control" id="t-dgb" onchange="formatAll()" />
                                         <input type="number" min="0" class="form-control" asp-for="Dgban" id="dgb" hidden/>
                                         <span id="valid-dgb" class="text-danger"></span>
                                     </div>
-                                    <div class="col-md-4 text-start">
+                                    <div class="col-md-3 text-start">
                                         <label for="t-dgx" class="col-form-label">Đơn giá xuất:</label>
                                         <input type="text" class="form-control" id="t-dgx" onchange="formatAll()">
                                         <input type="number" min="0" class="form-control" asp-for="Dgxuat" id="dgx" hidden />
                                         <span id="valid-dgx" class="text-danger"></span>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4 text-start">
-                                        <label for="dvt" class="col-form-label">Đơn vị tính:</label>
+                                    <div class="col-md-1 text-start">
+                                        <label for="dvt" class="col-form-label">Đơn vị:</label>
                                         <input type="text" class="form-control" asp-for="Donvi" id="dvt">
                                         <span id="valid-dvt" class="text-danger"></span>
                                     </div>
-                                    <div class="col-md-4 text-start">
+                                    <div class="col-md-2 text-start">
+                                        <label for="t-tdk-sl" class="col-form-label">Tồn đầu kì - Số lượng:</label>
+                                        <input type="text" class="form-control" id="t-tdk-sl" onchange="formatAll()">
+                                        <input type="number" min="0" class="form-control" id="tdk-sl" asp-for="TonT" hidden>
+                                        <span id="valid-tdk-sl" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-3 text-start">
                                         <label for="t-tdk-gt" class="col-form-label">Tồn đầu kì - Giá trị:</label>
                                         <input type="text" class="form-control" id="t-tdk-gt" onchange="formatAll()">
                                         <input type="number" min="0" class="form-control" asp-for="VndtonT" id="tdk-gt" hidden>
                                         <span id="valid-tdk-gt" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 text-start">
+                                        <label for="ck" class="col-form-label">% Chiết khấu:</label>
+                                        <input type="number" min="0" max="100" class="form-control" asp-for="Ptchietkhau" id="ck">
+                                        <span id="valid-ck" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-3 text-start">
+                                        <label for="thue" class="col-form-label">Thuế suất:</label>
+                                        <input type="number" min="0" max="100" class="form-control" asp-for="Thuesuat" id="thue">
+                                        <span id="valid-thue" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-3 text-start">
+                                        <label for="manhom" class="col-form-label">Mã nhóm:</label>
+                                        <input type="text" class="form-control" id="manhom" asp-for="Manhom">
+                                        <span id="valid-manhom" class="text-danger"></span>
                                         </div>
-                                    <div class="col-md-4 text-start">
-                                        <label for="t-tdk-sl" class="col-form-label">Tồn đầu kì - Số lượng:</label>
-                                        <input type="text" class="form-control" id="t-tdk-sl" onchange="formatAll()">
-                                        <input type="number" min="0" class="form-control" id="tdk-sl" hidden>
-                                        <span id="valid-tdk-sl" class="text-danger"></span>
-                                     </div>
+                                    <div class="col-md-3 text-start">
+                                        <label for="ten-nhom" class="col-form-label">Tên nhóm:</label>
+                                        <input type="text" class="form-control" id="ten-nhom" asp-for="Tennhom">
+                                        <span id="valid-ten-nhom" class="text-danger"></span>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" onclick="resetModal()" id="btnClose" data-bs-dismiss="modal">Đóng</button>
                                     <button type="button" class="btn btn-primary" onclick="submitModal()">Lưu</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*Modal edit*@
+            <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" style="color: #119583;" id="editLabel">Sửa Danh Mục Hàng Hóa</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="e-form-dm" method="post" asp-controller="Ktdms" asp-action="Put">
+                                <div class="row">
+                                    <div class="col-md-3 text-start">
+                                        <label for="e-input-madm" class="col-form-label">Mã hàng hóa:</label>
+                                        <input type="text" class="form-control input-sugg"
+                                               asp-for="Madm"
+                                               id="e-input-madm"
+                                               autofocus="autofocus"
+                                               autocomplete="off" readonly/>
+                                    </div>
+                                    <div class="col-md-3 text-start">
+                                        <label for="e-mahh" class="col-form-label">Mã tài khoản:</label>
+                                        <input type="text" class="form-control" asp-for="Matk" id="e-mahh" readonly>
+                                    </div>
+                                    <div class="col-md-6 text-start">
+                                        <label for="e-tendm" class="col-form-label">Tên hàng hóa:</label>
+                                        <input type="text" class="form-control" asp-for="Tendm" id="e-tendm">
+                                        <span id="e-valid-tendm" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 text-start">
+                                        <label for="e-t-dgb" class="col-form-label">Đơn giá bán:</label>
+                                        <input type="text" class="form-control" id="e-t-dgb" onchange="eformatAll()" />
+                                        <input type="number" min="0" class="form-control" asp-for="Dgban" id="e-dgb" hidden />
+                                        <span id="e-valid-dgb" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-3 text-start">
+                                        <label for="e-t-dgx" class="col-form-label">Đơn giá xuất:</label>
+                                        <input type="text" class="form-control" id="e-t-dgx" onchange="eformatAll()">
+                                        <input type="number" min="0" class="form-control" asp-for="Dgxuat" id="e-dgx" hidden />
+                                        <span id="e-valid-dgx" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-1 text-start">
+                                        <label for="e-dvt" class="col-form-label">Đơn vị:</label>
+                                        <input type="text" class="form-control" asp-for="Donvi" id="e-dvt">
+                                        <span id="e-valid-dvt" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-2 text-start">
+                                        <label for="e-t-tdk-sl" class="col-form-label">Tồn đầu kì - Số lượng:</label>
+                                        <input type="text" class="form-control" id="e-t-tdk-sl" onchange="eformatAll()">
+                                        <input type="number" min="0" class="form-control" asp-for="TonT" id="e-tdk-sl" hidden>
+                                        <span id="e-valid-tdk-sl" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-3 text-start">
+                                        <label for="e-t-tdk-gt" class="col-form-label">Tồn đầu kì - Giá trị:</label>
+                                        <input type="text" class="form-control" id="e-t-tdk-gt" onchange="eformatAll()">
+                                        <input type="number" min="0" class="form-control" asp-for="VndtonT" id="e-tdk-gt" hidden>
+                                        <span id="e-valid-tdk-gt" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 text-start">
+                                        <label for="e-ck" class="col-form-label">% Chiết khấu:</label>
+                                        <input type="number" min="0" max="100" class="form-control" asp-for="Ptchietkhau" id="e-ck">
+                                        <span id="e-valid-ck" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-3 text-start">
+                                        <label for="e-thue" class="col-form-label">Thuế suất:</label>
+                                        <input type="number" min="0" max="100" class="form-control" asp-for="Thuesuat" id="e-thue">
+                                        <span id="e-valid-thue" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-3 text-start">
+                                        <label for="e-manhom" class="col-form-label">Mã nhóm:</label>
+                                        <input type="text" class="form-control" asp-for="Manhom" id="e-manhom">
+                                    </div>
+                                    <div class="col-md-3 text-start">
+                                        <label for="e-ten-nhom" class="col-form-label">Tên nhóm:</label>
+                                        <input type="text" class="form-control" asp-for="Tennhom" id="e-ten-nhom">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" id="btnClose" data-bs-dismiss="modal">Đóng</button>
+                                    <button type="button" class="btn btn-primary" onclick="esubmitModal()">Lưu</button>
                                 </div>
                             </form>
                         </div>
@@ -297,9 +404,13 @@
                         {
                             columns.Add().DataField(atrii).Caption(att.KTSCColumn.Description).DataType(GridColumnDataType.Date).MinWidth(att.Width).Fixed(true);
                         } *@
-                            else if (atrii == "Matk" || atrii == "Madm" || atrii == "Tendm" || atrii == "Donvi")
+                            else if (atrii == "Tendm" || atrii == "Donvi")
                             {
                                 columns.Add().DataField(atrii).Caption(att.KTDMColumn.Description).MinWidth(att.Width).Fixed(true);
+                            }
+                            else if (atrii == "Matk" || atrii == "Madm")
+                            {
+                                columns.Add().DataField(atrii).Caption(att.KTDMColumn.Description).MinWidth(att.Width).Fixed(true).AllowEditing(false);
                             }
                             else
                             {
@@ -332,6 +443,7 @@
             }
                 ).OnSaving("onSaving")
                 .FocusedRowEnabled(true)
+                .OnFocusedRowChanged("focusRow")
                 .Summary(s => s
                 .RecalculateWhileEditing(true)
                 .TotalItems(items =>
@@ -366,7 +478,8 @@
 
             <div class="footer-data d-flex justify-content-start">
                 <button class="btn btn-primary width-100" data-bs-toggle="modal" id="btnAdd" data-bs-target="#exampleModal">Thêm</button>
-                @* <button class="btn btn-primary width-100" type="button" id="btnEdit" onclick="onEdit()">Sửa</button> *@
+                <button class="btn btn-primary width-100" type="button" onclick="onEdit()">Sửa</button>
+                <button data-bs-toggle="modal" type="button" data-bs-target="#editModal" id="btnEdit" hidden></button>
                 <button class="btn btn-primary width-100" type="button" onclick="onDelete()">Xóa</button>
                 <button class="btn btn-primary width-100" type="button" onclick="saveGrid()">Lưu</button>
                 <button class="btn btn-primary width-100" type="button" onclick="redoGrid()">Hoàn tác</button>
@@ -381,6 +494,11 @@
 </div>
 
 <script>
+    var key = "";
+    function focusRow(e){
+        key = e.row.key;
+        //console.log(key);
+    }
     function onSaving(e) {
         e.cancel = true;
         if (e.changes.length) {
@@ -496,27 +614,34 @@
 
 
     function onEdit() {
-        var grid = document.getElementById("grid");
-        var row = grid.getElementsByClassName("dx-row-focused")[0];
+        var row = document.getElementsByClassName("dx-row-focused")[0];
         if (row == null) {
                 alert("Hãy chọn hàng cần sửa")
         } else {
-            $('#btnAdd').click();
-            document.getElementById('edit-madm').value = row.getElementsByTagName('td')[0].textContent;
-            document.getElementById('input-madm').setAttribute('readonly', true);
-            document.getElementById('input-madm').value = row.getElementsByTagName('td')[0].textContent;
-            document.getElementById('mahh').value = row.getElementsByTagName('td')[2].textContent;
-            document.getElementById('tendm').value = row.getElementsByTagName('td')[1].textContent;
-            document.getElementById('dgb').value = row.getElementsByTagName('td')[24].textContent;
-            document.getElementById('t-dgx').value = row.getElementsByTagName('td')[14].textContent;
-            document.getElementById('t-dgb').value = row.getElementsByTagName('td')[24].textContent;
-            document.getElementById('dgx').value = row.getElementsByTagName('td')[14].textContent;
-            document.getElementById('dvt').value = row.getElementsByTagName('td')[6].textContent;
-            document.getElementById('t-tdk-gt').value = 0;
-            document.getElementById('t-tdk-sl').value = 0;
-            document.getElementById('tdk-gt').value = 0;
-            document.getElementById('tdk-sl').value = 0;
-            formatAll();
+            var index = 0;
+            for (let i = 0; i < madm.length; i++) {
+                if(key == madm[i].Madm){
+                    index = i;
+                    break;
+                }
+            }
+            $('#btnEdit').click();
+            document.getElementById('e-input-madm').value = madm[index].Madm;
+            document.getElementById('e-mahh').value = madm[index].Matk;
+            document.getElementById('e-tendm').value = madm[index].Tendm;
+            document.getElementById('e-dgb').value = (madm[index].Dgban);
+            document.getElementById('e-t-dgx').value = formatFromNumber(madm[index].Dgxuat);
+            document.getElementById('e-t-dgb').value = formatFromNumber(madm[index].Dgban);
+            document.getElementById('e-dgx').value = madm[index].Dgxuat;
+            document.getElementById('e-dvt').value = madm[index].Donvi;
+            document.getElementById('e-t-tdk-gt').value = formatFromNumber(madm[index].VndtonT);
+            document.getElementById('e-t-tdk-sl').value = formatFromNumber(madm[index].TonT);
+            document.getElementById('e-tdk-gt').value = madm[index].VndtonT;
+            document.getElementById('e-tdk-sl').value = madm[index].TonT;
+            document.getElementById('e-ck').value = madm[index].Ptchietkhau;
+            document.getElementById('e-thue').value = madm[index].Thuesuat;
+            document.getElementById('e-manhom').value = madm[index].Manhom;
+            document.getElementById('e-ten-nhom').value = madm[index].Tennhom;
         }
     }
     function submitModal() {
@@ -526,6 +651,8 @@
         var dvtSubmit = document.getElementById('dvt').value;
         var dgbSubmit = document.getElementById('dgb').value;
         var dgxSubmit = document.getElementById('dgx').value;
+        var ckSubmit = document.getElementById('ck').value;
+        var thueSubmit = document.getElementById('thue').value;
         var tdkgtSubmit = document.getElementById('tdk-gt').value;
         var tdkslSubmit = document.getElementById('tdk-sl').value;
         
@@ -561,17 +688,70 @@
             document.getElementById('valid-tdk-sl').textContent = "Số nhập cần lớn hơn 0!";
             return;
         } else document.getElementById('valid-tdk-sl').textContent = "";
+        if (ckSubmit < 0 || 100 < ckSubmit) {
+            document.getElementById('valid-ck').textContent = "Chỉ nhập từ 0 đến 100!";
+            return;
+        } else document.getElementById('valid-ck').textContent = "";
+        if (thueSubmit < 0 || 100 < thueSubmit) {
+            document.getElementById('valid-thue').textContent = "Chỉ nhập từ 0 đến 100!";
+            return;
+        } else document.getElementById('valid-thue').textContent = "";
         for (let i = 0; i < madm.length; i++){
             if(madm[i].Madm == madmSubmit){
                 document.getElementById('valid-madm').textContent = "Bị trùng!";
                 return;
             }
         }
-        alert("Tạo danh mục thành công!")
+        alert("Tạo danh mục thành công!");
         document.getElementById("form-dm").submit();
 
     }
+    function esubmitModal() {
+        var tendmSubmit = document.getElementById('e-tendm').value;
+        var dvtSubmit = document.getElementById('e-dvt').value;
+        var dgbSubmit = document.getElementById('e-dgb').value;
+        var dgxSubmit = document.getElementById('e-dgx').value;
+        var ckSubmit = parseInt(document.getElementById('e-ck').value);
+        var thueSubmit = parseInt(document.getElementById('e-thue').value);
+        var tdkgtSubmit = document.getElementById('e-tdk-gt').value;
+        var tdkslSubmit = document.getElementById('e-tdk-sl').value;
+        console.log(ckSubmit);
+        if (tendmSubmit == "") {
+            document.getElementById('e-valid-tendm').textContent = "Không được trống!";
+            return;
+        } else document.getElementById('e-valid-tendm').textContent = "";
+        if (dvtSubmit == "") {
+            document.getElementById('e-valid-dvt').textContent = "Không được trống!";
+            return;
+        } else document.getElementById('e-valid-dvt').textContent = "";
+        if (dgbSubmit < 0) {
+            document.getElementById('e-valid-dgb').textContent = "Số nhập cần lớn hơn 0!";
+            return;
+        } else document.getElementById('e-valid-dgb').textContent = "";
+        if (dgxSubmit < 0) {
+            document.getElementById('e-valid-dgx').textContent = "Số nhập cần lớn hơn 0!";
+            return;
+        } else document.getElementById('e-valid-dgx').textContent = "";
+        if (tdkgtSubmit < 0) {
+            document.getElementById('e-valid-tdk-gt').textContent = "Số nhập cần lớn hơn 0!";
+            return;
+        } else document.getElementById('e-valid-tdk-gt').textContent = "";
+        if (tdkslSubmit < 0) {
+            document.getElementById('e-valid-tdk-sl').textContent = "Số nhập cần lớn hơn 0!";
+            return;
+        } else document.getElementById('e-valid-tdk-sl').textContent = "";
+        if (ckSubmit < 0 || 100 < ckSubmit) {
+            document.getElementById('e-valid-ck').textContent = "Chỉ nhập từ 0 đến 100!";
+            return;
+        } else document.getElementById('e-valid-ck').textContent = "";
+        if (thueSubmit < 0 || 100 < thueSubmit) {
+            document.getElementById('e-valid-thue').textContent = "Chỉ nhập từ 0 đến 100!";
+            return;
+        } else document.getElementById('e-valid-thue').textContent = "";
+        alert("Sửa danh mục thành công!");
+        document.getElementById("e-form-dm").submit();
 
+    }
 
     function OpenMenu(e) {
         if (e.rowIndex != -1) {
@@ -620,9 +800,6 @@
         if (!document.getElementById("list-madm-sugg").contains(event.target) && !document.getElementById("list-madm-sugg").classList.contains("d-none")) {
             hide_sugg("list-madm-sugg");
         }
-        if (!document.getElementById("btnAdd").contains(event.target) && !document.getElementById("exampleModal").contains(event.target) && (!document.getElementById("btnEdit").contains(event.target)) && (!document.getElementsByClassName("dx-menu-item-text")[0]?.contains(event.target))) {
-            resetModal();
-        }
     });
     function onRowInserted(e) {
         e.component.navigateToRow(e.key);
@@ -630,9 +807,7 @@
     }
 
     function resetModal(){
-        document.getElementById('edit-madm').value = null;
         document.getElementById('input-madm').value = null;
-        document.getElementById('input-madm').removeAttribute('readonly');
         document.getElementById('mahh').value = null;
         document.getElementById('tendm').value = null;
         document.getElementById('t-dgb').value = null;
@@ -644,7 +819,10 @@
         document.getElementById('t-tdk-sl').value = null;
         document.getElementById('tdk-gt').value = null;
         document.getElementById('tdk-sl').value = null;
-        console.log('reset');
+        document.getElementById('ck').value = null;
+        document.getElementById('thue').value = null;
+        document.getElementById('manhom').value = null;
+        document.getElementById('ten-nhom').value = null;
     }
 
     function formatFromNumber(int) {
@@ -667,56 +845,156 @@
         document.getElementById('t-tdk-sl').value = formatFromNumber(convertNumToText(document.getElementById('t-tdk-sl').value));
         document.getElementById('tdk-gt').value = convertNumToText(document.getElementById('t-tdk-gt').value);
     }
+    function eformatAll() {
+        document.getElementById('e-t-dgb').value = formatFromNumber(convertNumToText(document.getElementById('e-t-dgb').value));
+        document.getElementById('e-t-dgx').value = formatFromNumber(convertNumToText(document.getElementById('e-t-dgx').value));
+        document.getElementById('e-dgb').value = convertNumToText(document.getElementById('e-t-dgb').value);
+        document.getElementById('e-dgx').value = convertNumToText(document.getElementById('e-t-dgx').value);
+        document.getElementById('e-t-tdk-gt').value = formatFromNumber(convertNumToText(document.getElementById('e-t-tdk-gt').value));
+        document.getElementById('e-t-tdk-sl').value = formatFromNumber(convertNumToText(document.getElementById('e-t-tdk-sl').value));
+        document.getElementById('e-tdk-gt').value = convertNumToText(document.getElementById('e-t-tdk-gt').value);
+    }
     document.getElementById('exampleModal').onkeypress = function (e) {
         var inputTo; 
-        var input = document.getElementById("input-madm");
+        var input = document.getElementById("mahh");
         input.addEventListener('keydown', function (event) {
             if (event.key === 'Enter') {
                 inputTo = document.getElementById("tendm");
-                inputTo.focus();
+                inputTo.select();
             }
         });
         input = document.getElementById("tendm");
         input.addEventListener('keydown', function (event) {
             if (event.key === 'Enter') {
-                inputTo = document.getElementById("mahh");
-                inputTo.focus();
-            }
-        });
-        input = document.getElementById("mahh");
-        input.addEventListener('keydown', function (event) {
-            if (event.key === 'Enter') {
                 inputTo = document.getElementById("t-dgb");
-                inputTo.focus();
+                inputTo.select();
             }
         });
+        
         input = document.getElementById("t-dgb");
         input.addEventListener('keydown', function (event) {
             if (event.key === 'Enter') {
                 inputTo = document.getElementById("t-dgx");
-                inputTo.focus();
+                inputTo.select();
             }
         });
         input = document.getElementById("t-dgx");
         input.addEventListener('keydown', function (event) {
             if (event.key === 'Enter') {
                 inputTo = document.getElementById("dvt");
-                inputTo.focus();
+                inputTo.select();
             }
         });
         input = document.getElementById("dvt");
         input.addEventListener('keydown', function (event) {
             if (event.key === 'Enter') {
+                inputTo = document.getElementById("t-tdk-sl");
+                inputTo.select();
+            }
+        });
+        input = document.getElementById("t-tdk-sl");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
                 inputTo = document.getElementById("t-tdk-gt");
-                inputTo.focus();
+                inputTo.select();
             }
         });
         input = document.getElementById("t-tdk-gt");
         input.addEventListener('keydown', function (event) {
             if (event.key === 'Enter') {
-                inputTo = document.getElementById("t-tdk-sl");
-                inputTo.focus();
+                inputTo = document.getElementById("ck");
+                inputTo.select();
+            }
+        });
+        input = document.getElementById("ck");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("thue");
+                inputTo.select();
+            }
+        });
+        input = document.getElementById("thue");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("manhom");
+                inputTo.select();
+            }
+        });
+        input = document.getElementById("manhom");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("ten-nhom");
+                inputTo.select();
             }
         });
     }
+
+    document.getElementById('editModal').onkeypress = function (e) {
+        var inputTo;
+        var input = document.getElementById("e-tendm");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("e-t-dgb");
+                inputTo.select();
+            }
+        });
+
+        input = document.getElementById("e-t-dgb");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("e-t-dgx");
+                inputTo.select();
+            }
+        });
+        input = document.getElementById("e-t-dgx");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("e-dvt");
+                inputTo.select();
+            }
+        });
+        input = document.getElementById("e-dvt");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("e-t-tdk-sl");
+                inputTo.select();
+            }
+        });
+        input = document.getElementById("e-t-tdk-sl");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("e-t-tdk-gt");
+                inputTo.select();
+            }
+        });
+        input = document.getElementById("e-t-tdk-gt");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("e-ck");
+                inputTo.select();
+            }
+        });
+        input = document.getElementById("e-ck");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("e-thue");
+                inputTo.select();
+            }
+        });
+        input = document.getElementById("e-thue");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("e-manhom");
+                inputTo.select();
+            }
+        });
+        input = document.getElementById("e-manhom");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("e-ten-nhom");
+                inputTo.select();
+            }
+        });
+    }
+
 </script>

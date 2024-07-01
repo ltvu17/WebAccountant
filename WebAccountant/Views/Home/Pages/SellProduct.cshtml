@@ -324,21 +324,20 @@
                 </div>
                 <div class="bottom-content">
                     <div class="table-data2">
-                    @*List product *@
-                    <table id="list-dm" class="table-text">
+                        <table id="list-dm" class="table-text">
                             <tr class="table-menu" id="tr-1">
                                 <td class="t-center">#</td>
                                 <td class="nowr"><div class="resizable-1" style="min-width:120px;">Mã mặt hàng</div></td>
-                                <td class="nowr"><div class="resizable-1" style="min-width:200px;">Tên mặt hàng</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:300px;">Tên mặt hàng</div></td>
                                 <td class="nowr"><div class="resizable-1" style="min-width:70px; max-width:70px;">Đơn vị</div></td>
-                                <td class="nowr"><div class="resizable-1" style="min-width:70px;">Số lượng</div></td>
-                                <td class="nowr"><div class="resizable-1" style="min-width:70px;">Đơn giá</div></td>
-                                <td class="nowr"><div class="resizable-1" style="min-width:70px;">Thành tiền</div></td>
-                                <td class="nowr"><div class="resizable-1" style="min-width:90px;">Chiết khấu (%)</div></td>
-                                <td class="nowr"><div class="resizable-1" style="min-width:100px;">Chiết khấu (VND)</div></td>
-                                <td class="nowr"><div class="resizable-1" style="min-width:70px;">Thuế (%)</div></td>
-                                <td class="nowr"><div class="resizable-1" style="min-width:70px;">Thuế (VND)</div></td>
-                                <td class="nowr"><div class="resizable-1" style="min-width:100px;">Tiền thanh toán</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:70px; max-width:70px;">Số lượng</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:100px">Đơn giá</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:120px">Thành tiền</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:90px; max-width:90px">% Chiết khấu</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:100px">Chiết khấu</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:90px; max-width:90px">% Thuế suất</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:100px">Thuế suất</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:120px">Tiền thanh toán</div></td>
                                 <td class="nowr">Hành động</td>
                             </tr>
                             <tr id="tr1">
@@ -365,13 +364,13 @@
                                 </div>
                             </td>
                             <td>
-                                <input style="width:100%" type="text" class="form-control" id="input-tendm-1" asp-for="ktdmDTOs[0].Tendm" readonly />
-                                <input type="text" class="form-control" id="input-matk-1" asp-for="ktdmDTOs[0].Matk" hidden readonly />
-                            </td>
-                            <td>
-                                <div id="ip-donvi-1"> </div>
-                                <input type="text" class="form-control" id="input-donvi-1" asp-for="ktdmDTOs[0].Donvi" hidden readonly />
-                             </td>
+                                    <input style="width:100%" type="text" class="form-control" id="input-tendm-1" asp-for="ktdmDTOs[0].Tendm" readonly />
+                                    <input type="text" class="form-control" id="input-matk-1" asp-for="ktdmDTOs[0].Matk" hidden readonly />
+                                </td>
+                                <td>
+                                    <div id="ip-donvi-1"> </div>
+                                    <input type="text" class="form-control" id="input-donvi-1" asp-for="ktdmDTOs[0].Donvi" hidden readonly />
+                                </td>
                                 <td>
                                     <input style="width:100%" type="text" class="form-control text-end" id="soluong-1" onchange="formatNumber(this.id)" />
                                     <input type="number" class="form-control text-end" id="input-soluong-1" asp-for="ktdmDTOs[0].Soluong" min="1" hidden />
@@ -381,10 +380,10 @@
                                     <input type="number" id="input-dongia-1" asp-for="ktdmDTOs[0].Dgban" min="0" hidden />
                                 </td>
                                 <td>
-                                    <input style="width:100%" type="text" class="form-control text-end" id="input-tientong-1" readonly/>
+                                    <input style="width:100%" type="text" class="form-control text-end" id="input-tientong-1" readonly />
                                 </td>
                                 <td>
-                                    <input style="width:100%" type="text" class="form-control text-end" id="ck-1" min="0" max="100" onchange="formatNumber(this.id)" />
+                                    <input style="width:100%" type="number" class="form-control text-end" id="ck-1" min="0" max="100" onchange="formatNumber(this.id)" />
                                     <input type="number" class="form-control text-end" id="input-ck-1" asp-for="ktdmDTOs[0].PtChietKhau" min="0" max="100" hidden />
                                 </td>
                                 <td>
@@ -392,7 +391,7 @@
                                     <input type="number" class="form-control text-end" id="input-ck-vnd-1" asp-for="ktdmDTOs[0].ChietKhauThanhTien" min="0" hidden />
                                 </td>
                                 <td>
-                                    <input style="width:100%" type="text" class="form-control text-end" id="thue-1" min="0" max="100" onchange="formatNumber(this.id)" />
+                                    <input style="width:100%" type="number" class="form-control text-end" id="thue-1" min="0" max="100" onchange="formatNumber(this.id)" />
                                     <input type="number" class="form-control text-end" id="input-thue-1" asp-for="ktdmDTOs[0].PtThue" min="0" max="100" hidden />
                                 </td>
                                 <td>
@@ -400,11 +399,11 @@
                                     <input type="number" class="form-control text-end" id="input-thue-vnd-1" asp-for="ktdmDTOs[0].ThueThanhTien" min="0" hidden />
                                 </td>
                                 <td>
-                                    <input style="width:100%" type="text" class="form-control" id="input-thanhtien-1" readonly />
+                                    <input style="width:100%" type="text" class="form-control text-end" id="input-thanhtien-1" readonly />
                                 </td>
-                            <td class="t-center"><a onClick="xoaDm('tr1')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
-                        </tr>
-                    </table>
+                                <td class="t-center"><a onClick="xoaDm('tr1')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
+                            </tr>
+                        </table>
                     </div>
                     <div class="footer-data2 buttons d-flex justify-content-between mar-5">
                         <div>
@@ -413,7 +412,7 @@
                         </div>
                         <div>
                             <button class="btn btn-warning t-s-12 height-30" id="exportBill" onclick="exportPDF()" type="button">Xuất hóa đơn</button>
-                            <button class="btn btn-primary t-s-12 height-30" id="saveButton" type="button" onclick="submitForm()">Lưu đơn bán</button>
+                            <button class="btn btn-primary t-s-12 height-30" id="saveButton" type="button" onclick="submitForm()">Lưu</button>
                         </div>
                     </div>
                 </div>
@@ -750,10 +749,10 @@
                         Tendm: addItem.Tendm,
                         Donvi: addItem.Donvi,
                         Soluong: 1,
-                        Dgban: 0,
+                        Dgban: addItem.Dgban,
                         TonTDv1: addItem.TonTDv1,
-                        PtChietkhau: 0,
-                        PtThue: 0,
+                        PtChietkhau: addItem.Ptchietkhau,
+                        PtThue: addItem.Thuesuat,
                         trId: id,
                     }
                     var dmindex = id.substring(2, 10);
@@ -778,22 +777,23 @@
                     tr.querySelector('#input-tendm-' + numId).value = JSON.parse(decodeURIComponent(item)).Tendm;
                     tr.querySelector('#ip-donvi-' + numId).textContent = JSON.parse(decodeURIComponent(item)).Donvi;
                     tr.querySelector('#input-donvi-' + numId).value = JSON.parse(decodeURIComponent(item)).Donvi;
-                    tr.querySelector('#input-dongia-' + numId).value = 0;
+                    tr.querySelector('#input-dongia-' + numId).value = JSON.parse(decodeURIComponent(item)).Dgban;
                     tr.querySelector('#input-soluong-' + numId).value = 1;
-                    tr.querySelector('#input-tientong-' + numId).value = 0;
-                    tr.querySelector('#input-thanhtien-' + numId).value = 0;
-                    tr.querySelector('#input-ck-' + numId).value = 0;
-                    tr.querySelector('#input-ck-vnd-' + numId).value = 0;
-                    tr.querySelector('#input-thue-' + numId).value = 0;
-                    tr.querySelector('#input-thue-vnd-' + numId).value = 0;
-                    tr.querySelector('#dongia-' + numId).value = 0;
+                    tr.querySelector('#input-tientong-' + numId).value = formatFromNumber(JSON.parse(decodeURIComponent(item)).Dgban);
+                    tr.querySelector('#input-ck-' + numId).value = JSON.parse(decodeURIComponent(item)).Ptchietkhau;
+                    tr.querySelector('#input-ck-vnd-' + numId).value = (addItem.Dgban * addItem.Ptchietkhau / 100);
+                    tr.querySelector('#input-thue-' + numId).value = addItem.Thuesuat;
+                    tr.querySelector('#input-thue-vnd-' + numId).value = ((addItem.Dgban - (addItem.Dgban * addItem.Ptchietkhau / 100)) * addItem.Thuesuat / 100);
+                    tr.querySelector('#dongia-' + numId).value = formatFromNumber(JSON.parse(decodeURIComponent(item)).Dgban);
                     tr.querySelector('#soluong-' + numId).value = 1;
-                    tr.querySelector('#ck-' + numId).value = 0;
-                    tr.querySelector('#ck-vnd-' + numId).value = 0;
-                    tr.querySelector('#thue-' + numId).value = 0;
-                    tr.querySelector('#thue-vnd-' + numId).value = 0;
+                    tr.querySelector('#ck-' + numId).value = formatFromNumber(JSON.parse(decodeURIComponent(item)).Ptchietkhau);
+                    tr.querySelector('#ck-vnd-' + numId).value = formatFromNumber(addItem.Dgban * addItem.Ptchietkhau / 100);
+                    tr.querySelector('#thue-' + numId).value = addItem.Thuesuat;
+                    tr.querySelector('#thue-vnd-' + numId).value = formatFromNumber((addItem.Dgban - (addItem.Dgban * addItem.Ptchietkhau / 100)) * addItem.Thuesuat / 100);
+                    tr.querySelector('#input-thanhtien-' + numId).value = formatFromNumber(addItem.Dgban - (addItem.Dgban * addItem.Ptchietkhau / 100) + ((addItem.Dgban - (addItem.Dgban * addItem.Ptchietkhau / 100)) * addItem.Thuesuat / 100));
                     loadBill();
                     countTotal();
+                    document.getElementById('soluong-' + numId).select();
                 }
                 function loadBill(){
                 }
@@ -924,7 +924,7 @@
                                                                 <input style="width:100%" type="text" class="form-control text-end" id="input-tientong-${count}" readonly/>
                                                             </td>
                                                             <td>
-                                                                <input type="text" class="form-control text-end" id="ck-${count}" min="0" max="100"  onchange="formatNumber(this.id)"/>
+                                                                <input type="number" class="form-control text-end" id="ck-${count}" min="0" max="100"  onchange="formatNumber(this.id)"/>
                                                                 <input type="number" class="form-control" id="input-ck-${count}" name="ktdmDTOs[${count - 1}].PtChietKhau" min="0" max="100" hidden/>
                                                              </td>
                                                             <td>
@@ -932,14 +932,14 @@
                                                                 <input type="number" class="form-control" id="input-ck-vnd-${count}" name="ktdmDTOs[${count - 1}].ChietKhauThanhTien" min="0" hidden/>
                                                             </td>
                                                             <td>
-                                                                <input type="text" class="form-control text-end" id="thue-${count}" min="0" max="100" onchange="formatNumber(this.id)" />  
+                                                                <input type="number" class="form-control text-end" id="thue-${count}" min="0" max="100" onchange="formatNumber(this.id)" />  
                                                                 <input type="number" class="form-control" id="input-thue-${count}" name="ktdmDTOs[${count - 1}].PtThue" min="0" max="100" hidden/>
                                                             </td>
                                                             <td>
                                                                 <input type="text" class="form-control text-end" id="thue-vnd-${count}" min="0" onchange="lamTron(${count})" />
                                                                 <input type="number" class="form-control" id="input-thue-vnd-${count}" name="ktdmDTOs[${count - 1}].ThueThanhTien" min="0" hidden/>
                                                             </td>
-                                                            <td><input type="text" class="form-control" id="input-thanhtien-${count}" readonly/></td>
+                                                            <td><input type="text" class="form-control text-end" id="input-thanhtien-${count}" readonly/></td>
                                                             <td class="t-center"><a onClick="xoaDm('tr${count}')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
                                                         </tr>
                     `);
@@ -1446,7 +1446,7 @@
                 }
                 function formatNumber(id) {
                     var number = document.getElementById(id);
-                    var formattedNumber = new Intl.NumberFormat('en-US').format(number.value);
+                    var formattedNumber = new Intl.NumberFormat('en-US').format(convertNumToText(number.value));
                     if (formattedNumber == "NaN") {
                         number.value = 0;
                         formattedNumber = Intl.NumberFormat('en-US').format(0);
@@ -1473,9 +1473,9 @@
                 function setTextToNum(id) {
                     document.getElementById("input-dongia-" + id).value = convertNumToText(document.getElementById("dongia-" + id).value);
                     document.getElementById("input-soluong-" + id).value = convertNumToText(document.getElementById("soluong-" + id).value);
-                    document.getElementById("input-ck-" + id).value = convertNumToText(document.getElementById("ck-" + id).value);
+                    document.getElementById("input-ck-" + id).value = convertNumToText(document.getElementById("ck-" + id).value > 100 ? '100' : document.getElementById("ck-" + id).value);
                     document.getElementById("input-ck-vnd-" + id).value = convertNumToText(document.getElementById("ck-vnd-" + id).value);
-                    document.getElementById("input-thue-" + id).value = convertNumToText(document.getElementById("thue-" + id).value);
+                    document.getElementById("input-thue-" + id).value = convertNumToText(document.getElementById("thue-" + id).value > 100 ? '100' : document.getElementById("thue-" + id).value);
                     document.getElementById("input-thue-vnd-" + id).value = convertNumToText(document.getElementById("thue-vnd-" + id).value);
                 }
                 function setNumToText(id) {
@@ -1522,53 +1522,53 @@
 
                 document.getElementById('list-dm').onkeypress = function (e) {
                     exist.forEach(num => {
-                        var input = document.getElementById("soluong-" + num);
+                        input = document.getElementById("soluong-" + num);
                         input.addEventListener('keydown', function (event) {
                             if (event.key === 'Enter') {
                                 var inputTo = document.getElementById("dongia-" + num);
-                                inputTo.focus();
+                                inputTo.select();
                             }
                         });
-                        input = document.getElementById("dongia-" + num);
+                        var input = document.getElementById("dongia-" + num);
                         input.addEventListener('keydown', function (event) {
                             if (event.key === 'Enter') {
                                 var inputTo = document.getElementById("input-tientong-" + num);
-                                inputTo.focus();
+                                inputTo.select();
                             }
                         });
                         input = document.getElementById("input-tientong-" + num);
                         input.addEventListener('keydown', function (event) {
                             if (event.key === 'Enter') {
                                 var inputTo = document.getElementById("ck-" + num);
-                                inputTo.focus();
+                                inputTo.select();
                             }
                         });
                         input = document.getElementById("ck-" + num);
                         input.addEventListener('keydown', function (event) {
                             if (event.key === 'Enter') {
                                 var inputTo = document.getElementById("ck-vnd-" + num);
-                                inputTo.focus();
+                                inputTo.select();
                             }
                         });
                         input = document.getElementById("ck-vnd-" + num);
                         input.addEventListener('keydown', function (event) {
                             if (event.key === 'Enter') {
                                 var inputTo = document.getElementById("thue-" + num);
-                                inputTo.focus();
+                                inputTo.select();
                             }
                         });
                         input = document.getElementById("thue-" + num);
                         input.addEventListener('keydown', function (event) {
                             if (event.key === 'Enter') {
                                 var inputTo = document.getElementById("thue-vnd-" + num);
-                                inputTo.focus();
+                                inputTo.select();
                             }
                         });
                         input = document.getElementById("thue-vnd-" + num);
                         input.addEventListener('keydown', function (event) {
                             if (event.key === 'Enter') {
                                 var inputTo = document.getElementById("input-thanhtien-" + num);
-                                inputTo.focus();
+                                inputTo.select();
                             }
                         });
                     });

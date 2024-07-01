@@ -143,14 +143,14 @@ namespace WebAccountant.Controllers
             return RedirectToAction("KTDM", "Home");
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Put(string key, string values) {
+        [HttpPost]
+        public async Task<IActionResult> Put(Ktdm ktdm) {
             if (!ModelState.IsValid)
             {
                 return BadRequest(GetFullErrorMessage(ModelState));
             }
-            await _ktdmRepo.Update(key, values);
-            return Ok();
+            await _ktdmRepo.UpdateKTDM(ktdm);
+            return RedirectToAction("KTDM", "Home");
         }
 
         [HttpDelete]

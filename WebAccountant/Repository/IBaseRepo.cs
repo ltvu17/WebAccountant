@@ -9,5 +9,6 @@ namespace WebAccountant.Repository
         public Task<EntityEntry<T>> AddNew(T entity);
         public Task Update(string key, string values);
         public Task Delete(string key);
+        
     }
 }
