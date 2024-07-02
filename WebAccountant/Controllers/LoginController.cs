@@ -10,9 +10,12 @@ namespace WebAccountant.Controllers
 	public class LoginController : Controller
 	{
 		private readonly ILoginRepo _loginRepo;
-        public LoginController(ILoginRepo loginRepo)
+        private readonly IUserTableRepo _userTable;
+
+        public LoginController(ILoginRepo loginRepo, IUserTableRepo userTable)
         {
             _loginRepo = loginRepo;
+            _userTable = userTable;
         }
         public IActionResult Index()
 		{
@@ -31,7 +34,9 @@ namespace WebAccountant.Controllers
 			else
 			{
                 HttpContext.Session.SetString("user", JsonConvert.SerializeObject(userDTO));
-				return RedirectToAction("SellProduct", "Home");
+				var userPermission = await _userTable.GetUserPermission(userDTO.UserName);
+                HttpContext.Session.SetString("permission", JsonConvert.SerializeObject(userPermission));
+                return RedirectToAction("SellProduct", "Home");
             }
 		}
 		[HttpPost]
