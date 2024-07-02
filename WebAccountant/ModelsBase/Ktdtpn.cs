@@ -10,8 +10,7 @@ namespace WebAccountant.ModelsBase
         public string Madtpn { get; set; } = null!;
         [Required(ErrorMessage = "Trường bắt buộc nhập")]
         public string? Tendtpn { get; set; }
-        [Required(ErrorMessage = "Trường bắt buộc nhập")]
-        public string? Diachi { get; set; }
+        public string? Diachi { get; set; } = " ";
         public string? DiachiGh { get; set; }
         [Required(ErrorMessage = "Trường bắt buộc nhập")]
         public string? MsDn { get; set; }

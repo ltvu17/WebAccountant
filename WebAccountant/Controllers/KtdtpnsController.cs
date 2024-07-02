@@ -40,7 +40,12 @@ namespace WebAccountant.Controllers
             var result = await _ktdtpnsRepo.AddNew(values);
             return RedirectToAction("KTDTPN", "Home");
         }
-
+        [HttpPut]
+        public async Task<IActionResult> Put(string key, string values)
+        {
+            await _ktdtpnsRepo.Update(key, values);
+            return Ok();
+        }
         [HttpPost]
         public async Task<IActionResult> Put(Ktdtpn ktdtpn) {
             await _ktdtpnsRepo.UpdateKTDTPN(ktdtpn);
