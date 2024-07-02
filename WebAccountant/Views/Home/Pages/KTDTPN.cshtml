@@ -336,10 +336,10 @@
             document.getElementById('valid-tenkh').textContent = "Không được trống!";
             return;
         } else document.getElementById('valid-tenkh').textContent = "";
-        if (dcSubmit == "") {
+        /*if (dcSubmit == "") {
             document.getElementById('valid-diachi').textContent = "Không được trống!";
             return;
-        } else document.getElementById('valid-diachi').textContent = "";
+        } else document.getElementById('valid-diachi').textContent = "";*/
         for (let i = 0; i < kh.length; i++) {
             if (kh[i].Madtpn == makhSubmit) {
                 document.getElementById('valid-makh').textContent = "Bị trùng!";
@@ -368,10 +368,10 @@
             document.getElementById('e-valid-tenkh').textContent = "Không được trống!";
             return;
         } else document.getElementById('e-valid-tenkh').textContent = "";
-        if (dcSubmit == "") {
+        /*if (dcSubmit == "") {
             document.getElementById('e-valid-diachi').textContent = "Không được trống!";
             return;
-        } else document.getElementById('e-valid-diachi').textContent = "";
+        } else document.getElementById('e-valid-diachi').textContent = "";*/
         
         alert("Sửa đối tượng pháp nhân thành công!")
         document.getElementById('edit-dtpn').submit();
@@ -404,6 +404,7 @@
             document.getElementById('e-diachi').value = kh[index].Diachi;
             document.getElementById('e-tenkh').value = kh[index].Tendtpn;
             document.getElementById('e-diachigh').value = kh[index].DiachiGh;
+            document.getElementById("e-tenkh").select();
             $('#btnEdit').click();
         }
     }
@@ -441,25 +442,18 @@
         var input = document.getElementById("makh");
         input.addEventListener('keydown', function (event) {
             if (event.key === 'Enter') {
-                inputTo = document.getElementById("msdn");
-                inputTo.select();
-            }
-        }); 
-        input = document.getElementById("msdn");
-        input.addEventListener('keydown', function (event) {
-            if (event.key === 'Enter') {
-                inputTo = document.getElementById("dt");
-                inputTo.select();
-            }
-        });
-        input = document.getElementById("dt");
-        input.addEventListener('keydown', function (event) {
-            if (event.key === 'Enter') {
                 inputTo = document.getElementById("tenkh");
                 inputTo.select();
             }
-        });
+        }); 
         input = document.getElementById("tenkh");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("msdn");
+                inputTo.select();
+            }
+        });
+        input = document.getElementById("msdn");
         input.addEventListener('keydown', function (event) {
             if (event.key === 'Enter') {
                 inputTo = document.getElementById("diachi");
@@ -469,7 +463,45 @@
         input = document.getElementById("diachi");
         input.addEventListener('keydown', function (event) {
             if (event.key === 'Enter') {
+                inputTo = document.getElementById("dt");
+                inputTo.select();
+            }
+        });
+        input = document.getElementById("dt");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
                 inputTo = document.getElementById("diachigh");
+                inputTo.select();
+            }
+        });
+    }
+    document.getElementById('editModal').onkeypress = function (e) {
+        var inputTo;
+        var input = document.getElementById("e-tenkh");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("e-msdn");
+                inputTo.select();
+            }
+        });
+        input = document.getElementById("e-msdn");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("e-diachi");
+                inputTo.select();
+            }
+        });
+        input = document.getElementById("e-diachi");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("e-dt");
+                inputTo.select();
+            }
+        });
+        input = document.getElementById("e-dt");
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                inputTo = document.getElementById("e-diachigh");
                 inputTo.select();
             }
         });
