@@ -21,7 +21,12 @@ namespace WebAccountant.Repository.Implement
             await _unitOfWork.SaveChangesAsync();
             return result;
         }
-
+        public async Task<bool> UpdateKTDTPN(Ktdtpn ktdtpn)
+        {
+            await _unitOfWork.KTDTPNDAO.Update(ktdtpn);
+            await _unitOfWork.SaveChangesAsync();
+            return true;
+        }
         public async Task Delete(string key)
         {
             var model = (await _unitOfWork.KTDTPNDAO.GetAll()).FirstOrDefault(item => item.Madtpn == key);

@@ -41,7 +41,7 @@
                 </div>
             </nav> *@
 
-            @*Modal*@
+            @*Modal add*@
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog  modal-lg">
                     <div class="modal-content">
@@ -97,7 +97,60 @@
                     </div>
                 </div>
             </div>
+            @*Modal edit*@
+            <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editLabel" aria-hidden="true">
+                <div class="modal-dialog  modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" style="color: #119583;" id="editLabel">Sửa Khách Hàng</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="edit-dtpn" method="post" asp-controller="Ktdtpns" asp-action="Put">
+                                <div class="row">
+                                    <div class="col-5">
+                                        <div class="mb-3 text-start">
+                                            <label for="e-makh" class="col-form-label">Mã đối tượng pháp nhân:</label>
+                                            <input type="text" class="form-control" asp-for="Madtpn" id="e-makh" readonly>
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="e-msdn" class="col-form-label">Mã số doanh nghiệp:</label>
+                                            <input type="text" class="form-control" asp-for="MsDn" id="e-msdn">
+                                            <span id="e-valid-msdn" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="e-dt" class="col-form-label">Điện thoại :</label>
+                                            <input type="text" class="form-control" asp-for="Dienthoai" id="e-dt">
+                                            <span id="e-valid-dt" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-7">
+                                        <div class="mb-3 text-start">
+                                            <label for="e-tenkh" class="col-form-label">Tên đối tượng pháp nhân:</label>
+                                            <input type="text" class="form-control" asp-for="Tendtpn" id="e-tenkh">
+                                            <span id="e-valid-tenkh" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="e-diachi" class="col-form-label">Địa chỉ:</label>
+                                            <input type="text" class="form-control" asp-for="Diachi" id="e-diachi">
+                                            <span id="e-valid-diachi" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="e-diachigh" class="col-form-label">Địa chỉ giao hàng:</label>
+                                            <input type="text" class="form-control" asp-for="DiachiGh" id="e-diachigh">
+                                        </div>
+                                    </div>
 
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                    <button type="button" class="btn btn-primary" onclick="esubmitModal()">Thêm</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             @*Data Here*@
             @(Html.DevExtreme().DataGrid<WebAccountant.ModelsBase.Ktdtpn>()
                 .DataSource(ds => ds.Mvc()
@@ -111,7 +164,7 @@
                 .Columns(columns =>
                 {
 
-                    columns.AddFor(m => m.Madtpn).Caption("Mã đối tượng").Fixed(true);
+                    columns.AddFor(m => m.Madtpn).Caption("Mã đối tượng").Fixed(true).AllowEditing(false);
 
                     columns.AddFor(m => m.Tendtpn).Caption("Tên đối tượng").Fixed(true);
 
@@ -185,6 +238,7 @@
                 .ShowBorders(true)
                 .RowAlternationEnabled(true)
                 .Height(750)
+                .OnFocusedRowChanged("focusRow")
                 .Editing(e =>
                 {
                     e.Mode(GridEditMode.Batch)
@@ -232,6 +286,11 @@
 </div>
 
 <script>
+    var key = "";
+    function focusRow(e) {
+        key = e.row.key;
+        //console.log(key);
+    }
     function saveGrid() {
         document.getElementsByClassName("dx-datagrid-save-button")[0].click();
     }
@@ -285,7 +344,33 @@
         alert("Tạo đối tượng pháp nhân thành công!")
         document.getElementById('add-dtpn').submit();
     }
+    function esubmitModal() {
+        var msdnSubmit = document.getElementById('e-msdn').value;
+        var dtSubmit = document.getElementById('e-dt').value;
+        var tenkhSubmit = document.getElementById('e-tenkh').value;
+        var dcSubmit = document.getElementById('e-diachi').value;
+        var dcghSubmit = document.getElementById('e-diachigh').value;
 
+        if (msdnSubmit == "") {
+            document.getElementById('e-valid-msdn').textContent = "Không được trống!";
+            return;
+        } else document.getElementById('e-valid-msdn').textContent = "";
+        if (dtSubmit == "") {
+            document.getElementById('e-valid-dt').textContent = "Không được trống!";
+            return;
+        } else document.getElementById('e-valid-msdn').textContent = "";
+        if (tenkhSubmit == "") {
+            document.getElementById('e-valid-tenkh').textContent = "Không được trống!";
+            return;
+        } else document.getElementById('e-valid-tenkh').textContent = "";
+        if (dcSubmit == "") {
+            document.getElementById('e-valid-diachi').textContent = "Không được trống!";
+            return;
+        } else document.getElementById('e-valid-diachi').textContent = "";
+        
+        alert("Sửa đối tượng pháp nhân thành công!")
+        document.getElementById('edit-dtpn').submit();
+    }
     function onDelete() {
         var grid = document.getElementById("grid");
         var row = grid.getElementsByClassName("dx-row-focused")[0];
@@ -297,12 +382,24 @@
         }
     }
     function onEdit() {
-        var grid = document.getElementById("grid");
-        var row = grid.getElementsByClassName("dx-row-focused")[0];
+        var row = document.getElementsByClassName("dx-row-focused")[0];
         if (row == null) {
-                alert("Hãy chọn hàng cần sửa")
+            alert("Hãy chọn hàng cần sửa")
         } else {
-            $('#btnAdd').click();
+            var index = 0;
+            for (let i = 0; i < kh.length; i++) {
+                if (key == kh[i].Madtpn) {
+                    index = i;
+                    break;
+                }
+            }
+            document.getElementById('e-makh').value = kh[index].Madtpn;
+            document.getElementById('e-msdn').value = kh[index].MsDn;
+            document.getElementById('e-dt').value = kh[index].Dienthoai;
+            document.getElementById('e-diachi').value = kh[index].Diachi;
+            document.getElementById('e-tenkh').value = kh[index].Tendtpn;
+            document.getElementById('e-diachigh').value = kh[index].DiachiGh;
+            $('#btnEdit').click();
         }
     }
     function OpenMenu(e) {
@@ -340,35 +437,35 @@
         input.addEventListener('keydown', function (event) {
             if (event.key === 'Enter') {
                 inputTo = document.getElementById("msdn");
-                inputTo.focus();
+                inputTo.select();
             }
         }); 
         input = document.getElementById("msdn");
         input.addEventListener('keydown', function (event) {
             if (event.key === 'Enter') {
                 inputTo = document.getElementById("dt");
-                inputTo.focus();
+                inputTo.select();
             }
         });
         input = document.getElementById("dt");
         input.addEventListener('keydown', function (event) {
             if (event.key === 'Enter') {
                 inputTo = document.getElementById("tenkh");
-                inputTo.focus();
+                inputTo.select();
             }
         });
         input = document.getElementById("tenkh");
         input.addEventListener('keydown', function (event) {
             if (event.key === 'Enter') {
                 inputTo = document.getElementById("diachi");
-                inputTo.focus();
+                inputTo.select();
             }
         });
         input = document.getElementById("diachi");
         input.addEventListener('keydown', function (event) {
             if (event.key === 'Enter') {
                 inputTo = document.getElementById("diachigh");
-                inputTo.focus();
+                inputTo.select();
             }
         });
     }
