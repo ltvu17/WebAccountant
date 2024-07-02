@@ -36,7 +36,7 @@ namespace WebAccountant.Repository.Implement
             entity.SttSapxep = (await _unitOfWork.KTSCDAO.GetAll()).OrderBy(s => s.SttSapxep).LastOrDefault().SttSapxep + 1;
             entity.SoctN = idChungTu;
             entity.SoHd = "0000" + idChungTu;
-            entity.Soct = "0000" + idChungTu;
+            entity.Soct = "00000" + idChungTu;
             var result = await _unitOfWork.KTSCDAO.Add(entity);
             await _unitOfWork.SaveChangesAsync();
             return result;
@@ -75,7 +75,7 @@ namespace WebAccountant.Repository.Implement
                 Thueusd = 0,
                 TtusdTt = 0,
                 Ngayctgs = DateTime.UtcNow,
-                SttSc = phieuBan.ktscs.LastOrDefault().SttSc+ 0.0001,
+                SttSc = phieuBan.ktscs.LastOrDefault().SttSc+ 0.00001,
                 Thang = DateTime.UtcNow.Month,
                 Mauser = "QUANLY",
                 Dgusd = 0,
@@ -103,13 +103,13 @@ namespace WebAccountant.Repository.Implement
                 Mangd = phieuBan.MaKh,
                 Luong1 = 0,
                 Luong2 = 0,
-                SttBt = phieuBan.ktscs.LastOrDefault().SttBt + 0.0001,
+                SttBt = phieuBan.ktscs.LastOrDefault().SttBt + 0.00001,
                 Httt = phieuBan.ktscs.LastOrDefault().Httt,
                 Chietkhau2 = 0,
                 Thoigiannhap = DateTime.UtcNow.AddHours(7).ToString(),
                 PtCk2 = 0,
                 IdNghiepvu = "TIENHANG",
-                SttSapxep = phieuBan.ktscs.LastOrDefault().SttBt + 0.0001,
+                SttSapxep = phieuBan.ktscs.LastOrDefault().SttBt + 0.00001,
                 Guid = Guid.NewGuid().ToString(),
                 SoctN = phieuBan.ktscs.LastOrDefault().IdChungtu,
                 Dgmausac = 0,

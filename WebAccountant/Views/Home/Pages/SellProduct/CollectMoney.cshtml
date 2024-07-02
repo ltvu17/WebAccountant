@@ -1,6 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model WebAccountant.ModelsBase.Ktsc
 @{
     Html.RenderPartial("../Home/Header");
 }
@@ -8,107 +6,399 @@
     <div class="home-container">
         @Html.Partial("../Home/SideBar")
         <div class="right-bar-home content">
-            @* Navbar Here*@
-            @*Modal*@
-            @*Data Here*@
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="border-radius:0px !important">
+                <div class="modal-dialog  modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" style="color: #119583;" id="exampleModalLabel">Thêm Bằng Phiếu Thu</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="add-thu" method="post" asp-controller="Ktscs" asp-action="AddPhieuThuTien">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div class="mb-3 text-start">
+                                            <label for="makh" class="col-form-label">Mã khách hàng:</label>
+                                            <input type="text" 
+                                                class="form-control" 
+                                                asp-for="Makh" 
+                                                placeholder="Nhập mã khách hàng..." 
+                                                id="makh" 
+                                                onkeyup="SearchNow('list-makh-sugg','makh','list-makh-sugg')" />
+                                            <span id="valid-makh" class="text-danger"></span>
+                                            <div class="table-container">
+                                                <table id="list-makh-sugg" class="sugg-container d-none">
+                                                    <tr id="tr-1">
+                                                        <td class="width-120">Mã khách hàng</td>
+                                                        <td class="width-250">Tên khách hàng</td>
+                                                        <td class="width-120">Mã số doanh nghiệp</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
 
-            @(
-                Html.DevExtreme().DataGrid<WebAccountant.ModelsBase.Ktsc>()
-                .ID("gridContainer")
-                .DataSource(ds => ds.Mvc()
-                .Controller("Ktscs")
-                .LoadAction("GetNhatKiBanHang")
-                .Key("SttSc")
-                )
-                .RemoteOperations(true)
-                .FocusedRowEnabled(true)
-                .Columns(columns =>
-                {
-                    columns.AddFor(m => m.Lctg).Caption("Chứng từ").Fixed(true);
+                                        <div class="mb-3 text-start">
+                                            <label for="dt" class="col-form-label">Điện thoại :</label>
+                                            <input type="text" class="form-control" id="dt" readonly>
+                                            <span id="valid-dt" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="manv" class="col-form-label">Mã nhân viên :</label>
+                                            <input type="text" 
+                                                class="form-control" 
+                                                id="manv" 
+                                                placeholder="Nhập mã nhân viên..." 
+                                                onkeyup="SearchNow('list-manv-sugg','manv','list-manv-sugg')" />
+                                            <span id="valid-manv" class="text-danger"></span>
+                                            <div class="table-container">
+                                                <table id="list-manv-sugg" class="sugg-container d-none">
+                                                    <tr id="tr-1">
+                                                        <td class="width-120">Mã nhân viên</td>
+                                                        <td class="width-250">Tên nhân viên</td>
+                                                        <td class="width-120">Tên phòng ban</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-3 text-start">
+                                            <label for="tenkh" class="col-form-label">Tên khách hàng:</label>
+                                            <input type="text" class="form-control" id="tenkh" asp-for="Tenkh" readonly>
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="diachi" class="col-form-label">Địa chỉ:</label>
+                                            <input type="text" class="form-control" id="diachi" asp-for="Diachi" readonly>
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="tennv" class="col-form-label">Mã số doanh nghiệp:</label>
+                                            <input type="text" class="form-control" id="msdn" asp-for="MsDn" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="mb-3 text-start">
+                                            <label for="ht" class="col-form-label">Ngày hóa đơn</label>
+                                            <input type="datetime-local" class="form-control" asp-for="NgayHd" id="ht" value="@DateTime.UtcNow.AddHours(7).ToString("s")">
+                                            <input type="datetime-local" class="form-control" asp-for="Ngayct" id="ht" value="@DateTime.UtcNow.AddHours(7).ToString("s")" hidden>
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="sohd" class="col-form-label">Số hóa đơn:</label>
+                                            <input type="text" class="form-control" id="sohd" readonly>
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="sohd" class="col-form-label">Tổng tiền thu:</label>
+                                            <input type="text" class="form-control" id="t-tongtien" onchange="formatNumber()">
+                                            <input type="number" asp-for="Ttvnd" class="form-control" id="tongtien" hidden>
+                                            <span id="valid-tongtien" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                    <button type="button" class="btn btn-primary" onclick="submitModal()">Thêm</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                    columns.AddFor(m => m.SoHd).Caption("Số hóa đơn");
+            <div id="collect-data">
+                @(
+                    Html.DevExtreme().DataGrid<WebAccountant.ModelsBase.Ktsc>()
+                    .ID("gridContainer")
+                    .DataSource(ds => ds.Mvc()
+                    .Controller("Ktscs")
+                    .LoadAction("GetPhieuThuTien")
+                    .Key("SttSc")
+                    )
+                    .RemoteOperations(true)
+                    .FocusedRowEnabled(true)
+                    .Columns(columns =>
+                    {
+                        columns.AddFor(m => m.Lctg).Caption("Chứng từ").Fixed(true);
 
-                    columns.AddFor(m => m.SrHd).Caption("Seri hóa đơn").Fixed(true);
+                        columns.AddFor(m => m.SoHd).Caption("Số hóa đơn").Fixed(true);
 
-                    columns.AddFor(m => m.NgayHd).Caption("Ngày hóa đơn").DataType(GridColumnDataType.Date).Fixed(true).Format("dd/MM/yyyy");
+                        columns.AddFor(m => m.SrHd).Caption("Seri hóa đơn");
 
-                    columns.AddFor(m => m.Tendm).Caption("Tên danh mục").Width(400);
+                        columns.AddFor(m => m.Soct).Caption("Số chứng từ");
 
-                    columns.AddFor(m => m.Donvi).Caption("Đơn vị");
+                        columns.AddFor(m => m.Ngayct).Caption("Ngày chứng từ").DataType(GridColumnDataType.Date).Fixed(true).Format("dd/MM/yyyy");
 
-                    columns.AddFor(m => m.Dgvnd).Caption("Đơn giá").Format("0,###");
+                        columns.AddFor(m => m.Diengiai).Caption("Diễn giải");
 
-                    columns.AddFor(m => m.TtvndTt).Caption("Thành tiền VND").Format("0,###");
+                        columns.AddFor(m => m.Tkno).Caption("Tài khoản nợ");
 
-                    columns.AddFor(m => m.PtCk).Caption("CK phần trăm").Format("0,###");
+                        columns.AddFor(m => m.Madtpnno).Caption("Mã đối tượng pháp nhân nợ");
 
-                    columns.AddFor(m => m.Chietkhau).Caption("Chiết khấu").Format("0,###");
+                        columns.AddFor(m => m.Tkco).Caption("Tài khoản có");
 
-                    columns.AddFor(m => m.Tkthue).Caption("Tk Thuế");
+                        columns.AddFor(m => m.Madtpnco).Caption("Mã đối tượng pháp nhân có");
 
-                    columns.AddFor(m => m.Thuevnd).Caption("Tiền thuế VND").Format("0,###");
+                        columns.AddFor(m => m.Ttvnd).Caption("Thành tiền VND").Format("0,###");
 
-                    columns.AddFor(m => m.TsGtgt).Caption("Thuế suất");
+                        columns.AddFor(m => m.Makh).Caption("Mã khách hàng");
 
-                    columns.AddFor(m => m.Makh).Caption("Mã khách hàng");
+                        columns.AddFor(m => m.Tenkh).Caption("Tên khách hàng").Width(300);
 
-                    columns.AddFor(m => m.Tenkh).Caption("Tên khách hàng").Width(300);
+                        columns.AddFor(m => m.Diachi).Caption("Địa chỉ").Width(400);
 
-                    columns.AddFor(m => m.Diachi).Caption("Địa chỉ").Width(400);
+                        columns.AddFor(m => m.MsDn).Caption("Mã số doanh nghiệp");
+                    }
+                    )
+                    .ShowColumnHeaders(true)
+                    .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
+                    .RowAlternationEnabled(true).WordWrapEnabled(true)
+                    .ShowBorders(true).Paging(paging => paging.PageSize(10))
+                    .Height(800)
+                    .Pager(pager =>
+                    {
+                        pager.Visible(true);
+                        pager.DisplayMode(GridPagerDisplayMode.Compact);
+                        pager.ShowPageSizeSelector(true);
+                        pager.AllowedPageSizes(new JS("[10, 15, 25, 40]"));
+                        pager.ShowInfo(true);
+                        pager.ShowNavigationButtons(true);
+                    })
+                    .Summary(s => s
+                    .RecalculateWhileEditing(true)
+                    .TotalItems(items =>
+                    {
+                        items.AddFor(m => m.TtvndTt)
+                        .SummaryType(SummaryType.Sum)
+                        .DisplayFormat("{0}")
+                        .ValueFormat("0,###");
 
-                    columns.AddFor(m => m.DiachiNgd).Caption("Địa chỉ người giao").Width(400);
+                        items.AddFor(m => m.Chietkhau)
+                        .SummaryType(SummaryType.Sum)
+                        .DisplayFormat("{0}")
+                        .ValueFormat("0,###");
 
-                    columns.AddFor(m => m.Mangd).Caption("Mã người giao dịch");
-
-                    columns.AddFor(m => m.Ghichu).Caption("Ghi chú");
-
-                    columns.AddFor(m => m.NvBan).Caption("Nhân viên bán");
-                }
-                )
-                .ShowColumnHeaders(true)
-                .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
-                .RowAlternationEnabled(true).WordWrapEnabled(true)
-                .ShowBorders(true).Paging(paging => paging.PageSize(10))
-                .Height(800)
-                .Pager(pager =>
-                {
-                    pager.Visible(true);
-                    pager.DisplayMode(GridPagerDisplayMode.Compact);
-                    pager.ShowPageSizeSelector(true);
-                    pager.AllowedPageSizes(new JS("[10, 15, 25, 40]"));
-                    pager.ShowInfo(true);
-                    pager.ShowNavigationButtons(true);
-                })
-                .Summary(s => s
-                .RecalculateWhileEditing(true)
-                .TotalItems(items =>
-                {
-                    items.AddFor(m => m.TtvndTt)
-                    .SummaryType(SummaryType.Sum)
-                    .DisplayFormat("{0}")
-                    .ValueFormat("0,###");
-
-                    items.AddFor(m => m.Chietkhau)
-                    .SummaryType(SummaryType.Sum)
-                    .DisplayFormat("{0}")
-                    .ValueFormat("0,###");
-
-                    items.AddFor(m => m.Thuevnd)
-                    .SummaryType(SummaryType.Sum)
-                    .DisplayFormat("{0}")
-                    .ValueFormat("0,###");
-                })
-                ))
-            <div class="footer-data d-flex justify-content-start">
-                @* <button class="btn btn-primary width-100" data-bs-toggle="modal" id="btnAdd" data-bs-target="#exampleModal">Thêm</button>
-                <button class="btn btn-primary width-100" type="button" onclick="onEdit()">Sửa</button>
-                <button class="btn btn-primary width-100" type="button" onclick="onDelete()">Xóa</button> *@
-                <div class="d-flex ms-auto" style="right : 0">
-                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#settingModal">
-                        <img src="~/img/setting.png" style="width: 20px; height: auto" />
-                    </button>
+                        items.AddFor(m => m.Thuevnd)
+                        .SummaryType(SummaryType.Sum)
+                        .DisplayFormat("{0}")
+                        .ValueFormat("0,###");
+                    })
+                    ))
+                <div class="footer-data d-flex justify-content-start">
+                    <button class="btn btn-primary width-100" data-bs-toggle="modal" id="btnAdd" data-bs-target="#exampleModal">Thêm</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    let count = 1;
+    let index = 1;
+    var exist = [];
+    exist.push(1);
+    var data = [];
+    var madmItems = []
+    var element;
+
+    let ptCkChung = 0;
+    let isCkChung = false;
+
+    var searchFil = [];
+    var fil = [];
+    $.ajax({
+        url: '@Url.Action("GetSoHoaDon", "Ktscs")',
+        type: 'GET',
+        success: function (result) {
+            $("#sohd").val(`0000${result}`);
+        }
+    });
+    function openPhieu(){
+        document.getElementById("collect-data").classList.add("d-none");
+        document.getElementById("collect-add").classList.remove("d-none");
+    }
+    function closePhieu() {
+        document.getElementById("collect-data").classList.remove("d-none");
+        document.getElementById("collect-add").classList.add("d-none");
+    }
+    function getLastNumber(str) {
+        const match = str.match(/\d+$/);
+        if (match) {
+            return parseInt(match[0]);
+        } else {
+            return null;
+        }
+    }
+    function formatNumber() {
+        var number = document.getElementById("t-tongtien");
+        var formattedNumber = new Intl.NumberFormat('en-US').format(number.value);
+        if (formattedNumber == "NaN") {
+            number.value = 0;
+            formattedNumber = Intl.NumberFormat('en-US').format(0);
+        }
+        setTextToNum();
+        var formattedNumber = new Intl.NumberFormat('en-US').format(number.value);
+        if (formattedNumber == "NaN") formattedNumber = Intl.NumberFormat('en-US').format(0);
+        number.value = formattedNumber;
+        setNumToText();
+    }
+    function formatFromNumber(int) {
+        var formattedNumber = new Intl.NumberFormat('en-US').format(int);
+        if (formattedNumber == "NaN") formattedNumber = 0;
+        return formattedNumber;
+    }
+
+    function convertNumToText(numberString) {
+        var cleanedNumberString = numberString.replace(/,/g, '');
+        if (numberString == "NaN") cleanedNumberString = 0;
+        return cleanedNumberString;
+    }
+    function setTextToNum() {
+        document.getElementById("tongtien").value = convertNumToText(document.getElementById("t-tongtien").value);
+    }
+    function setNumToText() {
+        document.getElementById("t-tongtien").value = formatFromNumber(document.getElementById("tongtien").value);
+    }
+
+    
+    function submitForm() {
+        const myForm = document.getElementById('myForm');
+        if (makhItems.length == 0) alert("Hãy chọn khách hàng!");
+        if (makhItems.length != 0 && manvItems.length == 0) alert("Hãy chọn nhân viên!");
+        if (makhItems.length != 0 && manvItems.length != 0) myForm.submit();
+    }
+    function SearchNow(idSugg, idInput, idUl) {
+        document.getElementById(idSugg).classList.remove("d-none");
+        var input, filter, ul, li, a, i;
+        input = document.getElementById(idInput);
+        filter = input.value.toUpperCase();
+        ul = document.getElementById(idUl);
+        li = ul.getElementsByTagName('li');
+
+        var table = document.getElementById(idSugg);
+        var tr = table.getElementsByTagName('tr');
+        for (i = 1; i < tr.length; i++) {
+            var tdMa = tr[i].getElementsByTagName("td")[0];
+            var maValue = tdMa.textContent || tdMa.innerText;
+            var tdTen = tr[i].getElementsByTagName("td")[1];
+            var tenValue = tdTen.textContent || tdTen.innerText;
+
+            if (maValue.toUpperCase().indexOf(filter) > -1 || tenValue.toUpperCase().indexOf(filter) > -1) {
+                var isNone = false;
+                for (let u = 0; u < madmItems.length; u++) {
+                    if (maValue.toUpperCase() == madmItems[u].Madm.toUpperCase()) {
+                        tr[i].style.display = "none";
+                        isNone = true;
+                        break;
+                    }
+                }
+                if (!isNone) tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+    var makh = [
+        {
+            Madtpn: "",
+            Tendtpn: "",
+            MsDn: ""
+        }
+    ];
+    $.ajax({
+        url: '@Url.Action("Get", "Ktdtpns")',
+        type: 'GET',
+        success: function (result) {
+            if (result.data.length > 0) {
+                makh = result.data;
+                for (var i = 0; i < makh.length; i++) {
+                    const list = document.getElementById("list-makh-sugg");
+                    list.insertAdjacentHTML('beforeend', `
+                                                               <tr class="tr-sugg" onclick="makhChooseItem('${encodeURIComponent(JSON.stringify(makh[i]))}')"><td>${makh[i].Madtpn}</td><td>${makh[i].Tendtpn}</td><td>${makh[i].MsDn}</td></tr>
+                                                        `);
+                }
+            }
+        }
+    });
+    var makhItems = [];
+    function makhChooseItem(item) {
+        makhItems = JSON.parse(decodeURIComponent(item));
+        hide_sugg("list-makh-sugg");
+        document.getElementById('makh').value = JSON.parse(decodeURIComponent(item)).Madtpn;
+        document.getElementById('tenkh').value = JSON.parse(decodeURIComponent(item)).Tendtpn;
+        document.getElementById('diachi').value = JSON.parse(decodeURIComponent(item)).Diachi;
+        document.getElementById('dt').value = JSON.parse(decodeURIComponent(item)).Dienthoai;
+        document.getElementById('msdn').value = JSON.parse(decodeURIComponent(item)).MsDn;
+    }
+
+    var manv = [
+        {
+            Madtpn: "",
+            Tendtpn: "",
+            MsDn: ""
+        }
+    ];
+    $.ajax({
+        url: '@Url.Action("Get", "Ktdtpns")',
+        type: 'GET',
+        success: function (result) {
+            if (result.data.length > 0) {
+                manv = result.data;
+                for (var i = 0; i < manv.length; i++) {
+                    const list = document.getElementById("list-manv-sugg");
+                    list.insertAdjacentHTML('beforeend', `
+                                                                               <tr class="tr-sugg" onclick="manvChooseItem('${encodeURIComponent(JSON.stringify(manv[i]))}')"><td>${manv[i].Madtpn}</td><td>${manv[i].Tendtpn}</td><td>${manv[i].MsDn}</td></tr>
+                                                                        `);
+                }
+            }
+        }
+    });
+    var manvItems = [];
+    function manvChooseItem(item) {
+        manvItems = JSON.parse(decodeURIComponent(item));
+        hide_sugg("list-manv-sugg");
+        document.getElementById('manv').value = JSON.parse(decodeURIComponent(item)).Madtpn;
+        document.getElementById('tennv').value = JSON.parse(decodeURIComponent(item)).Tendtpn;
+    }
+
+
+    function hide_sugg(idSugg) {
+        document.getElementById(idSugg).classList.add("d-none");
+    }
+    document.addEventListener('click', function (event) {
+        if (!document.getElementById("list-makh-sugg").contains(event.target) && !document.getElementById("list-makh-sugg").classList.contains("d-none")) {
+            hide_sugg("list-makh-sugg");
+        }
+        if (!document.getElementById("list-manv-sugg").contains(event.target) && !document.getElementById("list-manv-sugg").classList.contains("d-none")) {
+            hide_sugg("list-manv-sugg");
+        }
+    });
+    function tongData() {
+        var tst = 0, tck = 0, tthanhtien = 0;
+        for (let i = 0; i < fil.length; i++) {
+            tst += parseInt(fil[i].TongTien);
+            tck += parseInt(fil[i].CkThanhTien);
+            tthanhtien += parseInt(fil[i].ThanhTien);
+        }
+        document.getElementById("tong-data-st").textContent = formatFromNumber(tst);
+        document.getElementById("tong-data-ck").textContent = formatFromNumber(tck);
+        document.getElementById("tong-data-thanhtien").textContent = formatFromNumber(tthanhtien);
+    }
+
+    function submitModal() {
+        var makhSubmit = document.getElementById('makh').value;
+        var manvSubmit = document.getElementById('manv').value;
+        var ttongtienSubmit = document.getElementById('t-tongtien').value;
+        if (makhSubmit == "") {
+            document.getElementById('valid-makh').textContent = "Không được trống!";
+            return;
+        } else document.getElementById('valid-makh').textContent = "";
+        if (manvSubmit == "") {
+            document.getElementById('valid-manv').textContent = "Không được trống!";
+            return;
+        } else document.getElementById('valid-manv').textContent = "";
+        if (ttongtienSubmit > 0) {
+            document.getElementById('valid-tongtien').textContent = "SỐ TIỀN PHẢI LỚN HƠN 0!";
+            return;
+        } else document.getElementById('valid-tongtien').textContent = "";
+        alert("Thêm phiếu thu thành công!")
+        document.getElementById('add-thu').submit();
+    }
+</script>
