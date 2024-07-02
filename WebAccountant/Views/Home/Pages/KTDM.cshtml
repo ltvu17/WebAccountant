@@ -502,6 +502,11 @@
                 {
                     <button class="btn btn-primary width-100" type="button" onclick="onDelete()">Xóa</button>
                 }
+                @if (userPermission.ChoSua.Trim() == "T")
+                {
+                    <button class="btn btn-primary width-100" type="button" onclick="onEdit()">Sửa</button>
+                    <button data-bs-toggle="modal" type="button" id="btnEdit" data-bs-target="#editModal" hidden></button> 
+                }
                 @if (userPermission.ChoXoa.Trim() == "T" || userPermission.ChoSua.Trim() == "T")
                 {
                     <button class="btn btn-primary width-100" type="button" onclick="saveGrid()">Lưu</button>
