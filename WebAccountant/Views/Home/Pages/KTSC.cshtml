@@ -5,6 +5,14 @@
 @{
     Html.RenderPartial("../Home/Header");
 }
+@{
+    var json = Context.Session.GetString("permission");
+    WebAccountant.ModelsBase.KtUserTable userPermission = new();
+    if (json != null)
+    {
+        userPermission = Newtonsoft.Json.JsonConvert.DeserializeObject<List<WebAccountant.ModelsBase.KtUserTable>>(json).Where(s=>s.Tenbang.Trim() == "KTSC").FirstOrDefault();
+    }
+}
 <div class="text-center">
     <div class="home-container">
         @Html.Partial("../Home/SideBar")

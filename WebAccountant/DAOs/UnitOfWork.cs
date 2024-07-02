@@ -84,6 +84,21 @@ namespace WebAccountant.DAOs
                 return KttkDAO;
             }
         }
+        private readonly GenericDAO<KtUserTable, TIENHIEU2024Context> ktUserTableDAO;
+        public GenericDAO<KtUserTable, TIENHIEU2024Context> KtUserTableDAO
+        {
+            get
+            {
+                if (ktUserTableDAO == null)
+                {
+                    return new GenericDAO<KtUserTable, TIENHIEU2024Context>(_dbContext);
+                }
+                return ktUserTableDAO;
+            }
+        }
+        /// <summary>
+        /// login
+        /// </summary>
         private readonly GenericDAO<User, LoginContext> userDAO;
         public GenericDAO<User, LoginContext> UserDao
         {

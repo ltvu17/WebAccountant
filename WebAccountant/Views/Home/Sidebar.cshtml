@@ -1,10 +1,16 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@using Microsoft.AspNetCore.Http;
 @{
+    var json = Context.Session.GetString("permission");
+    List<WebAccountant.ModelsBase.KtUserTable> userPermission = new();
+    if(json != null)
+    {
+        userPermission = Newtonsoft.Json.JsonConvert.DeserializeObject<List<WebAccountant.ModelsBase.KtUserTable>>(json);
+    }
 }
 <div class="sidebar" id="main-sidebar">
-    
     <div class="d-flex justify-content-between" id="btn-bh" onclick="opendm(this.id)">
         <a>Bán hàng</a>
         <div id="arrow-bh" style="width:40px; height:auto; text-align:center; align-content:center">
@@ -45,13 +51,30 @@
         </div>
     </div>
     <div class="d-none" id="list-danhmuc">
-        <a id="6" style="text-align:end" asp-controller="Home" asp-action="KTDM">Hàng hóa</a>
-        <a id="5" style="text-align:end" asp-controller="Home" asp-action="KTDTPN">Khách hàng</a>
-        <a id="4" style="text-align:end" asp-controller="Home" asp-action="KTLCTG">Các loại chứng từ</a>
-        <a id="7" style="text-align:end" asp-controller="Home" asp-action="KTCN">Số dư công nợ</a>
+        @if (userPermission.Any(s => s.Tenbang.Trim() == "KTDM" && s.Trangthai == 1))
+        {
+            <a id="6" style="text-align:end" asp-controller="Home" asp-action="KTDM">Hàng hóa</a>
+        }
+        @if (userPermission.Any(s => s.Tenbang.Trim() == "KTDTPN" && s.Trangthai == 1))
+        {
+            <a id="5" style="text-align:end" asp-controller="Home" asp-action="KTDTPN">Khách hàng</a>
+        }
+        @if (userPermission.Any(s => s.Tenbang.Trim() == "KTLCTG" && s.Trangthai == 1))
+        {
+            <a id="4" style="text-align:end" asp-controller="Home" asp-action="KTLCTG">Các loại chứng từ</a>
+        }
+        @if (userPermission.Any(s => s.Tenbang.Trim() == "KTCN" && s.Trangthai == 1))
+        {
+            <a id="7" style="text-align:end" asp-controller="Home" asp-action="KTCN">Số dư công nợ</a>
+        }
+@*         <a id="4" style="text-align:end" asp-controller="Home" asp-action="KTLCTG">Các loại chứng từ</a>
+        <a id="7" style="text-align:end" asp-controller="Home" asp-action="KTCN">Số dư công nợ</a> *@
     </div>
     <a id="3" asp-controller="Home" asp-action="KTTK">Tồn kho</a>
-    <a id="8" asp-controller="Home" asp-action="KTSC">KTSC</a>
+    @if (userPermission.Any(s => s.Tenbang.Trim() == "KTSC" && s.Trangthai == 1))
+    {
+        <a id="8" asp-controller="Home" asp-action="KTSC">KTSC</a>
+    }
     @* <a id="11" asp-controller="Home" asp-action="ImportProduct">Nhập hàng</a> *@
 </div>
 <script>

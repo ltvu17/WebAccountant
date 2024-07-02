@@ -11,12 +11,14 @@ namespace WebAccountant.Controllers
 
         private readonly IUserKTSCColumnsRepo _userKTSCColumnsRepo;
         private readonly IUserKTDMColumnRepo _userKTDMColumnRepo;
+        private readonly IUserTableRepo _userTable;
 
-        public HomeController(ILogger<HomeController> logger, IUserKTSCColumnsRepo userKTSCColumnsRepo, IUserKTDMColumnRepo userKTDMColumnRepo)
+        public HomeController(ILogger<HomeController> logger, IUserKTSCColumnsRepo userKTSCColumnsRepo, IUserKTDMColumnRepo userKTDMColumnRepo, IUserTableRepo userTable)
         {
             _logger = logger;
             _userKTSCColumnsRepo = userKTSCColumnsRepo;
             _userKTDMColumnRepo = userKTDMColumnRepo;
+            _userTable = userTable;
         }
 		public IActionResult Index()
         {

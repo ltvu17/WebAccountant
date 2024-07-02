@@ -5,6 +5,22 @@
 @{
     Html.RenderPartial("../Home/Header");
 }
+@{
+    var json = Context.Session.GetString("permission");
+    WebAccountant.ModelsBase.KtUserTable userPermission = new WebAccountant.ModelsBase.KtUserTable()
+            {
+                MaUser = "",
+                Tenbang = "KTDTPN",
+                ChoSua = "F",
+                ChoThem = "F",
+                ChoXoa = "F",
+                Trangthai = 1,
+            };
+    if (json != null)
+    {
+        userPermission = Newtonsoft.Json.JsonConvert.DeserializeObject<List<WebAccountant.ModelsBase.KtUserTable>>(json).Where(s => s.Tenbang.Trim() == "KTDTPN").FirstOrDefault();
+    }
+}
 <div class="text-center">
     <div class="home-container">
         @Html.Partial("../Home/SideBar")
@@ -172,8 +188,8 @@
                 .Editing(e =>
                 {
                     e.Mode(GridEditMode.Batch)
-                    .AllowUpdating(true).UseIcons(true)
-                    .AllowDeleting(true);
+                    .AllowUpdating(userPermission.ChoSua.Trim() == "T").UseIcons(true)
+                    .AllowDeleting(userPermission.ChoXoa.Trim() == "T");
                     e.SelectTextOnEditStart(true);
                     e.StartEditAction(GridStartEditAction.DblClick);
                 })
@@ -191,11 +207,25 @@
                 .OnContextMenuPreparing("OpenMenu").ID("grid")
                 )
             <div class="footer-data d-flex justify-content-start">
-                <button class="btn btn-primary width-100" data-bs-toggle="modal" id="btnAdd" data-bs-target="#exampleModal">Thêm</button>
+                @if (userPermission.ChoThem.Trim() == "T")
+                {
+                    <button class="btn btn-primary width-100" data-bs-toggle="modal" id="btnAdd" data-bs-target="#exampleModal">Thêm</button>
+                }
+                @* <button class="btn btn-primary width-100" type="button" id="btnEdit" onclick="onEdit()">Sửa</button> *@
+                @if (userPermission.ChoXoa.Trim() == "T")
+                {
+                    <button class="btn btn-primary width-100" type="button" onclick="onDelete()">Xóa</button>
+                }
+                @if (userPermission.ChoXoa.Trim() == "T" || userPermission.ChoSua.Trim() == "T")
+                {
+                    <button class="btn btn-primary width-100" type="button" onclick="saveGrid()">Lưu</button>
+                    <button class="btn btn-primary width-100" type="button" onclick="redoGrid()">Hoàn tác</button>
+                }
+                @* <button class="btn btn-primary width-100" data-bs-toggle="modal" id="btnAdd" data-bs-target="#exampleModal">Thêm</button> *@
                 @* <button class="btn btn-primary width-100" type="button" onclick="onEdit()">Sửa</button> *@
-                <button class="btn btn-primary width-100" type="button" onclick="onDelete()">Xóa</button>
+@*                 <button class="btn btn-primary width-100" type="button" onclick="onDelete()">Xóa</button>
                 <button class="btn btn-primary width-100" type="button" onclick="saveGrid()">Lưu</button>
-                <button class="btn btn-primary width-100" type="button" onclick="redoGrid()">Hoàn tác</button>
+                <button class="btn btn-primary width-100" type="button" onclick="redoGrid()">Hoàn tác</button> *@
             </div>
         </div>
     </div>
