@@ -29,6 +29,7 @@ namespace WebAccountant.Controllers
             _ktdmRepo = ktdmRepo;
             _userKTDMColumnRepo = userKTDMColumnRepo;
         }
+
         [HttpGet]
         public async Task<IActionResult> GetDto(DataSourceLoadOptions loadOptions)
         {
