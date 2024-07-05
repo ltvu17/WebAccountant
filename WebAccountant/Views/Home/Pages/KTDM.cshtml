@@ -273,7 +273,6 @@
                                                         <input type="number" style="width: 50px" value="0" min="0" name="width[@ktdmColumn.IndexOf(item)]" />
                                                     </td>
                                                 }
-                                            
                                             }
                                         </tr>
                                     }
@@ -877,6 +876,7 @@
         document.getElementById('t-tdk-gt').value = formatFromNumber(convertNumToText(document.getElementById('t-tdk-gt').value));
         document.getElementById('t-tdk-sl').value = formatFromNumber(convertNumToText(document.getElementById('t-tdk-sl').value));
         document.getElementById('tdk-gt').value = convertNumToText(document.getElementById('t-tdk-gt').value);
+        document.getElementById('tdk-sl').value = convertNumToText(document.getElementById('t-tdk-sl').value);
     }
     function eformatAll() {
         document.getElementById('e-t-dgb').value = formatFromNumber(convertNumToText(document.getElementById('e-t-dgb').value));
@@ -886,6 +886,7 @@
         document.getElementById('e-t-tdk-gt').value = formatFromNumber(convertNumToText(document.getElementById('e-t-tdk-gt').value));
         document.getElementById('e-t-tdk-sl').value = formatFromNumber(convertNumToText(document.getElementById('e-t-tdk-sl').value));
         document.getElementById('e-tdk-gt').value = convertNumToText(document.getElementById('e-t-tdk-gt').value);
+        document.getElementById('e-tdk-sl').value = convertNumToText(document.getElementById('e-t-tdk-sl').value);
     }
     document.getElementById('exampleModal').onkeypress = function (e) {
         var inputTo; 

@@ -517,7 +517,7 @@
                                                 .ShowColumnHeaders(true)
                     .DataSource(d => d.StaticJson().Url(@Url.Action("GetData", "Ktscs")).Key("SttSc"))
                     .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
-                    .RowAlternationEnabled(true).WordWrapEnabled(true)
+                    .RowAlternationEnabled(true).WordWrapEnabled(true).FocusedRowEnabled(true)
                     .ShowBorders(true).Paging(paging => paging.PageSize(10))
                     .Height(750)
                     .Pager(pager =>
