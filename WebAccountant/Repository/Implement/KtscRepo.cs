@@ -478,25 +478,49 @@ namespace WebAccountant.Repository.Implement
 
         public async Task<bool> RefundPackageSell(IEnumerable<double> sttSc)
         {
+            var ktdms = new List<KtdmDTO>();
+            var hinhthuctt = "Tiền Mặt";
+            var makh = "";
+            var manv = "";
+            var newGuid = Guid.NewGuid();
             foreach (var item in sttSc)
             {
                 var ktsc = (await _unitOfWork.KTSCDAO.Find(s => s.SttSc == item, 1, 1)).FirstOrDefault();
                 if (ktsc == null) continue;
-                ktsc.Lctg = "HTL";
-                ktsc.Dgvnd = -ktsc.Dgvnd;
-                ktsc.Ttvnd = -ktsc.Ttvnd;
-                ktsc.Chietkhau = -ktsc.Chietkhau;
-                ktsc.Thuevnd = -ktsc.Thuevnd;
-                ktsc.TtvndTt = -ktsc.TtvndTt;
-                var phieuXK = (await _unitOfWork.KTSCDAO.Find(s=>s.Lctg == "PXK" && s.Soct == ktsc.Soct && s.Madmco == ktsc.Madmco,1 ,1)).FirstOrDefault();
-                var phieuChietKhau = (await _unitOfWork.KTSCDAO.Find(s => s.IdChungtu == ktsc.IdChungtu && s.IdNghiepvu == "CHIETKHAU_HDBR", 1, 1)).FirstOrDefault();
-                var phieuThueSuat = (await _unitOfWork.KTSCDAO.Find(s => s.IdChungtu == ktsc.IdChungtu && s.IdNghiepvu == "VAT_RA", 1, 1)).FirstOrDefault();
-                phieuXK.Lctg = "PNK_TL";
-                phieuChietKhau.Ttvnd = phieuChietKhau.Ttvnd - ktsc.Chietkhau;
-                phieuThueSuat.Ttvnd = phieuThueSuat.Ttvnd + ktsc.Thuevnd;
+                var ktdmDTO = new KtdmDTO
+                {
+                    PtChietKhau = ktsc.PtCk,
+                    ChietKhauThanhTien = ktsc.Chietkhau,
+                    Dgban = ktsc.Dgvnd,
+                    Soluong = Int32.Parse(ktsc.Luong.ToString()),
+                    Donvi = ktsc.Donvi,
+                    Madm = ktsc.Madmco,
+                    PtThue = Double.Parse(ktsc.TsGtgt),
+                    ThueThanhTien = ktsc.Thuevnd,
+                    Tendm = ktsc.Tendm,
+                    Matk = (await _unitOfWork.KTDMDao.Find(s=>s.Madm == ktsc.Madmco,1 ,1)).FirstOrDefault().Matk,
+                    TonTDv1 = 0,
+                    eId = 0
+                };
+                makh = ktsc.Makh;
+                manv = ktsc.MaNvBan;
+                hinhthuctt = ktsc.Httt;
+                ktdms.Add(ktdmDTO);
+            };
+            if(ktdms.Count() > 0)
+            {
+                var formBanHangDTO = new FormBanHangDTO
+                {
+                    HthucThanhToan = hinhthuctt == "Tiền Mặt" ? "1" : "0",
+                    NgayCtu = DateTime.Now,
+                    NgayHToan = DateTime.Now,
+                    Makh = makh,
+                    MaNhanVien = manv,
+                    
+                    ktdmDTOs = ktdms,
+                };
+                await SavePhieuTraHangToDB(formBanHangDTO);
             }
-
-            await _unitOfWork.SaveChangesAsync();
             return true;
         }
 
@@ -621,7 +645,7 @@ namespace WebAccountant.Repository.Implement
                         Luong1 = 0,
                         Luong2 = 0,
                         SttBt = t,
-                        Httt = item.HthucThanhToan == 1.ToString() ? "Thanh Toán Trực Tiếp" : "Nợ",
+                        Httt = item.HthucThanhToan == 1.ToString() ? "Tiền mặt" : "Nợ",
                         Chietkhau2 = 0,
                         Thoigiannhap = DateTime.UtcNow.AddHours(7).ToString(),
                         PtCk2 = 0,
@@ -706,7 +730,7 @@ namespace WebAccountant.Repository.Implement
                         Luong1 = 0,
                         Luong2 = 0,
                         SttBt = t,
-                        Httt = item.HthucThanhToan == 1.ToString() ? "Thanh Toán Trực Tiếp" : "Nợ",
+                        Httt = item.HthucThanhToan == 1.ToString() ? "Tiền mặt" : "Nợ",
                         Chietkhau2 = 0,
                         Thoigiannhap = DateTime.UtcNow.AddHours(7).ToString(),
                         PtCk2 = 0,
