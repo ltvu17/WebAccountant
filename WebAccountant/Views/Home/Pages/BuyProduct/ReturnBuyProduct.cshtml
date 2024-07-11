@@ -1,0 +1,929 @@
+﻿@model WebAccountant.Models.FormBanHangDTO
+@{
+    Html.RenderPartial("../Home/Header");
+}
+<div class="text-center">
+    <div class="home-container">
+        @Html.Partial("../Home/SideBar")
+        <div class="right-bar-home content">
+            @* Navbar Here*@
+
+
+            @*Modal*@
+            @*Data Here*@
+            <div id="traData">
+            @(
+                Html.DevExtreme().DataGrid<WebAccountant.Models.PhieuBanHangDTO>()
+                    .ID("gridContainer")
+                    .DataSource(ds => ds.Mvc()
+                    .Controller("Ktscs")
+                    .LoadAction("GetALLDSPhieuBanHangTra")
+                    .Key("Soctu")
+                    )
+                    .RemoteOperations(true)
+                    .FocusedRowEnabled(true)
+                    .Columns(columns =>
+                    {
+
+                    columns.AddFor(m => m.NgayCtu).Caption("Ngày chứng từ").DataType(GridColumnDataType.Date).Fixed(true).Format("dd/MM/yyyy");
+
+                    columns.AddFor(m => m.Soctu).Caption("Số chứng từ").Fixed(true);
+
+                    columns.AddFor(m => m.HTThanhToan).Caption("Hình thức thanh toán").Width(160); ;
+
+                    columns.AddFor(m => m.ThanhTien).Caption("Thành tiền").Format("0,###;(0,###-)");
+
+                    columns.AddFor(m => m.ckPhanTram).Caption("Chiết khấu phần trăm").Format("0,###");
+
+                    columns.AddFor(m => m.CkThanhTien).Caption("Chiết khấu thành tiền").Format("0,###");
+
+                    columns.AddFor(m => m.TongTien).Caption("Tổng tiền").Format("0,###");
+
+                    columns.AddFor(m => m.KhTraTien).Caption("Khách hàng trả tiền").Format("0,###");
+
+                    columns.AddFor(m => m.MaKh).Caption("Mã khách hàng");
+
+                    columns.AddFor(m => m.TenKh).Caption("Tên khách hàng").Width(300);
+
+                    columns.AddFor(m => m.MsThue).Caption("Mã số thuế");
+
+                    columns.AddFor(m => m.Diachi).Caption("Địa chỉ").Width(400);
+
+                    columns.AddFor(m => m.GhiChu).Caption("Ghi chú");
+
+                    columns.AddFor(m => m.NhanVienBan).Caption("Nhân viên bán");
+                    }
+                    )
+                .ShowColumnHeaders(true)
+                .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.NextColumn).FilterRow(ft => ft.Visible(true))
+                .RowAlternationEnabled(true).WordWrapEnabled(true)
+                .ShowBorders(true).Paging(paging => paging.PageSize(10))
+                .Height(800)
+                .Pager(pager =>
+                {
+                    pager.Visible(true);
+                    pager.DisplayMode(GridPagerDisplayMode.Compact);
+                    pager.ShowPageSizeSelector(true);
+                    pager.AllowedPageSizes(new JS("[10, 15, 25, 40]"));
+                    pager.ShowInfo(true);
+                    pager.ShowNavigationButtons(true);
+                }))
+              @*  .Summary(s => s
+                .RecalculateWhileEditing(true)
+                .TotalItems(items =>
+                {
+                    items.AddFor(m => m.ThanhTien)
+                    .SummaryType(SummaryType.Sum)
+                    .DisplayFormat("{0}")
+                    .ValueFormat("0,###");
+
+                    items.AddFor(m => m.TongTien)
+                    .SummaryType(SummaryType.Sum)
+                    .DisplayFormat("{0}")
+                    .ValueFormat("0,###");
+
+                    items.AddFor(m => m.KhTraTien)
+                    .SummaryType(SummaryType.Sum)
+                    .DisplayFormat("{0}")
+                    .ValueFormat("0,###");
+
+                })
+            ))*@
+                <div class="footer-data d-flex justify-content-start">
+                    <button class="btn btn-primary width-100" type="button" onclick="openPhieu()" id="btnAdd">Thêm</button>
+                 @*    <button class="btn btn-primary width-100" type="button" onclick="onEdit()">Sửa</button>
+                    <button class="btn btn-primary width-100" type="button" onclick="onDelete()">Xóa</button> *@
+                </div>
+            </div>
+            <form id="myForm" class="d-none" asp-controller="Ktscs" asp-action="AddPhieuTraHang">
+                <div class="top-content">
+                    @*Content*@
+                    <div class="row">
+                        @*Forms*@
+                        <div class="mua-form col-8">
+                            @*Phieu nhap*@
+                            <div id="phieu-nhap" class="row">
+                                <div id="infor-phieu-nhap" class="col-9">
+                                    <div class="row">
+                                        <div class="col-4 col-num-1" style="padding-bottom:5px">
+                                            <div class=" text-start">
+                                                <label for="input-makh" class="col-form-label">Mã khách hàng:</label>
+                                                <div class="d-flex justify-content-between">
+                                                    <div class="width-pt-80">
+                                                        <input type="text"
+                                                               class="form-control input-sugg"
+                                                               id="input-makh"
+                                                               autofocus="autofocus"
+                                                               placeholder="Nhập khách hàng..."
+                                                               autocomplete="off"
+                                                               asp-for="Makh"
+                                                               onkeyup="SearchNow('list-makh-sugg','input-makh','list-makh-sugg')" />
+                                                        <span class="error-msg" asp-validation-for="Makh"></span>
+                                                    </div>
+                                                    <div class="width-20" style="height:100%" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                        <svg class="add-kh" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="green" d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM200 344V280H136c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H248v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z" /></svg>
+                                                    </div>
+                                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog modal-xl">
+                                                            <div class="modal-content add-kh-form">
+                                                                <div class="add-kh-form-header d-flex justify-content-between">
+                                                                    <h6 class="modal-title main-color" id="exampleModalLabel">Thêm khách hàng</h6>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="add-kh-form-body">
+                                                                    <div class="main-body row">
+                                                                        <div class="col-3">
+                                                                            <div class=" text-start">
+                                                                                <label for="makh-add" class="col-form-label">Mã khách hàng:</label>
+                                                                                <input type="text"
+                                                                                       id="makh-add"
+                                                                                       class="form-control"
+                                                                                       autofocus="autofocus"
+                                                                                       autocomplete="off" />
+                                                                            </div>
+                                                                            <div class=" text-start">
+                                                                                <label for="msdn-add" class="col-form-label">Mã số doanh nghiệp:</label>
+                                                                                <input type="text"
+                                                                                       id="msdn-add"
+                                                                                       class="form-control"
+                                                                                       autofocus="autofocus"
+                                                                                       autocomplete="off" />
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div class="col-7">
+                                                                            <div class=" text-start">
+                                                                                <label for="tenkh-add" class="col-form-label">Tên khách hàng:</label>
+                                                                                <input type="text"
+                                                                                       id="tenkh-add"
+                                                                                       class="form-control"
+                                                                                       autofocus="autofocus"
+                                                                                       autocomplete="off" />
+                                                                            </div>
+                                                                            <div class=" text-start">
+                                                                                <label for="dc-add" class="col-form-label">Địa chỉ:</label>
+                                                                                <input type="text"
+                                                                                       id="dc-add"
+                                                                                       class="form-control"
+                                                                                       autofocus="autofocus"
+                                                                                       autocomplete="off" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-2">
+                                                                            <div class=" text-start">
+                                                                                <label for="dt-add" class="col-form-label">Số điện thoại:</label>
+                                                                                <input type="text"
+                                                                                       id="dt-add"
+                                                                                       class="form-control"
+                                                                                       autofocus="autofocus"
+                                                                                       autocomplete="off" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="add-kh-form-footer d-flex justify-content-end">
+                                                                    <button type="button" class="t-s-13 btn btn-outline-secondary mar-5" data-bs-dismiss="modal">Đóng</button>
+                                                                    <button type="button" class="t-s-13 btn btn-outline-success mar-5">Lưu</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="table-container">
+                                                    <table id="list-makh-sugg" class="sugg-container d-none">
+                                                        <tr id="tr-1">
+                                                            <td class="width-120">Mã khách hàng</td>
+                                                            <td class="width-250">Tên khách hàng</td>
+                                                            <td class="width-120">Mã số doanh nghiệp</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class=" text-start">
+                                                <label for="masodn" class="col-form-label">Mã số doanh nghiệp:</label>
+                                                <input type="text" class="form-control" id="masodn" readonly>
+                                            </div>
+                                            <div class="text-start">
+                                                <label for="input-manv" class="col-form-label">Mã nhân viên:</label>
+                                                <input type="text"
+                                                       class="form-control input-sugg"
+                                                       id="input-manv"
+                                                       placeholder="Nhập nhân viên..."
+                                                       autofocus="autofocus"
+                                                       asp-for="MaNhanVien"
+                                                       onkeyup="SearchNow('list-manv-sugg','input-manv','list-manv-sugg')" />
+                                                <div class="table-container">
+                                                    <table id="list-manv-sugg" class="sugg-container d-none">
+                                                        <tr id="tr-1">
+                                                            <td class="width-120">Mã nhân viên</td>
+                                                            <td class="width-250">Tên nhân viên</td>
+                                                            <td class="width-120">Tên phòng ban</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="text-start">
+                                                <label for="tennv" class="col-form-label">Tên nhân viên:</label>
+                                                <input type="text" class="form-control" id="tennv" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-8">
+                                            <div class=" text-start">
+                                                <label for="tenkh" class="col-form-label">Tên khách hàng:</label>
+                                                <input type="text" class="form-control" id="tenkh" readonly>
+                                            </div>
+                                            <div class=" text-start">
+                                                <label for="dc" class="col-form-label">Địa chỉ:</label>
+                                                <input type="text" class="form-control" id="dc" readonly>
+                                            </div>
+                                            <div class=" text-start">
+                                                <label for="dcgh" class="col-form-label">Địa chỉ giao hàng:</label>
+                                                <input type="text" class="form-control" id="dcgh" readonly>
+                                            </div>
+                                            <div class=" text-start">
+                                                <label for="ck" class="col-form-label">Chiết khấu cho tất cả (%):</label>
+                                                <div class="d-flex justify-content-between">
+                                                    <input type="number" class="form-control width-pt-80" id="ckChung" min="0" max="100" asp-for="PtChietKhau">
+                                                    <button class="btn btn-primary b-radius-3 height-30 t-s-12 width-pt-15" type="button" onclick="onCkChung()">Xong</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="id-phieu-nhap" class="col-3 col-num-2">
+                                    <div class=" text-start">
+                                        <label for="ht" class="col-form-label">Ngày hóa đơn</label>
+                                        <input type="datetime-local" class="form-control" asp-for="NgayHToan" id="ht" value="@DateTime.UtcNow.AddHours(7).ToString("s")">
+                                        <input type="datetime-local" class="form-control" asp-for="NgayCtu" id="ht" value="@DateTime.UtcNow.AddHours(7).ToString("s")" hidden>
+                                    </div>
+                                    <div class=" text-start">
+                                        <label for="sohd" class="col-form-label">Số hóa đơn:</label>
+                                        <input type="text" class="form-control" id="sohd" readonly>
+                                    </div>
+                                    <div class=" text-start">
+                                        <label for="sosr" class="col-form-label">Số seri:</label>
+                                        <input type="text" class="form-control" id="sosr" readonly>
+                                    </div>
+                                    <div class=" text-start">
+                                        <label for="httt" class="col-form-label">Hình thức thanh toán</label>
+                                        <select class="form-select b-radius-3 height-30 width-pt-100 t-s-12" asp-for="HthucThanhToan">
+                                            <option value="1">Tiền mặt</option>
+                                            <option value="2">Nợ</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*Tong tien*@
+                        <div class="col-4 bill row">
+                            <div class="t-s-13">
+                                <table class="width-pt-100">
+                                    <tr>
+                                        <td class="weight-600">Tiền hàng</td>
+                                        <td class="text-end weight-600" id="tong-hang">0</td>
+                                    <tr />
+                                    <tr>
+                                        <td class="weight-600">Tiền thuế</td>
+                                        <td class="text-end weight-600" id="tong-thue">0</td>
+                                    <tr />
+                                    <tr style="border-bottom: 1px solid #ddd;">
+                                        <td class="weight-600">Tiền chiết khấu</td>
+                                        <td class="text-end weight-600" id="tong-ck">0</td>
+                                    <tr />
+                                    <tr>
+                                        <td class="weight-700 t-s-16">Tổng thanh toán</td>
+                                        <td class="text-end weight-700 t-s-18" id="tong-thanh-tien">0</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom-content">
+                    <div class="table-data2">
+                        @*List product *@
+                        <table id="list-dm" class="table-text">
+                            <tr class="table-menu" id="tr-1">
+                                <td class="t-center">#</td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:120px;">Mã mặt hàng</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:200px;">Tên mặt hàng</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:70px; max-width:70px;">Đơn vị</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:70px;">Số lượng</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:70px;">Đơn giá</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:70px;">Thành tiền</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:90px;">Chiết khấu (%)</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:100px;">Chiết khấu (VND)</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:70px;">Thuế (%)</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:70px;">Thuế (VND)</div></td>
+                                <td class="nowr"><div class="resizable-1" style="min-width:100px;">Tiền thanh toán</div></td>
+                                <td class="nowr">Hành động</td>
+                            </tr>
+                            <tr id="tr1">
+                                <td class="t-center td-index">1</td>
+                                <td>
+                                    <input type="text"
+                                           class="form-control input-sugg"
+                                           id="input-madm-1"
+                                           style="width:100%"
+                                           autofocus="autofocus"
+                                           autocomplete="off"
+                                           placeholder="Nhập mặt hàng..."
+                                           style="resize:horizontal"
+                                           asp-for="ktdmDTOs[0].Madm"
+                                           onkeyup="SearchNow('list-madm-sugg-1','input-madm-1','list-madm-sugg-1')" />
+                                    <div class="table-container">
+                                        <table id="list-madm-sugg-1" class="sugg-container d-none">
+                                            <tr id="tr-1">
+                                                <td class="width-120 t-s-12">Mã danh mục</td>
+                                                <td class="width-250 t-s-12">Tên danh mục</td>
+                                                <td class="width-90 t-s-12">Số lượng tồn</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input style="width:100%" type="text" class="form-control" id="input-tendm-1" asp-for="ktdmDTOs[0].Tendm" readonly />
+                                    <input type="text" class="form-control" id="input-matk-1" asp-for="ktdmDTOs[0].Matk" hidden readonly />
+                                </td>
+                                <td>
+                                    <div id="ip-donvi-1"> </div>
+                                    <input type="text" class="form-control" id="input-donvi-1" asp-for="ktdmDTOs[0].Donvi" hidden readonly />
+                                </td>
+                                <td>
+                                    <input style="width:100%" type="text" class="form-control text-end" id="soluong-1" onchange="formatNumber(this.id)" />
+                                    <input type="number" class="form-control text-end" id="input-soluong-1" asp-for="ktdmDTOs[0].Soluong" min="1" hidden />
+                                </td>
+                                <td>
+                                    <input style="width:100%" id="dongia-1" type="text" class="form-control text-end" onchange="formatNumber(this.id)" />
+                                    <input type="number" id="input-dongia-1" asp-for="ktdmDTOs[0].Dgban" min="0" hidden />
+                                </td>
+                                <td>
+                                    <input style="width:100%" type="text" class="form-control text-end" id="input-tientong-1" readonly />
+                                </td>
+                                <td>
+                                    <input style="width:100%" type="text" class="form-control text-end" id="ck-1" min="0" max="100" onchange="formatNumber(this.id)" />
+                                    <input type="number" class="form-control text-end" id="input-ck-1" asp-for="ktdmDTOs[0].PtChietKhau" min="0" max="100" hidden />
+                                </td>
+                                <td>
+                                    <input style="width:100%" type="text" class="form-control text-end" id="ck-vnd-1" min="0" onchange="lamTron(1)" />
+                                    <input type="number" class="form-control text-end" id="input-ck-vnd-1" asp-for="ktdmDTOs[0].ChietKhauThanhTien" min="0" hidden />
+                                </td>
+                                <td>
+                                    <input style="width:100%" type="text" class="form-control text-end" id="thue-1" min="0" max="100" onchange="formatNumber(this.id)" />
+                                    <input type="number" class="form-control text-end" id="input-thue-1" asp-for="ktdmDTOs[0].PtThue" min="0" max="100" hidden />
+                                </td>
+                                <td>
+                                    <input style="width:100%" type="text" class="form-control text-end" id="thue-vnd-1" min="0" onchange="lamTron(1)" />
+                                    <input type="number" class="form-control text-end" id="input-thue-vnd-1" asp-for="ktdmDTOs[0].ThueThanhTien" min="0" hidden />
+                                </td>
+                                <td>
+                                    <input style="width:100%" type="text" class="form-control" id="input-thanhtien-1" readonly />
+                                </td>
+                                <td class="t-center"><a onClick="xoaDm('tr1')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="footer-data2 buttons d-flex justify-content-between mar-5">
+                        <div>
+                            <button class="btn btn-success t-s-12 height-30" id="addDm" onclick="themDm()" type="button">Thêm mặt hàng</button>
+                            <button class="btn btn-danger t-s-12 height-30" onclick="xoaHet()" type="button">Xóa hết</button>
+                        </div>
+                        <div>
+                            @* <button class="btn btn-warning t-s-12 height-30" id="exportBill" onclick="exportPDF()" type="button">Xuất hóa đơn</button> *@
+                            <button class="btn btn-danger t-s-12 height-30" type="button" onclick="closePhieu()">Quay lại</button>
+                            <button class="btn btn-primary t-s-12 height-30" id="saveButton" type="button" onclick="submitForm()">Lưu hàng trả</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    let count = 1;
+    let index = 1;
+    var exist = [];
+    exist.push(1);
+    var data = [];
+    var madmItems = []
+    var element;
+
+    let ptCkChung = 0;
+    let isCkChung = false;
+
+    var searchFil = [];
+    var fil = [];
+    $.ajax({
+        url: '@Url.Action("GetSoHoaDon", "Ktscs")',
+        type: 'GET',
+        success: function (result) {
+            $("#sohd").val(`0000${result}`);
+        }
+    });
+    function loadBill() {
+    }
+    function closePhieu() { 
+        document.getElementById("myForm").classList.add("d-none");
+        document.getElementById("traData").classList.remove("d-none");
+    }
+    function getLastNumber(str) {
+        const match = str.match(/\d+$/);
+        if (match) {
+            return parseInt(match[0]);
+        } else {
+            return null;
+        }
+    }
+    function formatNumber(id) {
+        var number = document.getElementById(id);
+        var formattedNumber = new Intl.NumberFormat('en-US').format(number.value);
+        if (formattedNumber == "NaN") {
+            number.value = 0;
+            formattedNumber = Intl.NumberFormat('en-US').format(0);
+        }
+        id = getLastNumber(id);
+        setTextToNum(id);
+        tinhTien(id);
+        var formattedNumber = new Intl.NumberFormat('en-US').format(number.value);
+        if (formattedNumber == "NaN") formattedNumber = Intl.NumberFormat('en-US').format(0);
+        number.value = formattedNumber;
+        setNumToText(id);
+    }
+    function formatFromNumber(int) {
+        var formattedNumber = new Intl.NumberFormat('en-US').format(int);
+        if (formattedNumber == "NaN") formattedNumber = 0;
+        return formattedNumber;
+    }
+
+    function convertNumToText(numberString) {
+        var cleanedNumberString = numberString.replace(/,/g, '');
+        if (numberString == "NaN") cleanedNumberString = 0;
+        return cleanedNumberString;
+    }
+    function setTextToNum(id) {
+        document.getElementById("input-dongia-" + id).value = convertNumToText(document.getElementById("dongia-" + id).value);
+        document.getElementById("input-soluong-" + id).value = convertNumToText(document.getElementById("soluong-" + id).value);
+        document.getElementById("input-ck-" + id).value = convertNumToText(document.getElementById("ck-" + id).value);
+        document.getElementById("input-ck-vnd-" + id).value = convertNumToText(document.getElementById("ck-vnd-" + id).value);
+        document.getElementById("input-thue-" + id).value = convertNumToText(document.getElementById("thue-" + id).value);
+        document.getElementById("input-thue-vnd-" + id).value = convertNumToText(document.getElementById("thue-vnd-" + id).value);
+    }
+    function setNumToText(id) {
+        document.getElementById("dongia-" + id).value = formatFromNumber(document.getElementById("input-dongia-" + id).value);
+        document.getElementById("soluong-" + id).value = formatFromNumber(document.getElementById("input-soluong-" + id).value);
+        document.getElementById("ck-" + id).value = formatFromNumber(document.getElementById("input-ck-" + id).value);
+        document.getElementById("ck-vnd-" + id).value = formatFromNumber(document.getElementById("input-ck-vnd-" + id).value);
+        document.getElementById("thue-" + id).value = formatFromNumber(document.getElementById("input-thue-" + id).value);
+        document.getElementById("thue-vnd-" + id).value = formatFromNumber(document.getElementById("input-thue-vnd-" + id).value);
+    }
+
+    function countTotal() {
+        var tth = 0, tck = 0, tthue = 0, tthanhtien = 0;
+        for (let i = 0; i < exist.length; i++) {
+            tth += parseInt(document.getElementById("input-soluong-" + exist[i]).value) * parseInt(document.getElementById("input-dongia-" + exist[i]).value);
+            tck += parseInt(document.getElementById("input-ck-vnd-" + exist[i]).value);
+            tthue += parseInt(document.getElementById("input-thue-vnd-" + exist[i]).value);
+            tthanhtien += parseInt(convertNumToText(document.getElementById("input-thanhtien-" + exist[i]).value));
+        }
+        document.getElementById("tong-hang").textContent = formatFromNumber(tth);
+        document.getElementById("tong-ck").textContent = formatFromNumber(tck);
+        document.getElementById("tong-thue").textContent = formatFromNumber(tthue);
+        document.getElementById("tong-thanh-tien").textContent = formatFromNumber(tthanhtien);
+    }
+    function submitForm() {
+        const myForm = document.getElementById('myForm');
+        if (madmItems.length == 0) alert("Hãy chọn mặt hàng!");
+        if (madmItems.length != 0 && makhItems.length == 0) alert("Hãy chọn khách hàng!");
+        if (madmItems.length != 0 && makhItems.length != 0 && manvItems.length == 0) alert("Hãy chọn nhân viên!");
+        if (madmItems.length != 0 && makhItems.length != 0 && manvItems.length != 0) myForm.submit();
+    }
+
+    function openPhieu(){
+        document.getElementById("myForm").classList.remove("d-none");
+        document.getElementById("traData").classList.add("d-none");
+    }
+    function SearchNow(idSugg, idInput, idUl) {
+        document.getElementById(idSugg).classList.remove("d-none");
+        var input, filter, ul, li, a, i;
+        input = document.getElementById(idInput);
+        filter = input.value.toUpperCase();
+        ul = document.getElementById(idUl);
+        li = ul.getElementsByTagName('li');
+
+        var table = document.getElementById(idSugg);
+        var tr = table.getElementsByTagName('tr');
+        for (i = 1; i < tr.length; i++) {
+            var tdMa = tr[i].getElementsByTagName("td")[0];
+            var maValue = tdMa.textContent || tdMa.innerText;
+            var tdTen = tr[i].getElementsByTagName("td")[1];
+            var tenValue = tdTen.textContent || tdTen.innerText;
+
+            if (maValue.toUpperCase().indexOf(filter) > -1 || tenValue.toUpperCase().indexOf(filter) > -1) {
+                var isNone = false;
+                for (let u = 0; u < madmItems.length; u++) {
+                    if (maValue.toUpperCase() == madmItems[u].Madm.toUpperCase()) {
+                        tr[i].style.display = "none";
+                        isNone = true;
+                        break;
+                    }
+                }
+                if (!isNone) tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+
+    var madm = [
+        {
+            Madm: "",
+            Tendm: "",
+            TonT: ""
+        }
+    ];
+    $.ajax({
+        url: '@Url.Action("Get", "Ktdms")',
+        type: 'GET',
+        success: function (result) {
+            if (result.data.length > 0) {
+                madm = result.data;
+                for (var i = 0; i < madm.length; i++) {
+                    const list = document.getElementById("list-madm-sugg-" + count);
+                    list.insertAdjacentHTML('beforeend', `
+                                                                    <tr class="tr-sugg" onclick="madmChooseItem(this.closest('table').closest('tr').id,'${encodeURIComponent(JSON.stringify(madm[i]))}')"><td>${madm[i].Madm}</td><td>${madm[i].Tendm}</td><td>${madm[i].TonT}</td></tr>
+                                                    `);
+                }
+            }
+        }
+    });
+
+    function madmChooseItem(id, item) {
+        hide_sugg("list-madm-sugg-" + id.substring(2, 10));
+        var chietkhau = 0;
+        if (isCkChung == true) chietkhau = ptCkChung;
+        var addItem = JSON.parse(decodeURIComponent(item));
+        var madmDTO = {
+            Matk: addItem.Matk,
+            Madm: addItem.Madm,
+            Tendm: addItem.Tendm,
+            Donvi: addItem.Donvi,
+            Soluong: 1,
+            Dgban: 0,
+            TonTDv1: addItem.TonTDv1,
+            PtChietkhau: 0,
+            PtThue: 0,
+            trId: id,
+        }
+        var dmindex = id.substring(2, 10);
+        var isExist = false;
+        for (let i = 0; i < madmItems.length; i++) {
+            if (madmItems[i].trId.substring(2, 10) == dmindex) {
+                isExist = true;
+                dmindex = i;
+                break;
+            }
+        }
+        if (!isExist) {
+            madmItems.push(madmDTO);
+        }
+        else {
+            madmItems[dmindex] = madmDTO;
+        }
+        var numId = id.substring(2, 10);
+        var tr = document.getElementById(id);
+        tr.querySelector('#input-matk-' + numId).value = JSON.parse(decodeURIComponent(item)).Matk;
+        tr.querySelector('#input-madm-' + numId).value = JSON.parse(decodeURIComponent(item)).Madm;
+        tr.querySelector('#input-tendm-' + numId).value = JSON.parse(decodeURIComponent(item)).Tendm;
+        tr.querySelector('#ip-donvi-' + numId).textContent = JSON.parse(decodeURIComponent(item)).Donvi;
+        tr.querySelector('#input-donvi-' + numId).value = JSON.parse(decodeURIComponent(item)).Donvi;
+        tr.querySelector('#input-dongia-' + numId).value = 0;
+        tr.querySelector('#input-soluong-' + numId).value = 1;
+        tr.querySelector('#input-tientong-' + numId).value = 0;
+        tr.querySelector('#input-thanhtien-' + numId).value = 0;
+        tr.querySelector('#input-ck-' + numId).value = 0;
+        tr.querySelector('#input-ck-vnd-' + numId).value = 0;
+        tr.querySelector('#input-thue-' + numId).value = 0;
+        tr.querySelector('#input-thue-vnd-' + numId).value = 0;
+        tr.querySelector('#dongia-' + numId).value = 0;
+        tr.querySelector('#soluong-' + numId).value = 1;
+        tr.querySelector('#ck-' + numId).value = 0;
+        tr.querySelector('#ck-vnd-' + numId).value = 0;
+        tr.querySelector('#thue-' + numId).value = 0;
+        tr.querySelector('#thue-vnd-' + numId).value = 0;
+        loadBill();
+        countTotal();
+    }
+    var makh = [
+        {
+            Madtpn: "",
+            Tendtpn: "",
+            MsDn: ""
+        }
+    ];
+    $.ajax({
+        url: '@Url.Action("Get", "Ktdtpns")',
+        type: 'GET',
+        success: function (result) {
+            if (result.data.length > 0) {
+                makh = result.data;
+                for (var i = 0; i < makh.length; i++) {
+                    const list = document.getElementById("list-makh-sugg");
+                    list.insertAdjacentHTML('beforeend', `
+                                                           <tr class="tr-sugg" onclick="makhChooseItem('${encodeURIComponent(JSON.stringify(makh[i]))}')"><td>${makh[i].Madtpn}</td><td>${makh[i].Tendtpn}</td><td>${makh[i].MsDn}</td></tr>
+                                                    `);
+                }
+            }
+        }
+    });
+    var makhItems = [];
+    function makhChooseItem(item) {
+        makhItems = JSON.parse(decodeURIComponent(item));
+        hide_sugg("list-makh-sugg");
+        document.getElementById('input-makh').value = JSON.parse(decodeURIComponent(item)).Madtpn;
+        document.getElementById('tenkh').value = JSON.parse(decodeURIComponent(item)).Tendtpn;
+        document.getElementById('dc').value = JSON.parse(decodeURIComponent(item)).Diachi;
+        document.getElementById('masodn').value = JSON.parse(decodeURIComponent(item)).MsDn;
+    }
+
+    var manv = [
+        {
+            Madtpn: "",
+            Tendtpn: "",
+            MsDn: ""
+        }
+    ];
+    $.ajax({
+        url: '@Url.Action("Get", "Ktdtpns")',
+        type: 'GET',
+        success: function (result) {
+            if (result.data.length > 0) {
+                manv = result.data;
+                for (var i = 0; i < manv.length; i++) {
+                    const list = document.getElementById("list-manv-sugg");
+                    list.insertAdjacentHTML('beforeend', `
+                                                                           <tr class="tr-sugg" onclick="manvChooseItem('${encodeURIComponent(JSON.stringify(manv[i]))}')"><td>${manv[i].Madtpn}</td><td>${manv[i].Tendtpn}</td><td>${manv[i].MsDn}</td></tr>
+                                                                    `);
+                }
+            }
+        }
+    });
+    var manvItems = [];
+    function manvChooseItem(item) {
+        manvItems = JSON.parse(decodeURIComponent(item));
+        hide_sugg("list-manv-sugg");
+        document.getElementById('input-manv').value = JSON.parse(decodeURIComponent(item)).Madtpn;
+        document.getElementById('tennv').value = JSON.parse(decodeURIComponent(item)).Tendtpn;
+    }
+
+
+    function hide_sugg(idSugg) {
+        document.getElementById(idSugg).classList.add("d-none");
+    }
+    document.addEventListener('click', function (event) {
+        for (let i = 0; i < exist.length; i++) {
+            var container = document.getElementById("list-madm-sugg-" + exist[i]);
+            if (!container.contains(event.target) && !container.classList.contains("d-none")) {
+                hide_sugg("list-madm-sugg-" + exist[i]);
+                break;
+            }
+        }
+        if (!document.getElementById("list-makh-sugg").contains(event.target) && !document.getElementById("list-makh-sugg").classList.contains("d-none")) {
+            hide_sugg("list-makh-sugg");
+        }
+        if (!document.getElementById("list-manv-sugg").contains(event.target) && !document.getElementById("list-manv-sugg").classList.contains("d-none")) {
+            hide_sugg("list-manv-sugg");
+        }
+    });
+
+
+    function themDm() {
+        if (madmItems.length == index) {
+            var table = document.getElementById("list-dm");
+            count++;
+            index++;
+            table.insertAdjacentHTML('beforeend', `
+                                                             <tr id="tr${count}">
+                                                                <td class="t-center td-index">${index}</td>
+                                                                <td>
+                                                                    <input type="text"
+                                                                           class="form-control input-sugg"
+                                                                           id="input-madm-${count}"
+                                                                           autofocus="autofocus"
+                                                                           placeholder="Nhập mặt hàng..."
+
+                                                                           name="ktdmDTOs[${count - 1}].Madm"
+                                                                           onkeyup="SearchNow('list-madm-sugg-${count}','input-madm-${count}','list-madm-sugg-${count}')" />
+                                                                    <div class="table-container">
+                                                                        <table id="list-madm-sugg-${count}" class="sugg-container d-none">
+                                                                            <tr id="tr-1">
+                                                                                <td class="width-120">Mã danh mục</td>
+                                                                                <td class="width-250">Tên danh mục</td>
+                                                                                <td class="width-90">Số lượng tồn</td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                <input type="text" class="form-control" id="input-tendm-${count}" name="ktdmDTOs[${count - 1}].Tendm" readonly />
+                                                                <input type="text" class="form-control" id="input-matk-${count}" name="ktdmDTOs[${count - 1}].Matk" hidden readonly /></td>
+                                                                <td><div id="ip-donvi-${count}"> </div>
+                                                                <input type="text" class="form-control" id="input-donvi-${count}" name="ktdmDTOs[${count - 1}].Donvi" hidden readonly /></td>
+                                                                <td>
+                                                                    <input type="text" class="form-control text-end" id="soluong-${count}" onchange="formatNumber(this.id)" />
+                                                                    <input type="number" class="form-control" id="input-soluong-${count}" name="ktdmDTOs[${count - 1}].Soluong" min="1" hidden/>
+                                                                </td>
+                                                               <td>
+                                                                    <input id="dongia-${count}" type="text" class="form-control text-end" onchange="formatNumber(this.id)" />
+                                                                    <input type="number" class="form-control" id="input-dongia-${count}" name="ktdmDTOs[${count - 1}].Dgban" min="0"" hidden />
+                                                                </td>
+                                                                <td>
+                                                                    <input style="width:100%" type="text" class="form-control text-end" id="input-tientong-${count}" readonly/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control text-end" id="ck-${count}" min="0" max="100"  onchange="formatNumber(this.id)"/>
+                                                                    <input type="number" class="form-control" id="input-ck-${count}" name="ktdmDTOs[${count - 1}].PtChietKhau" min="0" max="100" hidden/>
+                                                                 </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control text-end" id="ck-vnd-${count}" min="0" onchange="lamTron(${count})" />
+                                                                    <input type="number" class="form-control" id="input-ck-vnd-${count}" name="ktdmDTOs[${count - 1}].ChietKhauThanhTien" min="0" hidden/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control text-end" id="thue-${count}" min="0" max="100" onchange="formatNumber(this.id)" />
+                                                                    <input type="number" class="form-control" id="input-thue-${count}" name="ktdmDTOs[${count - 1}].PtThue" min="0" max="100" hidden/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control text-end" id="thue-vnd-${count}" min="0" onchange="lamTron(${count})" />
+                                                                    <input type="number" class="form-control" id="input-thue-vnd-${count}" name="ktdmDTOs[${count - 1}].ThueThanhTien" min="0" hidden/>
+                                                                </td>
+                                                                <td><input type="text" class="form-control" id="input-thanhtien-${count}" readonly/></td>
+                                                                <td class="t-center"><a onClick="xoaDm('tr${count}')" class="dx-link dx-link-delete dx-icon-trash dx-link-icon table-icon"></a></td>
+                                                            </tr>
+                        `);
+            $.ajax({
+                url: '@Url.Action("Get", "Ktdms")',
+                type: 'GET',
+                success: function (result) {
+                    if (result.data.length > 0) {
+                        madm = result.data;
+                        for (var i = 0; i < madm.length; i++) {
+                            const list = document.getElementById("list-madm-sugg-" + count);
+                            list.insertAdjacentHTML('beforeend', `
+                                                                    <tr class="tr-sugg" onclick="madmChooseItem(this.closest('table').closest('tr').id,'${encodeURIComponent(JSON.stringify(madm[i]))}')"><td>${madm[i].Madm}</td><td>${madm[i].Tendm}</td><td>${madm[i].TonT}</td></tr>
+                                                    `);
+                        }
+                    }
+                }
+            });
+            exist.push(count);
+        } else {
+            alert("Hãy chọn mặt hàng trước!");
+        }
+    }
+    function xoaDm(id) {
+        if (index == 1) themDm();
+        if (madmItems.length != 0) {
+            var tr = document.getElementById(id);
+            for (let i = 0; i < exist.length; i++) {
+                if (exist[i] == id.substring(2, 10)) {
+                    exist.splice(i, 1);
+                }
+            }
+            for (let i = 0; i < madmItems.length; i++) {
+                if (madmItems[i].trId == id) {
+                    madmItems.splice(i, 1);
+                }
+            }
+            tr.remove();
+            index--;
+            var idList = [];
+            for (let i = 1; i <= index; i++) {
+                idList.push(i);
+            }
+            var tdList = document.getElementsByClassName("td-index");
+            for (let i = 0; i < tdList.length; i++) {
+                tdList[i].textContent = idList[i];
+            }
+            countTotal();
+            loadBill();
+        }
+    }
+    function xoaHet() {
+        var size = madmItems.length;
+        for (let i = 0; i < size; i++) {
+            xoaDm(madmItems[0].trId);
+        }
+    }
+    function tongData() {
+        var tst = 0, tck = 0, tthanhtien = 0;
+        for (let i = 0; i < fil.length; i++) {
+            tst += parseInt(fil[i].TongTien);
+            tck += parseInt(fil[i].CkThanhTien);
+            tthanhtien += parseInt(fil[i].ThanhTien);
+        }
+        document.getElementById("tong-data-st").textContent = formatFromNumber(tst);
+        document.getElementById("tong-data-ck").textContent = formatFromNumber(tck);
+        document.getElementById("tong-data-thanhtien").textContent = formatFromNumber(tthanhtien);
+    }
+    function tinhTien(rowIndex) {
+        var sl = document.getElementById("input-soluong-" + rowIndex).value;
+        var dgia = $(`#input-dongia-${rowIndex}`)[0].value;
+        var ck = $(`#input-ck-${rowIndex}`)[0].value;
+        var thue = $(`#input-thue-${rowIndex}`)[0].value;
+        for (let i = 0; i < madmItems.length; i++) {
+            var tr = document.getElementById("tr" + rowIndex);
+            if (madmItems[i].trId == ("tr" + rowIndex)) {
+                madmItems[i].Soluong = parseInt(sl);
+                madmItems[i].Dgban = parseInt(dgia);
+                madmItems[i].PtChietkhau = parseInt(ck);
+                madmItems[i].PtThue = parseInt(thue);
+                var tientong = parseFloat(sl) * parseFloat(dgia);
+                tr.querySelector('#input-tientong-' + rowIndex).value = formatFromNumber(parseFloat(tientong).toFixed(0));
+                var ckVnd = madmItems[i].Soluong * madmItems[i].Dgban * madmItems[i].PtChietkhau / 100;
+                tr.querySelector('#input-ck-vnd-' + rowIndex).value = parseFloat(ckVnd).toFixed(0);
+                var thueVnd = madmItems[i].Soluong * (madmItems[i].Dgban * (1 - madmItems[i].PtChietkhau / 100)) * madmItems[i].PtThue / 100;
+                tr.querySelector('#input-thue-vnd-' + rowIndex).value = parseFloat(thueVnd).toFixed(0);
+                var thanhtien = madmItems[i].Soluong * (madmItems[i].Dgban * (1 - madmItems[i].PtChietkhau / 100)) * (1 + madmItems[i].PtThue / 100);
+                tr.querySelector('#input-thanhtien-' + rowIndex).value = formatFromNumber(parseFloat(thanhtien).toFixed(0));
+                break;
+            }
+        }
+        setNumToText(rowIndex);
+        countTotal();
+        loadBill();
+    }
+    function lamTron(rowIndex) {
+        var sl = document.getElementById("input-soluong-" + rowIndex).value;
+        var dgia = $(`#input-dongia-${rowIndex}`)[0].value;
+        var tr = document.getElementById("tr" + rowIndex);
+
+        tr.querySelector('#input-ck-vnd-' + rowIndex).value = convertNumToText(document.getElementById('ck-vnd-' + rowIndex).value);
+        var ckVnd = tr.querySelector('#input-ck-vnd-' + rowIndex).value;
+        tr.querySelector('#ck-vnd-' + rowIndex).value = formatFromNumber(parseFloat(ckVnd).toFixed(0));
+
+        tr.querySelector('#input-thue-vnd-' + rowIndex).value = convertNumToText(document.getElementById('thue-vnd-' + rowIndex).value);
+        var thueVnd = tr.querySelector('#input-thue-vnd-' + rowIndex).value;
+        tr.querySelector('#thue-vnd-' + rowIndex).value = formatFromNumber(parseFloat(thueVnd).toFixed(0));
+
+        var thanhtien = parseFloat(sl).toFixed(0) * parseFloat(dgia).toFixed(0) - parseFloat(ckVnd).toFixed(0);
+        thanhtien = parseFloat(parseFloat(thanhtien).toFixed(0)) + parseFloat(parseFloat(thueVnd).toFixed(0));
+        tr.querySelector('#input-thanhtien-' + rowIndex).value = formatFromNumber(parseFloat(thanhtien).toFixed(0));
+        countTotal();
+        loadBill();
+    }
+    document.getElementById('list-dm').onkeypress = function (e) {
+            exist.forEach(num => {
+                var input = document.getElementById("soluong-" + num);
+                input.addEventListener('keydown', function (event) {
+
+                    if (event.key === 'Enter') {
+                        var inputTo = document.getElementById("dongia-" + num);
+                        inputTo.focus();
+                    }
+                });
+                input = document.getElementById("dongia-" + num);
+                input.addEventListener('keydown', function (event) {
+                    if (event.key === 'Enter') {
+                        var inputTo = document.getElementById("input-tientong-" + num);
+                        inputTo.focus();
+                    }
+                });
+                input = document.getElementById("input-tientong-" + num);
+                input.addEventListener('keydown', function (event) {
+                    if (event.key === 'Enter') {
+                        var inputTo = document.getElementById("ck-" + num);
+                        inputTo.focus();
+                    }
+                });
+                input = document.getElementById("ck-" + num);
+                input.addEventListener('keydown', function (event) {
+                    if (event.key === 'Enter') {
+                        var inputTo = document.getElementById("ck-vnd-" + num);
+                        inputTo.focus();
+                    }
+                });
+                input = document.getElementById("ck-vnd-" + num);
+                input.addEventListener('keydown', function (event) {
+                    if (event.key === 'Enter') {
+                        var inputTo = document.getElementById("thue-" + num);
+                        inputTo.focus();
+                    }
+                });
+                input = document.getElementById("thue-" + num);
+                input.addEventListener('keydown', function (event) {
+                    if (event.key === 'Enter') {
+                        var inputTo = document.getElementById("thue-vnd-" + num);
+                        inputTo.focus();
+                    }
+                });
+                input = document.getElementById("thue-vnd-" + num);
+                input.addEventListener('keydown', function (event) {
+                    if (event.key === 'Enter') {
+                        var inputTo = document.getElementById("input-thanhtien-" + num);
+                        inputTo.focus();
+                    }
+                });
+            });
+        
+    }
+</script>

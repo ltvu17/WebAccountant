@@ -1,0 +1,114 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Html.RenderPartial("../Home/Header");
+}
+<div class="text-center">
+    <div class="home-container">
+        @Html.Partial("../Home/SideBar")
+        <div class="right-bar-home content">
+            @* Navbar Here*@
+            @*Modal*@
+            @*Data Here*@
+
+            @(
+                Html.DevExtreme().DataGrid<WebAccountant.ModelsBase.Ktsc>()
+                .ID("gridContainer")
+                .DataSource(ds => ds.Mvc()
+                .Controller("Ktscs")
+                .LoadAction("GetNhatKiBanHang")
+                .Key("SttSc")
+                )
+                .RemoteOperations(true)
+                .FocusedRowEnabled(true)
+                .Columns(columns =>
+                {
+                    columns.AddFor(m => m.Lctg).Caption("Chứng từ").Fixed(true);
+
+                    columns.AddFor(m => m.SoHd).Caption("Số hóa đơn");
+
+                    columns.AddFor(m => m.SrHd).Caption("Seri hóa đơn").Fixed(true);
+
+                    columns.AddFor(m => m.NgayHd).Caption("Ngày hóa đơn").DataType(GridColumnDataType.Date).Fixed(true).Format("dd/MM/yyyy");
+
+                    columns.AddFor(m => m.Tendm).Caption("Tên danh mục").Width(400);
+
+                    columns.AddFor(m => m.Donvi).Caption("Đơn vị");
+
+                    columns.AddFor(m => m.Dgvnd).Caption("Đơn giá").Format("0,###");
+
+                    columns.AddFor(m => m.TtvndTt).Caption("Thành tiền VND").Format("0,###");
+
+                    columns.AddFor(m => m.PtCk).Caption("CK phần trăm").Format("0,###");
+
+                    columns.AddFor(m => m.Chietkhau).Caption("Chiết khấu").Format("0,###");
+
+                    columns.AddFor(m => m.Tkthue).Caption("Tk Thuế");
+
+                    columns.AddFor(m => m.Thuevnd).Caption("Tiền thuế VND").Format("0,###");
+
+                    columns.AddFor(m => m.TsGtgt).Caption("Thuế suất");
+
+                    columns.AddFor(m => m.Makh).Caption("Mã khách hàng");
+
+                    columns.AddFor(m => m.Tenkh).Caption("Tên khách hàng").Width(300);
+
+                    columns.AddFor(m => m.Diachi).Caption("Địa chỉ").Width(400);
+
+                    columns.AddFor(m => m.DiachiNgd).Caption("Địa chỉ người giao").Width(400);
+
+                    columns.AddFor(m => m.Mangd).Caption("Mã người giao dịch");
+
+                    columns.AddFor(m => m.Ghichu).Caption("Ghi chú");
+
+                    columns.AddFor(m => m.NvBan).Caption("Nhân viên bán");
+                }
+                )
+                .ShowColumnHeaders(true)
+                .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.NextColumn).FilterRow(ft => ft.Visible(true))
+                .RowAlternationEnabled(true).WordWrapEnabled(true)
+                .ShowBorders(true).Paging(paging => paging.PageSize(10))
+                .Height(800)
+                .Pager(pager =>
+                {
+                    pager.Visible(true);
+                    pager.DisplayMode(GridPagerDisplayMode.Compact);
+                    pager.ShowPageSizeSelector(true);
+                    pager.AllowedPageSizes(new JS("[10, 15, 25, 40]"));
+                    pager.ShowInfo(true);
+                    pager.ShowNavigationButtons(true);
+                })
+                .Summary(s => s
+                .RecalculateWhileEditing(true)
+                .TotalItems(items =>
+                {
+                    items.AddFor(m => m.TtvndTt)
+                    .SummaryType(SummaryType.Sum)
+                    .DisplayFormat("{0}")
+                    .ValueFormat("0,###");
+
+                    items.AddFor(m => m.Chietkhau)
+                    .SummaryType(SummaryType.Sum)
+                    .DisplayFormat("{0}")
+                    .ValueFormat("0,###");
+
+                    items.AddFor(m => m.Thuevnd)
+                    .SummaryType(SummaryType.Sum)
+                    .DisplayFormat("{0}")
+                    .ValueFormat("0,###");
+            })
+            ))
+            <div class="footer-data d-flex justify-content-start">
+                @* <button class="btn btn-primary width-100" data-bs-toggle="modal" id="btnAdd" data-bs-target="#exampleModal">Thêm</button>
+                <button class="btn btn-primary width-100" type="button" onclick="onEdit()">Sửa</button>
+                <button class="btn btn-primary width-100" type="button" onclick="onDelete()">Xóa</button> *@
+                @* <div class="d-flex ms-auto" style="right : 0">
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#settingModal">
+                        <img src="~/img/setting.png" style="width: 20px; height: auto" />
+                    </button>
+                </div> *@
+            </div>
+        </div>
+    </div>
+</div>

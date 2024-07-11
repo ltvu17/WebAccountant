@@ -91,17 +91,32 @@ namespace WebAccountant.Controllers
         public IActionResult ReturnSellProduct()
         {
             ViewData["activeId"] = "12";
-            return View("~/Views/Home/Pages/SellProduct/ReturnProduct.cshtml");
+            return View("~/Views/Home/Pages/SellProduct/ReturnSellProduct.cshtml");
         }
         public IActionResult DiarySellProduct()
         {
             ViewData["activeId"] = "13";
-            return View("~/Views/Home/Pages/SellProduct/DiaryProduct.cshtml");
+            return View("~/Views/Home/Pages/SellProduct/DiarySellProduct.cshtml");
         }
         public IActionResult CollectMoneySellProduct()
         {
             ViewData["activeId"] = "14";
             return View("~/Views/Home/Pages/SellProduct/CollectMoney.cshtml");
+        }
+        public IActionResult ReceiptBuyProduct()
+        {
+            ViewData["activeId"] = "15";
+            return View("~/Views/Home/Pages/BuyProduct/Receipt.cshtml");
+        }
+        public IActionResult ReturnBuyProduct()
+        {
+            ViewData["activeId"] = "16";
+            return View("~/Views/Home/Pages/BuyProduct/ReturnBuyProduct.cshtml");
+        }
+        public IActionResult DiaryBuyProduct()
+        {
+            ViewData["activeId"] = "17";
+            return View("~/Views/Home/Pages/BuyProduct/DiaryBuyProduct.cshtml");
         }
         public IActionResult Privacy()
         {
