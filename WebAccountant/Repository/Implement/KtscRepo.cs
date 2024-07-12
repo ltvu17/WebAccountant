@@ -352,6 +352,55 @@ namespace WebAccountant.Repository.Implement
             return list;
         }
 
+        public async Task<IEnumerable<PhieuMuaHangDTO>> GetAllDSPhieuMuaHangTraLai()
+        {
+            var list = new List<PhieuMuaHangDTO>();
+            var items = (await _unitOfWork.KTSCDAO.GetAll()).Where(s => s.Lctg == "HTL").OrderByDescending(s => s.Ngayct).GroupBy(i => new
+            {
+                i.SoHd,
+                i.Tenkh,
+                i.Ngayct
+            }).ToList();
+            var t = 0;
+            foreach (var item in items)
+            {
+                var groupItem = item.Where(s => s.Lctg == "HTL" && !s.Diengiai.Contains("Thuế GTGT đầu ra HĐ") && !s.IdNghiepvu.Contains("GIAVON") && !s.IdNghiepvu.Contains("CHIETKHAU_HDBR") && !s.IdNghiepvu.Contains("VAT_RA")
+                                            && !s.Diengiai.Contains("Chiết khấu theo chứng từ")).ToList();
+                var insertItem = new PhieuMuaHangDTO();
+                double tongtien = 0;
+                double thanhTien = 0;
+                double chietKhau = 0;
+                double tongCk = 0;
+                double khTratien = 0;
+                var hthucthanhtoan = "Nợ";
+                foreach (var i in groupItem)
+                {
+                    tongtien += i.TtvndTt;
+                    thanhTien += i.Ttvnd;
+                    chietKhau += i.PtCk;
+                    tongCk += i.Chietkhau;
+                    hthucthanhtoan = i.Httt;
+                    insertItem.ktscs.Add(i);
+                }
+                var key = item.FirstOrDefault();
+                insertItem.id = t;
+                insertItem.TongTien = tongtien.ToString();
+                insertItem.HTThanhToan = hthucthanhtoan;
+                insertItem.NgayCtu = (DateTime)key.Ngayct;
+                insertItem.Soctu = key.Soct;
+                insertItem.ThanhTien = thanhTien.ToString();
+                insertItem.ckPhanTram = key.PtCk.ToString();
+                insertItem.CkThanhTien = tongCk.ToString();
+                insertItem.KhTraTien = khTratien.ToString();
+                insertItem.MaKh = key.Makh;
+                insertItem.TenKh = key.Tenkh;
+                insertItem.Diachi = key.Diachi;
+                list.Add(insertItem);
+                t++;
+            }
+            return list;
+        }
+
         public async Task<IEnumerable<PhieuMuaHangDTO>> GetAllDSPhieuMuaHang()
         {
             var list = new List<PhieuMuaHangDTO>();

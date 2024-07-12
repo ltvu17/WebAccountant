@@ -53,6 +53,15 @@ namespace WebAccountant.Controllers
             var filteredData = ktscBanHangs.Where(m => m.ThanhTien.Contains('-'));
             return Json(filteredData);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetALLDSPhieuMuaHangTra()
+        {
+            var ktscBanHangs = await _ktscRepo.GetAllDSPhieuMuaHangTraLai();
+            var filteredData = ktscBanHangs.Where(m => m.ThanhTien.Contains('-'));
+            return Json(filteredData);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetNhatKiBanHang(DataSourceLoadOptions loadOptions)
         {
@@ -60,6 +69,23 @@ namespace WebAccountant.Controllers
             var filteredData = ktscBanHangs.Where(m => m.Lctg == "HDBR" && m.Tkco == "5111");
             return Json(DataSourceLoader.Load(filteredData, loadOptions));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetNhatKiMuaHang(DataSourceLoadOptions loadOptions)
+        {
+            var ktscBanHangs = await _ktscRepo.GetAllAsync();
+            var filteredData = ktscBanHangs.Where(m => m.Lctg == "PNK" && m.Tkco == "5111");
+            return Json(DataSourceLoader.Load(filteredData, loadOptions));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetPhieuNhapKho(DataSourceLoadOptions loadOptions)
+        {
+            var ktscBanHangs = await _ktscRepo.GetAllAsync();
+            var filteredData = ktscBanHangs.Where(m => m.Lctg == "PNK");
+            return Json(DataSourceLoader.Load(filteredData, loadOptions));
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetSoHoaDon()
         {
