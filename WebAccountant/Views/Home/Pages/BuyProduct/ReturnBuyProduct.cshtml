@@ -13,11 +13,11 @@
             @*Data Here*@
             <div id="traData">
             @(
-                Html.DevExtreme().DataGrid<WebAccountant.Models.PhieuBanHangDTO>()
+                Html.DevExtreme().DataGrid<WebAccountant.Models.PhieuMuaHangDTO>()
                     .ID("gridContainer")
                     .DataSource(ds => ds.Mvc()
                     .Controller("Ktscs")
-                    .LoadAction("GetALLDSPhieuBanHangTra")
+                    .LoadAction("GetALLDSPhieuMuaHangTra")
                     .Key("Soctu")
                     )
                     .RemoteOperations(true)
@@ -55,7 +55,7 @@
                     }
                     )
                 .ShowColumnHeaders(true)
-                .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.NextColumn).FilterRow(ft => ft.Visible(true))
+                .ColumnAutoWidth(true).AllowColumnResizing(true).ColumnResizingMode(ColumnResizingMode.Widget).FilterRow(ft => ft.Visible(true))
                 .RowAlternationEnabled(true).WordWrapEnabled(true)
                 .ShowBorders(true).Paging(paging => paging.PageSize(10))
                 .Height(800)
@@ -878,49 +878,49 @@
 
                     if (event.key === 'Enter') {
                         var inputTo = document.getElementById("dongia-" + num);
-                        inputTo.focus();
+                        inputTo.select();
                     }
                 });
                 input = document.getElementById("dongia-" + num);
                 input.addEventListener('keydown', function (event) {
                     if (event.key === 'Enter') {
                         var inputTo = document.getElementById("input-tientong-" + num);
-                        inputTo.focus();
+                        inputTo.select();
                     }
                 });
                 input = document.getElementById("input-tientong-" + num);
                 input.addEventListener('keydown', function (event) {
                     if (event.key === 'Enter') {
                         var inputTo = document.getElementById("ck-" + num);
-                        inputTo.focus();
+                        inputTo.select();
                     }
                 });
                 input = document.getElementById("ck-" + num);
                 input.addEventListener('keydown', function (event) {
                     if (event.key === 'Enter') {
                         var inputTo = document.getElementById("ck-vnd-" + num);
-                        inputTo.focus();
+                        inputTo.select();
                     }
                 });
                 input = document.getElementById("ck-vnd-" + num);
                 input.addEventListener('keydown', function (event) {
                     if (event.key === 'Enter') {
                         var inputTo = document.getElementById("thue-" + num);
-                        inputTo.focus();
+                        inputTo.select();
                     }
                 });
                 input = document.getElementById("thue-" + num);
                 input.addEventListener('keydown', function (event) {
                     if (event.key === 'Enter') {
                         var inputTo = document.getElementById("thue-vnd-" + num);
-                        inputTo.focus();
+                        inputTo.select();
                     }
                 });
                 input = document.getElementById("thue-vnd-" + num);
                 input.addEventListener('keydown', function (event) {
                     if (event.key === 'Enter') {
                         var inputTo = document.getElementById("input-thanhtien-" + num);
-                        inputTo.focus();
+                        inputTo.select();
                     }
                 });
             });
