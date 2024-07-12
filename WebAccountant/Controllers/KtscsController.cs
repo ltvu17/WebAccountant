@@ -296,6 +296,18 @@ namespace WebAccountant.Controllers
             return RedirectToAction("ReturnSellProduct", "Home");
         }
         [HttpPost]
+        public async Task<IActionResult> AddPhieuTraHangChoMuaHang(FormBanHangDTO phieuBanHangDTOs)
+        {
+            var ktscColumns = await _ktscRepo.SavePhieuTraHangMuaToDB(phieuBanHangDTOs);
+            return RedirectToAction("ReturnSellProduct", "Home");
+        }
+        [HttpPost]
+        public async Task<IActionResult> RefundPackageForBuy([FromBody] IEnumerable<double> sttSc)
+        {
+            var ktscColumns = await _ktscRepo.RefundPackageBuy(sttSc);
+            return Ok();
+        }
+        [HttpPost]
         public async Task<IActionResult> AddPhieuThuTien(Ktsc phieuThuTien)
         {
             var ktscColumns = await _ktscRepo.AddPhieuThuTien(phieuThuTien);

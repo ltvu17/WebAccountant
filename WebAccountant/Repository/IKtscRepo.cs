@@ -10,6 +10,8 @@ namespace WebAccountant.Repository
         public Task<IEnumerable<PhieuBanHangDTO>> GetAllDSPhieuBanHangTraLai();
         public Task<IEnumerable<PhieuMuaHangDTO>> GetAllDSPhieuMuaHangTraLai();
         public Task<bool> SavePhieuTraHangToDB(FormBanHangDTO item);
+        public Task<bool> RefundPackageBuy(IEnumerable<double> sttSc);
+        public Task<bool> SavePhieuTraHangMuaToDB(FormBanHangDTO item);
         public Task<IEnumerable<PhieuMuaHangDTO>> GetAllDSPhieuMuaHang();
         public Task<FormBanHangDTO> GetDetailPhieuBanHang(int id);
         public Task<AddToKTSCDTO> GetDetailPhieuMuaHang(int id);
