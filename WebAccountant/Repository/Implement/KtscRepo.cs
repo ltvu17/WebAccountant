@@ -355,7 +355,7 @@ namespace WebAccountant.Repository.Implement
         public async Task<IEnumerable<PhieuMuaHangDTO>> GetAllDSPhieuMuaHangTraLai()
         {
             var list = new List<PhieuMuaHangDTO>();
-            var items = (await _unitOfWork.KTSCDAO.GetAll()).Where(s => s.Lctg == "HTL").OrderByDescending(s => s.Ngayct).GroupBy(i => new
+            var items = (await _unitOfWork.KTSCDAO.GetAll()).Where(s => s.Lctg == "HTL_MH").OrderByDescending(s => s.Ngayct).GroupBy(i => new
             {
                 i.SoHd,
                 i.Tenkh,
@@ -364,7 +364,7 @@ namespace WebAccountant.Repository.Implement
             var t = 0;
             foreach (var item in items)
             {
-                var groupItem = item.Where(s => s.Lctg == "HTL" && !s.Diengiai.Contains("Thuế GTGT đầu ra HĐ") && !s.IdNghiepvu.Contains("GIAVON") && !s.IdNghiepvu.Contains("CHIETKHAU_HDBR") && !s.IdNghiepvu.Contains("VAT_RA")
+                var groupItem = item.Where(s => s.Lctg == "HTL_MH" && !s.Diengiai.Contains("Thuế GTGT đầu ra HĐ") && !s.IdNghiepvu.Contains("GIAVON") && !s.IdNghiepvu.Contains("CHIETKHAU_HDBR") && !s.IdNghiepvu.Contains("VAT_RA")
                                             && !s.Diengiai.Contains("Chiết khấu theo chứng từ")).ToList();
                 var insertItem = new PhieuMuaHangDTO();
                 double tongtien = 0;
