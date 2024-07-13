@@ -991,11 +991,11 @@ namespace WebAccountant.Repository.Implement
                     Dgban = ktsc.Dgvnd,
                     Soluong = Int32.Parse(ktsc.Luong.ToString()),
                     Donvi = ktsc.Donvi,
-                    Madm = ktsc.Madmco,
+                    Madm = ktsc.Madmno,
                     PtThue = Double.Parse(ktsc.TsGtgt),
                     ThueThanhTien = ktsc.Thuevnd,
                     Tendm = ktsc.Tendm,
-                    Matk = (await _unitOfWork.KTDMDao.Find(s => s.Madm == ktsc.Madmco, 1, 1)).FirstOrDefault().Matk,
+                    Matk = (await _unitOfWork.KTDMDao.Find(s => s.Madm == ktsc.Madmno, 1, 1)).FirstOrDefault().Matk,
                     TonTDv1 = 0,
                     eId = 0
                 };
