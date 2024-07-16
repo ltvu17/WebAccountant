@@ -117,7 +117,6 @@
             <div id="edit-page" class="d-none"></div>
             <form id="myForm" class="d-none" asp-controller="Ktdms" asp-action="SubmitBuyCartToSave">
                 <div class="top-content">
-                    
                     <div class="row">
                         <div class="mua-form col-8">
                             <div id="phieu-nhap" class="row">
@@ -243,6 +242,10 @@
                                                 <label for="tennv" class="col-form-label">Tên nhân viên:</label>
                                                 <input type="text" class="form-control" id="tennv" readonly>
                                             </div>
+                                            <div class=" text-start">
+                                                <label for="tennv" class="col-form-label">Số chứng từ:</label>
+                                                <input type="text" class="form-control" asp-for="SoCtu" id="soct">
+                                            </div>
                                         </div>
                                         <div class="col-8">
                                             <div class=" text-start">
@@ -264,6 +267,12 @@
                                                     <button class="btn btn-primary b-radius-3 height-30 t-s-12 width-pt-15" type="button" onclick="onCkChung()">Xong</button>
                                                 </div>
                                             </div>
+                                            <div class=" text-start">
+                                                <label for="ck" class="col-form-label">Ngày chứng từ:</label>
+                                                <div class="d-flex justify-content-between">
+                                                    <input type="datetime-local" class="form-control" asp-for="NgayCtu" id="ht" value="@DateTime.UtcNow.AddHours(7).ToString("s")">
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -271,15 +280,14 @@
                                     <div class=" text-start">
                                         <label for="ht" class="col-form-label">Ngày hóa đơn</label>
                                         <input type="datetime-local" class="form-control" asp-for="NgayHToan" id="ht" value="@DateTime.UtcNow.AddHours(7).ToString("s")">
-                                        <input type="datetime-local" class="form-control" asp-for="NgayCtu" id="ht" value="@DateTime.UtcNow.AddHours(7).ToString("s")" hidden>
-                                    </div>
+                                        </div>
                                     <div class=" text-start">
                                         <label for="sohd" class="col-form-label">Số hóa đơn:</label>
                                         <input type="text" class="form-control" id="sohd" readonly>
                                     </div>
                                     <div class=" text-start">
                                         <label for="sosr" class="col-form-label">Số seri:</label>
-                                        <input type="text" class="form-control" id="sosr" readonly>
+                                        <input type="text" class="form-control" id="sosr">
                                     </div>
                                     <div class=" text-start">
                                         <label for="httt" class="col-form-label">Hình thức thanh toán</label>
